@@ -1,0 +1,19 @@
+import React, { Component } from "react";
+
+class Navigator extends Component {
+  render() {
+    const itemsToBeDisplayed = this.props.items.map(item => (
+      <li>
+        <a href="">{item}</a>
+      </li>
+    ));
+
+    return (
+      <div className="nav">
+        <ul>{itemsToBeDisplayed}</ul>
+      </div>
+    );
+  }
+}
+
+export default Navigator;

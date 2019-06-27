@@ -43,5 +43,9 @@ body {
   list-style-type: none;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.nav a {
   color: white;
+  text-decoration: none;
 }
