@@ -29,7 +29,7 @@ app.get("/api/staff", (req, res) => {
 });
 
 //POST
-app.post("/staff", (req, res) => {
+app.post("/api/staff", (req, res) => {
   var body = _.pick(req.body, "id", "name");
 
   db.staff.create(body).then(
