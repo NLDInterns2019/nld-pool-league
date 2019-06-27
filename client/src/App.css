@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
+body {
+  margin: 0rem;
+  border: 0rem;
+}
+
+.app {
+  background-color: #f2f2f2;
+}
+
+.header {
+  background-color: #0f5d0f;
+  color: white;
+  font-family: Montserrat;
+  padding-left: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.header .nav {
+  position: absolute;
+  right: 1rem;
+}
+
+.header h1 {
+  font-size: 2.5em;
+  margin: 0rem;
+  display: inline-block;
+}
+
+.header ul {
+  align-content: right;
+}
+
+.nav {
+  display: inline-block;
+}
+
+.nav li {
+  font-size: 1.5em;
+  display: inline-block;
+  list-style-type: none;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  color: white;
+}
