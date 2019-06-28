@@ -99,7 +99,7 @@ app.post("/api/8ball_league/fixture/", (req, res) => {
 });
 
 //{force: true} to start with clean table
-db.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync().then(function() {
   app.listen(PORT, () => {
     console.log("Express is listeing on port: " + PORT);
   });

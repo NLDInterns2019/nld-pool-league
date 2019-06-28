@@ -1,6 +1,6 @@
 import React from "react";
 import TableHeader from "./TableHeader";
-import TableRow from "./TableRow";
+import TableBody from "./TableBody";
 
 const FixtureTable = () => {
   var scoreStyle = {
@@ -13,8 +13,6 @@ const FixtureTable = () => {
       <h2>Fixtures</h2>
       <table className="fixtureTable" cellSpacing="0">
         <TableHeader items={["Score", "Name", "", "Name", "Score"]} />
-        <TableRow items={[2, "Chris", "vs", "Steve", 0]} />
-        <TableRow items={[1, "Steve", "vs", "Chris", 1]} />
       </table>
     </div>
   );

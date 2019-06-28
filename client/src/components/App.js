@@ -1,24 +1,37 @@
 import React from "react";
+import axios from "axios";
 import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import FixtureTable from "./FixtureTable.js";
 import LeagueTable from "./LeagueTable.js";
 
-const App = () => {
-  return (
-    <div className="app">
-      <Header />
-      <SubNavBar />
-      <div className="content">
-        <div className="contentLeft">
-          <LeagueTable />
-        </div>
-        <div className="contentRight">
-          <FixtureTable />
+class App extends React.Component {
+  state = { players: [] };
+
+  componentDidMount = async () => {
+    const response = await axios.get(
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/"
+    );
+
+    this.setState({ players: response.data });
+  };
+
+  render() {
+    return (
+      <div className="app">
+        <Header />
+        <SubNavBar />
+        <div className="content">
+          <div className="contentLeft">
+            <LeagueTable players={this.state.players} />
+          </div>
+          <div className="contentRight">
+            <FixtureTable />
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default App;
