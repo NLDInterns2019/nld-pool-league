@@ -91,6 +91,11 @@ body {
   font-size: 18pt;
 }
 
+.fixtureTableCell {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 table th {
   padding: 5px 15px 5px 15px;
   background-color: #0f5d0f;

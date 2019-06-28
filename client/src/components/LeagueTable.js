@@ -7,18 +7,17 @@ const LeagueTable = props => {
       <h2>League Table</h2>
       <table className="leagueTable" cellSpacing="0">
         <thead>
-        <tr>
-          <th>Pos</th>
-          <th>Seasons</th>
-          <th>Name</th>
-          <th>P</th>
-          <th>W</th>
-          <th>D</th>
-          <th>L</th>
-          <th>F</th>
-          <th>A</th>
-          <th>Pts</th>
-        </tr>
+          <tr>
+            <th>Pos</th>
+            <th>Name</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>F</th>
+            <th>A</th>
+            <th>Pts</th>
+          </tr>
         </thead>
         <LeagueTableBody players={props.players} />
       </table>
