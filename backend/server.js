@@ -70,6 +70,34 @@ app.post("/api/8ball_league/player", (req, res) => {
   );
 });
 
+//GET 8 BALL FIXTURE
+app.get("/api/8ball_league/fixture", (req, res) => {
+  var where = {};
+
+  db.eight_ball_fixtures.findAll({ where: where }).then(
+    fixtures => {
+      res.json(fixtures);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//POST 8 BALL GAME
+app.post("/api/8ball_league/fixture/", (req, res) => {
+  var body = _.pick(req.body, "seasonId", "fixtureId", "score1", "player1", "player2", "score2");
+
+  db.eight_ball_fixtures.create(body).then(
+    fixture => {
+      res.json(fixture.toJSON());
+    },
+    e => {
+      res.status(400).json(e);
+    }
+  );
+});
+
 //{force: true} to start with clean table
 db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, () => {
