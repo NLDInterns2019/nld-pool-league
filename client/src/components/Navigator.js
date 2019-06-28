@@ -10,6 +10,7 @@ class Navigator extends Component {
 
     return (
       <div className="nav">
+        <h2>{this.props.title}</h2>
         <ul>{itemsToBeDisplayed}</ul>
       </div>
     );

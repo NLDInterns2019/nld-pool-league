@@ -6,7 +6,7 @@ class SubNavBar extends Component {
   render() {
     return (
       <div className="subnav">
-        <Navigator items={["Seasons", "Overview", "Fixtures"]} />
+        <Navigator title="8-Ball" items={["Seasons", "Overview", "Fixtures"]} />
       </div>
     );
   }
