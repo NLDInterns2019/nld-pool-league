@@ -57,9 +57,17 @@ app.get("/api/8ball_league/fixture", (req, res) => {
   );
 });
 
-//POST 8 BALL GAME
-app.post("/api/8ball_league/score", (req, res) => {
-  var body = _.pick(req.body, "seasonId", "fixtureId", "score1", "player1", "player2", "score2");
+//POST 8 BALL GAME IN THE FIXTURE
+app.post("/api/8ball_league/add/fixture_row", (req, res) => {
+  var body = _.pick(
+    req.body,
+    "seasonId",
+    "fixtureId",
+    "score1",
+    "player1",
+    "player2",
+    "score2"
+  );
 
   db.eight_ball_fixtures.create(body).then(
     fixture => {
@@ -69,6 +77,60 @@ app.post("/api/8ball_league/score", (req, res) => {
       res.status(400).json(e);
     }
   );
+});
+
+//PUT 8 BALL EDIT SCORE IN FIXTURE
+app.put("/api/8ball_league/edit/fixture", (req, res) => {
+  //Add fixtureId attributes later
+  const body = _.pick(
+    req.body,
+    "seasonId",
+    "player1",
+    "score1",
+    "player2",
+    "score2"
+  );
+
+  const Attributes = {
+    seasonId: body.seasonId,
+    //fixtureId: body.fixtureId
+    player1: body.player1,
+    score1: body.score1,
+    player2: body.player2,
+    score2: body.score2
+  };
+
+  db.eight_ball_fixtures
+    .findOne({
+      where: {
+        seasonId: body.seasonId,
+        //fixtureId: body.fixtureId,
+        player1: body.player1,
+        player2: body.player2
+      }
+    })
+    .then(
+      fixture => {
+        if (fixture) {
+          fixture.update(Attributes).then(
+            result => {
+              res.json(result.toJSON());
+            },
+            e => {
+              //Fixture found but somethow update fail
+              res.status(400).json(e);
+            }
+          );
+        } else {
+          //Fixture not found
+          res.status(404).send();
+        }
+      },
+      e => {
+        //Error
+        res.status(500).send();
+      }
+    );
 });
 
 //{force: true} to start with clean table
