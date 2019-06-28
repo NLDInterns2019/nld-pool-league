@@ -3,7 +3,6 @@ import axios from "axios";
 import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
-import Seasons from "./SeasonsPage.js/index.js";
 import FixtureTable from "./FixtureTable.js";
 
 class App extends React.Component {
