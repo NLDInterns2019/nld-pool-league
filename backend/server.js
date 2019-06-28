@@ -15,33 +15,6 @@ app.get("/", (req, res) => {
   res.send("Nonlinear Pool Manager Backend");
 });
 
-app.get("/api/staff", (req, res) => {
-  var where = {};
-
-  db.staff.findAll({ where: where }).then(
-    staffs => {
-      res.json(staffs);
-    },
-    e => {
-      res.status(400).send();
-    }
-  );
-});
-
-//POST STAFf
-app.post("/api/staff", (req, res) => {
-  var body = _.pick(req.body, "id", "name");
-
-  db.staff.create(body).then(
-    staff => {
-      res.json(staff.toJSON());
-    },
-    e => {
-      res.status(400).json(e);
-    }
-  );
-});
-
 //GET 8 BALL LEAGUE
 app.get("/api/8ball_league", (req, res) => {
   var where = {};
@@ -57,7 +30,7 @@ app.get("/api/8ball_league", (req, res) => {
 });
 
 //POST 8 BALL PLAYER
-app.post("/api/8ball_league/player", (req, res) => {
+app.post("/api/8ball_league/add/player", (req, res) => {
   var body = _.pick(req.body, "seasonId", "staffName");
 
   db.eight_ball_league.create(body).then(
@@ -85,7 +58,7 @@ app.get("/api/8ball_league/fixture", (req, res) => {
 });
 
 //POST 8 BALL GAME
-app.post("/api/8ball_league/fixture/", (req, res) => {
+app.post("/api/8ball_league/score", (req, res) => {
   var body = _.pick(req.body, "seasonId", "fixtureId", "score1", "player1", "player2", "score2");
 
   db.eight_ball_fixtures.create(body).then(
