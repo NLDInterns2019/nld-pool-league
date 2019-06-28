@@ -5,8 +5,8 @@ const Navigator = props => {
     fontWeight: "bold"
   };
 
-  var current = this.props.current;
-  const itemsToBeDisplayed = this.props.items.map(item =>
+  var current = props.current;
+  const itemsToBeDisplayed = props.items.map(item =>
     current == item ? (
       <li>
         <a href="" style={currentStyle}>
@@ -22,7 +22,7 @@ const Navigator = props => {
 
   return (
     <div className="nav">
-      <h2>{this.props.title}</h2>
+      <h2>{props.title}</h2>
       <ul>{itemsToBeDisplayed}</ul>
     </div>
   );
