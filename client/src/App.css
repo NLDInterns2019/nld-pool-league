@@ -26,6 +26,7 @@ body {
   font-size: 2.5em;
   margin: 0rem;
   display: inline-block;
+  padding-left: 1.5rem;
 }
 
 .header ul {
@@ -62,7 +63,7 @@ body {
 }
 
 .subnav {
-  padding-left: 1rem;
+  padding-left: 2.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   background-color: #999999;
@@ -76,9 +77,20 @@ body {
   padding-left: 5rem;
 }
 
-hr {
-  margin-top: 0rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-bottom: 0rem;
+.fixtureTable {
+  padding-top: 2.5rem;
+  padding-left: 1rem;
+  position: absolute;
+  right: 2.5rem;
+  font-size: 14pt;
+}
+
+.fixtureTable th {
+  padding: 5px 15px 5px 15px;
+  background-color: #0f5d0f;
+  color: white;
+}
+
+.fixtureTable td {
+  background-color: white;
 }

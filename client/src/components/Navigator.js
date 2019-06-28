@@ -2,11 +2,24 @@ import React, { Component } from "react";
 
 class Navigator extends Component {
   render() {
-    const itemsToBeDisplayed = this.props.items.map(item => (
-      <li>
-        <a href="">{item}</a>
-      </li>
-    ));
+    var currentStyle = {
+      fontWeight: "bold"
+    };
+
+    var current = this.props.current;
+    const itemsToBeDisplayed = this.props.items.map(item =>
+      current == item ? (
+        <li>
+          <a href="" style={currentStyle}>
+            {item}
+          </a>
+        </li>
+      ) : (
+        <li>
+          <a href="">{item}</a>
+        </li>
+      )
+    );
 
     return (
       <div className="nav">
