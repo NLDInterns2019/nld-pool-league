@@ -14,21 +14,22 @@ class App extends React.Component {
     );
 
     this.setState({ players: response.data });
-    console.log(this.state.players)
+    console.log(this.state.players);
 
     const fixtures = await axios.get(
       "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/fixture"
     );
 
-    console.log(fixtures.data)
+    console.log(fixtures.data);
     this.setState({ fixtures: fixtures.data });
   };
 
   render() {
     return (
       <div className="app">
+        {/*<Seasons />*/}
         <Header />
-        <SubNavBar />
+        <SubNavBar current="Overview" />
         <div className="content">
           <div className="contentLeft">
             <LeagueTable players={this.state.players} />

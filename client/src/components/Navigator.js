@@ -8,13 +8,13 @@ const Navigator = props => {
   var current = props.current;
   const itemsToBeDisplayed = props.items.map(item =>
     current == item ? (
-      <li>
+      <li key={item.id}>
         <a href="" style={currentStyle}>
           {item}
         </a>
       </li>
     ) : (
-      <li>
+      <li key={item.id}>
         <a href="">{item}</a>
       </li>
     )
