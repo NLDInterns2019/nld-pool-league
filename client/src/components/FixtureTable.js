@@ -1,8 +1,7 @@
 import React from "react";
-import TableHeader from "./TableHeader";
-import TableBody from "./LeagueTableBody";
+import FixtureTableBody from "./FixtureTableBody";
 
-const FixtureTable = () => {
+const FixtureTable = props => {
   var scoreStyle = {
     fontWeight: "bold",
     color: "red"
@@ -12,7 +11,16 @@ const FixtureTable = () => {
     <div className="fixtureTableContainer">
       <h2>Fixtures</h2>
       <table className="fixtureTable" cellSpacing="0">
-        <TableHeader items={["Score", "Name", "", "Name", "Score"]} />
+        <thead>
+        <tr>
+          <th>Score</th>
+          <th>Name</th>
+          <th />
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+        </thead>
+        <FixtureTableBody fixtures={props.fixtures} />
       </table>
     </div>
   );
