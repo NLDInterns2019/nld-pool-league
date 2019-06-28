@@ -28,7 +28,7 @@ app.get("/api/staff", (req, res) => {
   );
 });
 
-//POST
+//POST STAFf
 app.post("/api/staff", (req, res) => {
   var body = _.pick(req.body, "id", "name");
 
@@ -42,8 +42,36 @@ app.post("/api/staff", (req, res) => {
   );
 });
 
+//GET 8 BALL LEAGUE
+app.get("/api/8ball_league", (req, res) => {
+  var where = {};
+
+  db.eight_ball_league.findAll({ where: where }).then(
+    players => {
+      res.json(players);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//POST 8 BALL PLAYER
+app.post("/api/8ball_league/player", (req, res) => {
+  var body = _.pick(req.body, "seasonId", "staffName");
+
+  db.eight_ball_league.create(body).then(
+    player => {
+      res.json(player.toJSON());
+    },
+    e => {
+      res.status(400).json(e);
+    }
+  );
+});
+
 //{force: true} to start with clean table
-db.sequelize.sync({force: true}).then(function() {
+db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, () => {
     console.log("Express is listeing on port: " + PORT);
   });
