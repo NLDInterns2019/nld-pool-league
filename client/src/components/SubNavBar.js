@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "../../src/App.css";
+import React from "react";
+import "../App.css";
 import Navigator from "./Navigator.js";
 
 const SubNavBar = () => {

@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 
-class TableHeader extends Component {
-  render() {
-    const itemsToBeDisplayed = this.props.items.map(item => <th>{item}</th>);
-    return <tr>{itemsToBeDisplayed}</tr>;
-  }
-}
+const TableHeader = props => {
+  const itemsToBeDisplayed = this.props.items.map(item => <th>{item}</th>);
+  return <tr>{itemsToBeDisplayed}</tr>;
+};
 
 export default TableHeader;
