@@ -82,14 +82,18 @@ body {
   font-size: 14pt;
 }
 
-.fixtureTable th {
+.table th {
   padding: 5px 15px 5px 15px;
   background-color: #0f5d0f;
   color: white;
 }
 
-.fixtureTable td {
+.table td {
   background-color: white;
+}
+
+.points {
+  font-weight: bold;
 }
 
 .contentLeft {
@@ -101,6 +105,7 @@ body {
   position: absolute;
   right: 2.5rem;
 }
-.contentRight h2 {
-  padding-left: 15px;
+
+.contentLeft {
+  padding-left: 2.5rem;
 }

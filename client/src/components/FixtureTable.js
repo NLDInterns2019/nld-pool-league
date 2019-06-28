@@ -10,7 +10,7 @@ class FixtureTable extends Component {
     return (
       <div>
         <h2>Fixtures</h2>
-        <table className="fixtureTable">
+        <table className="table">
           <tr>
             <th>Score</th>
             <th>Name</th>
