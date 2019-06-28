@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import SubNavBar from "./SubNavBar";
 
-const Fixtures = () => {
+const FixturesPage = () => {
   return (
     <div className="fixtures">
       <Header />
@@ -18,4 +18,4 @@ const Fixtures = () => {
     </div>
   );
 };
-export default Fixtures;
+export default FixturesPage;

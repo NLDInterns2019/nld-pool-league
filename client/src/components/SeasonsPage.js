@@ -3,7 +3,7 @@ import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
 
-const Seasons = () => {
+const SeasonsPage = () => {
   return (
     <div className="seasons">
       <Header />
@@ -19,4 +19,4 @@ const Seasons = () => {
   );
 };
 
-export default Seasons;
+export default SeasonsPage;
