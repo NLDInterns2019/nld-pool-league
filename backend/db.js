@@ -28,6 +28,7 @@ var db = {};
 
 db.staff = sequelize.import(__dirname + "/models/staff.js");
 db.eight_ball_league = sequelize.import(__dirname + "/models/eight_ball_league.js");
+db.eight_ball_fixtures = sequelize.import(__dirname + "/models/eight_ball_fixtures.js");
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
