@@ -128,3 +128,25 @@ table td {
   display: inline-block;
   text-align: center;
 }
+
+/*.seasons .content {
+  width: 60%;
+  margin: auto;
+}
+
+.seasons .content li {
+  list-style-type: none;
+  font-size: 24pt;
+  padding-bottom: 2rem;
+}
+
+.seasons .content ul {
+  padding-left: 0rem;
+}
+
+.seasons .content button {
+  background-color: #0f5d0f;
+  color: white;
+  font-family: Montserrat;
+  padding: 5px 15px 5px 15px;
+}*/

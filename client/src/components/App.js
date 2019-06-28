@@ -4,6 +4,7 @@ import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import FixtureTable from "./FixtureTable.js";
 import LeagueTable from "./LeagueTable.js";
+import Seasons from "./Seasons.js";
 
 class App extends React.Component {
   state = { players: [] };
@@ -19,8 +20,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
+        {/*<Seasons />*/}
         <Header />
-        <SubNavBar />
+        <SubNavBar current="Overview" />
         <div className="content">
           <div className="contentLeft">
             <LeagueTable players={this.state.players} />
