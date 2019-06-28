@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TableHeader from "./TableHeader";
 
 const FixtureTable = () => {
   var scoreStyle = {
@@ -10,13 +11,7 @@ const FixtureTable = () => {
     <div className="fixtureTableContainer">
       <h2>Fixtures</h2>
       <table className="fixtureTable" cellSpacing="0">
-        <tr>
-          <th>Score</th>
-          <th>Name</th>
-          <th />
-          <th>Name</th>
-          <th>Score</th>
-        </tr>
+        <TableHeader items={["Score", "Name", "", "Name", "Score"]} />
         <tr>
           <td align="center" style={scoreStyle}>
             2

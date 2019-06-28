@@ -1,21 +1,14 @@
 import React from "react";
+import TableHeader from "./TableHeader";
 
 const LeagueTable = () => {
   return (
     <div className="leagueTableContainer">
       <h2>League Table</h2>
       <table className="leagueTable" cellSpacing="0">
-        <tr>
-          <th>Pos</th>
-          <th>Name</th>
-          <th>P</th>
-          <th>W</th>
-          <th>D</th>
-          <th>L</th>
-          <th>F</th>
-          <th>A</th>
-          <th>Pts</th>
-        </tr>
+        <TableHeader
+          items={["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"]}
+        />
         <tr>
           <td className="position" align="center">
             1
