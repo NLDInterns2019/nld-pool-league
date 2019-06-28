@@ -82,14 +82,20 @@ body {
   font-size: 14pt;
 }
 
-.table th {
+table th {
   padding: 5px 15px 5px 15px;
   background-color: #0f5d0f;
   color: white;
 }
 
-.table td {
+table td {
   background-color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.leagueTable {
+  font-size: 18pt;
 }
 
 .points {

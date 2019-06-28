@@ -5,7 +5,7 @@ class LeagueTable extends Component {
     return (
       <div>
         <h2>League Table</h2>
-        <table className="table">
+        <table className="leagueTable" cellSpacing="0">
           <tr>
             <th>Pos</th>
             <th>Name</th>

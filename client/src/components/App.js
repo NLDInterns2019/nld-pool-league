@@ -10,11 +10,13 @@ class App extends React.Component {
       <div className="app">
         <Header />
         <SubNavBar />
-        <div className="contentLeft">
-          <LeagueTable />
-        </div>
-        <div className="contentRight">
-          <FixtureTable />
+        <div className="content">
+          <div className="contentLeft">
+            <LeagueTable />
+          </div>
+          <div className="contentRight">
+            <FixtureTable />
+          </div>
         </div>
       </div>
     );
