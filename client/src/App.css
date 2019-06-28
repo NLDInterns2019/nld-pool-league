@@ -78,10 +78,7 @@ body {
 }
 
 .fixtureTable {
-  padding-top: 2.5rem;
   padding-left: 1rem;
-  position: absolute;
-  right: 2.5rem;
   font-size: 14pt;
 }
 
@@ -93,4 +90,17 @@ body {
 
 .fixtureTable td {
   background-color: white;
+}
+
+.contentLeft {
+  display: inline-block;
+}
+
+.contentRight {
+  display: inline-block;
+  position: absolute;
+  right: 2.5rem;
+}
+.contentRight h2 {
+  padding-left: 15px;
 }
