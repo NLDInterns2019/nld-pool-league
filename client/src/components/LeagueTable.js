@@ -1,5 +1,4 @@
 import React from "react";
-import TableHeader from "./TableHeader";
 import LeagueTableBody from "./LeagueTableBody";
 
 const LeagueTable = props => {
@@ -7,8 +6,10 @@ const LeagueTable = props => {
     <div className="leagueTableContainer">
       <h2>League Table</h2>
       <table className="leagueTable" cellSpacing="0">
+        <thead>
         <tr>
           <th>Pos</th>
+          <th>Seasons</th>
           <th>Name</th>
           <th>P</th>
           <th>W</th>
@@ -18,6 +19,7 @@ const LeagueTable = props => {
           <th>A</th>
           <th>Pts</th>
         </tr>
+        </thead>
         <LeagueTableBody players={props.players} />
       </table>
     </div>
