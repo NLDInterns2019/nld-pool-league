@@ -1,5 +1,6 @@
 import React from "react";
 import TableHeader from "./TableHeader";
+import TableRow from "./TableRow";
 
 const LeagueTable = () => {
   return (
@@ -9,64 +10,8 @@ const LeagueTable = () => {
         <TableHeader
           items={["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"]}
         />
-        <tr>
-          <td className="position" align="center">
-            1
-          </td>
-          <td className="name" align="center">
-            Chris
-          </td>
-          <td className="played" align="center">
-            2
-          </td>
-          <td className="wins" align="center">
-            1
-          </td>
-          <td className="draws" align="center">
-            1
-          </td>
-          <td className="losses" align="center">
-            0
-          </td>
-          <td className="for" align="center">
-            3
-          </td>
-          <td className="against" align="center">
-            1
-          </td>
-          <td className="points" align="center">
-            4
-          </td>
-        </tr>
-        <tr>
-          <td className="position" align="center">
-            2
-          </td>
-          <td className="name" align="center">
-            Steve
-          </td>
-          <td className="played" align="center">
-            2
-          </td>
-          <td className="wins" align="center">
-            0
-          </td>
-          <td className="draws" align="center">
-            1
-          </td>
-          <td className="losses" align="center">
-            1
-          </td>
-          <td className="for" align="center">
-            1
-          </td>
-          <td className="against" align="center">
-            3
-          </td>
-          <td className="points" align="center">
-            1
-          </td>
-        </tr>
+        <TableRow items={[1, "Chris", 2, 1, 1, 0, 3, 1, 4]} />
+        <TableRow items={[2, "Steve", 2, 0, 1, 1, 1, 3, 1]} />
       </table>
     </div>
   );
