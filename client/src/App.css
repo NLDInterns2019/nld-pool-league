@@ -19,7 +19,7 @@ body {
 
 .header .nav {
   position: absolute;
-  right: 1rem;
+  right: 2.5rem;
 }
 
 .header h1 {
@@ -78,7 +78,6 @@ body {
 }
 
 .fixtureTable {
-  padding-left: 1rem;
   font-size: 14pt;
 }
 
@@ -102,16 +101,20 @@ table td {
   font-weight: bold;
 }
 
-.contentLeft {
-  display: inline-block;
-}
-
 .contentRight {
   display: inline-block;
   position: absolute;
-  right: 2.5rem;
+  width: 50%;
+  text-align: center;
+}
+
+.fixtureTableContainer,
+.leagueTableContainer {
+  display: inline-block;
 }
 
 .contentLeft {
-  padding-left: 2.5rem;
+  width: 50%;
+  display: inline-block;
+  text-align: center;
 }
