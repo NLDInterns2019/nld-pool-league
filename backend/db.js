@@ -26,45 +26,51 @@ sequelize
 
 var db = {};
 
-db.eight_ball_league = sequelize.import(
-  __dirname + "/models/eight_ball_league.js"
+//8 ball seasons schema
+db.eight_ball_seasons = sequelize.import(
+  __dirname + "/models/eight_ball_seasons.js"
 );
+//8 ball league schema
+db.eight_ball_leagues = sequelize.import(
+  __dirname + "/models/eight_ball_leagues.js"
+);
+//8 ball fixtures schema
 db.eight_ball_fixtures = sequelize.import(
   __dirname + "/models/eight_ball_fixtures.js"
 );
 
 //Association
 //Each league season has many fixtures
-db.eight_ball_league.hasMany(db.eight_ball_fixtures, {
+db.eight_ball_leagues.hasMany(db.eight_ball_fixtures, {
   foreignKey: "seasonId",
   sourceKey: "seasonId"
 });
 //A fixture can only belong to one season
-db.eight_ball_fixtures.belongsTo(db.eight_ball_league, {
+db.eight_ball_fixtures.belongsTo(db.eight_ball_leagues, {
   foreignKey: "seasonId",
-  targetKey: "seasonId"
+  targetKey: "seasonId",
 });
 
 //A player can play in many fixtures
-db.eight_ball_league.hasMany(db.eight_ball_fixtures, {
+db.eight_ball_leagues.hasMany(db.eight_ball_fixtures, {
   foreignKey: "player1",
   sourceKey: "staffName"
 });
 //A fixture can only belong to one season
-db.eight_ball_fixtures.belongsTo(db.eight_ball_league, {
+db.eight_ball_fixtures.belongsTo(db.eight_ball_leagues, {
   foreignKey: "player1",
-  targetKey: "staffName"
+  targetKey: "staffName",
 });
 
 //A player can play in many fixtures
-db.eight_ball_league.hasMany(db.eight_ball_fixtures, {
+db.eight_ball_leagues.hasMany(db.eight_ball_fixtures, {
   foreignKey: "player2",
   sourceKey: "staffName"
 });
 //A fixture can only belong to one season
-db.eight_ball_fixtures.belongsTo(db.eight_ball_league, {
+db.eight_ball_fixtures.belongsTo(db.eight_ball_leagues, {
   foreignKey: "player2",
-  targetKey: "staffName"
+  targetKey: "staffName",
 });
 
 db.sequelize = sequelize;

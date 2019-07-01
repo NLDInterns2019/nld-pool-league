@@ -15,11 +15,37 @@ app.get("/", (req, res) => {
   res.send("Nonlinear Pool Manager Backend");
 });
 
+//GET 8 BALL SEASONS (for the seasons list)
+app.get("/api/8ball_season", (req, res) => {
+  db.eight_ball_seasons.findAll({ where: {} }).then(
+    seasons => {
+      res.json(seasons);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//POST 8 BALL SEASONS (add new seasons)
+app.get("/api/8ball_season/add/seasons", (req, res) => {
+  let body = _.pick(req.body, "seasonId");
+
+  db.eight_ball_seasons.create(body).then(
+    season => {
+      res.json(season.toJSON());
+    },
+    e => {
+      res.status(400).json(e);
+    }
+  );
+});
+
 //GET 8 BALL LEAGUE
 app.get("/api/8ball_league", (req, res) => {
-  var where = {};
+  let where = {};
 
-  db.eight_ball_league.findAll({ where: where }).then(
+  db.eight_ball_leagues.findAll({ where: where }).then(
     players => {
       res.json(players);
     },
@@ -31,9 +57,9 @@ app.get("/api/8ball_league", (req, res) => {
 
 //POST 8 BALL PLAYER
 app.post("/api/8ball_league/add/player", (req, res) => {
-  var body = _.pick(req.body, "seasonId", "staffName");
+  let body = _.pick(req.body, "seasonId", "staffName");
 
-  db.eight_ball_league.create(body).then(
+  db.eight_ball_leagues.create(body).then(
     player => {
       res.json(player.toJSON());
     },
@@ -43,9 +69,35 @@ app.post("/api/8ball_league/add/player", (req, res) => {
   );
 });
 
+//DELETE 8 BALL PLAYER
+app.delete("/api/8ball_league/delete/player", (req, res) => {
+  let body = _.pick(req.body, "seasonId", "staffName");
+  let attributes = {
+    seasonId: body.seasonId,
+    staffName: body.staffName
+  };
+
+  db.eight_ball_leagues
+    .destroy({
+      where: attributes
+    })
+    .then(
+      result => {
+        if (result === 0) {
+          res.status(404).json();
+        } else {
+          res.status(204).send();
+        }
+      },
+      e => {
+        res.status(500).send();
+      }
+    );
+});
+
 //GET 8 BALL FIXTURE
 app.get("/api/8ball_league/fixture", (req, res) => {
-  var where = {};
+  let where = {};
 
   db.eight_ball_fixtures.findAll({ where: where }).then(
     fixtures => {
@@ -59,7 +111,7 @@ app.get("/api/8ball_league/fixture", (req, res) => {
 
 //POST 8 BALL GAME IN THE FIXTURE
 app.post("/api/8ball_league/add/fixture_row", (req, res) => {
-  var body = _.pick(
+  let body = _.pick(
     req.body,
     "seasonId",
     "fixtureId",
@@ -134,7 +186,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 });
 
 //{force: true} to start with clean table
-db.sequelize.sync().then(function() {
+db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, () => {
     console.log("Express is listeing on port: " + PORT);
   });
