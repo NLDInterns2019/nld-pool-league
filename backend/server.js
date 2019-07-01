@@ -240,6 +240,7 @@ function factorial(num) {
     result *= num;
   }
   return result;
+}
 
 //{force: true} to start with clean table
 db.sequelize.sync({ force: true }).then(function() {
