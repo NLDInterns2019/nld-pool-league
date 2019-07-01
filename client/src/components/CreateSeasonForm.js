@@ -19,7 +19,7 @@ class CreateSeasonForm extends Component {
   }
 
   handleChange(e, index) {
-    this.state.players[index] = e.target.value;
+    this.state.players[index] = e.target.value.toUpperCase();
     this.setState({ players: this.state.players });
   }
 
@@ -30,7 +30,7 @@ class CreateSeasonForm extends Component {
   }
 
   createSeason = () => {
-    var regex = /^[a-zA-Z]+$/;
+    var regex = /^[A-Z]+$/;
     /* check if the text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
@@ -46,6 +46,7 @@ class CreateSeasonForm extends Component {
       alert("Not a valid input");
       this.hasInvalidCells = false;
     } else {
+      console.log("Players: " + this.state.players);
       this.props.createSeason(this.state);
       this.setState(this.initialState);
     }
