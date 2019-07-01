@@ -129,20 +129,32 @@ table td {
 .fixtureTableContainer,
 .leagueTableContainer {
   display: inline-block;
+  margin-bottom: 8rem;
 }
 
 /* ==== Create New Season Form ==== */
 .createSeasonForm {
-  margin-top: 8rem;
+  margin-bottom: 8rem;
 }
 
-.createSeasonForm label {
+.createSeasonForm label,
+.submitScoreForm label {
   font-size: 12pt;
   padding-right: 0.5rem;
 }
 
 .createSeasonForm #noOfPlayers {
   margin: 1rem;
+}
+
+/* ==== Submit Score Form ==== */
+.submitScoreForm {
+  margin-bottom: 8rem;
+}
+
+.submitScoreForm input {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ==== Inputs ==== */
