@@ -45,7 +45,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leaguess.findAll({ where: where }).then(
+  db.eight_ball_leagues.findAll({ where: where }).then(
     players => {
       res.json(players);
     },
@@ -59,7 +59,7 @@ app.get("/api/8ball_league", (req, res) => {
 app.post("/api/8ball_league/add/player", (req, res) => {
   let body = _.pick(req.body, "seasonId", "staffName");
 
-  db.eight_ball_leaguess.create(body).then(
+  db.eight_ball_leagues.create(body).then(
     player => {
       res.json(player.toJSON());
     },
@@ -77,7 +77,7 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     staffName: body.staffName
   };
 
-  db.eight_ball_leaguess
+  db.eight_ball_leagues
     .destroy({
       where: attributes
     })
