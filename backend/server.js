@@ -134,15 +134,15 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 });
 
 //AUTOMATICALLY GENERATE FIXTURES - RUN WHEN ALL USERS ARE ADDED TO THE LEAGUE TABLE
-//REQUIRES: season ID input.
+//REQUIRES: season ID input. Populated league table.
 //TODO: has to provide separate fixture ids
-      //Doable with n!/(k!*((n-k)!). Calculate how many rows will be needed, then divide this to reach a suitable value.
+      //Doable with n!/(k!*((n-k)!). Calculate how many rows will be needed, then divide this to reach a suitable value. Working on.
 //TODO: possible error - occasionally cannot access player2 column. unable to replicate.
 app.post("/api/8ball_league/generate/fixture", (req, res) => {
   let ctt;
   var seasonID = req.body.season;
 
-  //count rows and store this in ctt
+  //count league rows and store this in ctt
   db.eight_ball_league.count().then(c => {
     console.log("There are " + c + " projects!");
     ctt = c;
@@ -152,7 +152,13 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
     db.eight_ball_league.findAll({
       attributes: ['staffName']
     }).then(function(results) {
+      //get total combinations (order unimportant)
+      totalRows = factorial(ctt)/2*(factorial(ctt-2)); // n!/(k!*((n-k)!)
+
+      //determine the boundaries for splitting fixtures. aims for smaller groups when possible. same person must never play more than once in a week regardless of count
       
+
+
       //loop from 0 to max, setting the staff names on the fixture as is appropriate
       console.log('the count is ' + ctt);
       for (var i = 0; i < ctt; i++) {
@@ -171,6 +177,17 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
     });
   });
 })
+
+//get the factorial of an integer
+function factorial(num) {
+  var result = num;
+  if (num === 0 || num === 1) 
+    return 1; 
+  while (num > 1) { 
+    num--;
+    result *= num;
+  }
+  return result;
 
 //{force: true} to start with clean table
 db.sequelize.sync().then(function() {
