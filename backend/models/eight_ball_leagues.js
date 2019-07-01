@@ -1,14 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define("eight_ball_league", {
+  return sequelize.define("eight_ball_leagues", {
     seasonId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     staffName: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     played: {
       type: DataTypes.INTEGER,
