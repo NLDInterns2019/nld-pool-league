@@ -9,6 +9,7 @@ const LeagueTable = props => {
         <thead>
           <tr>
             <th>Pos</th>
+            <th>Season</th>
             <th>Name</th>
             <th>P</th>
             <th>W</th>

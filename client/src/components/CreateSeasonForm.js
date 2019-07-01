@@ -1,13 +1,17 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class CreateSeasonForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      players: []
+
+    this.initialState = {
+      players: [],
+      seasonName: ""
     };
 
     this.hasInvalidCells = false;
+    this.state = this.initialState;
   }
 
   addPlayer() {
@@ -25,7 +29,7 @@ class CreateSeasonForm extends Component {
     this.setState({ players: this.state.players });
   }
 
-  handleSubmit(e) {
+  createSeason = () => {
     var regex = /^[a-zA-Z]+$/;
     /* check if the text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
@@ -34,7 +38,7 @@ class CreateSeasonForm extends Component {
       }
     }
     /* check if the season name text input is empty */
-    if (document.getElementById("inputSeasonName").value === "") {
+    if (this.state.seasonName === "") {
       this.hasInvalidCells = true;
     }
     /* alert the user that their input is not valid */
@@ -42,20 +46,23 @@ class CreateSeasonForm extends Component {
       alert("Not a valid input");
       this.hasInvalidCells = false;
     } else {
-      /* refresh the page */
-      window.location.reload();
+      this.props.createSeason(this.state);
+      this.setState(this.initialState);
     }
-    console.log("Players: " + this.state.players);
-  }
+  };
 
   render() {
     return (
       <div className="createSeasonForm">
         <h2>Create a season</h2>
         <form>
-          <label>Season name</label>
-          {/* season name text input */}
-          <input type="text" placeholder="Season name" id="inputSeasonName" />
+          <label>Season name:</label>
+          <input
+            type="text"
+            placeholder="Season name"
+            value={this.state.seasonName}
+            onChange={e => this.setState({ seasonName: e.target.value })}
+          />
           <div className="inputPlayers">
             {/* Map the players in the state to inputs */}
             {this.state.players.map((player, index) => {
@@ -88,8 +95,7 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-            {/* button for creating a season */}
-            <button type="button" onClick={e => this.handleSubmit(e)}>
+            <button type="button" onClick={this.createSeason}>
               Create season
             </button>
           </div>
