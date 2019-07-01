@@ -7,14 +7,14 @@ const Navigator = props => {
 
   var current = props.current;
   const itemsToBeDisplayed = props.items.map(item =>
-    current == item ? (
-      <li key={item.id}>
+    current === item ? (
+      <li key={item}>
         <a href="" style={currentStyle}>
           {item}
         </a>
       </li>
     ) : (
-      <li key={item.id}>
+      <li key={item}>
         <a href="">{item}</a>
       </li>
     )

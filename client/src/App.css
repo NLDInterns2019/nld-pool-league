@@ -134,6 +134,57 @@ table td {
   text-align: center;
 }
 
+.createSeasonForm h2 {
+  margin: 0rem;
+}
+
+.createSeasonForm {
+  margin-top: 8rem;
+}
+
+.createSeasonForm label {
+  font-size: 0.9em;
+}
+
+.inputPlayers label {
+  padding-right: 0.5rem;
+}
+
+.createSeasonForm #noOfPlayers {
+  margin: 1rem;
+}
+
+.inputPlayers {
+  margin-top: 1rem;
+}
+
+.inputPlayers input,
+.inputPlayers button {
+  margin-top: 0.75rem;
+}
+
+button {
+  background-color: #0f5d0f;
+  color: white;
+  font-family: Montserrat;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 8px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.removeBtn {
+  background-color: #c40000;
+}
+
+input::placeholder,
+input {
+  font-family: Montserrat;
+}
+
 /*.seasons .content {
   width: 60%;
   margin: auto;

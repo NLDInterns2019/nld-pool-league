@@ -4,6 +4,7 @@ import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
+import CreateSeasonForm from "./CreateSeasonForm.js";
 
 class App extends React.Component {
   state = { players: [], fixtures: [] };
@@ -36,6 +37,7 @@ class App extends React.Component {
           </div>
           <div className="contentRight">
             <FixtureTable fixtures={this.state.fixtures} />
+            <CreateSeasonForm />
           </div>
         </div>
       </div>
