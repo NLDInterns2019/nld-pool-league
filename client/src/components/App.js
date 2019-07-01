@@ -7,9 +7,9 @@ import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 
 class App extends React.Component {
-  state = { players: [], fixtures: [], activeSeason: "", refresh: false };
+  state = { players: [], fixtures: [], activeSeason: "", refresh: "false" };
 
-  componentDidMount = async () => {
+  updateData = async () => {
     const response = await axios.get(
       "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/"
     );
@@ -23,39 +23,33 @@ class App extends React.Component {
     this.setState({ fixtures: fixtures.data });
   };
 
-  componentDidUpdate = async (prevProps, prevState) => {
-    if (
-      this.state.activeSeason !== prevState.activeSeason ||
-      this.state.refresh !== this.state.refresh
-    ) {
-      const response = await axios.get(
-        "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/"
-      );
+  componentDidMount = () => {
+    this.updateData();
+  };
 
-      this.setState({ players: response.data });
-
-      const fixtures = await axios.get(
-        "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/fixture"
-      );
-
-      this.setState({ fixtures: fixtures.data });
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.state.activeSeason !== prevState.activeSeason) {
+      this.updateData();
     }
   };
 
-  createSeason = state => {
-    state.players.map(async player => {
-      await axios.post(
-        "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
-        {
-          seasonId: state.seasonName,
-          staffName: player
-        }
-      );
+  createSeason = async state => {
+    await Promise.all(
+      state.players.map(player =>
+        axios.post(
+          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
+          {
+            seasonId: state.seasonName,
+            staffName: player
+          }
+        )
+      )
+    );
+    this.setState({
+      activeSeason: state.seasonName,
+      //To force update
+      refresh: !this.state.refresh
     });
-    this.setState({ activeSeason: state.seasonName });
-
-    //To force componentDidUpdate
-    this.setState({ refresh: !this.state.refresh });
   };
 
   render() {
