@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class CreateSeasonForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      players: []
+
+    this.initialState = {
+      players: [],
+      seasonName: ''
     };
 
-    //var hasEmptyCells = false;
+    this.state = this.initialState;
   }
 
   addPlayer() {
@@ -25,20 +28,9 @@ class CreateSeasonForm extends Component {
     this.setState({ players: this.state.players });
   }
 
-  handleSubmit(e) {
-    /*var regex = /^[a-zA-Z]+$/;
-    for (var i = 0; i < this.state.players.length; i++) {
-      if (!regex.test(this.state.players[i])) {
-        hasEmptyCells = true;
-      }
-    }
-    if (hasEmptyCells) {
-      alert("inputs cannot be empty");
-    } else {
-      location.reload();
-    }*/
-
-    console.log(this.state.players);
+  createSeason = () => {
+    this.props.createSeason(this.state);
+    this.setState(this.initialState);
   }
 
   render() {
@@ -46,8 +38,8 @@ class CreateSeasonForm extends Component {
       <div className="createSeasonForm">
         <h2>Create a season</h2>
         <form>
-          <label>Season name:</label>
-          <input type="text" placeholder="Season name" />
+          <label >Season name:</label>
+          <input type="text" placeholder="Season name" value={this.state.seasonName} onChange={e => this.setState({ seasonName: e.target.value })} />
           <div className="inputPlayers">
             {this.state.players.map((player, index) => {
               return (
@@ -77,7 +69,7 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-            <button type="button" onClick={e => this.handleSubmit(e)}>
+            <button type="button" onClick={this.createSeason}>
               Create season
             </button>
           </div>
