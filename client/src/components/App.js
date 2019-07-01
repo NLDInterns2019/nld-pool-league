@@ -5,6 +5,7 @@ import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
+import SubmitScoreForm from "./SubmitScoreForm.js";
 
 class App extends React.Component {
   state = { players: [], fixtures: [], activeSeason: "", refresh: "false" };
@@ -64,6 +65,7 @@ class App extends React.Component {
             <CreateSeasonForm createSeason={this.createSeason} />
           </div>
           <div className="contentRight">
+            <SubmitScoreForm />
             <FixtureTable fixtures={this.state.fixtures} />
           </div>
         </div>

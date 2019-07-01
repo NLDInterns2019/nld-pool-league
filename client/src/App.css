@@ -75,6 +75,7 @@ body {
   padding-bottom: 0.5rem;
   background-color: #999999;
   box-shadow: 0px 8px 10px -6px;
+  margin-bottom: 3rem;
 }
 
 .subnav ul {
@@ -129,20 +130,38 @@ table td {
 .fixtureTableContainer,
 .leagueTableContainer {
   display: inline-block;
+  margin-bottom: 8rem;
 }
 
 /* ==== Create New Season Form ==== */
 .createSeasonForm {
-  margin-top: 8rem;
+  margin-bottom: 8rem;
 }
 
-.createSeasonForm label {
+.createSeasonForm label,
+.submitScoreForm label {
   font-size: 12pt;
   padding-right: 0.5rem;
 }
 
 .createSeasonForm #noOfPlayers {
   margin: 1rem;
+}
+
+/* ==== Submit Score Form ==== */
+.submitScoreForm {
+  margin-bottom: 8rem;
+}
+
+.submitScoreForm input {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 150px;
+}
+
+#score1,
+#score2 {
+  width: 75px;
 }
 
 /* ==== Inputs ==== */
