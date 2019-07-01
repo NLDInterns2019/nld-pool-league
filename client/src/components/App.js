@@ -5,7 +5,6 @@ import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
-import Popup from "reactjs-popup";
 
 class App extends React.Component {
   state = { players: [], fixtures: [] };

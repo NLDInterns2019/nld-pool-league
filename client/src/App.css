@@ -136,12 +136,9 @@ table td {
   margin-top: 8rem;
 }
 
-.createSeasonForm h2 {
-  margin: 0rem;
-}
-
 .createSeasonForm label {
-  font-size: 0.9em;
+  font-size: 12pt;
+  padding-right: 0.5rem;
 }
 
 .createSeasonForm #noOfPlayers {
@@ -152,6 +149,7 @@ table td {
 input::placeholder,
 input {
   font-family: "Montserrat";
+  font-size: 12pt;
 }
 
 /* ==== Input Players Text Inputs ==== */
@@ -176,6 +174,7 @@ button {
   padding-top: 4px;
   padding-bottom: 4px;
   border-radius: 8px;
+  font-size: 12pt;
 }
 
 button:hover {
@@ -188,6 +187,7 @@ button:hover {
 
 .removeBtn {
   background-color: #c40000;
+  margin-left: 0.5rem;
 }
 
 /*.seasons .content {
