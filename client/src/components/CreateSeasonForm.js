@@ -6,6 +6,8 @@ class CreateSeasonForm extends Component {
     this.state = {
       players: []
     };
+
+    //var hasEmptyCells = false;
   }
 
   addPlayer() {
@@ -24,6 +26,18 @@ class CreateSeasonForm extends Component {
   }
 
   handleSubmit(e) {
+    /*var regex = /^[a-zA-Z]+$/;
+    for (var i = 0; i < this.state.players.length; i++) {
+      if (!regex.test(this.state.players[i])) {
+        hasEmptyCells = true;
+      }
+    }
+    if (hasEmptyCells) {
+      alert("inputs cannot be empty");
+    } else {
+      location.reload();
+    }*/
+
     console.log(this.state.players);
   }
 
@@ -32,6 +46,8 @@ class CreateSeasonForm extends Component {
       <div className="createSeasonForm">
         <h2>Create a season</h2>
         <form>
+          <label>Season name:</label>
+          <input type="text" placeholder="Season name" />
           <div className="inputPlayers">
             {this.state.players.map((player, index) => {
               return (
@@ -61,7 +77,7 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-            <button type="submit" onClick={e => this.handleSubmit(e)}>
+            <button type="button" onClick={e => this.handleSubmit(e)}>
               Create season
             </button>
           </div>

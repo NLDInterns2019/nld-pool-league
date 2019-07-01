@@ -1,30 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 
+/* ==== Body ==== */
 body {
   margin: 0rem;
   border: 0rem;
-  font-family: Montserrat;
+  font-family: "Montserrat";
   background-color: #f2f2f2;
 }
 
-.app {
-  background-color: #f2f2f2;
-}
-
+/* ==== Header ==== */
 .header {
   background-color: #0f5d0f;
   color: white;
   padding: 1rem;
-}
-
-.headerLeft,
-.headerRight {
-  display: inline-block;
-  width: 50%;
-}
-
-.headerRight {
-  vertical-align: middle;
 }
 
 .header h1 {
@@ -39,6 +27,23 @@ body {
   align-content: right;
 }
 
+.headerLeft,
+.headerRight {
+  display: inline-block;
+  width: 50%;
+}
+
+.headerRight {
+  vertical-align: middle;
+  text-align: right;
+}
+
+.headerRight ul {
+  padding: 0rem;
+  margin: 0rem;
+}
+
+/* ==== Navigation ==== */
 .nav li {
   font-size: 1.5em;
   display: inline-block;
@@ -63,15 +68,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.headerRight {
-  text-align: right;
-}
-
-.headerRight ul {
-  padding: 0rem;
-  margin: 0rem;
-}
-
+/* ==== Sub Navigation ==== */
 .subnav {
   padding-left: 2.5rem;
   padding-top: 0.5rem;
@@ -87,15 +84,21 @@ body {
   padding-left: 5rem;
 }
 
-.fixtureTable {
-  font-size: 18pt;
+/* ==== Content ==== */
+.contentRight {
+  display: inline-block;
+  position: absolute;
+  width: 50%;
+  text-align: center;
 }
 
-.fixtureTableCell {
-  padding-left: 15px;
-  padding-right: 15px;
+.contentLeft {
+  width: 50%;
+  display: inline-block;
+  text-align: center;
 }
 
+/* ==== Table ==== */
 table th {
   padding: 5px 15px 5px 15px;
   background-color: #0f5d0f;
@@ -108,19 +111,19 @@ table td {
   padding-bottom: 5px;
 }
 
-.leagueTable {
+/* ==== Fixture Table ==== */
+.fixtureTable {
   font-size: 18pt;
 }
 
-.points {
-  font-weight: bold;
+.fixtureTableCell {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.contentRight {
-  display: inline-block;
-  position: absolute;
-  width: 50%;
-  text-align: center;
+/* ==== League Table ==== */
+.leagueTable {
+  font-size: 18pt;
 }
 
 .fixtureTableContainer,
@@ -128,30 +131,32 @@ table td {
   display: inline-block;
 }
 
-.contentLeft {
-  width: 50%;
-  display: inline-block;
-  text-align: center;
+/* ==== Create New Season Form ==== */
+.createSeasonForm {
+  margin-top: 8rem;
 }
 
 .createSeasonForm h2 {
   margin: 0rem;
 }
 
-.createSeasonForm {
-  margin-top: 8rem;
-}
-
 .createSeasonForm label {
   font-size: 0.9em;
 }
 
-.inputPlayers label {
-  padding-right: 0.5rem;
-}
-
 .createSeasonForm #noOfPlayers {
   margin: 1rem;
+}
+
+/* ==== Inputs ==== */
+input::placeholder,
+input {
+  font-family: "Montserrat";
+}
+
+/* ==== Input Players Text Inputs ==== */
+.inputPlayers label {
+  padding-right: 0.5rem;
 }
 
 .inputPlayers {
@@ -163,6 +168,7 @@ table td {
   margin-top: 0.75rem;
 }
 
+/* ==== Buttons ==== */
 button {
   background-color: #0f5d0f;
   color: white;
@@ -176,13 +182,12 @@ button:hover {
   cursor: pointer;
 }
 
-.removeBtn {
-  background-color: #c40000;
+#createNewSeason {
+  margin-top: 10rem;
 }
 
-input::placeholder,
-input {
-  font-family: Montserrat;
+.removeBtn {
+  background-color: #c40000;
 }
 
 /*.seasons .content {
