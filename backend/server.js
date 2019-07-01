@@ -138,7 +138,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 //TODO: has to provide separate fixture ids
       //Doable with n!/(k!*((n-k)!). Calculate how many rows will be needed, then divide this to reach a suitable value.
 //TODO: possible error - occasionally cannot access player2 column. unable to replicate.
-app.post("/api/8ball_league/fixture/generate", (req, res) => {
+app.post("/api/8ball_league/generate/fixture", (req, res) => {
   let ctt;
   var seasonID = req.body.season;
 
