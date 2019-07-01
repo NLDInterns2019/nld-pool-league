@@ -45,7 +45,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leagues.findAll({ where: where }).then(
+  db.eight_ball_leaguess.findAll({ where: where }).then(
     players => {
       res.json(players);
     },
@@ -59,7 +59,7 @@ app.get("/api/8ball_league", (req, res) => {
 app.post("/api/8ball_league/add/player", (req, res) => {
   let body = _.pick(req.body, "seasonId", "staffName");
 
-  db.eight_ball_leagues.create(body).then(
+  db.eight_ball_leaguess.create(body).then(
     player => {
       res.json(player.toJSON());
     },
@@ -77,7 +77,7 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     staffName: body.staffName
   };
 
-  db.eight_ball_leagues
+  db.eight_ball_leaguess
     .destroy({
       where: attributes
     })
@@ -195,13 +195,13 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
   var seasonID = req.body.season;
 
   //count league rows and store this in ctt
-  db.eight_ball_league.count().then(c => {
+  db.eight_ball_leagues.count().then(c => {
     console.log("There are " + c + " projects!");
     ctt = c;
   }).then(() => {
 
     //get staff names and store these in results[n].staffName
-    db.eight_ball_league.findAll({
+    db.eight_ball_leagues.findAll({
       attributes: ['staffName']
     }).then(function(results) {
       //get total combinations (order unimportant)
@@ -243,7 +243,7 @@ function factorial(num) {
 }
 
 //{force: true} to start with clean table
-db.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync().then(function() {
   app.listen(PORT, () => {
     console.log("Express is listening on port: " + PORT);
   });
