@@ -45,8 +45,7 @@ class CreateSeasonForm extends Component {
       /* refresh the page */
       window.location.reload();
     }
-
-    console.log(this.state.players);
+    console.log("Players: " + this.state.players);
   }
 
   render() {
