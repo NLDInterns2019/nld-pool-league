@@ -3,7 +3,7 @@ import React from "react";
 const LeagueTableBody = props => {
   const itemsToBeDisplayed = props.players.map((player, index) => {
     return (
-      <tr key={player.seasonId+player.staffName}>
+      <tr key={player.seasonId + player.staffName}>
         <td align="center">{index + 1}</td>
         <td align="center">{player.seasonId}</td>
         <td align="center">{player.staffName}</td>

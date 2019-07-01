@@ -7,7 +7,7 @@ import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 
 class App extends React.Component {
-  state = { players: [], fixtures: [], activeSeason: "", refresh:false };
+  state = { players: [], fixtures: [], activeSeason: "", refresh: false };
 
   componentDidMount = async () => {
     const response = await axios.get(
@@ -24,7 +24,10 @@ class App extends React.Component {
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
-    if (this.state.activeSeason !== prevState.activeSeason || this.state.refresh !== this.state.refresh) {
+    if (
+      this.state.activeSeason !== prevState.activeSeason ||
+      this.state.refresh !== this.state.refresh
+    ) {
       const response = await axios.get(
         "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/"
       );
@@ -50,9 +53,9 @@ class App extends React.Component {
       );
     });
     this.setState({ activeSeason: state.seasonName });
-    
+
     //To force componentDidUpdate
-    this.setState({ refresh: !this.state.refresh})
+    this.setState({ refresh: !this.state.refresh });
   };
 
   render() {
@@ -64,10 +67,10 @@ class App extends React.Component {
         <div className="content">
           <div className="contentLeft">
             <LeagueTable players={this.state.players} />
+            <CreateSeasonForm createSeason={this.createSeason} />
           </div>
           <div className="contentRight">
             <FixtureTable fixtures={this.state.fixtures} />
-            <CreateSeasonForm createSeason={this.createSeason} />
           </div>
         </div>
       </div>
