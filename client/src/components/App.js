@@ -6,6 +6,7 @@ import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 import SubmitScoreForm from "./SubmitScoreForm.js";
+import SeasonsPage from "./SeasonsPage";
 
 class App extends React.Component {
   state = { players: [], fixtures: [], activeSeason: "", refresh: "false" };
@@ -84,7 +85,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        {/*<Seasons />*/}
+        {/*<SeasonsPage />*/}
         <Header />
         <SubNavBar current="Overview" />
         <div className="content">
