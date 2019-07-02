@@ -129,6 +129,10 @@ table td {
   font-size: 18pt;
 }
 
+.leagueTableContainer h2 {
+  margin-top: 0rem;
+}
+
 .fixtureTableContainer,
 .leagueTableContainer {
   display: inline-block;
