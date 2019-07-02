@@ -5,6 +5,15 @@ class SubmitScoreForm extends Component {
     super(props);
 
     this.hasInvalidCells = false;
+
+    this.initialState = {
+      score1: "",
+      player1: "",
+      score2: "",
+      player2: ""
+    };
+
+    this.state = this.initialState;
   }
 
   handleSubmit(e) {
@@ -36,7 +45,7 @@ class SubmitScoreForm extends Component {
       this.hasInvalidCells = false;
     } else {
       /* submit score */
-      alert("Submitted!");
+      this.props.changeFixtureScore(this.state);
     }
   }
 
@@ -45,10 +54,34 @@ class SubmitScoreForm extends Component {
       <div className="submitScoreForm">
         <h2>Submit Score</h2>
         <form>
-          <input type="number" placeholder="Score" id="score1" />
-          <input type="text" placeholder="Player 1" id="player1" />
-          <input type="text" placeholder="Player 2" id="player2" />
-          <input type="number" placeholder="Score" id="score2" />
+          <input
+            type="number"
+            placeholder="Score"
+            id="score1"
+            value={this.state.score1}
+            onChange={e => this.setState({ score1: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Player 1"
+            id="player1"
+            value={this.state.player1}
+            onChange={e => this.setState({ player1: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Player 2"
+            id="player2"
+            value={this.state.player2}
+            onChange={e => this.setState({ player2: e.target.value })}
+          />
+          <input
+            type="number"
+            placeholder="Score"
+            id="score2"
+            value={this.state.score2}
+            onChange={e => this.setState({ score2: e.target.value })}
+          />
           <br />
           <button type="button" onClick={e => this.handleSubmit(e)}>
             Submit Score

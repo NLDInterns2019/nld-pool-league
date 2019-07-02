@@ -48,7 +48,10 @@ class App extends React.Component {
     )
       .then(() =>
         axios.post(
-          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture"
+          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture",
+          {
+            seasonId: state.seasonName
+          }
         )
       )
       .then(() =>
@@ -60,10 +63,18 @@ class App extends React.Component {
       );
   };
 
-
-  // changeFixtureScore = state ={
-
-  // }
+  changeFixtureScore = async state => {
+    axios.put(
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/edit/fixture",
+      {
+        seasonId: "1",
+        player1: state.player1,
+        score1: state.score1,
+        player2: state.player2,
+        score2: state.score2
+      }
+    );
+  };
 
   // //ALTERNATIVE
   // createSeason = async state => {
