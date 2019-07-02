@@ -48,6 +48,10 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
+  if(req.body.seasonId !== '') {
+    where.seasonId = req.body.seasonId;
+  }
+
   db.eight_ball_leagues.findAll({ where: where }).then(
     players => {
       res.json(players);
