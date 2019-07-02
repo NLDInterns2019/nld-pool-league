@@ -45,7 +45,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leagues.findAll({ where: where }).then(
+  db.eight_ball_leaguess.findAll({ where: where }).then(
     players => {
       res.json(players);
     },
@@ -59,7 +59,7 @@ app.get("/api/8ball_league", (req, res) => {
 app.post("/api/8ball_league/add/player", (req, res) => {
   let body = _.pick(req.body, "seasonId", "staffName");
 
-  db.eight_ball_leagues.create(body).then(
+  db.eight_ball_leaguess.create(body).then(
     player => {
       res.json(player.toJSON());
     },
@@ -77,7 +77,7 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     staffName: body.staffName
   };
 
-  db.eight_ball_leagues
+  db.eight_ball_leaguess
     .destroy({
       where: attributes
     })
@@ -132,8 +132,21 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
 });
 
 //PUT 8 BALL EDIT SCORE IN FIXTURE
+//needs to set suitable variables according to the league values
 app.put("/api/8ball_league/edit/fixture", (req, res) => {
   //Add fixtureId attributes later
+  /*when a match is added:
+for each name:
+	increment P
+	if loss: increment L
+	if win: increment w
+	if draw: increment D
+	increment F by their score
+	increment A by the others score
+	add F and W for points
+*/
+
+  console.log(results);
   const body = _.pick(
     req.body,
     "seasonId",
@@ -143,6 +156,15 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
     "score2"
   );
 
+  console.log("WWWWWWW");
+  db.eight_ball_leagues.findAll({
+   where: {
+     staffName: body.player1
+   }
+  }).then(function(results) {
+    console.log(results)
+  });
+
   const Attributes = {
     seasonId: body.seasonId,
     //fixtureId: body.fixtureId
@@ -151,6 +173,25 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
     player2: body.player2,
     score2: body.score2
   };
+
+  //contains attributes to be given to player1
+  //inc P
+  //inc L D or W depending on result
+  //inc F by w+d
+  //ind a by l
+  //add f and w for points
+  const lgAttributes1 = {
+    seasonId: body.seasonId,
+    //fixtureId: body.fixtureId,
+    w: body.player1 //plus the value within the league table
+  }
+
+  //contains attributes to be given to player2
+  const lgAttributes2 = {
+    seasonId: body.seasonId,
+    //fixtureId: body.fixtureId,
+    w: body.player
+  }
 
   db.eight_ball_fixtures
     .findOne({
@@ -182,18 +223,30 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
         //Error
         res.status(500).send();
       }
-    );
+    ). then(
+      db.eight_ball_leagues
+      .findOne({
+        where: {
+          seasonId: body.seasonId,
+          //fixtureId: body.fixtureId,
+          staffName: body.player1
+        }
+      }). then (
+
+      )
+  );
 });
 
 //AUTOMATICALLY GENERATE FIXTURES - RUN WHEN ALL USERS ARE ADDED TO THE LEAGUE TABLE
 //REQUIRES: season ID input. Populated league table.
 //TODO: has to provide separate fixture ids
-      //Doable with n!/(k!*((n-k)!). Calculate how many rows will be needed, then divide this to reach a suitable value. Working on.
+      //There will be as many fixtures as there are players. Players must feature once in each fixture.
 //TODO: possible error - occasionally cannot access player2 column. unable to replicate.
 app.post("/api/8ball_league/generate/fixture", (req, res) => {
   let ctt;
-  var seasonID = req.body.season;
-
+  //let seasonID = req.body.season;
+  let seasonID = 11;
+  let fixID = 0;
   //count league rows and store this in ctt
   db.eight_ball_leagues.count().then(c => {
     console.log("There are " + c + " projects!");
@@ -205,18 +258,24 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
       attributes: ['staffName']
     }).then(function(results) {
       //get total combinations (order unimportant)
-      totalRows = factorial(ctt)/2*(factorial(ctt-2)); // n!/(k!*((n-k)!)
+     // totalRows = factorial(ctt)/2*(factorial(ctt-2)); // n!/(k!*((n-k)!)
 
-      //determine the boundaries for splitting fixtures. aims for smaller groups when possible. same person must never play more than once in a week regardless of count
-      
+      //determine the boundaries for splitting fixtures. each player means a new fixture to ensure nobody plays more than once a week.
+      //unable to do this algorithmically
+      //before each insert, check for fixtures with a value of 1-5
+      //check fixture for matching names for player1 or player2 
+      //if no match, set fixtureid to the loop value
 
 
       //loop from 0 to max, setting the staff names on the fixture as is appropriate
       console.log('the count is ' + ctt);
-      for (var i = 0; i < ctt; i++) {
-        for (var j = i + 1; j < ctt; j++) {
+      for (let i = 0; i < ctt; i++) {
+        for (let j = i + 1; j < ctt; j++) {
+          for (let x = 1; x<=ctt; x++) {
+
+          }
           let notes = [
-            { seasonId: seasonID, fixtureId: '1', player1: results[i].staffName, player2: results[j].staffName} //occasionally can't access player2?
+            { seasonId: seasonID, fixtureId: fixID, player1: results[i].staffName, player2: results[j].staffName}
           ];
             db.eight_ball_fixtures.bulkCreate(notes, { validate: true }). then(() => {
               console.log('Fixtures generated.');
@@ -230,16 +289,19 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
   });
 })
 
-//get the factorial of an integer
-function factorial(num) {
-  var result = num;
-  if (num === 0 || num === 1) 
-    return 1; 
-  while (num > 1) { 
-    num--;
-    result *= num;
+//return lowest fixture not already containing the player
+//used for fixture division
+function suitableFixture (leagueId, name, maxCount) {
+  for (let fixt = 1; fixt <= maxCount; fixt++) {
+    return db.Profile.count({ where: { leagueId: leagueId, player1: name } })
+      .then(count => {
+        if (count === 0) {
+          return fixt;
+        }
+        return maxCount;
+    });
+    //check player1 and player2 of rows matching the leagueid and fixid do not contain
   }
-  return result;
 }
 
 //{force: true} to start with clean table
