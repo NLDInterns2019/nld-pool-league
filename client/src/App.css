@@ -9,6 +9,14 @@ body {
   min-width: 1400px;
 }
 
+/* ==== Headings ==== */
+h3 {
+  margin: 0rem;
+  font-size: 24pt;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
 /* ==== Header ==== */
 .header {
   background-color: #0f5d0f;
@@ -162,12 +170,6 @@ table td {
   width: 150px;
 }
 
-.submitScoreForm h2,
-.viewYourFixtures h2,
-.createSeasonForm h2 {
-  margin-top: 0rem;
-}
-
 #score1,
 #score2 {
   width: 75px;
@@ -226,7 +228,7 @@ button:hover {
 .seasons .content li {
   list-style-type: none;
   font-size: 24pt;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 .seasons .content ul {
@@ -247,10 +249,6 @@ button:hover {
 
 .seasons .content ul {
   margin: 0rem;
-}
-
-.seasons .content li {
-  padding-bottom: 1rem;
 }
 
 .seasons .contentLeft .seasonsList {
