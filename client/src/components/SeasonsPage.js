@@ -4,6 +4,7 @@ import Header from "./Header.js";
 import "../App.css";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 import { Link } from "react-router-dom";
+import SeasonsList from "./SeasonsList.js";
 
 class SeasonsPage extends Component {
   constructor(props) {
@@ -28,14 +29,13 @@ class SeasonsPage extends Component {
         <SubNavBar current="Seasons" />
         <div className="content">
           <div className="contentLeft">
-            <ul>
-              <li>
-                <Link to="/8-ball/overview">Season 1</Link>
-              </li>
-            </ul>
-            <button type="button" onClick={this.openPopUp}>
-              + Add new season
-            </button>
+            <div className="seasonsListContainer">
+              <SeasonsList />
+              <br />
+              <button type="button" onClick={this.openPopUp}>
+                + Add new season
+              </button>
+            </div>
           </div>
           <div className="contentRight">
             <div className="form-popup" id="popup">

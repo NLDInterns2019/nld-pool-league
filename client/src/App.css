@@ -256,6 +256,11 @@ button:hover {
   padding-bottom: 1rem;
 }
 
+.seasons .contentLeft .seasonsList {
+  text-align: left;
+  margin-left: 2.5rem;
+}
+
 /* ==== Popup ==== */
 .form-popup .createSeasonForm .removeBtn {
   background-color: #c40000;
@@ -269,10 +274,15 @@ button:hover {
   display: none;
 }
 
+.form-popup button {
+  margin-top: 0.5rem;
+}
+
 /* ==== View your fixtures ==== */
 .viewYourFixtures,
 .submitScoreForm,
-.createSeasonForm {
+.createSeasonForm,
+.seasonsListContainer {
   background-color: white;
   width: 600px;
   margin: auto;
