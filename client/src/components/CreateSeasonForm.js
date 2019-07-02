@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 class CreateSeasonForm extends Component {
   constructor(props) {
@@ -46,7 +45,6 @@ class CreateSeasonForm extends Component {
       alert("Not a valid input");
       this.hasInvalidCells = false;
     } else {
-      console.log("Players: " + this.state.players);
       this.props.createSeason(this.state);
       this.setState(this.initialState);
     }

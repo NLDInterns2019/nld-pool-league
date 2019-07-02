@@ -34,8 +34,8 @@ class App extends React.Component {
     }
   };
 
-  createSeason = async state => {
-    await Promise.all(
+  createSeason = state => {
+    Promise.all(
       state.players.map(player =>
         axios.post(
           "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
@@ -45,17 +45,41 @@ class App extends React.Component {
           }
         )
       )
-    );
-    //Auto generate fixture
-    await axios.post(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture"
-    );
-    this.setState({
-      activeSeason: state.seasonName,
-      //To force update
-      refresh: !this.state.refresh
-    });
+    )
+      .then(() =>
+        axios.post(
+          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture"
+        )
+      )
+      .then(() =>
+        this.setState({
+          activeSeason: state.seasonName,
+          //To force update
+          refresh: !this.state.refresh
+        })
+      );
   };
+
+  // //ALTERNATIVE
+  // createSeason = async state => {
+  //   await Promise.all(
+  //     state.players.map(player =>
+  //       axios.post(
+  //         "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
+  //         {
+  //           seasonId: state.seasonName,
+  //           staffName: player
+  //         }
+  //       )
+  //     )
+  //   );
+  //   await axios.post("http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture");
+  //   this.setState({
+  //       activeSeason: state.seasonName,
+  //       //To force update
+  //       refresh: !this.state.refresh
+  //     });
+  // };
 
   render() {
     return (
