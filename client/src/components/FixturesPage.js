@@ -3,6 +3,7 @@ import Header from "./Header";
 import SubNavBar from "./SubNavBar";
 import SubmitScoreForm from "./SubmitScoreForm";
 import ViewYourFixtures from "./ViewYourFixtures";
+import ArrangeFixture from "./ArrangeFixture";
 
 const FixturesPage = () => {
   return (
@@ -15,6 +16,7 @@ const FixturesPage = () => {
         </div>
         <div className="contentRight">
           <SubmitScoreForm />
+          <ArrangeFixture />
         </div>
       </div>
     </div>
