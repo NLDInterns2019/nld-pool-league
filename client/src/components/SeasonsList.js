@@ -20,6 +20,7 @@ const SeasonsList = props => {
   });
   return (
     <div className="seasonsList">
+      <h3>List of Seasons</h3>
       <ul>
         <li>{listToBeDisplayed}</li>
       </ul>

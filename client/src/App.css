@@ -84,7 +84,7 @@ h3 {
   padding-bottom: 0.5rem;
   background-color: #999999;
   box-shadow: 0px 8px 10px -6px;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .subnav ul {
@@ -205,15 +205,18 @@ select {
 button {
   background-color: #0f5d0f;
   color: white;
-  font-family: Montserrat;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  font-family: "Montserrat";
+  padding: 5px 15px 5px 15px;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
   border-radius: 8px;
-  font-size: 12pt;
+  font-size: 14pt;
 }
 
 button:hover {
   cursor: pointer;
+  font-weight: bold;
 }
 
 #createNewSeason {
@@ -225,35 +228,27 @@ button:hover {
   margin-left: 0.5rem;
 }
 
+/* ==== Seasons Page ==== */
 .seasons .content li {
   list-style-type: none;
-  font-size: 24pt;
-  padding-bottom: 1rem;
+  font-size: 20pt;
 }
 
 .seasons .content ul {
   padding-left: 0rem;
-}
-
-.seasons .content button {
-  background-color: #0f5d0f;
-  color: white;
-  font-family: Montserrat;
-  padding: 5px 15px 5px 15px;
+  text-align: left;
+  margin: 0rem;
 }
 
 .seasons .content a {
   text-decoration: none;
   color: black;
+  display: block;
+  padding: 1rem;
 }
 
-.seasons .content ul {
-  margin: 0rem;
-}
-
-.seasons .contentLeft .seasonsList {
-  text-align: left;
-  margin-left: 2.5rem;
+.seasons .content a:hover {
+  background-color: #f2f2f2;
 }
 
 /* ==== Popup ==== */
@@ -278,12 +273,35 @@ button:hover {
 .submitScoreForm,
 .seasonsListContainer,
 .app .createSeasonForm,
-.form-popup {
+.form-popup,
+.arrangeFixture {
   background-color: white;
   width: 600px;
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
+}
+
+.arrangeFixture {
+  margin-top: 8rem;
+}
+
+.arrangeFixture label {
+  padding-right: 0.5rem;
+}
+
+.arrangeFixture form {
+  text-align: right;
+  width: 50%;
+  margin: auto;
+}
+
+.arrangeFixture select {
+  margin-bottom: 1rem;
+}
+
+.arrangeFixtureBtn {
+  text-align: center;
 }
 
 .viewYourFixtures label {
