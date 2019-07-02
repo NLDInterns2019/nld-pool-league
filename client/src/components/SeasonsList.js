@@ -1,13 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const SeasonsList = () => {
+const SeasonsList = props => {
+  const listToBeDisplayed = props.seasons.map(season => {
+    return (
+      <div>
+        <Link
+          to={{
+            pathname: "/8-ball/overview",
+            state: {
+              activeSeason: season.DISTINCT
+            }
+          }}
+        >
+          Season {season.DISTINCT}
+        </Link>
+      </div>
+    );
+  });
   return (
     <div className="seasonsList">
       <ul>
-        <li>
-          <Link to="/8-ball/overview">Season 1</Link>
-        </li>
+        <li>{listToBeDisplayed}</li>
       </ul>
     </div>
   );
