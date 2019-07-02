@@ -161,6 +161,12 @@ table td {
   width: 150px;
 }
 
+.submitScoreForm h2,
+.viewYourFixtures h2,
+.createSeasonForm h2 {
+  margin-top: 0rem;
+}
+
 #score1,
 #score2 {
   width: 75px;
@@ -168,7 +174,8 @@ table td {
 
 /* ==== Inputs ==== */
 input::placeholder,
-input {
+input,
+select {
   font-family: "Montserrat";
   font-size: 12pt;
 }
@@ -229,26 +236,25 @@ button:hover {
 }
 
 /* ==== Popup ==== */
-.form-popup {
-  background-color: white;
-  min-width: 450px;
-  width: 450px;
-  margin: auto;
-  text-align: center;
-  padding: 2rem;
-  border-radius: 15px;
-  display: none;
-  position: relative;
-}
-
-.form-popup .createSeasonForm {
-  margin-bottom: 0rem;
-}
-
 .form-popup .createSeasonForm .removeBtn {
   background-color: #c40000;
 }
 
 .form-popup h2 {
   margin-top: 0rem;
+}
+
+/* ==== View your fixtures ==== */
+.viewYourFixtures,
+.submitScoreForm,
+.createSeasonForm {
+  background-color: white;
+  width: 600px;
+  margin: auto;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+.viewYourFixtures label {
+  padding-right: 0.5rem;
 }

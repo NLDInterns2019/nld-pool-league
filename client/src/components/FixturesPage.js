@@ -1,6 +1,8 @@
 import React from "react";
 import Header from "./Header";
 import SubNavBar from "./SubNavBar";
+import SubmitScoreForm from "./SubmitScoreForm";
+import ViewYourFixtures from "./ViewYourFixtures";
 
 const FixturesPage = () => {
   return (
@@ -8,12 +10,12 @@ const FixturesPage = () => {
       <Header />
       <SubNavBar current="Fixtures" />
       <div className="content">
-        <form>
-          <input type="text" id="searchName" />
-          <button type="button" id="searchButton">
-            Search
-          </button>
-        </form>
+        <div className="contentLeft">
+          <ViewYourFixtures />
+        </div>
+        <div className="contentRight">
+          <SubmitScoreForm />
+        </div>
       </div>
     </div>
   );
