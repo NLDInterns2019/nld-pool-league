@@ -4,6 +4,7 @@ const _ = require("underscore");
 const cors = require("cors");
 const db = require("./db.js");
 
+//REMEMBER TO CHECK THE PORT
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -17,14 +18,16 @@ app.get("/", (req, res) => {
 
 //GET 8 BALL SEASONS (for the seasons list)
 app.get("/api/8ball_season", (req, res) => {
-  db.eight_ball_seasons.findAll({ where: {} }).then(
-    seasons => {
-      res.json(seasons);
-    },
-    e => {
-      res.status(400).send();
-    }
-  );
+  db.eight_ball_leagues
+    .aggregate("SeasonId", "DISTINCT", { plain: false })
+    .then(
+      seasons => {
+        res.json(seasons);
+      },
+      e => {
+        res.status(400).send();
+      }
+    );
 });
 
 //POST 8 BALL SEASONS (add new seasons)
@@ -41,11 +44,27 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
   );
 });
 
-//GET 8 BALL LEAGUE
+//GET ALL 8 BALL LEAGUE
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
   db.eight_ball_leagues.findAll({ where: where }).then(
+    players => {
+      res.json(players);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//GET SPECIFIC 8 BALL LEAGUE
+app.get("/api/8ball_league/:seasonId", (req, res) => {
+  let seasonId;
+
+  if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
+
+  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId } }).then(
     players => {
       res.json(players);
     },
@@ -95,11 +114,27 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     );
 });
 
-//GET 8 BALL FIXTURE
+//GET ALL 8 BALL FIXTURE
 app.get("/api/8ball_league/fixture", (req, res) => {
   let where = {};
 
   db.eight_ball_fixtures.findAll({ where: where }).then(
+    fixtures => {
+      res.json(fixtures);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//GET SPECIFIC 8 BALL FIXTURE
+app.get("/api/8ball_league/fixture/:seasonId", (req, res) => {
+  let seasonId;
+
+  if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
+
+  db.eight_ball_fixtures.findAll({ where: { seasonId: seasonId } }).then(
     fixtures => {
       res.json(fixtures);
     },
@@ -193,7 +228,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 app.post("/api/8ball_league/generate/fixture", (req, res) => {
   const body = _.pick(req.body, "seasonId");
   let ctt;
-  
+
   let seasonID = body.seasonId;
   //let seasonID = 11;
   let fixID = 0;

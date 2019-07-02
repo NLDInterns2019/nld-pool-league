@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
 import CreateSeasonForm from "./CreateSeasonForm.js";
-import { Link } from "react-router-dom";
 import SeasonsList from "./SeasonsList.js";
 
 class SeasonsPage extends Component {
@@ -12,6 +13,17 @@ class SeasonsPage extends Component {
     this.state = {
       seasons: []
     };
+  }
+
+  getSeasonsList = async () => {
+    const response = await axios.get(
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_season"
+    );
+    this.setState({ seasons: response.data });
+  };
+
+  componentDidMount() {
+    this.getSeasonsList();
   }
 
   openPopUp() {
@@ -30,7 +42,7 @@ class SeasonsPage extends Component {
         <div className="content">
           <div className="contentLeft">
             <div className="seasonsListContainer">
-              <SeasonsList />
+              <SeasonsList seasons={this.state.seasons} />
               <br />
               <button type="button" onClick={this.openPopUp}>
                 + Add new season

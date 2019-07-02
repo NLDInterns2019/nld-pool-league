@@ -8,23 +8,24 @@ import CreateSeasonForm from "./CreateSeasonForm.js";
 import SubmitScoreForm from "./SubmitScoreForm.js";
 
 class App extends React.Component {
-  state = { players: [], fixtures: [], activeSeason: "", refresh: "false" };
+  state = { players: [], fixtures: [], activeSeason: 0, refresh: "false" };
 
   updateData = async () => {
     const response = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/"
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/" +  this.state.activeSeason
     );
 
     this.setState({ players: response.data });
 
     const fixtures = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/fixture"
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/fixture/" + this.state.activeSeason
     );
 
     this.setState({ fixtures: fixtures.data });
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    await this.setState(this.props.location.state);
     this.updateData();
   };
 
@@ -89,7 +90,7 @@ class App extends React.Component {
       .put(
         "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/edit/fixture",
         {
-          seasonId: "1",
+          seasonId: this.state.activeSeason,
           player1: state.player1,
           score1: state.score1,
           player2: state.player2,
@@ -105,6 +106,8 @@ class App extends React.Component {
   };
 
   render() {
+    //HELP TO CHECK STATE
+    console.log(this.state);
     return (
       <div className="app">
         <Header />
