@@ -4,6 +4,7 @@ const _ = require("underscore");
 const cors = require("cors");
 const db = require("./db.js");
 
+//REMEMBER TO CHECK THE PORT
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -17,14 +18,16 @@ app.get("/", (req, res) => {
 
 //GET 8 BALL SEASONS (for the seasons list)
 app.get("/api/8ball_season", (req, res) => {
-  db.eight_ball_seasons.findAll({ where: {} }).then(
-    seasons => {
-      res.json(seasons);
-    },
-    e => {
-      res.status(400).send();
-    }
-  );
+  db.eight_ball_leagues
+    .aggregate("SeasonId", "DISTINCT", { plain: false })
+    .then(
+      seasons => {
+        res.json(seasons);
+      },
+      e => {
+        res.status(400).send();
+      }
+    );
 });
 
 //POST 8 BALL SEASONS (add new seasons)
@@ -193,7 +196,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 app.post("/api/8ball_league/generate/fixture", (req, res) => {
   const body = _.pick(req.body, "seasonId");
   let ctt;
-  
+
   let seasonID = body.seasonId;
   //let seasonID = 11;
   let fixID = 0;
