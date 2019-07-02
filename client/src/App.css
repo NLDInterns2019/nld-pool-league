@@ -6,6 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #f2f2f2;
+  min-width: 1400px;
 }
 
 /* ==== Header ==== */
@@ -91,6 +92,7 @@ body {
   position: absolute;
   width: 50%;
   text-align: center;
+  min-width: 700px;
 }
 
 .contentLeft {
@@ -209,7 +211,7 @@ button:hover {
   margin-left: 0.5rem;
 }
 
-/*.seasons .content {
+.seasons .content {
   width: 60%;
   margin: auto;
 }
@@ -229,4 +231,25 @@ button:hover {
   color: white;
   font-family: Montserrat;
   padding: 5px 15px 5px 15px;
-}*/
+}
+
+/* ==== Popup ==== */
+.form-popup {
+  background-color: white;
+  min-width: 450px;
+  width: 450px;
+  margin: auto;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 15px;
+  display: none;
+  position: relative;
+}
+
+.form-popup .createSeasonForm {
+  margin-bottom: 0rem;
+}
+
+.form-popup h2 {
+  margin-top: 0rem;
+}

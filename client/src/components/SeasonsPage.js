@@ -1,22 +1,32 @@
-import React from "react";
+import React, { Component } from "react";
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
+import Popup from "./Popup.js";
 import "../App.css";
 
-const SeasonsPage = () => {
-  return (
-    <div className="seasons">
-      <Header />
-      <SubNavBar current="Seasons" />
-      <div className="content">
-        <ul>
-          <li>Season 1</li>
-          <li>Season 2</li>
-        </ul>
-        <button type="button">+ Add new season</button>
+class SeasonsPage extends Component {
+  openPopUp() {
+    document.getElementById("popup").style.display = "block";
+  }
+
+  closePopUp() {
+    document.getElementById("popup").style.display = "none";
+  }
+
+  render() {
+    return (
+      <div className="seasons">
+        <Header />
+        <SubNavBar current="Seasons" />
+        <Popup onClose={this.closePopUp} />
+        <div className="content">
+          <button type="button" onClick={this.openPopUp}>
+            + Add new season
+          </button>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default SeasonsPage;
