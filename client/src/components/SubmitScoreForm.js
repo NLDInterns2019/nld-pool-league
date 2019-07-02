@@ -5,6 +5,15 @@ class SubmitScoreForm extends Component {
     super(props);
 
     this.hasInvalidCells = false;
+
+    this.initialState = {
+      score1: "",
+      player1: "",
+      score2: "",
+      player2: ""
+    };
+
+    this.state = this.initialState;
   }
 
   handleSubmit(e) {
@@ -20,12 +29,14 @@ class SubmitScoreForm extends Component {
     if (score1 + score2 !== 2) {
       this.hasInvalidCells = true;
     }
+
     if (this.hasInvalidCells) {
       alert("Not a valid input");
       this.hasInvalidCells = false;
     } else {
       /* submit score */
-      alert("Submitted!");
+      this.props.changeFixtureScore(this.state);
+      this.setState(this.initialState);
     }
   }
 
@@ -34,16 +45,34 @@ class SubmitScoreForm extends Component {
       <div className="submitScoreForm">
         <h2>Submit Score</h2>
         <form>
-          <label>Select a fixture:</label>
-          <select>
-            <option value="option1">A vs B</option>
-            <option value="option2">Mal vs Winston</option>
-            <option value="option3">A vs E</option>
-          </select>
-          <br />
-          <input type="number" placeholder="Score" id="score1" />
-          <label>vs</label>
-          <input type="number" placeholder="Score" id="score2" />
+          <input
+            type="number"
+            placeholder="Score"
+            id="score1"
+            value={this.state.score1}
+            onChange={e => this.setState({ score1: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Player 1"
+            id="player1"
+            value={this.state.player1}
+            onChange={e => this.setState({ player1: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Player 2"
+            id="player2"
+            value={this.state.player2}
+            onChange={e => this.setState({ player2: e.target.value })}
+          />
+          <input
+            type="number"
+            placeholder="Score"
+            id="score2"
+            value={this.state.score2}
+            onChange={e => this.setState({ score2: e.target.value })}
+          />
           <br />
           <button type="button" onClick={e => this.handleSubmit(e)}>
             Submit Score
