@@ -106,6 +106,10 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
 app.get("/api/8ball_league/fixture", (req, res) => {
   let where = {};
 
+  if(req.body.seasonId !== '') {
+    where.seasonId = req.body.seasonId;
+  }
+
   db.eight_ball_fixtures.findAll({ where: where }).then(
     fixtures => {
       res.json(fixtures);
