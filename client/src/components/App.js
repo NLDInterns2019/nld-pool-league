@@ -47,6 +47,7 @@ class App extends React.Component {
         )
       )
     );
+
     this.setState({
       activeSeason: state.seasonName,
       //To force update

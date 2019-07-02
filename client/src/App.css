@@ -211,11 +211,6 @@ button:hover {
   margin-left: 0.5rem;
 }
 
-.seasons .content {
-  width: 60%;
-  margin: auto;
-}
-
 .seasons .content li {
   list-style-type: none;
   font-size: 24pt;
@@ -248,6 +243,10 @@ button:hover {
 
 .form-popup .createSeasonForm {
   margin-bottom: 0rem;
+}
+
+.form-popup .createSeasonForm .removeBtn {
+  background-color: #c40000;
 }
 
 .form-popup h2 {

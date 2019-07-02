@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
-import Popup from "./Popup.js";
 import "../App.css";
+import CreateSeasonForm from "./CreateSeasonForm.js";
 
 class SeasonsPage extends Component {
   openPopUp() {
@@ -18,11 +18,20 @@ class SeasonsPage extends Component {
       <div className="seasons">
         <Header />
         <SubNavBar current="Seasons" />
-        <Popup onClose={this.closePopUp} />
         <div className="content">
-          <button type="button" onClick={this.openPopUp}>
-            + Add new season
-          </button>
+          <div className="contentLeft">
+            <button type="button" onClick={this.openPopUp}>
+              + Add new season
+            </button>
+          </div>
+          <div className="contentRight">
+            <div className="form-popup" id="popup">
+              <CreateSeasonForm createSeason={this.createSeason} />
+              <button type="button" onClick={this.closePopUp}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
