@@ -100,7 +100,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        {/*<SeasonsPage />*/}
         <Header />
         <SubNavBar current="Overview" />
         <div className="content">
