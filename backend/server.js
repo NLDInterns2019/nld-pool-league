@@ -77,7 +77,7 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     staffName: body.staffName
   };
 
-  db.eight_ball_leaguess
+  db.eight_ball_leagues
     .destroy({
       where: attributes
     })
