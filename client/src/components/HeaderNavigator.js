@@ -1,12 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import SeasonsPage from "./SeasonsPage";
-import FixturesPage from "./FixturesPage";
-import App from "./App.js";
+import { Link } from "react-router-dom";
 
 const HeaderNavigator = props => {
-  var current = props.current;
-
   return (
     <div className="nav">
       <ul>
