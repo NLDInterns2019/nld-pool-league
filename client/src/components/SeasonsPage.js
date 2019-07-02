@@ -3,6 +3,7 @@ import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
 import CreateSeasonForm from "./CreateSeasonForm.js";
+import { Link } from "react-router-dom";
 
 class SeasonsPage extends Component {
   constructor(props) {
@@ -27,6 +28,11 @@ class SeasonsPage extends Component {
         <SubNavBar current="Seasons" />
         <div className="content">
           <div className="contentLeft">
+            <ul>
+              <li>
+                <Link to="/8-ball/overview">Season 1</Link>
+              </li>
+            </ul>
             <button type="button" onClick={this.openPopUp}>
               + Add new season
             </button>

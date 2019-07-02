@@ -243,6 +243,19 @@ button:hover {
   padding: 5px 15px 5px 15px;
 }
 
+.seasons .content a {
+  text-decoration: none;
+  color: black;
+}
+
+.seasons .content ul {
+  margin: 0rem;
+}
+
+.seasons .content li {
+  padding-bottom: 1rem;
+}
+
 /* ==== Popup ==== */
 .form-popup .createSeasonForm .removeBtn {
   background-color: #c40000;
@@ -250,6 +263,10 @@ button:hover {
 
 .form-popup h2 {
   margin-top: 0rem;
+}
+
+.form-popup {
+  display: none;
 }
 
 /* ==== View your fixtures ==== */

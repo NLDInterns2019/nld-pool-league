@@ -67,7 +67,7 @@ class CreateSeasonForm extends Component {
             {this.state.players.map((player, index) => {
               return (
                 <div key={index}>
-                  <label>Player {index + 1}</label>
+                  <label>Player {index + 1}:</label>
                   {/* player name text input */}
                   <input
                     placeholder="Player name"
