@@ -289,6 +289,8 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
         };
       }
     });
+  }).then(()=> {
+    res.status(200).send();
   });
 })
 

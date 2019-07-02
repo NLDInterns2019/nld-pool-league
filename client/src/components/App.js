@@ -6,9 +6,6 @@ import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 import SubmitScoreForm from "./SubmitScoreForm.js";
-import { Route } from "react-router-dom";
-import SeasonsPage from "./SeasonsPage";
-import FixturesPage from "./FixturesPage";
 
 class App extends React.Component {
   state = { players: [], fixtures: [], activeSeason: "", refresh: "false" };
@@ -32,13 +29,13 @@ class App extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (this.state.activeSeason !== prevState.activeSeason) {
+    if (this.state.refresh !== prevState.refresh) {
       this.updateData();
     }
   };
 
-  createSeason = async state => {
-    await Promise.all(
+  createSeason = state => {
+    Promise.all(
       state.players.map(player =>
         axios.post(
           "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
@@ -48,14 +45,45 @@ class App extends React.Component {
           }
         )
       )
-    );
-
-    this.setState({
-      activeSeason: state.seasonName,
-      //To force update
-      refresh: !this.state.refresh
-    });
+    )
+      .then(() =>
+        axios.post(
+          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture"
+        )
+      )
+      .then(() =>
+        this.setState({
+          activeSeason: state.seasonName,
+          //To force update
+          refresh: !this.state.refresh
+        })
+      );
   };
+
+  // changeFixtureScore = state ={
+
+  // }
+
+  // //ALTERNATIVE
+  // createSeason = async state => {
+  //   await Promise.all(
+  //     state.players.map(player =>
+  //       axios.post(
+  //         "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
+  //         {
+  //           seasonId: state.seasonName,
+  //           staffName: player
+  //         }
+  //       )
+  //     )
+  //   );
+  //   await axios.post("http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture");
+  //   this.setState({
+  //       activeSeason: state.seasonName,
+  //       //To force update
+  //       refresh: !this.state.refresh
+  //     });
+  // };
 
   render() {
     return (
@@ -68,7 +96,7 @@ class App extends React.Component {
             <CreateSeasonForm createSeason={this.createSeason} />
           </div>
           <div className="contentRight">
-            <SubmitScoreForm />
+            <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             <FixtureTable fixtures={this.state.fixtures} />
           </div>
         </div>
