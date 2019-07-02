@@ -18,7 +18,7 @@ class App extends React.Component {
     this.setState({ players: response.data });
 
     const fixtures = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/fixture/" + this.state.activeSeason
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_fixture" + this.state.activeSeason
     );
 
     this.setState({ fixtures: fixtures.data });

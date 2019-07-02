@@ -115,7 +115,7 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
 });
 
 //GET ALL 8 BALL FIXTURE
-app.get("/api/8ball_league/fixture", (req, res) => {
+app.get("/api/8ball_fixture", (req, res) => {
   let where = {};
 
   db.eight_ball_fixtures.findAll({ where: where }).then(
@@ -129,7 +129,7 @@ app.get("/api/8ball_league/fixture", (req, res) => {
 });
 
 //GET SPECIFIC 8 BALL FIXTURE
-app.get("/api/8ball_league/fixture/:seasonId", (req, res) => {
+app.get("/api/8ball_fixture/:seasonId", (req, res) => {
   let seasonId;
 
   if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
