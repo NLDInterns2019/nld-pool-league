@@ -43,7 +43,7 @@ class SubmitScoreForm extends Component {
   render() {
     return (
       <div className="submitScoreForm">
-        <h2>Submit Score</h2>
+        <h3>Submit Score</h3>
         <form>
           <input
             type="number"

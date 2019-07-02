@@ -9,6 +9,14 @@ body {
   min-width: 1400px;
 }
 
+/* ==== Headings ==== */
+h3 {
+  margin: 0rem;
+  font-size: 24pt;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
 /* ==== Header ==== */
 .header {
   background-color: #0f5d0f;
@@ -140,9 +148,6 @@ table td {
 }
 
 /* ==== Create New Season Form ==== */
-.createSeasonForm {
-  margin-bottom: 8rem;
-}
 
 .createSeasonForm label,
 .submitScoreForm label {
@@ -163,12 +168,6 @@ table td {
   margin-right: 0.5rem;
   margin-top: 0.5rem;
   width: 150px;
-}
-
-.submitScoreForm h2,
-.viewYourFixtures h2,
-.createSeasonForm h2 {
-  margin-top: 0rem;
 }
 
 #score1,
@@ -229,7 +228,7 @@ button:hover {
 .seasons .content li {
   list-style-type: none;
   font-size: 24pt;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 .seasons .content ul {
@@ -252,8 +251,9 @@ button:hover {
   margin: 0rem;
 }
 
-.seasons .content li {
-  padding-bottom: 1rem;
+.seasons .contentLeft .seasonsList {
+  text-align: left;
+  margin-left: 2.5rem;
 }
 
 /* ==== Popup ==== */
@@ -269,10 +269,16 @@ button:hover {
   display: none;
 }
 
+.form-popup button {
+  margin-top: 0.5rem;
+}
+
 /* ==== View your fixtures ==== */
 .viewYourFixtures,
 .submitScoreForm,
-.createSeasonForm {
+.seasonsListContainer,
+.app .createSeasonForm,
+.form-popup {
   background-color: white;
   width: 600px;
   margin: auto;

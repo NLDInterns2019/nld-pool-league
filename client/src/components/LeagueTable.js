@@ -4,7 +4,7 @@ import LeagueTableBody from "./LeagueTableBody";
 const LeagueTable = props => {
   return (
     <div className="leagueTableContainer">
-      <h2>League Table</h2>
+      <h3>League Table</h3>
       <table className="leagueTable" cellSpacing="0">
         <thead>
           <tr>

@@ -4,7 +4,7 @@ import FixtureTableBody from "./FixtureTableBody";
 const FixtureTable = props => {
   return (
     <div className="fixtureTableContainer">
-      <h2>List of Fixtures</h2>
+      <h3>List of Fixtures</h3>
       <table className="fixtureTable" cellSpacing="0">
         <thead>
           <tr>

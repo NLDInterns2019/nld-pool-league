@@ -3,7 +3,7 @@ import React from "react";
 const ViewYourFixtures = () => {
   return (
     <div className="viewYourFixtures">
-      <h2>View Your Fixtures</h2>
+      <h3>View Your Fixtures</h3>
       <form>
         <label>Select your name:</label>
         <select>
