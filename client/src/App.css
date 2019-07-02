@@ -140,9 +140,6 @@ table td {
 }
 
 /* ==== Create New Season Form ==== */
-.createSeasonForm {
-  margin-bottom: 8rem;
-}
 
 .createSeasonForm label,
 .submitScoreForm label {
@@ -281,8 +278,9 @@ button:hover {
 /* ==== View your fixtures ==== */
 .viewYourFixtures,
 .submitScoreForm,
-.createSeasonForm,
-.seasonsListContainer {
+.seasonsListContainer,
+.app .createSeasonForm,
+.form-popup {
   background-color: white;
   width: 600px;
   margin: auto;
