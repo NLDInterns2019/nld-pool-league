@@ -63,19 +63,6 @@ class App extends React.Component {
       );
   };
 
-  changeFixtureScore = async state => {
-    axios.put(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/edit/fixture",
-      {
-        seasonId: "1",
-        player1: state.player1,
-        score1: state.score1,
-        player2: state.player2,
-        score2: state.score2
-      }
-    );
-  };
-
   // //ALTERNATIVE
   // createSeason = async state => {
   //   await Promise.all(
@@ -96,6 +83,26 @@ class App extends React.Component {
   //       refresh: !this.state.refresh
   //     });
   // };
+
+  changeFixtureScore = async state => {
+    await axios
+      .put(
+        "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/edit/fixture",
+        {
+          seasonId: "1",
+          player1: state.player1,
+          score1: state.score1,
+          player2: state.player2,
+          score2: state.score2
+        }
+      )
+      .then(() =>
+        this.setState({
+          //To force update
+          refresh: !this.state.refresh
+        })
+      );
+  };
 
   render() {
     return (

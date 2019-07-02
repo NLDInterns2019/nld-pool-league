@@ -40,12 +40,14 @@ class SubmitScoreForm extends Component {
     if (score1 + score2 !== 2) {
       this.hasInvalidCells = true;
     }
+
     if (this.hasInvalidCells) {
       alert("Not a valid input");
       this.hasInvalidCells = false;
     } else {
       /* submit score */
       this.props.changeFixtureScore(this.state);
+      this.setState(this.initialState);
     }
   }
 
