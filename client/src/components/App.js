@@ -46,6 +46,10 @@ class App extends React.Component {
         )
       )
     );
+    //Auto generate fixture
+    await axios.post(
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture"
+    );
     this.setState({
       activeSeason: state.seasonName,
       //To force update
