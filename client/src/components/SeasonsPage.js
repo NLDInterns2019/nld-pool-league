@@ -5,6 +5,13 @@ import "../App.css";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 
 class SeasonsPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seasons: []
+    };
+  }
+
   openPopUp() {
     document.getElementById("popup").style.display = "block";
   }

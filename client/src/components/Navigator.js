@@ -1,4 +1,8 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import SeasonsPage from "./SeasonsPage";
+import FixturesPage from "./FixturesPage";
+import App from "./App.js";
 
 const Navigator = props => {
   var currentStyle = {
@@ -9,13 +13,13 @@ const Navigator = props => {
   const itemsToBeDisplayed = props.items.map(item =>
     current === item ? (
       <li key={item}>
-        <a href="" style={currentStyle}>
+        <Link to={"/" + { item }} style={currentStyle}>
           {item}
-        </a>
+        </Link>
       </li>
     ) : (
       <li key={item}>
-        <a href="">{item}</a>
+        <Link to={"/" + { item }}>{item}</Link>
       </li>
     )
   );

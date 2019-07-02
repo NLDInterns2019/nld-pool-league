@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import Navigator from "./Navigator.js";
+import HeaderNavigator from "./HeaderNavigator.js";
 
 const Header = () => {
   return (
@@ -9,7 +9,7 @@ const Header = () => {
         <h1>POOL MANAGER</h1>
       </div>
       <div className="headerRight">
-        <Navigator current="8-Ball" items={["8-Ball", "9-Ball", "Billiards"]} />
+        <HeaderNavigator current="8-Ball" />
       </div>
     </div>
   );
