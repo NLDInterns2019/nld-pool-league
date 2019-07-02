@@ -6,7 +6,6 @@ import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
 import CreateSeasonForm from "./CreateSeasonForm.js";
 import SubmitScoreForm from "./SubmitScoreForm.js";
-import SeasonsPage from "./SeasonsPage";
 
 class App extends React.Component {
   state = { players: [], fixtures: [], activeSeason: "", refresh: "false" };
@@ -30,7 +29,7 @@ class App extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (this.state.activeSeason !== prevState.activeSeason) {
+    if (this.state.refresh !== prevState.refresh) {
       this.updateData();
     }
   };
@@ -60,6 +59,11 @@ class App extends React.Component {
         })
       );
   };
+
+
+  // changeFixtureScore = state ={
+
+  // }
 
   // //ALTERNATIVE
   // createSeason = async state => {
@@ -94,7 +98,7 @@ class App extends React.Component {
             <CreateSeasonForm createSeason={this.createSeason} />
           </div>
           <div className="contentRight">
-            <SubmitScoreForm />
+            <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             <FixtureTable fixtures={this.state.fixtures} />
           </div>
         </div>
