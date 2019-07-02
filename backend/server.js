@@ -45,7 +45,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leaguess.findAll({ where: where }).then(
+  db.eight_ball_leagues.findAll({ where: where }).then(
     players => {
       res.json(players);
     },
@@ -173,6 +173,19 @@ for each name:
     player2: body.player2,
     score2: body.score2
   };
+  //FIRST: get all the values usable from the league table
+  //ignore everything else
+
+  db.eight_ball_leagues
+   .findOne({
+     where: {
+       seasonId: body.seasonId,
+       //fixtureId: body.fixtureId,
+       staffName: body.player1
+     }
+   }). then (
+     console.log(result)
+   )
 
   //contains attributes to be given to player1
   //inc P
@@ -223,17 +236,7 @@ for each name:
         //Error
         res.status(500).send();
       }
-    ). then(
-      db.eight_ball_leagues
-      .findOne({
-        where: {
-          seasonId: body.seasonId,
-          //fixtureId: body.fixtureId,
-          staffName: body.player1
-        }
-      }). then (
-
-      )
+    
   );
 });
 
