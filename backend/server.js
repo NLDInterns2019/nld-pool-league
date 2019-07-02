@@ -44,15 +44,27 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
   );
 });
 
-//GET 8 BALL LEAGUE
+//GET ALL 8 BALL LEAGUE
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  if(req.body.seasonId !== '') {
-    where.seasonId = req.body.seasonId;
-  }
-
   db.eight_ball_leagues.findAll({ where: where }).then(
+    players => {
+      res.json(players);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//GET SPECIFIC 8 BALL LEAGUE
+app.get("/api/8ball_league/:seasonId", (req, res) => {
+  let seasonId;
+
+  if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
+
+  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId } }).then(
     players => {
       res.json(players);
     },
@@ -102,15 +114,27 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     );
 });
 
-//GET 8 BALL FIXTURE
+//GET ALL 8 BALL FIXTURE
 app.get("/api/8ball_league/fixture", (req, res) => {
   let where = {};
 
-  if(req.body.seasonId !== '') {
-    where.seasonId = req.body.seasonId;
-  }
-
   db.eight_ball_fixtures.findAll({ where: where }).then(
+    fixtures => {
+      res.json(fixtures);
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
+});
+
+//GET SPECIFIC 8 BALL FIXTURE
+app.get("/api/8ball_league/fixture/:seasonId", (req, res) => {
+  let seasonId;
+
+  if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
+
+  db.eight_ball_fixtures.findAll({ where: { seasonId: seasonId } }).then(
     fixtures => {
       res.json(fixtures);
     },
