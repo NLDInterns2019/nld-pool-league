@@ -59,7 +59,7 @@ app.get("/api/8ball_league", (req, res) => {
 app.post("/api/8ball_league/add/player", (req, res) => {
   let body = _.pick(req.body, "seasonId", "staffName");
 
-  db.eight_ball_leaguess.create(body).then(
+  db.eight_ball_leagues.create(body).then(
     player => {
       res.json(player.toJSON());
     },
