@@ -15,10 +15,10 @@ const LandingPage = () => {
               <Link to="/8-ball/overview">8-Ball</Link>
             </li>
             <li>
-              <Link to="/8-ball/overview">9-Ball</Link>
+              <Link to="/9-ball/overview">9-Ball</Link>
             </li>
             <li>
-              <Link to="/8-ball/overview">Billiards</Link>
+              <Link to="/billiards/overview">Billiards</Link>
             </li>
           </ul>
         </div>

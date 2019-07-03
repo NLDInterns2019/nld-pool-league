@@ -8,7 +8,6 @@ import LandingPage from "./components/LandingPage.js";
 
 ReactDOM.render(
   <Router>
-    {/*<App />*/}
     <Route exact path="/" component={LandingPage} />
     <Route exact path="/8-ball" component={App} />
     <Route exact path="/9-ball" component={App} />
