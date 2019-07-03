@@ -48,7 +48,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leagues.findAll({ where: where }).then(
+  db.eight_ball_leagues.findAll({where: where}).then(
     players => {
       res.json(players);
     },
@@ -64,7 +64,7 @@ app.get("/api/8ball_league/:seasonId", (req, res) => {
 
   if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
 
-  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId } }).then(
+  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId }, order: [['points', 'desc']]}).then(
     players => {
       res.json(players);
     },
@@ -202,8 +202,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
       where: {
         staffName: Attributes.player1
       }
-    })
-    .then(function(results) {
+    }).then(function(results) {
       let leagueRow1 = results; //leaguerow1 contains the league row for player1
       db.eight_ball_leagues
         .findOne({
@@ -299,7 +298,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
                 if (league) {
                   league.update(lgAttributes2).then(
                     result => {
-                      res.json(result.toJSON());
+                      //  res.json(result.toJSON());
                     },
                     e => {
                       //league found but somethow update fail
