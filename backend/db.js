@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
-var env = process.env.NODE_ENV || "development";
+//var env = process.env.NODE_ENV || "development";
 
 let sequelize;
 
-if (env === "production") {
+// if (env === "production") {
   sequelize = new Sequelize(
     "NldPoolLeague",
     "nldpoolleague",
@@ -18,12 +18,12 @@ if (env === "production") {
       }
     }
   );
-} else {
-  sequelize = new Sequelize(undefined, undefined, undefined, {
-    dialect: "sqlite",
-    storage: __dirname + "/data/nld-pool-db.sqlite"
-  });
-}
+// } else {
+//   sequelize = new Sequelize(undefined, undefined, undefined, {
+//     dialect: "sqlite",
+//     storage: __dirname + "/data/nld-pool-db.sqlite"
+//   });
+// }
 
 sequelize
   .authenticate()

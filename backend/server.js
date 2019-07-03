@@ -202,7 +202,8 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
       where: {
         staffName: Attributes.player1
       }
-    }).then(function(results) {
+    })
+    .then(function(results) {
       let leagueRow1 = results; //leaguerow1 contains the league row for player1
       db.eight_ball_leagues
         .findOne({
@@ -298,7 +299,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
                 if (league) {
                   league.update(lgAttributes2).then(
                     result => {
-                        res.json(result.toJSON());
+                      res.json(result.toJSON());
                     },
                     e => {
                       //league found but somethow update fail
@@ -378,7 +379,6 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
           where: { seasonId: seasonID }
         })
         .then(function(results) {
-          
           //loop from 0 to max, setting the staff names on the fixture as is appropriate
           console.log("the count is " + ctt);
           for (let i = 0; i < ctt; i++) {
