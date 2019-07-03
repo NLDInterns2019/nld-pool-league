@@ -249,7 +249,6 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
           //unable to do this algorithmically
           //before each insert, check for fixtures with a value of 1-5
           //check fixture for matching names for player1 or player2
-          //if no match, set fixtureid to the loop value
 
           //loop from 0 to max, setting the staff names on the fixture as is appropriate
           console.log("the count is " + ctt);
