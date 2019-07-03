@@ -11,7 +11,7 @@ const Header = () => {
         <Link to="/">POOL MANAGER</Link>
       </div>
       <div className="headerRight">
-        {!matchPath(currentPath, { path: "/", exact: false }) ? (
+        {!matchPath(currentPath, { path: "/", exact: true }) ? (
           <HeaderNavigator />
         ) : (
           <div />

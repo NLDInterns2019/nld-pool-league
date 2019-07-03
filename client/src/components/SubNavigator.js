@@ -3,6 +3,8 @@ import { Link, matchPath } from "react-router-dom";
 
 const SubNavigator = props => {
   var currentPath = window.location.pathname;
+
+  /* makes 'seasons' link bold */
   var seasonsCurrentStyle = matchPath(currentPath, {
     path: "*/seasons",
     exact: false
@@ -12,6 +14,7 @@ const SubNavigator = props => {
       }
     : {};
 
+  /* makes 'fixtures' link bold */
   var fixturesCurrentStyle = matchPath(currentPath, {
     path: "*/fixtures",
     exact: false
@@ -21,6 +24,7 @@ const SubNavigator = props => {
       }
     : {};
 
+  /* makes 'overview' link bold */
   var overviewCurrentStyle =
     matchPath(currentPath, { path: "*/overview", exact: false }) ||
     matchPath(currentPath, { path: "/8-ball", exact: true }) ||

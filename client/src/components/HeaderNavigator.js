@@ -3,6 +3,7 @@ import { Link, matchPath } from "react-router-dom";
 
 const HeaderNavigator = () => {
   var currentPath = window.location.pathname;
+  /* makes '8-ball' bold */
   var eightBallCurrentStyle = matchPath(currentPath, {
     path: "/8-ball",
     exact: false
@@ -10,6 +11,7 @@ const HeaderNavigator = () => {
     ? { fontWeight: "bold" }
     : {};
 
+  /* makes '9-ball' bold */
   var nineBallCurrentStyle = matchPath(currentPath, {
     path: "/9-ball",
     exact: false
@@ -17,6 +19,7 @@ const HeaderNavigator = () => {
     ? { fontWeight: "bold" }
     : {};
 
+  /* makes 'billiards' bold */
   var billiardsCurrentStyle = matchPath(currentPath, {
     path: "/billiards",
     exact: false
