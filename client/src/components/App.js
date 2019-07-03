@@ -37,56 +37,6 @@ class App extends React.Component {
     }
   };
 
-  createSeason = state => {
-    Promise.all(
-      state.players.map(player =>
-        axios.post(
-          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
-          {
-            seasonId: state.seasonName,
-            staffName: player
-          }
-        )
-      )
-    )
-      .then(() =>
-        axios.post(
-          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture",
-          {
-            seasonId: state.seasonName
-          }
-        )
-      )
-      .then(() =>
-        this.setState({
-          activeSeason: state.seasonName,
-          //To force update
-          refresh: !this.state.refresh
-        })
-      );
-  };
-
-  // //ALTERNATIVE
-  // createSeason = async state => {
-  //   await Promise.all(
-  //     state.players.map(player =>
-  //       axios.post(
-  //         "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
-  //         {
-  //           seasonId: state.seasonName,
-  //           staffName: player
-  //         }
-  //       )
-  //     )
-  //   );
-  //   await axios.post("http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture");
-  //   this.setState({
-  //       activeSeason: state.seasonName,
-  //       //To force update
-  //       refresh: !this.state.refresh
-  //     });
-  // };
-
   changeFixtureScore = async state => {
     await axios
       .put(
@@ -117,7 +67,6 @@ class App extends React.Component {
         <div className="content">
           <div className="contentLeft">
             <LeagueTable players={this.state.players} />
-            <CreateSeasonForm createSeason={this.createSeason} />
           </div>
           <div className="contentRight">
             <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />

@@ -12,13 +12,13 @@ const LandingPage = () => {
           <h2>Select a variant</h2>
           <ul>
             <li>
-              <Link to="/8-ball/overview">8-Ball</Link>
+              <Link to="/8-ball/seasons">8-Ball</Link>
             </li>
             <li>
-              <Link to="/9-ball/overview">9-Ball</Link>
+              <Link to="/9-ball/seasons">9-Ball</Link>
             </li>
             <li>
-              <Link to="/billiards/overview">Billiards</Link>
+              <Link to="/billiards/seasons">Billiards</Link>
             </li>
           </ul>
         </div>

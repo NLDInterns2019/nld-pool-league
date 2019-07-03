@@ -48,7 +48,9 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leagues.findAll({ where: where }).then(
+  //ordering: order season ID descending. then order by descending points. then by descending wins. then descending goalsfor. then ascending goals against.
+  //eg: two users with identical id's, points and wins will be decided by who scored the highest cumilatively against other players.
+  db.eight_ball_leagues.findAll({where: where, order: [['seasonId', 'desc'],['points','desc'], ['win', 'desc'], ['goalsFor', 'desc'],['goalsAgainst', 'asc']]}).then(
     players => {
       res.json(players);
     },
@@ -64,7 +66,7 @@ app.get("/api/8ball_league/:seasonId", (req, res) => {
 
   if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
 
-  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId } }).then(
+  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId }, order: [['points', 'desc'], ['win', 'desc'], ['goalsFor', 'desc'],['goalsAgainst', 'asc']]}).then(
     players => {
       res.json(players);
     },
@@ -165,6 +167,7 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
   );
 });
 
+//WILL ONLY HANDLE ONE SEASON
 //PUT 8 BALL, UPDATE LEAGUE AND FIXTURES
 app.put("/api/8ball_league/edit/fixture", (req, res) => {
   //add fixtureID attributes later
@@ -188,26 +191,18 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
   };
   let lgAttributes1, lgAttributes2;
 
-  /*const getPlayer = async() => {
-    db.eight_ball_leagues.findOne({
-      where: {
-        staffName: Attributes.player1
-      }
-    })
-  }
-  getPlayer().then(result => console.log(result + "22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222"));*/
-
   db.eight_ball_leagues
     .findOne({
       where: {
+        seasonId: Attributes.seasonId,
         staffName: Attributes.player1
       }
-    })
-    .then(function(results) {
+    }).then(function(results) {
       let leagueRow1 = results; //leaguerow1 contains the league row for player1
       db.eight_ball_leagues
         .findOne({
           where: {
+            seasonId: Attributes.seasonId,
             staffName: Attributes.player2
           }
         })
@@ -264,6 +259,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
           db.eight_ball_leagues
             .findOne({
               where: {
+                seasonId: Attributes.seasonId,
                 staffName: Attributes.player1
               }
             })
@@ -290,6 +286,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
           db.eight_ball_leagues
             .findOne({
               where: {
+                seasonId: Attributes.seasonId,
                 staffName: Attributes.player2
               }
             })
@@ -299,7 +296,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
                 if (league) {
                   league.update(lgAttributes2).then(
                     result => {
-                      res.json(result.toJSON());
+                      //  res.json(result.toJSON());
                     },
                     e => {
                       //league found but somethow update fail
@@ -358,7 +355,6 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 //REQUIRES: season ID input. Populated league table.
 //TODO: has to provide separate fixture ids
 //There will be as many fixtures as there are players. Players must feature once in each fixture.
-//TODO: possible error - occasionally cannot access player2 column. unable to replicate.
 app.post("/api/8ball_league/generate/fixture", (req, res) => {
   const body = _.pick(req.body, "seasonId");
   let ctt;
