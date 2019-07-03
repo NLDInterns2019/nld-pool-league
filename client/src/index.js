@@ -9,9 +9,6 @@ import LandingPage from "./components/LandingPage.js";
 ReactDOM.render(
   <Router>
     <Route exact path="/" component={LandingPage} />
-    <Route exact path="/8-ball" component={App} />
-    <Route exact path="/9-ball" component={App} />
-    <Route exact path="/billiards" component={App} />
     <Route path="*/overview" component={App} />
     <Route path="*/seasons" component={SeasonsPage} />
     <Route path="*/fixtures" component={FixturesPage} />
