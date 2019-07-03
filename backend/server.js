@@ -48,7 +48,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
-  db.eight_ball_leagues.findAll({where: where}).then(
+  db.eight_ball_leagues.findAll({where: where, order: [['seasonId', 'desc'],['points','desc']]}).then(
     players => {
       res.json(players);
     },
