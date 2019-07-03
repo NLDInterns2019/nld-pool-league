@@ -12,13 +12,15 @@ class App extends React.Component {
 
   updateData = async () => {
     const response = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/" +  this.state.activeSeason
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/" +
+        this.state.activeSeason
     );
 
     this.setState({ players: response.data });
 
     const fixtures = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_fixture/" + this.state.activeSeason
+      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_fixture/" +
+        this.state.activeSeason
     );
 
     this.setState({ fixtures: fixtures.data });
@@ -111,7 +113,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <Header />
-        <SubNavBar current="Overview" />
+        <SubNavBar />
         <div className="content">
           <div className="contentLeft">
             <LeagueTable players={this.state.players} />

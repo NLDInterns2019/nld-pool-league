@@ -38,7 +38,7 @@ class SeasonsPage extends Component {
     return (
       <div className="seasons">
         <Header />
-        <SubNavBar current="Seasons" />
+        <SubNavBar />
         <div className="content">
           <div className="contentLeft">
             <div className="seasonsListContainer">
