@@ -167,6 +167,7 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
   );
 });
 
+//WILL ONLY HANDLE ONE SEASON
 //PUT 8 BALL, UPDATE LEAGUE AND FIXTURES
 app.put("/api/8ball_league/edit/fixture", (req, res) => {
   //add fixtureID attributes later
@@ -193,6 +194,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
   db.eight_ball_leagues
     .findOne({
       where: {
+        seasonId: Attributes.seasonId,
         staffName: Attributes.player1
       }
     }).then(function(results) {
@@ -200,6 +202,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
       db.eight_ball_leagues
         .findOne({
           where: {
+            seasonId: Attributes.seasonId,
             staffName: Attributes.player2
           }
         })
@@ -256,6 +259,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
           db.eight_ball_leagues
             .findOne({
               where: {
+                seasonId: Attributes.seasonId,
                 staffName: Attributes.player1
               }
             })
@@ -282,6 +286,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
           db.eight_ball_leagues
             .findOne({
               where: {
+                seasonId: Attributes.seasonId,
                 staffName: Attributes.player2
               }
             })
