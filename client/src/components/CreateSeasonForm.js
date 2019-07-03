@@ -17,29 +17,40 @@ class CreateSeasonForm extends Component {
     this.setState({ players: [...this.state.players, ""] });
   }
 
-  handleChange(e, index) {
-    this.state.players[index] = e.target.value.toUpperCase();
-    this.setState({ players: this.state.players });
+  handleChange(e, indexToChange) {
+    this.setState({
+      players: this.state.players.map((player, index) => {
+        if (index === indexToChange) {
+          return e.target.value.toUpperCase();
+        }
+        return player;
+      })
+    });
+
+    // this.setState({ players: this.state.players });
   }
 
   removePlayer(index) {
-    this.state.players.splice(index, 1);
+    this.setState({ players: this.state.players.splice(index, 1) });
 
     this.setState({ players: this.state.players });
   }
 
   createSeason = () => {
     var regex = /^[A-Z]+$/;
+
+    /* check if the season name text input is empty */
+    if (this.state.seasonName === "") {
+      this.hasInvalidCells = true;
+    }
+
     /* check if the text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
         this.hasInvalidCells = true;
       }
     }
-    /* check if the season name text input is empty */
-    if (this.state.seasonName === "") {
-      this.hasInvalidCells = true;
-    }
+
     /* alert the user that their input is not valid */
     if (this.hasInvalidCells) {
       alert("Not a valid input");
@@ -63,11 +74,12 @@ class CreateSeasonForm extends Component {
             onChange={e => this.setState({ seasonName: e.target.value })}
           />
           <div className="inputPlayers">
-            {/* Map the players in the state to inputs */}
+            {/* map the players in the state to inputs */}
             {this.state.players.map((player, index) => {
               return (
                 <div key={index}>
                   <label>Player {index + 1}:</label>
+
                   {/* player name text input */}
                   <input
                     placeholder="Player name"
@@ -75,6 +87,7 @@ class CreateSeasonForm extends Component {
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                   />
+
                   {/* button for removing player */}
                   <button
                     type="button"
@@ -86,6 +99,7 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
+
             {/* button for adding a player */}
             <button
               type="button"
@@ -94,6 +108,8 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
+
+            {/* button for creating new season */}
             <button type="button" onClick={this.createSeason}>
               Create season
             </button>

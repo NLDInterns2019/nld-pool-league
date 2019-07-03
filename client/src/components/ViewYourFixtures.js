@@ -7,7 +7,7 @@ const ViewYourFixtures = () => {
       <form>
         <label>Select your name:</label>
         <select>
-          <option value="placeholder" selected="">
+          <option value="name" selected disabled>
             Name
           </option>
           <option value="option1">Chris</option>
