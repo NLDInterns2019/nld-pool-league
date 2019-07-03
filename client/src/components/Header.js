@@ -1,15 +1,20 @@
 import React from "react";
 import "../App.css";
 import HeaderNavigator from "./HeaderNavigator.js";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="header">
+    <div className="header" id="headerBox">
       <div className="headerLeft">
-        <h1>POOL MANAGER</h1>
+        <Link to="/">POOL MANAGER</Link>
       </div>
       <div className="headerRight">
-        <HeaderNavigator current="8-Ball" />
+        {window.location.pathname !== "/" ? (
+          <HeaderNavigator current="8-Ball" />
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );
