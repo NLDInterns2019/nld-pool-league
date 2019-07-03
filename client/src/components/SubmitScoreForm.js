@@ -57,14 +57,14 @@ class SubmitScoreForm extends Component {
             placeholder="Player 1"
             id="player1"
             value={this.state.player1}
-            onChange={e => this.setState({ player1: e.target.value })}
+            onChange={e => this.setState({ player1: e.target.value.toUpperCase() })}
           />
           <input
             type="text"
             placeholder="Player 2"
             id="player2"
             value={this.state.player2}
-            onChange={e => this.setState({ player2: e.target.value })}
+            onChange={e => this.setState({ player2: e.target.value.toUpperCase() })}
           />
           <input
             type="number"
