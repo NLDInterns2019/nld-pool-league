@@ -64,12 +64,12 @@ app.get("/api/8ball_league/:seasonId", (req, res) => {
 
   if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
 
-  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId }, order: [['points', 'desc']]}).then(
+  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId }, order: [['points', 'desc'], ['win', 'desc'], ['goalsFor', 'desc'],['goalsAgainst', 'asc']]}).then(
     players => {
       res.json(players);
     },
     e => {
-      res.status(400).send();
+      res.status(400).send(); //, ['win', 'desc'], ['goalsFor', 'desc']['goals against', 'desc']
     }
   );
 });
