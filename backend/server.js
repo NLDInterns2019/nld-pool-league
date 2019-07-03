@@ -48,6 +48,8 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
 
+  //ordering: order season ID descending. then order by descending points. then by descending wins. then descending goalsfor. then ascending goals against.
+  //eg: two users with identical id's, points and wins will be decided by who scored the highest cumilatively against other players.
   db.eight_ball_leagues.findAll({where: where, order: [['seasonId', 'desc'],['points','desc'], ['win', 'desc'], ['goalsFor', 'desc'],['goalsAgainst', 'asc']]}).then(
     players => {
       res.json(players);
