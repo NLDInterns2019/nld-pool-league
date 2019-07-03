@@ -10,6 +10,7 @@ class CreateSeasonForm extends Component {
     };
 
     this.hasInvalidCells = false;
+    this.alertMessage = "";
     this.state = this.initialState;
   }
 
@@ -42,21 +43,27 @@ class CreateSeasonForm extends Component {
     /* check if the season name text input is empty */
     if (this.state.seasonName === "") {
       this.hasInvalidCells = true;
+      this.alertMessage = "Season name cannot be empty";
+    } else if (this.state.players.length < 2) {
+      this.hasInvalidCells = true;
+      this.alertMessage = "Season requires at least 2 people";
     }
 
     /* check if the text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
         this.hasInvalidCells = true;
+        this.alertMessage = "Player names can only include letters";
       }
     }
 
     /* alert the user that their input is not valid */
     if (this.hasInvalidCells) {
-      alert("Not a valid input");
+      alert(this.alertMessage);
       this.hasInvalidCells = false;
     } else {
       this.props.createSeason(this.state);
+      document.getElementById("container").style.display = "none";
       this.setState(this.initialState);
     }
   };
