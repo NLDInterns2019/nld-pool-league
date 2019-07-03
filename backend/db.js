@@ -1,19 +1,29 @@
 const Sequelize = require("sequelize");
+//var env = process.env.NODE_ENV || "development";
 
-const sequelize = new Sequelize(
-  "NldPoolLeague",
-  "nldpoolleague",
-  process.env.DBPASSWORD,
-  {
-    host: "nldpoolleague.database.windows.net",
-    dialect: "mssql",
-    dialectOptions: {
-      options: {
-        encrypt: true
+let sequelize;
+
+// if (env === "production") {
+  sequelize = new Sequelize(
+    "NldPoolLeague",
+    "nldpoolleague",
+    process.env.DBPASSWORD,
+    {
+      host: "nldpoolleague.database.windows.net",
+      dialect: "mssql",
+      dialectOptions: {
+        options: {
+          encrypt: true
+        }
       }
     }
-  }
-);
+  );
+// } else {
+//   sequelize = new Sequelize(undefined, undefined, undefined, {
+//     dialect: "sqlite",
+//     storage: __dirname + "/data/nld-pool-db.sqlite"
+//   });
+// }
 
 sequelize
   .authenticate()
@@ -40,16 +50,11 @@ db.eight_ball_fixtures = sequelize.import(
 );
 
 // //Association
-// //Each league season has many fixtures
-// db.eight_ball_leagues.hasMany(db.eight_ball_fixtures, {
-//   foreignKey: "seasonId",
-//   sourceKey: "seasonId"
-// });
+// //A league has many fixtures
+// db.eight_ball_leagues.hasMany(db.eight_ball_fixtures);
+
 // //A fixture can only belong to one season
-// db.eight_ball_fixtures.belongsTo(db.eight_ball_leagues, {
-//   foreignKey: "seasonId",
-//   targetKey: "seasonId",
-// });
+// db.eight_ball_fixtures.belongsTo(db.eight_ball_leagues);
 
 // //A player can play in many fixtures
 // db.eight_ball_leagues.hasMany(db.eight_ball_fixtures, {
