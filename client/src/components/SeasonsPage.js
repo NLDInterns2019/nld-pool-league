@@ -28,10 +28,12 @@ class SeasonsPage extends Component {
 
   openPopUp() {
     document.getElementById("popup").style.display = "block";
+    document.getElementById("container").style.display = "block";
   }
 
   closePopUp() {
     document.getElementById("popup").style.display = "none";
+    document.getElementById("container").style.display = "none";
   }
 
   render() {
@@ -40,16 +42,14 @@ class SeasonsPage extends Component {
         <Header />
         <SubNavBar />
         <div className="content">
-          <div className="contentLeft">
-            <div className="seasonsListContainer">
-              <SeasonsList seasons={this.state.seasons} />
-              <br />
-              <button type="button" onClick={this.openPopUp}>
-                + Add new season
-              </button>
-            </div>
+          <div className="seasonsListContainer">
+            <SeasonsList seasons={this.state.seasons} />
+            <br />
+            <button type="button" onClick={this.openPopUp}>
+              + Add new season
+            </button>
           </div>
-          <div className="contentRight">
+          <div className="popup-container" id="container">
             <div className="form-popup" id="popup">
               <CreateSeasonForm createSeason={this.createSeason} />
               <button type="button" onClick={this.closePopUp}>
