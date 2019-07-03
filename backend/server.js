@@ -178,7 +178,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
     "score2"
   );
 
-
+//attributes for fixture
   const Attributes = {
     seasonId: body.seasonId,
     //fixtureId: body.fixtureId
@@ -195,14 +195,14 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
       staffName: Attributes.player1
     }
   }) .then (function(results){
-    let leagueRow1 = results; //leaguerow1 contains the object 
+    let leagueRow1 = results; //leaguerow1 contains the league row for player1 
     db.eight_ball_leagues.findOne({
       where: {
         staffName: Attributes.player2
       }
-    }) .then(function(results) { //see who won
+    }) .then(function(results) { 
       let leagueRow2 = results;
-      if (Attributes.score1>Attributes.score2) {
+      if (Attributes.score1>Attributes.score2) { //see who won and increment/decrement as appropriate
         leagueRow1.win++
         leagueRow2.lost++
       } else if (Attributes.score1<Attributes.score2) {
@@ -213,10 +213,11 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
         leagueRow2.draw++
       }
      
+      //points are calculated with goalsFor and wins (i think) - this will be DIFFERENT for billiards (goalsFor-goalsAgainst)
       leagueRow1.points = parseInt(leagueRow1.win) + parseInt(leagueRow1.goalsFor) + parseInt(Attributes.score1); 
       leagueRow2.points = parseInt(leagueRow2.win) + parseInt(leagueRow2.goalsFor) + parseInt(Attributes.score2);
 
-          //get new values for league row
+      //get new values for player 1 league row
       lgAttributes1 = {
         played: leagueRow1.played + 1,
         win: leagueRow1.win,
@@ -246,8 +247,8 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
             if (league) {
               league.update(lgAttributes1) .then(
                 e => {
-                //FIX THESE - NEED TRANSACTIONS OR THEY WILL FAIL
-                  //league found but somethow update fail
+                //FIX THESE WHEN - NEED transactions otherwise any errors will ruin everything
+                  //league found but update failed
                   //res.status(400).json(e);
                 }
               );
@@ -267,7 +268,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
               staffName: Attributes.player2
             }
           }) .then(
-            league => {
+            league => { //do player 2 now
               if (league) {
                 league.update(lgAttributes2) .then(
                   result => {
@@ -287,7 +288,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
               //Error
               //   res.status(500).send();
               // }
-          ). then (
+          ). then ( //don't forget to update the fixtures
             db.eight_ball_fixtures.findOne({
               where: {
                 seasonId: body.seasonId,
@@ -303,7 +304,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
                       res.json(result.toJSON());
                     },
                     e => {
-                      //Fixture found but somethow update fail
+                      //Fixture found but update failed
                       res.status(400).json(e);
                     }
                   );
