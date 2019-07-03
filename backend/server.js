@@ -190,15 +190,6 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
   };
   let lgAttributes1, lgAttributes2;
 
-  /*const getPlayer = async() => {
-    db.eight_ball_leagues.findOne({
-      where: {
-        staffName: Attributes.player1
-      }
-    })
-  }
-  getPlayer().then(result => console.log(result + "22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222"));*/
-
   db.eight_ball_leagues
     .findOne({
       where: {
@@ -359,7 +350,6 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 //REQUIRES: season ID input. Populated league table.
 //TODO: has to provide separate fixture ids
 //There will be as many fixtures as there are players. Players must feature once in each fixture.
-//TODO: possible error - occasionally cannot access player2 column. unable to replicate.
 app.post("/api/8ball_league/generate/fixture", (req, res) => {
   const body = _.pick(req.body, "seasonId");
   let ctt;
