@@ -74,11 +74,12 @@ class CreateSeasonForm extends Component {
             onChange={e => this.setState({ seasonName: e.target.value })}
           />
           <div className="inputPlayers">
-            {/* Map the players in the state to inputs */}
+            {/* map the players in the state to inputs */}
             {this.state.players.map((player, index) => {
               return (
                 <div key={index}>
                   <label>Player {index + 1}:</label>
+
                   {/* player name text input */}
                   <input
                     placeholder="Player name"
@@ -86,6 +87,7 @@ class CreateSeasonForm extends Component {
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                   />
+
                   {/* button for removing player */}
                   <button
                     type="button"
@@ -97,6 +99,7 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
+
             {/* button for adding a player */}
             <button
               type="button"
@@ -105,6 +108,8 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
+
+            {/* button for creating new season */}
             <button type="button" onClick={this.createSeason}>
               Create season
             </button>
