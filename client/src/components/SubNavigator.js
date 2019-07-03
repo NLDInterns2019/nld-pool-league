@@ -1,8 +1,14 @@
 import React from "react";
 import { Link, matchPath } from "react-router-dom";
 
-const SubNavigator = props => {
+const SubNavigator = () => {
   var currentPath = window.location.pathname;
+
+  var title = matchPath(currentPath, { path: "/8-ball", exact: false })
+    ? "8-Ball"
+    : matchPath(currentPath, { path: "/9-ball", exact: false })
+    ? "9-Ball"
+    : "Billiards";
 
   /* makes 'seasons' link bold */
   var seasonsCurrentStyle = matchPath(currentPath, {
@@ -35,11 +41,11 @@ const SubNavigator = props => {
 
   return (
     <div className="nav">
-      <h2>{props.title}</h2>
+      <h2>{title}</h2>
       <ul>
         <li>
           <Link
-            to={"/" + props.title.toLowerCase() + "/seasons"}
+            to={"/" + title.toLowerCase() + "/seasons"}
             style={seasonsCurrentStyle}
           >
             Seasons
@@ -47,7 +53,7 @@ const SubNavigator = props => {
         </li>
         <li>
           <Link
-            to={"/" + props.title.toLowerCase() + "/overview"}
+            to={"/" + title.toLowerCase() + "/overview"}
             style={overviewCurrentStyle}
           >
             Overview
@@ -55,7 +61,7 @@ const SubNavigator = props => {
         </li>
         <li>
           <Link
-            to={"/" + props.title.toLowerCase() + "/fixtures"}
+            to={"/" + title.toLowerCase() + "/fixtures"}
             style={fixturesCurrentStyle}
           >
             Fixtures
