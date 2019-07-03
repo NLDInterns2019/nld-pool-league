@@ -167,6 +167,7 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
 
 //PUT 8 BALL, UPDATE LEAGUE AND FIXTURES
 app.put("/api/8ball_league/edit/fixture", (req, res) => {
+
   //add fixtureID attributes later
   const body = _.pick(
     req.body,
@@ -180,6 +181,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 
   const Attributes = {
     seasonId: body.seasonId,
+    //fixtureId: body.fixtureId
     player1: body.player1,
     score1: body.score1,
     player2: body.player2,
@@ -245,7 +247,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
               league.update(lgAttributes1) .then(
                 e => {
                 //FIX THESE - NEED TRANSACTIONS OR THEY WILL FAIL
-                  //league found but update failed
+                  //league found but somethow update fail
                   //res.status(400).json(e);
                 }
               );
