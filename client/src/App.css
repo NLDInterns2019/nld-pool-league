@@ -316,6 +316,9 @@ button:hover {
 .landingPage .content {
   text-align: center;
 }
+.landingPage .content .menu {
+  display: inline-block;
+}
 
 .landingPage .content ul {
   list-style-type: none;

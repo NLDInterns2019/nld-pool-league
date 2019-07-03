@@ -9,7 +9,7 @@ const FixturesPage = () => {
   return (
     <div className="fixtures">
       <Header />
-      <SubNavBar current="Fixtures" />
+      <SubNavBar />
       <div className="content">
         <div className="contentLeft">
           <ViewYourFixtures />
