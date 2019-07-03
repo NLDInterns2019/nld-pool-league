@@ -17,29 +17,40 @@ class CreateSeasonForm extends Component {
     this.setState({ players: [...this.state.players, ""] });
   }
 
-  handleChange(e, index) {
-    this.state.players[index] = e.target.value.toUpperCase();
-    this.setState({ players: this.state.players });
+  handleChange(e, indexToChange) {
+    this.setState({
+      players: this.state.players.map((player, index) => {
+        if (index === indexToChange) {
+          return e.target.value.toUpperCase();
+        }
+        return player;
+      })
+    });
+
+    // this.setState({ players: this.state.players });
   }
 
   removePlayer(index) {
-    this.state.players.splice(index, 1);
+    this.setState({ players: this.state.players.splice(index, 1) });
 
     this.setState({ players: this.state.players });
   }
 
   createSeason = () => {
     var regex = /^[A-Z]+$/;
+
+    /* check if the season name text input is empty */
+    if (this.state.seasonName === "") {
+      this.hasInvalidCells = true;
+    }
+
     /* check if the text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
         this.hasInvalidCells = true;
       }
     }
-    /* check if the season name text input is empty */
-    if (this.state.seasonName === "") {
-      this.hasInvalidCells = true;
-    }
+
     /* alert the user that their input is not valid */
     if (this.hasInvalidCells) {
       alert("Not a valid input");
