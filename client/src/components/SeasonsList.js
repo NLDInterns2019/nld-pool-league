@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
     return (
-      <div>
+      <div key={season.DISTINCT}>
         <Link
           to={{
             pathname: "/8-ball/overview",
