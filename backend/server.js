@@ -230,11 +230,11 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
   let ctt;
 
   let seasonID = body.seasonId;
-  //let seasonID = 11;
+
   let fixID = 0;
   //count league rows and store this in ctt
   db.eight_ball_leagues
-    .count()
+    .count({ where: { seasonId: seasonID } })
     .then(c => {
       console.log("There are " + c + " projects!");
       ctt = c;
@@ -243,7 +243,8 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
       //get staff names and store these in results[n].staffName
       db.eight_ball_leagues
         .findAll({
-          attributes: ["staffName"]
+          attributes: ["staffName"],
+          where: { seasonId: seasonID }
         })
         .then(function(results) {
           //get total combinations (order unimportant)
@@ -303,7 +304,7 @@ function suitableFixture(leagueId, name, maxCount) {
 }
 
 //{force: true} to start with clean table
-db.sequelize.sync().then(function() {
+db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, () => {
     console.log("Express is listening on port: " + PORT);
   });
