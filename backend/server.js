@@ -165,9 +165,9 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
   );
 });
 
-//PUT 8 BALL EDIT SCORE IN FIXTURE
-//needs to set suitable variables according to the league values
+//PUT 8 BALL, UPDATE LEAGUE AND FIXTURES
 app.put("/api/8ball_league/edit/fixture", (req, res) => {
+  //add fixtureID attributes later
   const body = _.pick(
     req.body,
     "seasonId",
@@ -177,44 +177,148 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
     "score2"
   );
 
+
   const Attributes = {
     seasonId: body.seasonId,
+    //fixtureId: body.fixtureId
     player1: body.player1,
     score1: body.score1,
     player2: body.player2,
     score2: body.score2
   };
+  let lgAttributes1,lgAttributes2;
 
-  db.eight_ball_fixtures
-    .findOne({
+  db.eight_ball_leagues
+  .findOne({
+    where: {
+      staffName: Attributes.player1
+    }
+  }) .then (function(results){
+    let leagueRow1 = results; //leaguerow1 contains the object 
+    db.eight_ball_leagues.findOne({
       where: {
-        seasonId: body.seasonId,
-        player1: body.player1,
-        player2: body.player2
+        staffName: Attributes.player2
       }
-    })
-    .then(
-      fixture => {
-        if (fixture) {
-          fixture.update(Attributes).then(
-            result => {
-              res.json(result.toJSON());
-            },
-            e => {
-              //Fixture found but somethow update fail
-              res.status(400).json(e);
+    }) .then(function(results) { //see who won
+      let leagueRow2 = results;
+      if (Attributes.score1>Attributes.score2) {
+        leagueRow1.win++
+        leagueRow2.lost++
+      } else if (Attributes.score1<Attributes.score2) {
+        leagueRow1.lost++
+        leagueRow2.win++
+      } else {
+        leagueRow1.draw++
+        leagueRow2.draw++
+      }
+     
+      leagueRow1.points = parseInt(leagueRow1.win) + parseInt(leagueRow1.goalsFor) + parseInt(Attributes.score1); 
+      leagueRow2.points = parseInt(leagueRow2.win) + parseInt(leagueRow2.goalsFor) + parseInt(Attributes.score2);
+
+          //get new values for league row
+      lgAttributes1 = {
+        played: leagueRow1.played + 1,
+        win: leagueRow1.win,
+        draw: leagueRow1.draw,
+        lost: leagueRow1.lost,
+        goalsFor: parseInt(leagueRow1.goalsFor) + parseInt(Attributes.score1),
+        goalsAgainst: parseInt(leagueRow1.goalsAgainst) + parseInt(Attributes.score2),
+        points: leagueRow1.points
+      }
+      lgAttributes2 = { //and for player 2
+        played: leagueRow2.played + 1,
+        win: leagueRow2.win,
+        draw: leagueRow2.draw,
+        lost: leagueRow2.lost,
+        goalsFor: parseInt(leagueRow2.goalsFor) + parseInt(Attributes.score2),
+        goalsAgainst: parseInt(leagueRow2.goalsAgainst) + parseInt(Attributes.score1),
+        points: leagueRow2.points
+      }
+      }) .then(
+        db.eight_ball_leagues
+        .findOne({
+          where: {
+            staffName: Attributes.player1
+          }
+        }) .then(
+          league => {
+            if (league) {
+              league.update(lgAttributes1) .then(
+                e => {
+                //FIX THESE - NEED TRANSACTIONS OR THEY WILL FAIL
+                  //league found but somethow update fail
+                  //res.status(400).json(e);
+                }
+              );
+            } else {
+              //league not found
+              res.status(404).send();
             }
-          );
-        } else {
-          //Fixture not found
-          res.status(404).send();
-        }
-      },
-      e => {
-        //Error
-        res.status(500).send();
-      }
-    );
+          },
+          e => {
+              //Error
+            res.status(500).send();
+          }
+        )) .then(
+          db.eight_ball_leagues
+          .findOne({
+            where: {
+              staffName: Attributes.player2
+            }
+          }) .then(
+            league => {
+              if (league) {
+                league.update(lgAttributes2) .then(
+                  result => {
+                    //  res.json(result.toJSON());
+                  },
+                  e => {
+                   //league found but somethow update fail
+                    res.status(400).json(e);
+                  }
+                );
+              } else {
+                //league not found
+                res.status(404).send();
+              }
+            },
+            // e => {
+              //Error
+              //   res.status(500).send();
+              // }
+          ). then (
+            db.eight_ball_fixtures.findOne({
+              where: {
+                seasonId: body.seasonId,
+                //fixtureId: body.fixtureId,
+                player1: body.player1,
+                player2: body.player2
+              }
+            }) .then(
+              fixture => {
+                if (fixture) {
+                  fixture.update(Attributes).then(
+                    result => {
+                      res.json(result.toJSON());
+                    },
+                    e => {
+                      //Fixture found but somethow update fail
+                      res.status(400).json(e);
+                    }
+                  );
+                } else {
+                  //Fixture not found
+                  res.status(404).send();
+                }
+              },
+              e => {
+                //Error
+                res.status(500).send();
+              }
+            )
+          )
+        )
+    })
 });
 
 //AUTOMATICALLY GENERATE FIXTURES - RUN WHEN ALL USERS ARE ADDED TO THE LEAGUE TABLE
