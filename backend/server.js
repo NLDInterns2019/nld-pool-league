@@ -149,7 +149,6 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
   let body = _.pick(
     req.body,
     "seasonId",
-    "fixtureId",
     "score1",
     "player1",
     "player2",
@@ -180,7 +179,6 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 
   const Attributes = {
     seasonId: body.seasonId,
-    //fixtureId: body.fixtureId
     player1: body.player1,
     score1: body.score1,
     player2: body.player2,
@@ -191,7 +189,6 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
     .findOne({
       where: {
         seasonId: body.seasonId,
-        //fixtureId: body.fixtureId,
         player1: body.player1,
         player2: body.player2
       }
@@ -230,8 +227,6 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
   let ctt;
 
   let seasonID = body.seasonId;
-
-  let fixID = 0;
   //count league rows and store this in ctt
   db.eight_ball_leagues
     .count({ where: { seasonId: seasonID } })
@@ -264,7 +259,6 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
               let notes = [
                 {
                   seasonId: seasonID,
-                  fixtureId: fixID,
                   player1: results[i].staffName,
                   player2: results[j].staffName
                 }
