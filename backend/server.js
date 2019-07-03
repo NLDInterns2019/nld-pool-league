@@ -378,15 +378,7 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
           where: { seasonId: seasonID }
         })
         .then(function(results) {
-          //get total combinations (order unimportant)
-          // totalRows = factorial(ctt)/2*(factorial(ctt-2)); // n!/(k!*((n-k)!)
-
-          //determine the boundaries for splitting fixtures. each player means a new fixture to ensure nobody plays more than once a week.
-          //unable to do this algorithmically
-          //before each insert, check for fixtures with a value of 1-5
-          //check fixture for matching names for player1 or player2
-          //if no match, set fixtureid to the loop value
-
+          
           //loop from 0 to max, setting the staff names on the fixture as is appropriate
           console.log("the count is " + ctt);
           for (let i = 0; i < ctt; i++) {
