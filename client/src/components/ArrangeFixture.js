@@ -7,7 +7,9 @@ const ArrangeFixture = () => {
       <form>
         <label>Select your name:</label>
         <select>
-          <option value="name">Name</option>
+          <option selected disabled value="name">
+            Name
+          </option>
           <option value="option1">Steve</option>
           <option value="option2">Chris</option>
           <option value="option3">Matthew</option>
@@ -17,7 +19,9 @@ const ArrangeFixture = () => {
         <br />
         <label>Select your opponent:</label>
         <select>
-          <option value="name">Name</option>
+          <option selected disabled value="name">
+            Name
+          </option>
           <option value="option1">Steve</option>
           <option value="option2">Chris</option>
           <option value="option3">Matthew</option>
@@ -27,6 +31,9 @@ const ArrangeFixture = () => {
         <br />
         <label>Day:</label>
         <select>
+          <option selected disabled value="day">
+            Day
+          </option>
           <option value="monday">Monday</option>
           <option value="tuesday">Tuesday</option>
           <option value="wednesday">Wednesday</option>
@@ -36,6 +43,9 @@ const ArrangeFixture = () => {
         <br />
         <label>Time:</label>
         <select>
+          <option selected disabled value="time">
+            Time
+          </option>
           <option value="11:00">11:00</option>
           <option value="11:15">11:15</option>
           <option value="11:30">11:30</option>
