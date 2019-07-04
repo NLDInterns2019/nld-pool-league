@@ -31,6 +31,11 @@ module.exports = {
     },
     seeds: {
       directory: __dirname + "/db/seeds/development"
+    },
+    pool: {
+      afterCreate: function(conn, cb) {
+        conn.run("PRAGMA foreign_keys = ON", cb);
+      }
     }
   },
   production: {
