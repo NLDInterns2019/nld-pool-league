@@ -146,22 +146,18 @@ table td {
   margin-top: 0rem;
 }
 
+/* ==== Fixture and League Table positioning ==== */
 .fixtureTableContainer,
 .leagueTableContainer {
   display: inline-block;
   margin-bottom: 8rem;
 }
 
-/* ==== Create New Season Form ==== */
-
+/* ==== Labels in Create Season and Submit Score Forms ==== */
 .createSeasonForm label,
 .submitScoreForm label {
   font-size: 12pt;
   padding-right: 0.5rem;
-}
-
-.createSeasonForm #noOfPlayers {
-  margin: 1rem;
 }
 
 /* ==== Submit Score Form ==== */
