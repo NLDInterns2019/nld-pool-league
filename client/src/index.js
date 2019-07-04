@@ -5,13 +5,11 @@ import SeasonsPage from "./components/SeasonsPage.js";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import FixturesPage from "./components/FixturesPage.js";
 import LandingPage from "./components/LandingPage.js";
+import Routes from "./components/Routes.js";
 
 ReactDOM.render(
   <Router>
-    <Route exact path="/" component={LandingPage} />
-    <Route path="*/overview" component={App} />
-    <Route path="*/seasons" component={SeasonsPage} />
-    <Route path="*/fixtures" component={FixturesPage} />
+    <Routes />
   </Router>,
   document.getElementById("root")
 );
