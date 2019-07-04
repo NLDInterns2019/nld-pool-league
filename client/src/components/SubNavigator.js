@@ -51,14 +51,14 @@ const SubNavigator = () => {
             Seasons
           </Link>
         </li>
-        <li>
+        {/*<li>
           <Link
             to={"/" + title.toLowerCase() + "/overview"}
             style={overviewCurrentStyle}
           >
             Overview
           </Link>
-        </li>
+        </li>*/}
         <li>
           <Link
             to={"/" + title.toLowerCase() + "/fixtures"}
