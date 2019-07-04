@@ -383,7 +383,9 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
           console.log("the count is " + ctt);
           for (let i = 0; i < ctt; i++) {
             for (let j = i + 1; j < ctt; j++) {
-              for (let x = 1; x <= ctt; x++) {}
+              
+
+
               let notes = [
                 {
                   seasonId: seasonID,
