@@ -39,11 +39,12 @@ class CreateSeasonForm extends Component {
 
   createSeason = () => {
     var regex = /^[A-Z]+$/;
+    var regexSeasonNumber = /^[1-9]([0-9])*$/;
 
     /* check if the season name text input is empty */
-    if (this.state.seasonName === "") {
+    if (!regexSeasonNumber.test(this.state.seasonName)) {
       this.hasInvalidCells = true;
-      this.alertMessage = "Season name cannot be empty";
+      this.alertMessage = "Season number can only be a number";
     } else if (this.state.players.length < 2) {
       this.hasInvalidCells = true;
       this.alertMessage = "Season requires at least 2 people";
@@ -73,10 +74,10 @@ class CreateSeasonForm extends Component {
       <div className="createSeasonForm">
         <h3>Create a Season</h3>
         <form>
-          <label>Season name:</label>
+          <label>Season number:</label>
           <input
             type="text"
-            placeholder="Season name"
+            placeholder="Season number"
             value={this.state.seasonName}
             onChange={e => this.setState({ seasonName: e.target.value })}
           />
