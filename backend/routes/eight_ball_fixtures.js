@@ -32,7 +32,7 @@ router.get("/", function (req,res) {
 /* 
   !!!!!!!!!!UNTESTED!!!!!!!!!!
   POST handler for /api/8ball_fixtures/add/fixture_row
-  Function: Adds a row to a fixture
+  Function: Adds a row to a fixture. Does not update league table.
 */
 app.post("/add/fixture_row", (req, res) => {
     const body = _.pick(req.body, "seasonId", "score1", "player1", "player2", "score2");
@@ -43,13 +43,12 @@ app.post("/add/fixture_row", (req, res) => {
         player2: Joi.string().required(),
         score2: Joi.number()
     }
-  
     //Validation
     if (Joi.validate(body, schema, { convert: false }).error) {
         res.status(400).json({ status: 'error', error: 'Invalid data' })
         return
     }
-
+    //add
     eight_ball_fixtures
         .query()
         .patch({
