@@ -209,7 +209,7 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
         .then(function(results) {
           let leagueRow2 = results;
           console.log("p1: " + Attributes.score1 + " p2: " + Attributes.score2)
-          if (parseInt(Attributes.score1) > parseInt(Attributes.score2)) {
+          if (parseInt(Attributes.score1) > parseInt(Attributes.score2)) { //wrap every possible integer in parses because javascript is STUPID
             //see who won and increment/decrement as appropriate
             leagueRow1.win++;
             leagueRow2.lost++;
@@ -409,6 +409,26 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
     });
 });
 
+app.get("/api/8ball_league/edit/fixture/test", (req, res) => { //test - to be removed
+  suitableFixture()
+  res.status(200).send();
+});
+function fixtureDivision() {
+  //must divide fixtures up
+  //set appropriate fixtureid to mark groups
+  //must be one fixture for every player
+  //no real pattern so an algorithm may not be possible
+  //ignore odd numbers for now
+  //possibly:
+  //loop fixtures
+  //for each player, check current fixture for their presence
+  //if neither present, set fixtureid
+  //could this result in someone not making it into a fixture?
+
+  //CAN use a polygon
+  //rotate the polygon every turn and run vertical stripes
+
+}
 //return lowest fixture not already containing the player
 //used for fixture division
 function suitableFixture(leagueId, name, maxCount) {
@@ -417,7 +437,8 @@ function suitableFixture(leagueId, name, maxCount) {
       where: { leagueId: leagueId, player1: name }
     }).then(count => {
       if (count === 0) {
-        return fixt;
+        console.log("none in this one");
+        //return fixt;
       }
       return maxCount;
     });
