@@ -14,6 +14,7 @@ const FixturesPage = () => {
         <div className="contentLeft">
           <ViewYourFixtures />
         </div>
+
         <div className="contentRight">
           <SubmitScoreForm />
           <ArrangeFixture />

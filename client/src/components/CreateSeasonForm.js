@@ -27,8 +27,6 @@ class CreateSeasonForm extends Component {
         return player;
       })
     });
-
-    // this.setState({ players: this.state.players });
   }
 
   removePlayer(index) {
@@ -38,10 +36,10 @@ class CreateSeasonForm extends Component {
   }
 
   createSeason = () => {
-    var regex = /^[A-Z]+$/;
-    var regexSeasonNumber = /^[1-9]([0-9])*$/;
+    var regex = /^[A-Z]+$/; // matches 1 or more capital letters
+    var regexSeasonNumber = /^[1-9]([0-9])*$/; // matches 1 number from 1 to 9 followed by 0 or more numbers from 0 to 9
 
-    /* check if the season name text input is empty */
+    /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
     if (!regexSeasonNumber.test(this.state.seasonName)) {
       this.hasInvalidCells = true;
       this.alertMessage = "Season number can only be a number";
@@ -50,7 +48,7 @@ class CreateSeasonForm extends Component {
       this.alertMessage = "Season requires at least 2 people";
     }
 
-    /* check if the text inputs match the regular expression */
+    /* check if the player text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
         this.hasInvalidCells = true;
@@ -58,7 +56,7 @@ class CreateSeasonForm extends Component {
       }
     }
 
-    /* alert the user that their input is not valid */
+    /* alert the user that their input is not valid, otherwise, create the season */
     if (this.hasInvalidCells) {
       alert(this.alertMessage);
       this.hasInvalidCells = false;

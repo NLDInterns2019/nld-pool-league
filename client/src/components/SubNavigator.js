@@ -4,6 +4,7 @@ import { Link, matchPath } from "react-router-dom";
 const SubNavigator = () => {
   var currentPath = window.location.pathname;
 
+  /* set the title of the nav bar depending on the URL path */
   var title = matchPath(currentPath, { path: "/8-ball", exact: false })
     ? "8-Ball"
     : matchPath(currentPath, { path: "/9-ball", exact: false })
@@ -30,14 +31,15 @@ const SubNavigator = () => {
       }
     : {};
 
-  /* makes 'overview' link bold */
+  /* makes 'overview' link bold 
   var overviewCurrentStyle =
-    matchPath(currentPath, { path: "*/overview", exact: false }) ||
+    matchPath(currentPath, { path: "overview", exact: false }) ||
     matchPath(currentPath, { path: "/8-ball", exact: true }) ||
     matchPath(currentPath, { path: "/9-ball", exact: true }) ||
     matchPath(currentPath, { path: "/billiards", exact: true })
       ? { fontWeight: "bold" }
       : {};
+  */
 
   return (
     <div className="nav">
