@@ -8,6 +8,9 @@ exports.seed = function(knex) {
         {seasonId: '2019', player1: 'Michael', player2: 'Matthew', /*dueDate: new Date('July 15, 2019').toISOString()*/},
         {seasonId: '2019', player1: 'Michael', player2: 'Natalie', /*dueDate: new Date('July 15, 2019').toISOString()*/},
         {seasonId: '2019', player1: 'Matthew', player2: 'Natalie', /*dueDate: new Date('July 15, 2019').toISOString()*/},
+        {seasonId: '2020', player1: 'Michael', player2: 'Matthew', /*dueDate: new Date('July 15, 2019').toISOString()*/},
+        {seasonId: '2020', player1: 'Michael', player2: 'Natalie', /*dueDate: new Date('July 15, 2019').toISOString()*/},
+        {seasonId: '2020', player1: 'Matthew', player2: 'Natalie', /*dueDate: new Date('July 15, 2019').toISOString()*/},
       ]);
     });
 };
