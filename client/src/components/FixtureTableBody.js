@@ -3,7 +3,7 @@ import React from "react";
 const FixtureTableBody = props => {
   const itemsToBeDisplayed = props.fixtures.map(fixture => {
     return (
-      <tr key={fixture.seasonId + fixture.fixtureId}>
+      <tr key={fixture.id}>
         <td align="center" className="fixtureTableCell">
           {fixture.score1}
         </td>
