@@ -50,14 +50,25 @@ app.get("/api/8ball_league", (req, res) => {
 
   //ordering: order season ID descending. then order by descending points. then by descending wins. then descending goalsfor. then ascending goals against.
   //eg: two users with identical id's, points and wins will be decided by who scored the highest cumilatively against other players.
-  db.eight_ball_leagues.findAll({where: where, order: [['seasonId', 'desc'],['points','desc'], ['win', 'desc'], ['goalsFor', 'desc'],['goalsAgainst', 'asc']]}).then(
-    players => {
-      res.json(players);
-    },
-    e => {
-      res.status(400).send();
-    }
-  );
+  db.eight_ball_leagues
+    .findAll({
+      where: where,
+      order: [
+        ["seasonId", "desc"],
+        ["points", "desc"],
+        ["win", "desc"],
+        ["goalsFor", "desc"],
+        ["goalsAgainst", "asc"]
+      ]
+    })
+    .then(
+      players => {
+        res.json(players);
+      },
+      e => {
+        res.status(400).send();
+      }
+    );
 });
 
 //GET SPECIFIC 8 BALL LEAGUE
@@ -66,14 +77,24 @@ app.get("/api/8ball_league/:seasonId", (req, res) => {
 
   if (req.params.seasonId) seasonId = parseInt(req.params.seasonId, 10);
 
-  db.eight_ball_leagues.findAll({ where: { seasonId: seasonId }, order: [['points', 'desc'], ['win', 'desc'], ['goalsFor', 'desc'],['goalsAgainst', 'asc']]}).then(
-    players => {
-      res.json(players);
-    },
-    e => {
-      res.status(400).send();
-    }
-  );
+  db.eight_ball_leagues
+    .findAll({
+      where: { seasonId: seasonId },
+      order: [
+        ["points", "desc"],
+        ["win", "desc"],
+        ["goalsFor", "desc"],
+        ["goalsAgainst", "asc"]
+      ]
+    })
+    .then(
+      players => {
+        res.json(players);
+      },
+      e => {
+        res.status(400).send();
+      }
+    );
 });
 
 //POST 8 BALL PLAYER
@@ -197,7 +218,8 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
         seasonId: Attributes.seasonId,
         staffName: Attributes.player1
       }
-    }).then(function(results) {
+    })
+    .then(function(results) {
       let leagueRow1 = results; //leaguerow1 contains the league row for player1
       db.eight_ball_leagues
         .findOne({
@@ -208,31 +230,36 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
         })
         .then(function(results) {
           let leagueRow2 = results;
-          console.log("p1: " + Attributes.score1 + " p2: " + Attributes.score2)
-          if (parseInt(Attributes.score1) > parseInt(Attributes.score2)) { //wrap every possible integer in parses because javascript is STUPID
+          console.log("p1: " + Attributes.score1 + " p2: " + Attributes.score2);
+          if (parseInt(Attributes.score1) > parseInt(Attributes.score2)) {
+            //wrap every possible integer in parses because javascript is STUPID
             //see who won and increment/decrement as appropriate
             leagueRow1.win++;
             leagueRow2.lost++;
-            console.log('p1 won')
-          } else if (parseInt(Attributes.score1) < parseInt(Attributes.score2)) {
+            console.log("p1 won");
+          } else if (
+            parseInt(Attributes.score1) < parseInt(Attributes.score2)
+          ) {
             leagueRow1.lost++;
             leagueRow2.win++;
-            console.log('p2 won')
+            console.log("p2 won");
           } else {
             leagueRow1.draw++;
             leagueRow2.draw++;
-            console.log('draw')
+            console.log("draw");
           }
 
           //points are calculated with goalsFor and wins (i think) - this will be DIFFERENT for billiards (goalsFor-goalsAgainst)
           leagueRow1.points =
-            parseInt(leagueRow1.win) +
-            parseInt(leagueRow1.goalsFor) +
-            parseInt(Attributes.score1);
+            parseInt(leagueRow1.win) * 3 + parseInt(leagueRow1.draw);
+          // parseInt(leagueRow1.win) +
+          // parseInt(leagueRow1.goalsFor) +
+          // parseInt(Attributes.score1);
           leagueRow2.points =
-            parseInt(leagueRow2.win) +
-            parseInt(leagueRow2.goalsFor) +
-            parseInt(Attributes.score2);
+            parseInt(leagueRow1.win) * 3 + parseInt(leagueRow1.draw);
+          // parseInt(leagueRow2.win) +
+          // parseInt(leagueRow2.goalsFor) +
+          // parseInt(Attributes.score2);
 
           //get new values for player 1 league row
           lgAttributes1 = {
@@ -383,9 +410,6 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
           console.log("the count is " + ctt);
           for (let i = 0; i < ctt; i++) {
             for (let j = i + 1; j < ctt; j++) {
-              
-
-
               let notes = [
                 {
                   seasonId: seasonID,
@@ -411,8 +435,9 @@ app.post("/api/8ball_league/generate/fixture", (req, res) => {
     });
 });
 
-app.get("/api/8ball_league/edit/fixture/test", (req, res) => { //test - to be removed
-  suitableFixture()
+app.get("/api/8ball_league/edit/fixture/test", (req, res) => {
+  //test - to be removed
+  suitableFixture();
   res.status(200).send();
 });
 function fixtureDivision() {
@@ -426,10 +451,8 @@ function fixtureDivision() {
   //for each player, check current fixture for their presence
   //if neither present, set fixtureid
   //could this result in someone not making it into a fixture?
-
   //CAN use a polygon
   //rotate the polygon every turn and run vertical stripes
-
 }
 //return lowest fixture not already containing the player
 //used for fixture division
