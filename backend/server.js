@@ -249,17 +249,11 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
             console.log("draw");
           }
 
-          //points are calculated with goalsFor and wins (i think) - this will be DIFFERENT for billiards (goalsFor-goalsAgainst)
+          //points are calculated with 3 points for win, 1 point for draw, and 0 points for a loss - this will be DIFFERENT for billiards (goalsFor-goalsAgainst)
           leagueRow1.points =
             parseInt(leagueRow1.win) * 3 + parseInt(leagueRow1.draw);
-          // parseInt(leagueRow1.win) +
-          // parseInt(leagueRow1.goalsFor) +
-          // parseInt(Attributes.score1);
           leagueRow2.points =
             parseInt(leagueRow1.win) * 3 + parseInt(leagueRow1.draw);
-          // parseInt(leagueRow2.win) +
-          // parseInt(leagueRow2.goalsFor) +
-          // parseInt(Attributes.score2);
 
           //get new values for player 1 league row
           lgAttributes1 = {
