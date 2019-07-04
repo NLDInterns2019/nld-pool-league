@@ -167,7 +167,7 @@ app.post("/api/8ball_league/add/fixture_row", (req, res) => {
   );
 });
 
-//WILL ONLY HANDLE ONE SEASON
+//OCCASIONALLY DOESN'T UPDATE? - CHEKCK FIXTURE STRUCTURE WITH NEW REWRITES
 //PUT 8 BALL, UPDATE LEAGUE AND FIXTURES
 app.put("/api/8ball_league/edit/fixture", (req, res) => {
   //add fixtureID attributes later
@@ -208,16 +208,20 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
         })
         .then(function(results) {
           let leagueRow2 = results;
-          if (Attributes.score1 > Attributes.score2) {
+          console.log("p1: " + Attributes.score1 + " p2: " + Attributes.score2)
+          if (parseInt(Attributes.score1) > parseInt(Attributes.score2)) {
             //see who won and increment/decrement as appropriate
             leagueRow1.win++;
             leagueRow2.lost++;
-          } else if (Attributes.score1 < Attributes.score2) {
+            console.log('p1 won')
+          } else if (parseInt(Attributes.score1) < parseInt(Attributes.score2)) {
             leagueRow1.lost++;
             leagueRow2.win++;
+            console.log('p2 won')
           } else {
             leagueRow1.draw++;
             leagueRow2.draw++;
+            console.log('draw')
           }
 
           //points are calculated with goalsFor and wins (i think) - this will be DIFFERENT for billiards (goalsFor-goalsAgainst)
@@ -232,27 +236,27 @@ app.put("/api/8ball_league/edit/fixture", (req, res) => {
 
           //get new values for player 1 league row
           lgAttributes1 = {
-            played: leagueRow1.played + 1,
-            win: leagueRow1.win,
-            draw: leagueRow1.draw,
-            lost: leagueRow1.lost,
+            played: parseInt(leagueRow1.played) + 1,
+            win: parseInt(leagueRow1.win),
+            draw: parseInt(leagueRow1.draw),
+            lost: parseInt(leagueRow1.lost),
             goalsFor:
               parseInt(leagueRow1.goalsFor) + parseInt(Attributes.score1),
             goalsAgainst:
               parseInt(leagueRow1.goalsAgainst) + parseInt(Attributes.score2),
-            points: leagueRow1.points
+            points: parseInt(leagueRow1.points)
           };
           lgAttributes2 = {
             //and for player 2
-            played: leagueRow2.played + 1,
-            win: leagueRow2.win,
-            draw: leagueRow2.draw,
-            lost: leagueRow2.lost,
+            played: parseInt(leagueRow2.played) + 1,
+            win: parseInt(leagueRow2.win),
+            draw: parseInt(leagueRow2.draw),
+            lost: parseInt(leagueRow2.lost),
             goalsFor:
               parseInt(leagueRow2.goalsFor) + parseInt(Attributes.score2),
             goalsAgainst:
               parseInt(leagueRow2.goalsAgainst) + parseInt(Attributes.score1),
-            points: leagueRow2.points
+            points: parseInt(leagueRow2.points)
           };
         })
         .then(
