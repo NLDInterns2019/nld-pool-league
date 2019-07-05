@@ -7,6 +7,7 @@ const db = require("./db.js");
 //REMEMBER TO CHECK THE PORT
 const PORT = process.env.PORT || 3000;
 const app = express();
+//TEST
 
 app.use(bodyParser.json());
 
