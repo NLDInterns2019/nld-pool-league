@@ -91,6 +91,7 @@ class CreateSeasonForm extends Component {
                   <input
                     placeholder="Player name"
                     className="inputPlayerName"
+                    id={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                   />
@@ -99,7 +100,7 @@ class CreateSeasonForm extends Component {
                   <button
                     type="button"
                     className="removeBtn"
-                    id={"button" + index}
+                    id={"button" + (index + 1)}
                     onClick={() => this.removePlayer(index)}
                   >
                     - Remove
@@ -118,7 +119,11 @@ class CreateSeasonForm extends Component {
             </button>
 
             {/* button for creating new season */}
-            <button type="button" onClick={this.createSeason}>
+            <button
+              type="button"
+              id="createSeasonBtn"
+              onClick={this.createSeason}
+            >
               Create season
             </button>
           </div>

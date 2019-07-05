@@ -13,10 +13,12 @@ describe("Rendering", () => {
   it("should render the different elements", () => {
     const wrapper = shallow(<CreateSeasonForm />);
     const addPlayerBtn = wrapper.find("#addPlayer");
+    const createSeasonBtn = wrapper.find("#createSeasonBtn");
     const inputSeasonNo = wrapper.find("#inputSeasonNo");
 
     wrapper.exists().should.be.true;
     addPlayerBtn.exists().should.be.true;
+    createSeasonBtn.exists().should.be.true;
     inputSeasonNo.exists().should.be.true;
   });
 });
