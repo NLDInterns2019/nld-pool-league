@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
-
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
@@ -13,7 +11,7 @@ class SeasonsPage extends Component {
     super(props);
     this.state = {
       seasons: [],
-      refresh: false,
+      refresh: false
     };
   }
 
@@ -69,7 +67,7 @@ class SeasonsPage extends Component {
           //To force update
           refresh: !this.state.refresh
         })
-      )
+      );
   };
 
   render() {

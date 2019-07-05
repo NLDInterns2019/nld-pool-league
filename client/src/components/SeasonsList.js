@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
     return (
-      <div key={season.DISTINCT}>
+      <li key={season.DISTINCT}>
         <Link
           to={{
             pathname: "/8-ball/overview",
@@ -15,15 +15,13 @@ const SeasonsList = props => {
         >
           Season {season.DISTINCT}
         </Link>
-      </div>
+      </li>
     );
   });
   return (
     <div className="seasonsList">
       <h3>List of Seasons</h3>
-      <ul>
-        <li>{listToBeDisplayed}</li>
-      </ul>
+      <ul>{listToBeDisplayed}</ul>
     </div>
   );
 };

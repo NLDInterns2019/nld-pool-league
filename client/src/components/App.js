@@ -4,7 +4,6 @@ import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
 import FixtureTable from "./FixtureTable.js";
-import CreateSeasonForm from "./CreateSeasonForm.js";
 import SubmitScoreForm from "./SubmitScoreForm.js";
 
 class App extends React.Component {
@@ -68,6 +67,7 @@ class App extends React.Component {
           <div className="contentLeft">
             <LeagueTable players={this.state.players} />
           </div>
+
           <div className="contentRight">
             <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             <FixtureTable fixtures={this.state.fixtures} />

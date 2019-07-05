@@ -11,10 +11,10 @@ const Header = () => {
         <Link to="/">POOL MANAGER</Link>
       </div>
       <div className="headerRight">
-        {!matchPath(currentPath, { path: "/", exact: true }) ? (
-          <HeaderNavigator />
-        ) : (
+        {matchPath(currentPath, { path: "/", exact: true }) ? (
           <div />
+        ) : (
+          <HeaderNavigator />
         )}
       </div>
     </div>
