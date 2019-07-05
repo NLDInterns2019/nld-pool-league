@@ -36,7 +36,8 @@ router.get("/:seasonId", (req, res) => {
     .orderBy("points", "desc")
     .then(
       players => {
-        res.json(players);
+        if (!players.length) res.status(404).send();
+        else res.json(players);
       },
       e => {
         res.status(400).json(e);
