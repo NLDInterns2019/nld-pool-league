@@ -6,10 +6,6 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      fixtureId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
       score1: {
         type: DataTypes.INTEGER,
         allowNull: true

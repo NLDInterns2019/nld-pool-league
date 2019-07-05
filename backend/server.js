@@ -467,7 +467,7 @@ function suitableFixture(leagueId, name, maxCount) {
 }
 
 //{force: true} to start with clean table
-db.sequelize.sync().then(function() {
+db.sequelize.sync({force:true}).then(function() {
   app.listen(PORT, () => {
     console.log("Express is listening on port: " + PORT);
   });
