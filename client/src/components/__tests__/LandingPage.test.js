@@ -1,15 +1,15 @@
+import React from "react";
 import Enzyme, { configure, shallow, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import React from "react";
-import App from "../App.js";
+import LandingPage from "../LandingPage.js";
 import { assert, expect, should } from "chai";
 should();
 
 configure({ adapter: new Adapter() });
 
-describe("App component", () => {
+describe("SeasonsPage component", () => {
   it("should render", () => {
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<LandingPage />);
     wrapper.exists().should.be.true;
   });
 });

@@ -1,14 +1,17 @@
 import React from "react";
-import Enzyme, { configure, shallow, mount } from "enzyme";
+import chai, { expect, should } from "chai";
+import chaiEnzyme from "chai-enzyme";
+import { mount, render, shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import SeasonsPage from "../SeasonsPage";
+import SeasonsPage from "../SeasonsPage.js";
+should();
 
 configure({ adapter: new Adapter() });
+chai.use(chaiEnzyme());
 
 describe("SeasonsPage component", () => {
   it("should render", () => {
     const wrapper = shallow(<SeasonsPage />);
-
-    expect(wrapper.exists()).toBe(true);
+    wrapper.exists().should.be.true;
   });
 });

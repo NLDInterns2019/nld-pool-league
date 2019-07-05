@@ -77,6 +77,7 @@ class CreateSeasonForm extends Component {
             type="text"
             placeholder="Season number"
             value={this.state.seasonName}
+            id="inputSeasonNo"
             onChange={e => this.setState({ seasonName: e.target.value })}
           />
           <div className="inputPlayers">
@@ -98,6 +99,7 @@ class CreateSeasonForm extends Component {
                   <button
                     type="button"
                     className="removeBtn"
+                    id={"button" + index}
                     onClick={() => this.removePlayer(index)}
                   >
                     - Remove

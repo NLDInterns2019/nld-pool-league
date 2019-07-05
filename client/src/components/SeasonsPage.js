@@ -79,14 +79,14 @@ class SeasonsPage extends Component {
           <div className="seasonsListContainer">
             <SeasonsList seasons={this.state.seasons} />
             <br />
-            <button type="button" onClick={this.openPopUp}>
+            <button type="button" id="addSeasonBtn" onClick={this.openPopUp}>
               + Add new season
             </button>
           </div>
           <div className="popup-container" id="container">
             <div className="form-popup" id="popup">
               <CreateSeasonForm createSeason={this.createSeason} />
-              <button type="button" onClick={this.closePopUp}>
+              <button type="button" id="cancelbtn" onClick={this.closePopUp}>
                 Cancel
               </button>
             </div>
