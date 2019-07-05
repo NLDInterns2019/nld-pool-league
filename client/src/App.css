@@ -9,18 +9,19 @@ body {
   min-width: 1400px;
 }
 
+/* ==== Headings ==== */
+h3 {
+  margin: 0rem;
+  font-size: 24pt;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
 /* ==== Header ==== */
 .header {
   background-color: #0f5d0f;
   color: white;
   padding: 1rem;
-}
-
-.header h1 {
-  font-size: 2.5em;
-  margin: 0rem;
-  display: inline-block;
-  padding-left: 1.5rem;
 }
 
 .header ul {
@@ -42,6 +43,14 @@ body {
 .headerRight ul {
   padding: 0rem;
   margin: 0rem;
+}
+
+.headerLeft a {
+  text-decoration: none;
+  color: white;
+  font-size: 30pt;
+  font-weight: bold;
+  padding-left: 1.5rem;
 }
 
 /* ==== Navigation ==== */
@@ -76,7 +85,7 @@ body {
   padding-bottom: 0.5rem;
   background-color: #999999;
   box-shadow: 0px 8px 10px -6px;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .subnav ul {
@@ -124,30 +133,31 @@ table td {
   padding-right: 15px;
 }
 
+.fixtureTableContainer {
+  margin-top: 8rem;
+}
+
 /* ==== League Table ==== */
 .leagueTable {
   font-size: 18pt;
 }
 
+.leagueTableContainer h2 {
+  margin-top: 0rem;
+}
+
+/* ==== Fixture and League Table positioning ==== */
 .fixtureTableContainer,
 .leagueTableContainer {
   display: inline-block;
   margin-bottom: 8rem;
 }
 
-/* ==== Create New Season Form ==== */
-.createSeasonForm {
-  margin-bottom: 8rem;
-}
-
+/* ==== Labels in Create Season and Submit Score Forms ==== */
 .createSeasonForm label,
 .submitScoreForm label {
   font-size: 12pt;
   padding-right: 0.5rem;
-}
-
-.createSeasonForm #noOfPlayers {
-  margin: 1rem;
 }
 
 /* ==== Submit Score Form ==== */
@@ -157,7 +167,8 @@ table td {
 
 .submitScoreForm input {
   margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   width: 150px;
 }
 
@@ -166,9 +177,14 @@ table td {
   width: 75px;
 }
 
+.submitScoreForm button {
+  margin-top: 0.5rem;
+}
+
 /* ==== Inputs ==== */
 input::placeholder,
-input {
+input,
+select {
   font-family: "Montserrat";
   font-size: 12pt;
 }
@@ -191,15 +207,18 @@ input {
 button {
   background-color: #0f5d0f;
   color: white;
-  font-family: Montserrat;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  font-family: "Montserrat";
+  padding: 5px 15px 5px 15px;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
   border-radius: 8px;
-  font-size: 12pt;
+  font-size: 14pt;
 }
 
 button:hover {
   cursor: pointer;
+  font-weight: bold;
 }
 
 #createNewSeason {
@@ -211,44 +230,138 @@ button:hover {
   margin-left: 0.5rem;
 }
 
+/* ==== Seasons Page ==== */
 .seasons .content li {
   list-style-type: none;
-  font-size: 24pt;
-  padding-bottom: 2rem;
+  font-size: 20pt;
 }
 
 .seasons .content ul {
   padding-left: 0rem;
+  text-align: left;
+  margin: 0rem;
 }
 
-.seasons .content button {
-  background-color: #0f5d0f;
-  color: white;
-  font-family: Montserrat;
-  padding: 5px 15px 5px 15px;
+.seasons .content a {
+  text-decoration: none;
+  color: black;
+  display: block;
+  padding: 1rem;
+}
+
+.seasons .content a:hover {
+  background-color: #f2f2f2;
+}
+
+.seasonsList h3 {
+  text-align: center;
 }
 
 /* ==== Popup ==== */
-.form-popup {
-  background-color: white;
-  min-width: 450px;
-  width: 450px;
-  margin: auto;
-  text-align: center;
-  padding: 2rem;
-  border-radius: 15px;
+.popup-container {
   display: none;
-  position: relative;
-}
-
-.form-popup .createSeasonForm {
-  margin-bottom: 0rem;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding-top: 60px;
 }
 
 .form-popup .createSeasonForm .removeBtn {
   background-color: #c40000;
 }
 
-.form-popup h2 {
+.form-popup .createSeasonForm {
   margin-top: 0rem;
+  text-align: center;
+}
+
+.form-popup button {
+  margin-top: 0.5rem;
+}
+
+/* ==== White Boxes ==== */
+.viewYourFixtures,
+.submitScoreForm,
+.seasonsListContainer,
+.app .createSeasonForm,
+.form-popup,
+.arrangeFixture {
+  background-color: white;
+  width: 600px;
+  margin: auto;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+/* ==== Arrange Fixture ==== */
+.arrangeFixture {
+  margin-top: 8rem;
+}
+
+.arrangeFixture label {
+  padding-right: 0.5rem;
+}
+
+.arrangeFixture form {
+  text-align: right;
+  width: 50%;
+  margin: auto;
+}
+
+.arrangeFixture select {
+  margin-bottom: 1rem;
+}
+
+.arrangeFixtureBtn {
+  text-align: center;
+}
+
+/* ==== View Your Fixtures ==== */
+.viewYourFixtures label {
+  padding-right: 0.5rem;
+}
+
+/* ==== Landing Page ==== */
+.landingPage .content {
+  text-align: center;
+}
+.landingPage .content .menu {
+  display: inline-block;
+}
+
+.landingPage .content ul {
+  list-style-type: none;
+  padding: 0rem;
+}
+
+.landingPage .content li {
+  display: inline-block;
+  padding: 1rem;
+}
+
+.landingPage .content a {
+  text-decoration: none;
+  background-color: #0f5d0f;
+  color: white;
+  display: inline-block;
+  padding: 5px 15px 5px 15px;
+  border-radius: 8px;
+  font-size: 24pt;
+  width: 150px;
+}
+
+.landingPage .content h1 {
+  margin-top: 8rem;
+  font-size: 45pt;
+}
+
+.landingPage .content h2 {
+  margin-top: 8rem;
+  font-size: 24pt;
 }
