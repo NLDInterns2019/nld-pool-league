@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
   res.send("Nonlinear Pool Manager Backend");
 });
 
+//DONE
 //GET 8 BALL SEASONS (for the seasons list)
 app.get("/api/8ball_season", (req, res) => {
   db.eight_ball_seasons.findAll({ where: {} }).then(
@@ -27,6 +28,7 @@ app.get("/api/8ball_season", (req, res) => {
   );
 });
 
+//NOT REQUIRED
 //POST 8 BALL SEASONS (add new seasons)
 app.get("/api/8ball_season/add/seasons", (req, res) => {
   let body = _.pick(req.body, "seasonId");
@@ -41,6 +43,7 @@ app.get("/api/8ball_season/add/seasons", (req, res) => {
   );
 });
 
+//DONE
 //GET 8 BALL LEAGUE
 app.get("/api/8ball_league", (req, res) => {
   let where = {};
@@ -55,6 +58,7 @@ app.get("/api/8ball_league", (req, res) => {
   );
 });
 
+//DONE
 //POST 8 BALL PLAYER
 app.post("/api/8ball_league/add/player", (req, res) => {
   let body = _.pick(req.body, "seasonId", "staffName");
@@ -69,6 +73,7 @@ app.post("/api/8ball_league/add/player", (req, res) => {
   );
 });
 
+//DONE
 //DELETE 8 BALL PLAYER
 app.delete("/api/8ball_league/delete/player", (req, res) => {
   let body = _.pick(req.body, "seasonId", "staffName");
