@@ -217,11 +217,13 @@ function polygonShuffle(players) {
 /* 
   POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
   Function: Handles fixture generation and fixture splitting
+  Only works with even numbers of competitors at the moment.
 */
 router.get("/test", (req, res) => {
   var players = ['A', 'B', 'C', 'D', 'E', 'F'];
   var playerCount = players.length();
   var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
+  var fixtId = 0;
   //set starting fixture. will need changing if odd numbers of players.
 
   //this gets a fixture and puts it into fixtSets
@@ -229,8 +231,9 @@ router.get("/test", (req, res) => {
     for (var i = 0; i<playerCount/2; i++) { //value may be wrong
       fixtSets.push = players[i] + " " + players[playercount-i-1]; //
     }
-  fixtSets.push('//////');
-  players = polygonShuffle(players); //rotate players for next fixture
+    fixtSets.push(players[playerCount-1] + " " + players[playerCount/2]);; //set a row for the centre
+    fixtSets.push('//////');
+    players = polygonShuffle(players); //rotate players for next fixture
   }
 
   players = polygonShuffle(players);
