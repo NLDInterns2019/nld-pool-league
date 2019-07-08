@@ -245,8 +245,13 @@ button:hover {
 .seasons .content a {
   text-decoration: none;
   color: black;
-  display: block;
+  display: inline-block;
   padding: 1rem;
+  width: 60%;
+}
+
+.seasonsList button {
+  text-align: right;
 }
 
 .seasons .content a:hover {
