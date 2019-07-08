@@ -12,6 +12,7 @@ class CreateSeasonForm extends Component {
     this.hasInvalidCells = false;
     this.alertMessage = "";
     this.state = this.initialState;
+    this.createSeason = this.createSeason.bind(this);
   }
 
   addPlayer() {
@@ -38,7 +39,7 @@ class CreateSeasonForm extends Component {
     this.setState({ seasonName: e.target.value });
   }
 
-  createSeason = () => {
+  createSeason() {
     var regex = /^[A-Z]+$/; // matches 1 or more capital letters
     var regexSeasonNumber = /^[1-9]([0-9])*$/; // matches 1 number from 1 to 9 followed by 0 or more numbers from 0 to 9
 
@@ -61,14 +62,14 @@ class CreateSeasonForm extends Component {
 
     /* alert the user that their input is not valid, otherwise, create the season */
     if (this.hasInvalidCells) {
-      alert(this.alertMessage);
+      window.alert(this.alertMessage);
       this.hasInvalidCells = false;
     } else {
       this.props.createSeason(this.state);
       document.getElementById("container").style.display = "none";
       this.setState(this.initialState);
     }
-  };
+  }
 
   render() {
     return (
