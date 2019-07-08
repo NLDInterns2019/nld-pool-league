@@ -18,8 +18,8 @@ class SubmitScoreForm extends Component {
 
   handleSubmit(e) {
     var regexScore = /^[0-2]$/; // matches 0, 1, or 2
-    var score1 = parseInt(document.getElementById("score1").value, 10);
-    var score2 = parseInt(document.getElementById("score2").value, 10);
+    var score1 = parseInt(this.state.score1);
+    var score2 = parseInt(this.state.score2);
 
     /* check the inputs match the regular expressions */
     if (!regexScore.test(score1) || !regexScore.test(score2)) {
@@ -50,7 +50,7 @@ class SubmitScoreForm extends Component {
             placeholder="Score"
             id="score1"
             value={this.state.score1}
-            onChange={e => this.setState({ score1: e.target.value })}
+            onChange={e => this.setState({ score1: e.target.value})}
           />
           <input
             type="text"
