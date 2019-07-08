@@ -209,9 +209,9 @@ router.put("/edit", async (req, res) => {
 router.get("/test", (req, res) => {
   /*
 Method:
-namePolygon A B C D E F
+namesPolygon = A B C D E F
 1: AB CD EF
-namePolygon B C D E F A
+namesPolygon = B C D E F A
 2: BC DE FA
 repeat until namePolyon is in original position.
 Each round is an individual set of fixtures.
