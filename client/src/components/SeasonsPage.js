@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import backend from '../api/backend';
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
@@ -16,8 +16,8 @@ class SeasonsPage extends Component {
   }
 
   getSeasonsList = async () => {
-    const response = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_season"
+    const response = await backend.get(
+      "/api/8ball_season"
     );
     this.setState({ seasons: response.data });
   };
@@ -45,20 +45,20 @@ class SeasonsPage extends Component {
   createSeason = state => {
     Promise.all(
       state.players.map(player =>
-        axios.post(
-          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/add/player",
+        backend.post(
+          "/api/8ball_league/add/player",
           {
-            seasonId: state.seasonName,
+            seasonId: parseInt(state.seasonName),
             staffName: player
           }
         )
       )
     )
       .then(() =>
-        axios.post(
-          "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/generate/fixture",
+        backend.post(
+          "/api/8ball_fixture/generate/",
           {
-            seasonId: state.seasonName
+            seasonId: parseInt(state.seasonName)
           }
         )
       )

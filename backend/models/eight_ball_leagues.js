@@ -1,49 +1,33 @@
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define("eight_ball_leagues", {
-    seasonId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-    },
-    staffName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
-    },
-    played: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    win: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    draw: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    lost: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    goalsFor: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    goalsAgainst: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    points: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    }
-  });
-};
+const { Model } = require("objection");
+const knex = require("../db/knex");
+
+Model.knex(knex);
+
+class eight_ball_leagues extends Model {
+  static get tableName() {
+    return "eight_ball_leagues";
+  }
+
+  static get relationMapping() {
+    return {
+      player1: {
+        relation: Model.HasManyRelation,
+        modelClass: eight_ball_fixtures,
+        join: {
+          from: ["eight_ball_leagues.seasonId", "eight_ball_leagues.staffName"],
+          to: ["eight_ball_fixtures.seasonId", "eight_ball_fixtures.player1"]
+        }
+      },
+      player2: {
+        relation: Model.HasManyRelation,
+        modelClass: eight_ball_fixtures,
+        join: {
+          from: ["eight_ball_leagues.seasonId", "eight_ball_leagues.staffName"],
+          to: ["eight_ball_fixtures.seasonId", "eight_ball_fixtures.player2"]
+        }
+      }
+    };
+  }
+}
+
+module.exports = eight_ball_leagues;
