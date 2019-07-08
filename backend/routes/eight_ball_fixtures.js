@@ -7,7 +7,7 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
 /* 
-  GET handler for /api/8ball_fixtures
+  GET handler for /api/8ball_fixture
   Function: To get all the fixtures
 */
 router.get("/", (req, res) => {
@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  GET handler for /api/8ball_fixtures/:seasonId
+  GET handler for /api/8ball_fixture/:seasonId
   Function: To get all the fixtures in the specified season
 */
 router.get("/:seasonId", (req, res) => {
