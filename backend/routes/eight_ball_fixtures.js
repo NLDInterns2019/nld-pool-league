@@ -206,7 +206,7 @@ router.put("/edit", async (req, res) => {
 
 //shift values in an array
 function polygonShuffle(players) {
-  var playerCount = players.length;
+  var playerCount = players.length-2;
   var firstValue = players[0];
   for (var i = 0; i<playerCount; i++) {
       players[i] = players[i+1];
