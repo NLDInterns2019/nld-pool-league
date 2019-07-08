@@ -135,14 +135,17 @@ router.put("/edit", async (req, res) => {
   //Find out who won
   if (req.body.score1 > req.body.score2) {
     player1.win++;
-    player2.lost++;
+    player2.lose++;
   } else if (req.body.score1 < req.body.score2) {
-    player1.lost++;
+    player1.lose++;
     player2.win++;
   } else {
     player1.draw++;
     player2.draw++;
   }
+  
+  console.log(player1);
+  console.log(player2)
 
   //Calculate score
   player1.points = player1.win * 3 + player1.draw;
@@ -189,6 +192,7 @@ router.put("/edit", async (req, res) => {
       .query()
       .findOne(oriPlayer2)
       .patch(player2);
+      
     if (result === 0) {
       res.status(404).send();
       return;

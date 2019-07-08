@@ -6,7 +6,7 @@ const Joi = require("joi");
 const eight_ball_leagues = require("../models/eight_ball_leagues");
 
 /* 
-  GET handler for /api/8ball_seasons
+  GET handler for /api/8ball_season
   Function: To get all the 8 ball seasons
 */
 router.get("/", (req, res) => {

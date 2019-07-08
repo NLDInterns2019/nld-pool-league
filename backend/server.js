@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use("/api/8ball_seasons", eight_ball_season);
+app.use("/api/8ball_season", eight_ball_season);
 app.use("/api/8ball_league", eight_ball_leagues);
 app.use("/api/8ball_fixture", eight_ball_fixtures);
 

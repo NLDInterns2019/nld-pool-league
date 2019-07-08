@@ -5,7 +5,7 @@ const Joi = require("joi");
 const eight_ball_leagues = require("../models/eight_ball_leagues");
 
 /* 
-  GET handler for /api/8ball_leagues
+  GET handler for /api/8ball_league
   Function: To get all the players detail in the league
 */
 router.get("/", (req, res) => {
@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_leagues/add/player/:seasonId
+  POST handler for /api/8ball_league/add/player/:seasonId
   Function: To get all the players detail in the league of the SPECIFIED season
 */
 
@@ -46,7 +46,7 @@ router.get("/:seasonId", (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_leagues/add/player
+  POST handler for /api/8ball_league/add/player
   Function: To add player to the 8 ball league
 */
 router.post("/add/player", (req, res) => {
@@ -77,7 +77,7 @@ router.post("/add/player", (req, res) => {
 });
 
 /* 
-  DELETE handler for /api/8ball_leagues/delete/player
+  DELETE handler for /api/8ball_league/delete/player
   Function: To delete player from the league (NOTE YET IMPLEMENTED IN THE UI)
 */
 router.delete("/delete/player", (req, res) => {
