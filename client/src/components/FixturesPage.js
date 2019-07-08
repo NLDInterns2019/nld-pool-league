@@ -1,19 +1,24 @@
 import React from "react";
 import Header from "./Header";
 import SubNavBar from "./SubNavBar";
+import SubmitScoreForm from "./SubmitScoreForm";
+import ViewYourFixtures from "./ViewYourFixtures";
+import ArrangeFixture from "./ArrangeFixture";
 
 const FixturesPage = () => {
   return (
     <div className="fixtures">
       <Header />
-      <SubNavBar current="Fixtures" />
+      <SubNavBar />
       <div className="content">
-        <form>
-          <input type="text" id="searchName" />
-          <button type="button" id="searchButton">
-            Search
-          </button>
-        </form>
+        <div className="contentLeft">
+          <ViewYourFixtures />
+        </div>
+
+        <div className="contentRight">
+          <SubmitScoreForm />
+          <ArrangeFixture />
+        </div>
       </div>
     </div>
   );

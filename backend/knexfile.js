@@ -31,6 +31,11 @@ module.exports = {
     },
     seeds: {
       directory: __dirname + "/db/seeds/development"
+    },
+    pool: {
+      afterCreate: function(conn, cb) {
+        conn.run("PRAGMA foreign_keys = ON", cb);
+      }
     }
   },
   production: {
@@ -39,12 +44,12 @@ module.exports = {
       database: "NldPoolLeague",
       server: "nldpoolleague.database.windows.net",
       user: "nldpoolleague",
-      password: "process.env.DBPASSWORD",
+      password: process.env.DBPASSWORD,
       port: 1433,
-      connectionTimeout: 30000
-    },
-    options: {
-      encrypt: true
+      connectionTimeout: 30000,
+      options: {
+        encrypt: true
+      },
     },
     migrations: {
       directory: __dirname + "/db/migrations"

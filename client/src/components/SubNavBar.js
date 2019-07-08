@@ -1,15 +1,11 @@
 import React from "react";
 import "../App.css";
-import Navigator from "./Navigator.js";
+import SubNavigator from "./SubNavigator.js";
 
-const SubNavBar = props => {
+const SubNavBar = () => {
   return (
     <div className="subnav">
-      <Navigator
-        current={props.current}
-        title="8-Ball"
-        items={["Seasons", "Overview", "Fixtures"]}
-      />
+      <SubNavigator />
     </div>
   );
 };

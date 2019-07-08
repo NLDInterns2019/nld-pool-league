@@ -10,6 +10,7 @@ class CreateSeasonForm extends Component {
     };
 
     this.hasInvalidCells = false;
+    this.alertMessage = "";
     this.state = this.initialState;
   }
 
@@ -17,35 +18,51 @@ class CreateSeasonForm extends Component {
     this.setState({ players: [...this.state.players, ""] });
   }
 
-  handleChange(e, index) {
-    this.state.players[index] = e.target.value.toUpperCase();
-    this.setState({ players: this.state.players });
+  handleChange(e, indexToChange) {
+    this.setState({
+      players: this.state.players.map((player, index) => {
+        if (index === indexToChange) {
+          return e.target.value.toUpperCase();
+        }
+        return player;
+      })
+    });
   }
 
   removePlayer(index) {
-    this.state.players.splice(index, 1);
+    this.setState({ players: this.state.players.splice(index, 1) });
 
     this.setState({ players: this.state.players });
   }
 
   createSeason = () => {
-    var regex = /^[A-Z]+$/;
-    /* check if the text inputs match the regular expression */
+    var regex = /^[A-Z]+$/; // matches 1 or more capital letters
+    var regexSeasonNumber = /^[1-9]([0-9])*$/; // matches 1 number from 1 to 9 followed by 0 or more numbers from 0 to 9
+
+    /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
+    if (!regexSeasonNumber.test(this.state.seasonName)) {
+      this.hasInvalidCells = true;
+      this.alertMessage = "Season number can only be a number";
+    } else if (this.state.players.length < 2) {
+      this.hasInvalidCells = true;
+      this.alertMessage = "Season requires at least 2 people";
+    }
+
+    /* check if the player text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
         this.hasInvalidCells = true;
+        this.alertMessage = "Player names can only include letters";
       }
     }
-    /* check if the season name text input is empty */
-    if (this.state.seasonName === "") {
-      this.hasInvalidCells = true;
-    }
-    /* alert the user that their input is not valid */
+
+    /* alert the user that their input is not valid, otherwise, create the season */
     if (this.hasInvalidCells) {
-      alert("Not a valid input");
+      alert(this.alertMessage);
       this.hasInvalidCells = false;
     } else {
       this.props.createSeason(this.state);
+      document.getElementById("container").style.display = "none";
       this.setState(this.initialState);
     }
   };
@@ -53,21 +70,23 @@ class CreateSeasonForm extends Component {
   render() {
     return (
       <div className="createSeasonForm">
-        <h2>Create a season</h2>
+        <h3>Create a Season</h3>
         <form>
-          <label>Season name:</label>
+          <label>Season number:</label>
           <input
             type="text"
-            placeholder="Season name"
+            placeholder="Season number"
             value={this.state.seasonName}
+            id="inputSeasonNo"
             onChange={e => this.setState({ seasonName: e.target.value })}
           />
           <div className="inputPlayers">
-            {/* Map the players in the state to inputs */}
+            {/* map the players in the state to inputs */}
             {this.state.players.map((player, index) => {
               return (
                 <div key={index}>
-                  <label>Player {index + 1}</label>
+                  <label>Player {index + 1}:</label>
+
                   {/* player name text input */}
                   <input
                     placeholder="Player name"
@@ -75,10 +94,12 @@ class CreateSeasonForm extends Component {
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                   />
+
                   {/* button for removing player */}
                   <button
                     type="button"
                     className="removeBtn"
+                    id={"button" + index}
                     onClick={() => this.removePlayer(index)}
                   >
                     - Remove
@@ -86,6 +107,7 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
+
             {/* button for adding a player */}
             <button
               type="button"
@@ -94,6 +116,8 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
+
+            {/* button for creating new season */}
             <button type="button" onClick={this.createSeason}>
               Create season
             </button>
