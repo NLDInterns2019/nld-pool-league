@@ -233,6 +233,7 @@ router.get("/test", (req, res) => {
     }
     fixtSets.push(players[playerCount-1] + " " + players[playerCount/2]);; //set a row for the centre
     fixtSets.push('//////');
+    fixtId++;
     players = polygonShuffle(players); //rotate players for next fixture
   }
 
