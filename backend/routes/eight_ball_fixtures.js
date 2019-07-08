@@ -170,9 +170,6 @@ router.put("/edit", async (req, res) => {
     return;
   }
 
-  console.log(player1);
-  console.log(player2);
-
   //UPDATE PLAYER1 IN LEAGUE TABLE
   try {
     let result = await eight_ball_leagues
