@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const Joi = require("joi");
+const knex = require("../db/knex");
 
 const eight_ball_leagues = require("../models/eight_ball_leagues");
 
@@ -63,17 +64,16 @@ router.post("/add/player", (req, res) => {
     return;
   }
 
-  eight_ball_leagues
-    .query()
-    .insert({ seasonId: req.body.seasonId, staffName: req.body.staffName })
-    .then(
-      player => {
-        res.json(player);
-      },
-      e => {
-        res.status(404).json(e);
-      }
-    );
+  knex('eight_ball_leagues')
+  .insert({ seasonId: req.body.seasonId, staffName: req.body.staffName })
+  .then(
+    player => {
+      res.json(player);
+    },
+    e => {
+      res.status(404).json(e);
+    }
+  );
 });
 
 /* 
