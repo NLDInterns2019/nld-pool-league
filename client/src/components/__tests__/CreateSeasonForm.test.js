@@ -1,7 +1,7 @@
 import React from "react";
 import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
-import { mount, shallow, configure } from "enzyme";
+import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import CreateSeasonForm from "../CreateSeasonForm.js";
 import sinon from "sinon";

@@ -1,7 +1,7 @@
 import React from "react";
 import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
-import { mount, shallow, configure } from "enzyme";
+import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import SubmitScoreForm from "../SubmitScoreForm.js";
 import sinon from "sinon";
@@ -92,5 +92,129 @@ describe("Submit Score button click", () => {
     submitScoreBtn.simulate("click");
 
     spy.calledOnce.should.be.true;
+  });
+});
+
+describe("Validation", () => {
+  it("should be called when the submit score button is clicked", () => {
+    var spy = sinon.spy(SubmitScoreForm.prototype, "validate");
+    const wrapper = shallow(<SubmitScoreForm />);
+    const submitScoreBtn = wrapper.find("#submitScoreBtn");
+
+    // prevents error with alerts. An alert showing is normal behaviour, not an error
+    window.alert = () => {};
+
+    submitScoreBtn.simulate("click");
+
+    spy.calledOnce.should.be.true;
+  });
+
+  describe("Invalid inputs", () => {
+    it("should return false if all fields are empty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "",
+        player1: "",
+        score2: "",
+        player2: ""
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+    it("should return false if 3 fields are emprty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "1",
+        player1: "",
+        score2: "",
+        player2: ""
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+
+    it("should return false if 2 fields are empty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "1",
+        player1: "STEVE",
+        score2: "",
+        player2: ""
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+
+    it("should return false if 1 field is empty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "1",
+        player1: "STEVE",
+        score2: "1",
+        player2: ""
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+
+    it("should return false if the player fields are empty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "1",
+        player1: "",
+        score2: "1",
+        player2: ""
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+
+    it("should return false if the score fields are empty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "",
+        player1: "STEVE",
+        score2: "",
+        player2: "DAVE"
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+
+    it("should return false if numbers don't add up to 2", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "1",
+        player1: "STEVE",
+        score2: "0",
+        player2: "DAVE"
+      });
+
+      wrapper.instance().validate().should.be.false;
+
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "3",
+        player1: "STEVE",
+        score2: "3",
+        player2: "DAVE"
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+  });
+
+  describe("Valid inputs", () => {
+    it("should return true if all fields are filled in correctly", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "1",
+        player1: "STEVE",
+        score2: "1",
+        player2: "DAVE"
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
   });
 });
