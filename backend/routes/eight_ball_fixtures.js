@@ -143,9 +143,6 @@ router.put("/edit", async (req, res) => {
     player1.draw++;
     player2.draw++;
   }
-  
-  console.log(player1);
-  console.log(player2)
 
   //Calculate score
   player1.points = player1.win * 3 + player1.draw;
