@@ -67,16 +67,27 @@ router.put("/edit", async (req, res) => {
     return;
   }
 
+  const leagueAttributes = {
+    seasonId: req.body.seasonId,
+    player1: req.body.player1,
+    score1: null,
+    player2: req.body.player2,
+    score2: null
+  }
+
+  const p1Attributes = {
+    seasonId: req.body.seasonId,
+    staffName: req.body.player1
+  }
+
+  const p2Attributes = {
+    seasonId: req.body.seasonId,
+    staffName: req.body.player2
+  }
+
   //Check if fixture exist and score is still null (means fixture hasnt been played)
-  let fixture;
   try {
-    fixture = await eight_ball_fixtures.query().findOne({
-      seasonId: req.body.seasonId,
-      player1: req.body.player1,
-      score1: null,
-      player2: req.body.player2,
-      score2: null
-    });
+    let fixture = await eight_ball_fixtures.query().findOne(leagueAttributes);
 
     if (!fixture) {
       res.status(404).send();
@@ -86,16 +97,13 @@ router.put("/edit", async (req, res) => {
     res.status(500).send();
   }
 
-  let player1, oriPlayer1;
-  let player2, oriPlayer2;
+  let player1;
+  let player2;
 
   //Fetch player1
   try {
-    oriPlayer1 = await eight_ball_leagues.query().findOne({
-      seasonId: req.body.seasonId,
-      staffName: req.body.player1
-    });
-    if (!oriPlayer1) {
+    player1 = await eight_ball_leagues.query().findOne(p1Attributes);
+    if (!player1) {
       res.status(404).send();
       return;
     }
@@ -103,15 +111,11 @@ router.put("/edit", async (req, res) => {
     res.status(500).send();
     return;
   }
-  player1 = _.cloneDeep(oriPlayer1);
 
   //Fetch player2
   try {
-    oriPlayer2 = await eight_ball_leagues.query().findOne({
-      seasonId: req.body.seasonId,
-      staffName: req.body.player2
-    });
-    if (!oriPlayer2) {
+    player2 = await eight_ball_leagues.query().findOne(p2Attributes);
+    if (!player2) {
       res.status(404).send();
       return;
     }
@@ -119,7 +123,6 @@ router.put("/edit", async (req, res) => {
     res.status(500).send();
     return;
   }
-  player2 = _.cloneDeep(oriPlayer2);
 
   /* LEAGUE ALGORITHM */
   //Increment the play
@@ -127,11 +130,11 @@ router.put("/edit", async (req, res) => {
   player2.play++;
 
   //Increment the for and againts
-  player1.goalsFor = oriPlayer1.goalsFor + req.body.score1;
-  player1.goalsAgainst = oriPlayer1.goalsAgainst + req.body.score2;
+  player1.goalsFor = player1.goalsFor + req.body.score1;
+  player1.goalsAgainst = player1.goalsAgainst + req.body.score2;
 
-  player2.goalsFor = oriPlayer2.goalsFor + req.body.score2;
-  player2.goalsAgainst = oriPlayer2.goalsAgainst + req.body.score1;
+  player2.goalsFor = player2.goalsFor + req.body.score2;
+  player2.goalsAgainst = player2.goalsAgainst + req.body.score1;
 
   //Find out who won
   if (req.body.score1 > req.body.score2) {
@@ -153,12 +156,11 @@ router.put("/edit", async (req, res) => {
   try {
     let result = await eight_ball_fixtures
       .query()
-      .findOne(fixture)
+      .findOne(leagueAttributes)
       .patch({
         score1: req.body.score1,
         score2: req.body.score2
       });
-
     if (result === 0) {
       res.status(404).send();
       return;
@@ -168,13 +170,15 @@ router.put("/edit", async (req, res) => {
     return;
   }
 
+  console.log(player1);
+  console.log(player2);
+
   //UPDATE PLAYER1 IN LEAGUE TABLE
   try {
     let result = await eight_ball_leagues
       .query()
-      .findOne(oriPlayer1)
+      .findOne(p1Attributes)
       .patch(player1);
-
     if (result === 0) {
       res.status(404).send();
       return;
@@ -188,9 +192,8 @@ router.put("/edit", async (req, res) => {
   try {
     let result = await eight_ball_leagues
       .query()
-      .findOne(oriPlayer2)
+      .findOne(p2Attributes)
       .patch(player2);
-
     if (result === 0) {
       res.status(404).send();
       return;
