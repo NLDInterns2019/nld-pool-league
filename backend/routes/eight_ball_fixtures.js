@@ -202,6 +202,30 @@ router.put("/edit", async (req, res) => {
   res.status(200).send();
 });
 
+/* !!!!!!!!!!!!!UNFINISHED
+  POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
+  Function: Handles fixture generation and fixture splitting
+*/
+router.get("/test", (req, res) => {
+  /*
+Method:
+namePolygon A B C D E F
+1: AB CD EF
+namePolygon B C D E F A
+2: BC DE FA
+repeat until namePolyon is in original position.
+Each round is an individual set of fixtures.
+*/
+  eight_ball_fixtures.query().then(
+    fixture => {
+      res.json(fixture);
+    },
+    e => {
+      res.status(400).json(e);
+    }
+  );
+});
+
 /*
   POST handler for /api/8ball_fixture/generate/
   Function: To get all the fixtures in the specified season
