@@ -7,7 +7,7 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
 /* 
-  GET handler for /api/8ball_fixtures
+  GET handler for /api/8ball_fixture
   Function: To get all the fixtures
 */
 router.get("/", (req, res) => {
@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  GET handler for /api/8ball_fixtures/:seasonId
+  GET handler for /api/8ball_fixture/:seasonId
   Function: To get all the fixtures in the specified season
 */
 router.get("/:seasonId", (req, res) => {
@@ -204,6 +204,30 @@ router.put("/edit", async (req, res) => {
 
   //EVERYTHING SUCCEED
   res.status(200).send();
+});
+
+/* !!!!!!!!!!!!!UNFINISHED
+  POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
+  Function: Handles fixture generation and fixture splitting
+*/
+router.get("/test", (req, res) => {
+  /*
+Method:
+namesPolygon = A B C D E F
+1: AB CD EF
+namesPolygon = B C D E F A
+2: BC DE FA
+repeat until namePolyon is in original position.
+Each round is an individual set of fixtures.
+*/
+  eight_ball_fixtures.query().then(
+    fixture => {
+      res.json(fixture);
+    },
+    e => {
+      res.status(400).json(e);
+    }
+  );
 });
 
 /*

@@ -100,7 +100,7 @@ app.delete("/api/8ball_league/delete/player", (req, res) => {
     );
 });
 
-//GET 8 BALL FIXTURE
+//GET 8 BALL FIXTURE///////////////////////////////////////////////////////////////
 app.get("/api/8ball_league/fixture", (req, res) => {
   let where = {};
 
