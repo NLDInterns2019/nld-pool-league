@@ -31,17 +31,29 @@ const HeaderNavigator = () => {
     <div className="nav">
       <ul>
         <li>
-          <Link to="/8-ball/seasons" style={eightBallCurrentStyle}>
+          <Link
+            to="/8-ball/seasons"
+            style={eightBallCurrentStyle}
+            id="eightBallLink"
+          >
             8-Ball
           </Link>
         </li>
         <li>
-          <Link to="/9-ball/seasons" style={nineBallCurrentStyle}>
+          <Link
+            to="/9-ball/seasons"
+            style={nineBallCurrentStyle}
+            id="nineBallLink"
+          >
             9-Ball
           </Link>
         </li>
         <li>
-          <Link to="/billiards/seasons" style={billiardsCurrentStyle}>
+          <Link
+            to="/billiards/seasons"
+            style={billiardsCurrentStyle}
+            id="billiardsLink"
+          >
             Billiards
           </Link>
         </li>

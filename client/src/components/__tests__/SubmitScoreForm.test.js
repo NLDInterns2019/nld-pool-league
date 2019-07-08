@@ -169,6 +169,18 @@ describe("Validation", () => {
       wrapper.instance().validate().should.be.false;
     });
 
+    it("should return false if the score fields are empty", () => {
+      wrapper.hasInvalidCells = false;
+      wrapper.setState({
+        score1: "",
+        player1: "STEVE",
+        score2: "",
+        player2: "DAVE"
+      });
+
+      wrapper.instance().validate().should.be.false;
+    });
+
     it("should return false if numbers don't add up to 2", () => {
       wrapper.hasInvalidCells = false;
       wrapper.setState({
