@@ -210,12 +210,34 @@ router.put("/edit", async (req, res) => {
 router.get("/test", (req, res) => {
   /*
 Method:
-namesPolygon = A B C D E F
-1: AB CD EF
-namesPolygon = B C D E F A
-2: BC DE FA
+namesPolygon = 
+           1
+         5 6 2
+          4 3
+namesPolygon = B C D E A
+
+1. 15 24 36
+
+namesPolygon = 
+           2
+         1 6 3
+          5 4
+
+2. 12 35 46
+
+namesPolygon = 
+           3
+         2 6 4
+          1 5
+
+3. 23 14 56   
+
+each is incremented minus the 6. if it goes above 5, it's reverted back to a 1.
+
 repeat until namePolyon is in original position.
 Each round is an individual set of fixtures.
+Initial set of fixtures: highest and lowest, then inc and dec as relevant until they converge.
+STOP splitting when the array is identical to its initial state.
 */
   eight_ball_fixtures.query().then(
     fixture => {
