@@ -40,6 +40,22 @@ class SubmitScoreForm extends Component {
     }
   }
 
+  setScore1(e) {
+    this.setState({ score1: e.target.value });
+  }
+
+  setScore2(e) {
+    this.setState({ score2: e.target.value });
+  }
+
+  setPlayer1(e) {
+    this.setState({ player1: e.target.value.toUpperCase() });
+  }
+
+  setPlayer2(e) {
+    this.setState({ player2: e.target.value.toUpperCase() });
+  }
+
   render() {
     return (
       <div className="submitScoreForm">
@@ -50,31 +66,35 @@ class SubmitScoreForm extends Component {
             placeholder="Score"
             id="score1"
             value={this.state.score1}
-            onChange={e => this.setState({ score1: e.target.value})}
+            onChange={e => this.setScore1(e)}
           />
           <input
             type="text"
             placeholder="Player 1"
             id="player1"
             value={this.state.player1}
-            onChange={e => this.setState({ player1: e.target.value.toUpperCase() })}
+            onChange={e => this.setPlayer1(e)}
           />
           <input
             type="text"
             placeholder="Player 2"
             id="player2"
             value={this.state.player2}
-            onChange={e => this.setState({ player2: e.target.value.toUpperCase() })}
+            onChange={e => this.setPlayer2(e)}
           />
           <input
             type="number"
             placeholder="Score"
             id="score2"
             value={this.state.score2}
-            onChange={e => this.setState({ score2: e.target.value })}
+            onChange={e => this.setScore2(e)}
           />
           <br />
-          <button type="button" onClick={e => this.handleSubmit(e)}>
+          <button
+            type="button"
+            id="submitScoreBtn"
+            onClick={e => this.handleSubmit(e)}
+          >
             Submit Score
           </button>
         </form>
