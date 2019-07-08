@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import backend from '../api/backend';
+
 import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
@@ -10,15 +11,15 @@ class App extends React.Component {
   state = { players: [], fixtures: [], activeSeason: 0, refresh: "false" };
 
   updateData = async () => {
-    const response = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/" +
+    const response = await backend.get(
+      "/api/8ball_league/" +
         this.state.activeSeason
     );
 
     this.setState({ players: response.data });
 
-    const fixtures = await axios.get(
-      "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_fixture/" +
+    const fixtures = await backend.get(
+      "/api/8ball_fixture/" +
         this.state.activeSeason
     );
 
@@ -37,15 +38,15 @@ class App extends React.Component {
   };
 
   changeFixtureScore = async state => {
-    await axios
+    await backend
       .put(
-        "http://nldpoolleaguebackend.azurewebsites.net/api/8ball_league/edit/fixture",
+        "/api/8ball_fixture/edit",
         {
           seasonId: this.state.activeSeason,
           player1: state.player1,
-          score1: state.score1,
+          score1: parseInt(state.score1),
           player2: state.player2,
-          score2: state.score2
+          score2: parseInt(state.score2)
         }
       )
       .then(() =>

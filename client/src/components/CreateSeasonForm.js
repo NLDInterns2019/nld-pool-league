@@ -30,9 +30,12 @@ class CreateSeasonForm extends Component {
   }
 
   removePlayer(index) {
-    this.setState({ players: this.state.players.splice(index, 1) });
-
+    this.state.players.splice(index, 1);
     this.setState({ players: this.state.players });
+  }
+
+  setSeasonName(e) {
+    this.setState({ seasonName: e.target.value });
   }
 
   createSeason = () => {
@@ -77,7 +80,8 @@ class CreateSeasonForm extends Component {
             type="text"
             placeholder="Season number"
             value={this.state.seasonName}
-            onChange={e => this.setState({ seasonName: e.target.value })}
+            id="inputSeasonNo"
+            onChange={e => this.setSeasonName(e)}
           />
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
@@ -90,6 +94,7 @@ class CreateSeasonForm extends Component {
                   <input
                     placeholder="Player name"
                     className="inputPlayerName"
+                    id={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                   />
@@ -98,6 +103,7 @@ class CreateSeasonForm extends Component {
                   <button
                     type="button"
                     className="removeBtn"
+                    id={"button" + (index + 1)}
                     onClick={() => this.removePlayer(index)}
                   >
                     - Remove
@@ -116,7 +122,11 @@ class CreateSeasonForm extends Component {
             </button>
 
             {/* button for creating new season */}
-            <button type="button" onClick={this.createSeason}>
+            <button
+              type="button"
+              id="createSeasonBtn"
+              onClick={this.createSeason}
+            >
               Create season
             </button>
           </div>

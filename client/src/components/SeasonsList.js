@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
     return (
-      <li key={season.DISTINCT}>
+      <li key={season.seasonId}>
         <Link
           to={{
             pathname: "/8-ball/overview",
             state: {
-              activeSeason: season.DISTINCT
+              activeSeason: season.seasonId
             }
           }}
         >
-          Season {season.DISTINCT}
+          Season {season.seasonId}
         </Link>
       </li>
     );
