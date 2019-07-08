@@ -208,36 +208,32 @@ router.put("/edit", async (req, res) => {
   Function: Handles fixture generation and fixture splitting
 */
 router.get("/test", (req, res) => {
+  totalPlayers = 5; //placeholder
+  //
   /*
+  Uses a polygon to split the matches into separate fixtures. 
+  One 'corner' of the polygon represents a player. One player is separated from the group and used as a centre piece.
+  Initial fixture: 
+      max represents the centre. 1
+      1,n-1    2,n-2     etc. These value groupings are stored.
+  When the players converge, this represents the end of a fixture. The polygon is now rotated one movement clockwise. The centre player remains.
+  The previous fixture is compared. 
 Method:
 namesPolygon = 
-           1
-         5 6 2
-          4 3
-namesPolygon = B C D E A
+           1                                        1
+         5 6 2                                   7      2
+          4 3                                    6   8  3
+namesPolygon = B C D E A                           5   4
 
-1. 15 24 36
-
-namesPolygon = 
-           2
+1. 15 24 36                                     1. 17 26 35 48
+                                                2. 12 37 46 58
+namesPolygon =                                  3. 23 41 57 68
+           2                                    4. 34 52 61 78
          1 6 3
-          5 4
+          5 4                                   In each new fixture, values have been incremented by 1. If they reach N, values are reverted to 1. 
 
 2. 12 35 46
-
-namesPolygon = 
-           3
-         2 6 4
-          1 5
-
 3. 23 14 56   
-
-each is incremented minus the 6. if it goes above 5, it's reverted back to a 1.
-
-repeat until namePolyon is in original position.
-Each round is an individual set of fixtures.
-Initial set of fixtures: highest and lowest, then inc and dec as relevant until they converge.
-STOP splitting when the array is identical to its initial state.
 */
   eight_ball_fixtures.query().then(
     fixture => {
