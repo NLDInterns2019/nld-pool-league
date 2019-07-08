@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
+const knex = require("../db/knex");
 
 const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
@@ -189,7 +190,7 @@ router.put("/edit", async (req, res) => {
       .query()
       .findOne(oriPlayer2)
       .patch(player2);
-      
+
     if (result === 0) {
       res.status(404).send();
       return;
@@ -266,9 +267,7 @@ router.post("/generate", async (req, res) => {
   //Get the staff name of the specified season and store it in players array
   let players;
   try {
-    players = await eight_ball_leagues
-      .query()
-      .where({ seasonId: seasonId });
+    players = await eight_ball_leagues.query().where({ seasonId: seasonId });
     if (players.length <= 1) {
       res.status(400).send("Not enough player");
       return;
@@ -277,27 +276,29 @@ router.post("/generate", async (req, res) => {
     res.status(500).send();
     return;
   }
-
+  
+  let fixtures = [];
   //LOOP
   for (let i = 0; i < players.length; i++) {
     for (let j = i + 1; j < players.length; j++) {
-      const fixture = {
+      fixtures = [...fixtures, ({
         seasonId: seasonId,
         player1: players[i].staffName,
         player2: players[j].staffName
-      };
-      eight_ball_fixtures
-        .query()
-        .whereNotExists(fixture)
-        .insert(fixture)
-        .catch(e => {
-          res.status(400).send();
-          return;
-        });
+      })];
     }
   }
 
-  res.status(200).send();
+  knex.batchInsert("eight_ball_fixtures", fixtures, 100).then(
+    result => {
+      if (result) {
+        res.status(200).send();
+      }
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
 });
 
 module.exports = router;
