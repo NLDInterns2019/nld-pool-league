@@ -7,12 +7,12 @@ module.exports = {
       database: "NldPoolLeague",
       server: "nldpoolleague.database.windows.net",
       user: "nldpoolleague",
-      password: "process.env.DBPASSWORD",
+      password: process.env.DBPASSWORD,
       port: 1433,
-      connectionTimeout: 30000
-    },
-    options: {
-      encrypt: true
+      connectionTimeout: 30000,
+      options: {
+        encrypt: true
+      },
     },
     migrations: {
       directory: __dirname + "/db/migrations"

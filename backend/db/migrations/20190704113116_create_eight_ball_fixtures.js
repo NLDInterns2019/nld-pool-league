@@ -18,7 +18,7 @@ exports.up = function(knex) {
       .foreign(["seasonId", "player2"])
       .references(["seasonId", "staffName"])
       .inTable("eight_ball_leagues")
-      .onDelete("CASCADE");
+      .onDelete("NO ACTION");
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
