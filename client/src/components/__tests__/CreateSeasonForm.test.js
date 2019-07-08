@@ -4,6 +4,7 @@ import chaiEnzyme from "chai-enzyme";
 import { mount, render, shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import CreateSeasonForm from "../CreateSeasonForm.js";
+import sinon from "sinon";
 chai.should();
 
 configure({ adapter: new Adapter() });
@@ -26,37 +27,51 @@ describe("Rendering", () => {
 describe("Add a Player", () => {
   it("should add a player to the state", () => {
     const wrapper = shallow(<CreateSeasonForm />);
-    const addPlayerBtn = wrapper.find("#addPlayer");
-    const inputSeasonNo = wrapper.find("#inputSeasonNo");
 
-    // the state should have no players in it
-    wrapper.state().players.should.have.lengthOf(0);
-
-    // enter "1" as the season number and then click 'add player'
-    inputSeasonNo.simulate("keypress", { key: 1 });
-    addPlayerBtn.simulate("click");
+    // run the add player method, players length should increase by 1
+    wrapper.setState({ players: [] });
+    wrapper.instance().addPlayer();
     wrapper.state().players.should.have.lengthOf(1);
+  });
+});
+
+describe("Add Player button click", () => {
+  it("should run addPlayer() function", () => {
+    const wrapper = shallow(<CreateSeasonForm />);
+    const addPlayerBtn = wrapper.find("#addPlayer");
+    var spy = sinon.spy(CreateSeasonForm.prototype, "addPlayer");
+
+    addPlayerBtn.simulate("click");
+    spy.calledOnce.should.be.true;
   });
 });
 
 describe("Remove a Player", () => {
   it("should remove a player from the state", () => {
     const wrapper = shallow(<CreateSeasonForm />);
-    const addPlayerBtn = wrapper.find("#addPlayer");
-    const inputSeasonNo = wrapper.find("#inputSeasonNo");
+    const initialArr = ["ALICE", "BOB", "CHARLES"];
+    const expectedArr = ["ALICE", "CHARLES"];
 
-    // enter 1 as the season number and add 2 players
-    inputSeasonNo.simulate("keypress", { key: 1 });
-    addPlayerBtn.simulate("click");
-    addPlayerBtn.simulate("click");
+    wrapper.setState({ players: initialArr });
+    wrapper.state().players.should.have.lengthOf(3);
 
-    const removePlayerBtn = wrapper.find("#button1");
+    wrapper.instance().removePlayer(1);
 
-    // there should be 2 players in the state
     wrapper.state().players.should.have.lengthOf(2);
+    wrapper.state().players[0].should.equal(expectedArr[0]);
+    wrapper.state().players[1].should.equal(expectedArr[1]);
+  });
+});
 
-    // click a remove button and there should be 1 player in the state
+describe("Remove Player button click", () => {
+  it("should run removePlayer() function", () => {
+    const wrapper = shallow(<CreateSeasonForm />);
+    wrapper.find("#addPlayer").simulate("click");
+    wrapper.find("#addPlayer").simulate("click");
+    const removePlayerBtn = wrapper.find("#button2");
+    var spy = sinon.spy(CreateSeasonForm.prototype, "removePlayer");
+
     removePlayerBtn.simulate("click");
-    wrapper.state().players.should.have.lengthOf(1);
+    spy.calledOnce.should.be.true;
   });
 });

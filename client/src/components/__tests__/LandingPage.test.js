@@ -9,9 +9,12 @@ chai.should();
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
 
-describe("LandingPage component", () => {
+describe("Rendering", () => {
   it("should render", () => {
     const wrapper = shallow(<LandingPage />);
     wrapper.exists().should.be.true;
+    wrapper.find("#eightBallLink").exists().should.be.true;
+    wrapper.find("#nineBallLink").exists().should.be.true;
+    wrapper.find("#billiardsLink").exists().should.be.true;
   });
 });

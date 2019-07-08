@@ -4,13 +4,13 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
-    "chai": "^4.2.0",
     "react": "^16.8.6",
     "react-addons-update": "^15.6.2",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "reactjs-popup": "^1.4.1"
+    "reactjs-popup": "^1.4.1",
+    "sinon": "^7.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,9 +34,12 @@
     ]
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "chai-enzyme": "^1.0.0-beta.1",
     "chai-style": "^1.0.3",
+    "cheerio": "^1.0.0-rc.3",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0"
+    "enzyme-adapter-react-16": "^1.14.0",
+    "mocha": "^6.1.4"
   }
 }
