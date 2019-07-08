@@ -204,13 +204,38 @@ router.put("/edit", async (req, res) => {
   res.status(200).send();
 });
 
-/* !!!!!!!!!!!!!UNFINISHED
+//shift values in an array
+function polygonShuffle(players) {
+  var playerCount = players.length();
+  var firstValue = players[0];
+  for (var i = 0; i<playerCount; i++) {
+      players[i] = players[i+1];
+  }
+  players[playerCount] = firstValue;
+  return players;
+}
+/* 
   POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
   Function: Handles fixture generation and fixture splitting
 */
 router.get("/test", (req, res) => {
-  totalPlayers = 5; //placeholder
-  //
+  var players = ['A', 'B', 'C', 'D', 'E', 'F'];
+  var playerCount = players.length();
+  var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
+  //set starting fixture. will need changing if odd numbers of players.
+
+  //this gets a fixture and puts it into fixtSets
+  for (var j = 0; j<playerCount; j++) {
+    for (var i = 0; i<playerCount/2; i++) { //value may be wrong
+      fixtSets.push = players[i] + " " + players[playercount-i-1]; //
+    }
+  fixtSets.push('//////');
+  players = polygonShuffle(players); //rotate players for next fixture
+  }
+
+  players = polygonShuffle(players);
+  console.log(players);
+
   /*
   Uses a polygon to split the matches into separate fixtures. 
   One 'corner' of the polygon represents a player. One player is separated from the group and used as a centre piece.
@@ -236,15 +261,9 @@ namesPolygon =                                  3. 23 41 57 68
 2. 12 35 46
 3. 23 14 56   
 */
-  eight_ball_fixtures.query().then(
-    fixture => {
-      res.json(fixture);
-    },
-    e => {
-      res.status(400).json(e);
-    }
-  );
+
 });
+
 
 /*
   POST handler for /api/8ball_fixture/generate/
