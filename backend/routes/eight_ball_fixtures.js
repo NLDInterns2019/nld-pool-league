@@ -236,6 +236,8 @@ each is incremented minus the 6. if it goes above 5, it's reverted back to a 1.
 
 repeat until namePolyon is in original position.
 Each round is an individual set of fixtures.
+Initial set of fixtures: highest and lowest, then inc and dec as relevant until they converge.
+STOP splitting when the array is identical to its initial state.
 */
   eight_ball_fixtures.query().then(
     fixture => {
