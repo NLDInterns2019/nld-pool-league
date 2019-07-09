@@ -66,7 +66,6 @@ class CreateSeasonForm extends Component {
     if (!valid.valid) {
       window.alert(valid.message);
     } else {
-      alert("creating season...");
       this.props.createSeason(this.state);
       document.getElementById("container").style.display = "none";
       this.setState(this.initialState);

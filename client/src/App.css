@@ -5,7 +5,8 @@ body {
   margin: 0rem;
   border: 0rem;
   font-family: "Montserrat";
-  background-color: #f2f2f2;
+  /*background-color: #f2f2f2;*/
+  background-color: #e9f2ed;
   min-width: 800px;
 }
 
@@ -19,7 +20,10 @@ h3 {
 
 /* ==== Header ==== */
 .header {
-  background-color: #0f5d0f;
+  /*background-color: #0f5d0f;*/
+  /*background-color: #025939;*/
+  background-color: #034732;
+
   color: white;
   padding: 1rem;
 }
@@ -83,7 +87,9 @@ h3 {
   padding-left: 2.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background-color: #999999;
+  /*background-color: #999999;*/
+  /*background-color: #05a678;*/
+  background-color: #1f7058;
   box-shadow: 0px 8px 10px -6px;
   margin-bottom: 2.5rem;
 }
@@ -118,7 +124,10 @@ h3 {
 /* ==== Table ==== */
 table th {
   padding: 5px 15px 5px 15px;
-  background-color: #0f5d0f;
+  /*background-color: #0f5d0f;*/
+  /*background-color: #025939;*/
+  background-color: #034732;
+  /*background-color: #1a936f;*/
   color: white;
 }
 
@@ -210,7 +219,11 @@ select {
 
 /* ==== Buttons ==== */
 button {
-  background-color: #0f5d0f;
+  /*background-color: #0f5d0f;*/
+  /*background-color: #025939;*/
+  /*background-color: #034732;*/
+  /*background-color: #1a936f;*/
+  background-color: #127e5c;
   color: white;
   font-family: "Montserrat";
   padding: 5px 15px 5px 15px;
@@ -231,7 +244,8 @@ button:hover {
 }
 
 .removeBtn {
-  background-color: #c40000;
+  /*background-color: #c40000;*/
+  background-color: #e23e4b;
   margin-left: 0.5rem;
 }
 
@@ -283,7 +297,8 @@ button:hover {
 }
 
 .form-popup .createSeasonForm .removeBtn {
-  background-color: #c40000;
+  /*background-color: #c40000;*/
+  background-color: #e23e4b;
 }
 
 .form-popup .createSeasonForm {
