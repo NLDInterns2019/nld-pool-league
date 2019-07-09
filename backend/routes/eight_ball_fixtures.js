@@ -8,7 +8,6 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
 const score = require("../functions/score");
-const fixture_split = require("../functions/fixture_split");
 /* 
   GET handler for /api/8ball_fixture
   Function: To get all the fixtures
