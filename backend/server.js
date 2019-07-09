@@ -20,3 +20,6 @@ app.use("/api/8ball_fixture", eight_ball_fixtures);
 app.listen(PORT, () => {
   console.log("Express is listening on port: " + PORT);
 });
+
+// Export our app for testing purposes
+module.exports = app;
