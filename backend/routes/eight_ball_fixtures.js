@@ -208,14 +208,11 @@ function polygonShuffle(players) {
   return players;
 }
 /* 
-  POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
+  POST handler for /api/8ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
-  Bugs: Will sometimes send a 400 response, but still adds the rows fine
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
-  
-  var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
-  var fixtId = 0;
+  var group = 0;
   
   //take the seasonid and see if it's acceptable
   const schema = {
@@ -255,8 +252,8 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
       fixture = [...fixture, ({
         seasonId: seasonId,
         player1: players[i].staffName,
-        player2: players[players.length-i-offset].staffName
-       // score1: fixtId
+        player2: players[players.length-i-offset].staffName,
+        group: group
       })];
     }
     if (playerCount%2==0) {
@@ -264,7 +261,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
       seasonId: seasonId,
       player1: players[playerCount-1].staffName,
         player2: players[players.length/2-1].staffName,
-       //score1: fixtId
+        group: group
        })]
     }
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
@@ -278,7 +275,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
       }
     );
     fixture = [];
-    fixtId++;
+    group++;
     players = polygonShuffle(players); //rotate players for next fixture
   }
 });
