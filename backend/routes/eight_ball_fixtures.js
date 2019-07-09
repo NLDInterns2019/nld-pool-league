@@ -195,10 +195,14 @@ router.put("/edit", async (req, res) => {
 
 //shift values in an array
 function polygonShuffle(players) {
-  var playerCount = players.length - 2;
+  let offsets = 2;
+  if (players.length % 2 > 0) {
+    offsets = 1;
+  }
+  var playerCount = players.length-offsets;
   var firstValue = players[0];
-  for (var i = 0; i < playerCount; i++) {
-    players[i] = players[i + 1];
+  for (var i = 0; i<playerCount; i++) {
+      players[i] = players[i+1];
   }
   players[playerCount] = firstValue;
   return players;
@@ -206,9 +210,9 @@ function polygonShuffle(players) {
 /* 
   POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
   Function: Handles fixture generation and fixture splitting
-  Bugs: Will always send a 400 response, but adds rows fine. Only works with even numbers of competitors at the moment.
+  Bugs: Will sometimes send a 400 response, but still adds the rows fine
 */
-router.post("/test", async (req, res) => {
+router.post("/test", async (req, res) => { //no longer tiny :(
   
   var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
   var fixtId = 0;
@@ -240,22 +244,29 @@ router.post("/test", async (req, res) => {
   }
   var playerCount = players.length;
   let fixture = [];
+  let offset = 2;
+  let exCount = 1;
+  if (playerCount%2>0) {
+   exCount = 0;
+  }
   //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j<playerCount-1; j++) { //this represents fixture groups
-    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these.
+  for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
+    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these. //was /2-1
       fixture = [...fixture, ({
         seasonId: seasonId,
         player1: players[i].staffName,
-        player2: players[players.length-i-2].staffName,
-        score1: fixtId
+        player2: players[players.length-i-offset].staffName
+       // score1: fixtId
       })];
     }
+    if (playerCount%2==0) {
     fixture = [...fixture, ({
       seasonId: seasonId,
       player1: players[playerCount-1].staffName,
-      player2: players[players.length/2-1].staffName,
-      score1: fixtId
-    })];
+        player2: players[players.length/2-1].staffName,
+       //score1: fixtId
+       })]
+    }
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -270,14 +281,13 @@ router.post("/test", async (req, res) => {
     fixtId++;
     players = polygonShuffle(players); //rotate players for next fixture
   }
-
-  console.log(fixtSets);
 });
+
 
 /*
   POST handler for /api/8ball_fixture/generate/
   Function: To get all the fixtures in the specified season
-*/
+
 router.post("/generate", async (req, res) => {
   const schema = {
     seasonId: Joi.number()
@@ -331,5 +341,5 @@ router.post("/generate", async (req, res) => {
     }
   );
 });
-
+*/
 module.exports = router;
