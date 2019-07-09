@@ -1,5 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+
+const removeSeason = toBeRemoved => {
+  // remove the season
+};
 
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
@@ -20,7 +24,7 @@ const SeasonsList = props => {
             type="button"
             id={"remove" + season.seasonId}
             className="removeBtn"
-            onClick=""
+            onClick={removeSeason}
           >
             - Remove Season
           </button>
