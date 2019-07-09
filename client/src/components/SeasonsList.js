@@ -29,7 +29,12 @@ const SeasonsList = props => {
             src={DeleteButton}
             id={"remove" + season.seasonId}
             className="delete-icon"
-            onClick={() => props.deleteSeason(season.seasonId)}
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete this season?")
+              )
+                props.deleteSeason(season.seasonId);
+            }}
           />
         </li>
         <br />
