@@ -2,20 +2,23 @@
 
 module.exports = {
   test: {
-    client: "sqlite3",
+    client: "mssql",
     connection: {
-      filename: "./db/data/nld-pool-db.sqlite"
+      database: "NldPoolLeague",
+      server: "nldpoolleague.database.windows.net",
+      user: "nldpoolleague",
+      password: process.env.DBPASSWORD,
+      port: 1433,
+      connectionTimeout: 30000,
+      options: {
+        encrypt: true
+      },
     },
     migrations: {
       directory: __dirname + "/db/migrations"
     },
     seeds: {
       directory: __dirname + "/db/seeds/test"
-    },
-    pool: {
-      afterCreate: function(conn, cb) {
-        conn.run("PRAGMA foreign_keys = ON", cb);
-      }
     }
   },
   development: {
