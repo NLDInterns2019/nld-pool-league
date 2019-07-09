@@ -8,6 +8,7 @@ chai.should();
 
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
+
 describe("App component", () => {
   it("should render", () => {
     const wrapper = shallow(<App />);

@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #f2f2f2;
-  min-width: 1400px;
+  min-width: 800px;
 }
 
 /* ==== Headings ==== */
@@ -96,6 +96,11 @@ h3 {
 }
 
 /* ==== Content ==== */
+.content-centre {
+  text-align: center;
+  margin: auto;
+}
+
 .contentRight {
   display: inline-block;
   position: absolute;
@@ -247,7 +252,7 @@ button:hover {
   color: black;
   display: inline-block;
   padding: 1rem;
-  width: 60%;
+  width: 72%;
 }
 
 .seasonsList button {
@@ -330,6 +335,10 @@ button:hover {
 /* ==== View Your Fixtures ==== */
 .viewYourFixtures label {
   padding-right: 0.5rem;
+}
+
+.viewYourFixtures {
+  margin-bottom: 8rem;
 }
 
 /* ==== Landing Page ==== */

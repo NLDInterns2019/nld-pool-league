@@ -1,7 +1,7 @@
 import React from "react";
-import chai, { expect, should } from "chai";
+import chai, { should } from "chai";
 import chaiEnzyme from "chai-enzyme";
-import { mount, render, shallow, configure } from "enzyme";
+import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import SeasonsPage from "../SeasonsPage.js";
 should();
