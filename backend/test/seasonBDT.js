@@ -9,6 +9,8 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
+console.log(process.env.DBPASSWORD);
+
 describe("Seasons", () => {
   //PREPARE DB
   beforeEach(function(done) {
