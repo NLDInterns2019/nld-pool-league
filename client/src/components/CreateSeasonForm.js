@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DeleteButton from "../delete-button.svg";
 
 class CreateSeasonForm extends Component {
   constructor(props) {
@@ -66,7 +67,6 @@ class CreateSeasonForm extends Component {
     if (!valid.valid) {
       window.alert(valid.message);
     } else {
-      alert("creating season...");
       this.props.createSeason(this.state);
       document.getElementById("container").style.display = "none";
       this.setState(this.initialState);
@@ -90,7 +90,7 @@ class CreateSeasonForm extends Component {
             {/* map the players in the state to inputs */}
             {this.state.players.map((player, index) => {
               return (
-                <div key={index}>
+                <div key={index} className="form-row">
                   <label>Player {index + 1}:</label>
 
                   {/* player name text input */}
@@ -103,14 +103,20 @@ class CreateSeasonForm extends Component {
                   />
 
                   {/* button for removing player */}
-                  <button
+                  {/*<button
                     type="button"
                     className="removeBtn"
                     id={"button" + (index + 1)}
                     onClick={() => this.removePlayer(index)}
                   >
                     - Remove
-                  </button>
+                  </button>*/}
+                  <img
+                    src={DeleteButton}
+                    id={"button" + (index + 1)}
+                    className="delete-icon"
+                    onClick={() => this.removePlayer(index)}
+                  />
                 </div>
               );
             })}

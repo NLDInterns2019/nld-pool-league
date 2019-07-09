@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DeleteButton from "../delete-button.svg";
 
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
@@ -16,14 +17,25 @@ const SeasonsList = props => {
           >
             Season {season.seasonId}
           </Link>
-          <button
+          {/*<button
             type="button"
             id={"remove" + season.seasonId}
             className="removeBtn"
             onClick={() => props.deleteSeason(season.seasonId)}
           >
             - Remove
-          </button>
+          </button>*/}
+          <img
+            src={DeleteButton}
+            id={"remove" + season.seasonId}
+            className="delete-icon"
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete this season?")
+              )
+                props.deleteSeason(season.seasonId);
+            }}
+          />
         </li>
         <br />
       </div>
