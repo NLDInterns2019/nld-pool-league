@@ -215,6 +215,11 @@ select {
   font-size: 12pt;
 }
 
+select {
+  border-width: 0px 0px 3px 0px;
+  border-color: rgb(238, 238, 238);
+}
+
 /* ==== Input Players Text Inputs ==== */
 .inputPlayers label {
   padding-right: 0.5rem;
