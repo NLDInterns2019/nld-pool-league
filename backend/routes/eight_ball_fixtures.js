@@ -8,6 +8,8 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
 const score = require("../functions/score");
+const fixture_split = require("../functions/polygonshuffle");
+const fixturegen = require("../functions/fixturegen");
 /* 
   GET handler for /api/8ball_fixture
   Function: To get all the fixtures
@@ -226,29 +228,13 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   }
   var playerCount = players.length;
   let fixture = [];
-  let offset = 2;
   let exCount = 1;
   if (playerCount%2>0) {
    exCount = 0;
   }
   //this gets a fixture and puts it into fixtSets
   for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
-    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these. //was /2-1
-      fixture = [...fixture, ({
-        seasonId: seasonId,
-        player1: players[i].staffName,
-        player2: players[players.length-i-offset].staffName,
-        group: group
-      })];
-    }
-    if (playerCount%2==0) {
-    fixture = [...fixture, ({
-      seasonId: seasonId,
-      player1: players[playerCount-1].staffName,
-        player2: players[players.length/2-1].staffName,
-        group: group
-       })]
-    }
+    fixture = fixturegen.fixtureCalc(players, seasonId , group) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -259,9 +245,8 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
         res.status(400).send(); 
       }
     );
-    fixture = [];
     group++;
-    players = fixture_split.polygonShuffle(players);//polygonShuffle(players); //rotate players for next fixture
+    players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }
 });
 
