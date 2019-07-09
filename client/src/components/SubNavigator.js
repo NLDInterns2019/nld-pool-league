@@ -49,6 +49,7 @@ const SubNavigator = () => {
           <Link
             to={"/" + title.toLowerCase() + "/seasons"}
             style={seasonsCurrentStyle}
+            id="seasonsLink"
           >
             Seasons
           </Link>
@@ -57,6 +58,7 @@ const SubNavigator = () => {
           <Link
             to={"/" + title.toLowerCase() + "/overview"}
             style={overviewCurrentStyle}
+            id="overviewLink"
           >
             Overview
           </Link>
@@ -65,6 +67,7 @@ const SubNavigator = () => {
           <Link
             to={"/" + title.toLowerCase() + "/fixtures"}
             style={fixturesCurrentStyle}
+            id="fixturesLink"
           >
             Fixtures
           </Link>

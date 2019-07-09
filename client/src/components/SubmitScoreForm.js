@@ -16,10 +16,13 @@ class SubmitScoreForm extends Component {
     this.state = this.initialState;
   }
 
-  handleSubmit(e) {
+  validate() {
     var regexScore = /^[0-2]$/; // matches 0, 1, or 2
+    var regexPlayer = /^[A-Z]+$/;
     var score1 = parseInt(this.state.score1);
     var score2 = parseInt(this.state.score2);
+    var player1 = this.state.player1;
+    var player2 = this.state.player2;
 
     /* check the inputs match the regular expressions */
     if (!regexScore.test(score1) || !regexScore.test(score2)) {
@@ -29,8 +32,15 @@ class SubmitScoreForm extends Component {
     if (score1 + score2 !== 2) {
       this.hasInvalidCells = true;
     }
+    if (!regexPlayer.test(player1) || !regexPlayer.test(player2)) {
+      this.hasInvalidCells = true;
+    }
 
-    if (this.hasInvalidCells) {
+    return !this.hasInvalidCells;
+  }
+
+  handleSubmit() {
+    if (!this.validate()) {
       alert("Not a valid input");
       this.hasInvalidCells = false;
     } else {
@@ -93,7 +103,7 @@ class SubmitScoreForm extends Component {
           <button
             type="button"
             id="submitScoreBtn"
-            onClick={e => this.handleSubmit(e)}
+            onClick={() => this.handleSubmit()}
           >
             Submit Score
           </button>
