@@ -8,7 +8,7 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
 const score = require("../functions/score");
-
+const fixture_split = require("../functions/fixture_split");
 /* 
   GET handler for /api/8ball_fixture
   Function: To get all the fixtures
@@ -193,25 +193,12 @@ router.put("/edit", async (req, res) => {
   res.status(200).send();
 });
 
-//shift values in an array
-function polygonShuffle(players) {
-  var playerCount = players.length - 2;
-  var firstValue = players[0];
-  for (var i = 0; i < playerCount; i++) {
-    players[i] = players[i + 1];
-  }
-  players[playerCount] = firstValue;
-  return players;
-}
 /* 
-  POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
+  POST handler for /api/8ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
-  Bugs: Will always send a 400 response, but adds rows fine. Only works with even numbers of competitors at the moment.
 */
-router.post("/test", async (req, res) => {
-  
-  var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
-  var fixtId = 0;
+router.post("/generate", async (req, res) => { //no longer tiny :(
+  var group = 0;
   
   //take the seasonid and see if it's acceptable
   const schema = {
@@ -240,22 +227,29 @@ router.post("/test", async (req, res) => {
   }
   var playerCount = players.length;
   let fixture = [];
+  let offset = 2;
+  let exCount = 1;
+  if (playerCount%2>0) {
+   exCount = 0;
+  }
   //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j<playerCount-1; j++) { //this represents fixture groups
-    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these.
+  for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
+    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these. //was /2-1
       fixture = [...fixture, ({
         seasonId: seasonId,
         player1: players[i].staffName,
-        player2: players[players.length-i-2].staffName,
-        score1: fixtId
+        player2: players[players.length-i-offset].staffName,
+        group: group
       })];
     }
+    if (playerCount%2==0) {
     fixture = [...fixture, ({
       seasonId: seasonId,
       player1: players[playerCount-1].staffName,
-      player2: players[players.length/2-1].staffName,
-      score1: fixtId
-    })];
+        player2: players[players.length/2-1].staffName,
+        group: group
+       })]
+    }
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -263,21 +257,20 @@ router.post("/test", async (req, res) => {
         }
       },
       e => {
-        res.status(400).send(); //always sends this response but still adds to the database fine. no idea why
+        res.status(400).send(); 
       }
     );
     fixture = [];
-    fixtId++;
-    players = polygonShuffle(players); //rotate players for next fixture
+    group++;
+    players = fixture_split.polygonShuffle(players);//polygonShuffle(players); //rotate players for next fixture
   }
-
-  console.log(fixtSets);
 });
+
 
 /*
   POST handler for /api/8ball_fixture/generate/
   Function: To get all the fixtures in the specified season
-*/
+
 router.post("/generate", async (req, res) => {
   const schema = {
     seasonId: Joi.number()
@@ -331,5 +324,5 @@ router.post("/generate", async (req, res) => {
     }
   );
 });
-
+*/
 module.exports = router;

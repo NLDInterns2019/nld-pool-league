@@ -7,6 +7,7 @@ exports.up = function(knex) {
     table.integer("score1");
     table.string("player2").notNullable();
     table.integer("score2");
+    table.integer("group");
     // table.date("dueDate").notNullable();
 
     table
