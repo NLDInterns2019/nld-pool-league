@@ -337,6 +337,10 @@ button:hover {
   padding-right: 0.5rem;
 }
 
+.viewYourFixtures {
+  margin-bottom: 8rem;
+}
+
 /* ==== Landing Page ==== */
 .landingPage .content {
   text-align: center;
