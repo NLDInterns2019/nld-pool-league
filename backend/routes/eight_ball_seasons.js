@@ -10,23 +10,24 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
   Function: To get all the 8 ball seasons
 */
 router.get("/", (req, res) => {
-  eight_ball_leagues.query().distinct('seasonId').then(
-    seasons => {
-      res.json(seasons);
-    },
-    e => {
-      res.status(400).json(e);
-    }
-  );
+  eight_ball_leagues
+    .query()
+    .distinct("seasonId")
+    .then(
+      seasons => {
+        res.json(seasons);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
 });
 
 /* 
-  DELETE handler for /api/8ball_leagues/delete/season
+  DELETE handler for /api/8ball_season/delete/
   Function: To delete seasons (NOTE YET IMPLEMENTED IN THE UI)
 */
-router.delete("/delete/season", (req, res) => {
-  const body = _.pick(req.body, "seasonId");
-
+router.delete("/delete", (req, res) => {
   const schema = {
     seasonId: Joi.number()
       .integer()
@@ -34,7 +35,7 @@ router.delete("/delete/season", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(body, schema, { convert: false }).error) {
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
@@ -42,7 +43,7 @@ router.delete("/delete/season", (req, res) => {
   eight_ball_leagues
     .query()
     .delete()
-    .where({seasonId: body.seasonId})
+    .where({ seasonId: req.body.seasonId })
     .then(
       result => {
         if (result === 0) {

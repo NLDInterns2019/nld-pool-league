@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
     return (
-      <div>
-        <li key={season.seasonId}>
+      <div key={season.seasonId}>
+        <li>
           <Link
             to={{
               pathname: "/8-ball/overview",
@@ -20,7 +20,7 @@ const SeasonsList = props => {
             type="button"
             id={"remove" + season.seasonId}
             className="removeBtn"
-            onClick=""
+            onClick={() => props.deleteSeason(season.seasonId)}
           >
             - Remove Season
           </button>

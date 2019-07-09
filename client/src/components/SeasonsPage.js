@@ -70,6 +70,20 @@ class SeasonsPage extends Component {
       );
   };
 
+  deleteSeason = async id => {
+    await backend.delete("/api/8ball_season/delete/", {
+      data: {
+        seasonId: parseInt(id)
+      }
+    })
+
+    this.setState({
+      //To force update
+      refresh: !this.state.refresh
+    })
+  }
+
+
   render() {
     return (
       <div className="seasons">
@@ -77,7 +91,7 @@ class SeasonsPage extends Component {
         <SubNavBar />
         <div className="content">
           <div className="seasonsListContainer">
-            <SeasonsList seasons={this.state.seasons} />
+            <SeasonsList seasons={this.state.seasons} deleteSeason={this.deleteSeason} />
             <br />
             <button type="button" id="addSeasonBtn" onClick={this.openPopUp}>
               + Add new season
