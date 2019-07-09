@@ -11,6 +11,7 @@ class FixturesPage extends Component {
   };
 
   componentDidMount() {
+    this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
   }
 
@@ -23,7 +24,7 @@ class FixturesPage extends Component {
   }
 
   render() {
-    if (this.state.windowWidth > 1400) {
+    if (this.state.windowWidth >= 1400) {
       return (
         <div className="fixtures">
           <Header />

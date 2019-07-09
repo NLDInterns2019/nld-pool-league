@@ -37,6 +37,7 @@ class App extends React.Component {
   componentDidMount = async () => {
     await this.setState(this.props.location.state);
     this.updateData();
+    this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
     console.log(this.state.windowWidth);
   };
@@ -72,7 +73,7 @@ class App extends React.Component {
     //HELP TO CHECK STATE
     //console.log(this.state);
 
-    if (this.state.windowWidth > 1400) {
+    if (this.state.windowWidth >= 1400) {
       return (
         <div className="app">
           <Header />
