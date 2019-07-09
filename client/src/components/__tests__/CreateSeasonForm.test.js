@@ -104,3 +104,34 @@ describe("Typing a season number", () => {
     wrapper.state().seasonName.should.equal("1");
   });
 });
+
+describe("Validation", () => {
+  beforeEach(() => {
+    wrapper.setState({
+      players: [],
+      seasonName: ""
+    });
+  });
+
+  describe("Invalid input", () => {
+    it("should return false when there is no season name entered", () => {
+      wrapper.setState({
+        players: ["STEVE", "DAVE"],
+        seasonName: ""
+      });
+
+      wrapper.instance().isValid().valid.should.be.false;
+    });
+  });
+
+  describe("Valid input", () => {
+    it("should return true if all inputs are correct", () => {
+      wrapper.setState({
+        players: ["STEVE", "DAVE"],
+        seasonName: "3"
+      });
+
+      wrapper.instance().isValid().valid.should.be.true;
+    });
+  });
+});

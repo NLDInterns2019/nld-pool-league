@@ -9,8 +9,6 @@ class CreateSeasonForm extends Component {
       seasonName: ""
     };
 
-    this.hasInvalidCells = false;
-    this.alertMessage = "";
     this.state = this.initialState;
     this.createSeason = this.createSeason.bind(this);
   }
@@ -39,31 +37,43 @@ class CreateSeasonForm extends Component {
     this.setState({ seasonName: e.target.value });
   }
 
-  createSeason() {
+  isValid() {
     var regex = /^[A-Z]+$/; // matches 1 or more capital letters
     var regexSeasonNumber = /^[1-9]([0-9])*$/; // matches 1 number from 1 to 9 followed by 0 or more numbers from 0 to 9
 
     /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
     if (!regexSeasonNumber.test(this.state.seasonName)) {
-      this.hasInvalidCells = true;
-      this.alertMessage = "Season number can only be a number";
+      console.log("season regex failed! Input: " + this.state.seasonName);
+      return { valid: false, message: "Season number can only be a number" };
     } else if (this.state.players.length < 2) {
-      this.hasInvalidCells = true;
-      this.alertMessage = "Season requires at least 2 people";
+      console.log("player length failed! Input: " + this.state.players);
+      return { valid: false, message: "Season requires at least 2 people" };
     }
 
     /* check if the player text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
-        this.hasInvalidCells = true;
-        this.alertMessage = "Player names can only include letters";
+        console.log("player name invalid ", this.state.players[i]);
+        return {
+          valid: false,
+          message: "Player names can only include capital letters"
+        };
       }
     }
+    console.log(
+      "Tests Passed! Input: season" +
+        this.state.seasonName +
+        " with " +
+        this.state.players
+    );
+    return { valid: true };
+  }
 
+  createSeason() {
     /* alert the user that their input is not valid, otherwise, create the season */
-    if (this.hasInvalidCells) {
-      window.alert(this.alertMessage);
-      this.hasInvalidCells = false;
+    const valid = this.isValid();
+    if (!valid.valid) {
+      window.alert(valid.message);
     } else {
       this.props.createSeason(this.state);
       document.getElementById("container").style.display = "none";

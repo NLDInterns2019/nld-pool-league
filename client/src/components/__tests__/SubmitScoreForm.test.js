@@ -96,8 +96,16 @@ describe("Submit Score button click", () => {
 });
 
 describe("Validation", () => {
+  beforeEach(() => {
+    wrapper.setState({
+      score1: "",
+      score2: "",
+      player1: "",
+      player2: ""
+    });
+  });
   it("should be called when the submit score button is clicked", () => {
-    var spy = sinon.spy(SubmitScoreForm.prototype, "validate");
+    var spy = sinon.spy(SubmitScoreForm.prototype, "isValid");
     const wrapper = shallow(<SubmitScoreForm />);
     const submitScoreBtn = wrapper.find("#submitScoreBtn");
 
@@ -111,7 +119,6 @@ describe("Validation", () => {
 
   describe("Invalid inputs", () => {
     it("should return false if all fields are empty", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "",
         player1: "",
@@ -119,10 +126,9 @@ describe("Validation", () => {
         player2: ""
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
     it("should return false if 3 fields are emprty", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "1",
         player1: "",
@@ -130,11 +136,10 @@ describe("Validation", () => {
         player2: ""
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
 
     it("should return false if 2 fields are empty", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "1",
         player1: "STEVE",
@@ -142,11 +147,10 @@ describe("Validation", () => {
         player2: ""
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
 
     it("should return false if 1 field is empty", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "1",
         player1: "STEVE",
@@ -154,11 +158,10 @@ describe("Validation", () => {
         player2: ""
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
 
     it("should return false if the player fields are empty", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "1",
         player1: "",
@@ -166,11 +169,10 @@ describe("Validation", () => {
         player2: ""
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
 
     it("should return false if the score fields are empty", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "",
         player1: "STEVE",
@@ -178,11 +180,10 @@ describe("Validation", () => {
         player2: "DAVE"
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
 
     it("should return false if numbers don't add up to 2", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "1",
         player1: "STEVE",
@@ -190,9 +191,8 @@ describe("Validation", () => {
         player2: "DAVE"
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
 
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "3",
         player1: "STEVE",
@@ -200,13 +200,12 @@ describe("Validation", () => {
         player2: "DAVE"
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.false;
     });
   });
 
   describe("Valid inputs", () => {
     it("should return true if all fields are filled in correctly", () => {
-      wrapper.hasInvalidCells = false;
       wrapper.setState({
         score1: "1",
         player1: "STEVE",
@@ -214,7 +213,7 @@ describe("Validation", () => {
         player2: "DAVE"
       });
 
-      wrapper.instance().validate().should.be.false;
+      wrapper.instance().isValid().should.be.true;
     });
   });
 });
