@@ -22,7 +22,7 @@ const SeasonsList = props => {
             className="removeBtn"
             onClick={() => props.deleteSeason(season.seasonId)}
           >
-            - Remove Season
+            - Remove
           </button>
         </li>
         <br />
