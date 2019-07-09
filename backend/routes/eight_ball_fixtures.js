@@ -217,14 +217,13 @@ function polygonShuffle(players) {
 /* 
   POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
   Function: Handles fixture generation and fixture splitting
-  Only works with even numbers of competitors at the moment.
+  Bugs: Will always send a 400 response, but adds rows fine. Only works with even numbers of competitors at the moment.
 */
 router.post("/test", async (req, res) => {
-  //var players = new Array('A', 'B', 'C', 'D', 'E', 'F');
   
   var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
   var fixtId = 0;
-  //set starting fixture. will need changing if odd numbers of players.
+  
   //take the seasonid and see if it's acceptable
   const schema = {
     seasonId: Joi.number()
@@ -251,15 +250,34 @@ router.post("/test", async (req, res) => {
     return;
   }
   var playerCount = players.length;
-console.log(players[0].staffName);
-console.log(players.length);
+  let fixture = [];
   //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j<playerCount-1; j++) {
-    for (var i = 0; i<playerCount/2-1; i++) { //value may be wrong
-      fixtSets.push(players[i].staffName + " " + players[players.length-i-2].staffName);
+  for (var j = 0; j<playerCount-1; j++) { //this represents fixture groups
+    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these.
+      fixture = [...fixture, ({
+        seasonId: seasonId,
+        player1: players[i].staffName,
+        player2: players[players.length-i-2].staffName,
+        score1: fixtId
+      })];
     }
-    fixtSets.push(players[playerCount-1].staffName + " " + players[players.length/2-1].staffName); //set a row for the centre
-    fixtSets.push('^ FIX ID: ' + fixtId);
+    fixture = [...fixture, ({
+      seasonId: seasonId,
+      player1: players[playerCount-1].staffName,
+      player2: players[players.length/2-1].staffName,
+      score1: fixtId
+    })];
+    knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
+      result => {
+        if (result) {
+          res.status(200).send();
+        }
+      },
+      e => {
+        res.status(400).send(); //always sends this response but still adds to the database fine. no idea why
+      }
+    );
+    fixture = [];
     fixtId++;
     players = polygonShuffle(players); //rotate players for next fixture
   }
