@@ -219,19 +219,46 @@ function polygonShuffle(players) {
   Function: Handles fixture generation and fixture splitting
   Only works with even numbers of competitors at the moment.
 */
-router.post("/test", (req, res) => {
-  var players = new Array('A', 'B', 'C', 'D', 'E', 'F');
-  var playerCount = players.length;
+router.post("/test", async (req, res) => {
+  //var players = new Array('A', 'B', 'C', 'D', 'E', 'F');
+  
   var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
   var fixtId = 0;
   //set starting fixture. will need changing if odd numbers of players.
+  //take the seasonid and see if it's acceptable
+  const schema = {
+    seasonId: Joi.number()
+      .integer()
+      .required()
+  };
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+  
+  let seasonId = req.body.seasonId;
 
-  //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j<playerCount; j++) {
-    for (var i = 0; i<playerCount/2-1; i++) { //value may be wrong
-      fixtSets.push(players[i] + " " + players[players.length-i-2]);
+  //db call to get names
+  let players;
+  try {
+    players = await eight_ball_leagues.query().where({ seasonId: seasonId });
+    if (players.length <= 1) {
+      res.status(400).send("Not enough players");
+      return;
     }
-    fixtSets.push(players[playerCount-1] + " " + players[players.length/2-1]);; //set a row for the centre
+  } catch (e) {
+    res.status(500).send();
+    return;
+  }
+  var playerCount = players.length;
+console.log(players[0].staffName);
+console.log(players.length);
+  //this gets a fixture and puts it into fixtSets
+  for (var j = 0; j<playerCount-1; j++) {
+    for (var i = 0; i<playerCount/2-1; i++) { //value may be wrong
+      fixtSets.push(players[i].staffName + " " + players[players.length-i-2].staffName);
+    }
+    fixtSets.push(players[playerCount-1].staffName + " " + players[players.length/2-1].staffName); //set a row for the centre
     fixtSets.push('^ FIX ID: ' + fixtId);
     fixtId++;
     players = polygonShuffle(players); //rotate players for next fixture
@@ -271,7 +298,7 @@ router.post("/generate", async (req, res) => {
     res.status(500).send();
     return;
   }
-  
+  console.log(players);
   let fixtures = [];
   //LOOP
   for (let i = 0; i < players.length; i++) {
