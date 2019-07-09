@@ -65,6 +65,7 @@ router.post("/add/player", (req, res) => {
   }
 
   knex('eight_ball_leagues')
+  .returning(['seasonId', 'staffName'])
   .insert({ seasonId: req.body.seasonId, staffName: req.body.staffName })
   .then(
     player => {
