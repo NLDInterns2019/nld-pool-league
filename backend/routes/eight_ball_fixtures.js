@@ -7,6 +7,8 @@ const knex = require("../db/knex");
 const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
+const score = require("../functions/score");
+
 /* 
   GET handler for /api/8ball_fixture
   Function: To get all the fixtures
@@ -73,17 +75,17 @@ router.put("/edit", async (req, res) => {
     score1: null,
     player2: req.body.player2,
     score2: null
-  }
+  };
 
   const p1Attributes = {
     seasonId: req.body.seasonId,
     staffName: req.body.player1
-  }
+  };
 
   const p2Attributes = {
     seasonId: req.body.seasonId,
     staffName: req.body.player2
-  }
+  };
 
   //Check if fixture exist and score is still null (means fixture hasnt been played)
   try {
@@ -125,32 +127,19 @@ router.put("/edit", async (req, res) => {
   }
 
   /* LEAGUE ALGORITHM */
-  //Increment the play
-  player1.play++;
-  player2.play++;
-
-  //Increment the for and againts
-  player1.goalsFor = player1.goalsFor + req.body.score1;
-  player1.goalsAgainst = player1.goalsAgainst + req.body.score2;
-
-  player2.goalsFor = player2.goalsFor + req.body.score2;
-  player2.goalsAgainst = player2.goalsAgainst + req.body.score1;
-
-  //Find out who won
-  if (req.body.score1 > req.body.score2) {
-    player1.win++;
-    player2.lose++;
-  } else if (req.body.score1 < req.body.score2) {
-    player1.lose++;
-    player2.win++;
-  } else {
-    player1.draw++;
-    player2.draw++;
+  try {
+    const players = score.calculateScore(
+      player1,
+      player2,
+      req.body.score1,
+      req.body.score2
+    );
+    player1 = _.cloneDeep(players.player1);
+    player2 = _.cloneDeep(players.player2);
+  } catch (e) {
+    res.status(500).send();
+    return;
   }
-
-  //Calculate score
-  player1.points = player1.win * 3 + player1.draw;
-  player2.points = player2.win * 3 + player2.draw;
 
   //UPDATE FIXTURE TABLE
   try {
@@ -206,10 +195,10 @@ router.put("/edit", async (req, res) => {
 
 //shift values in an array
 function polygonShuffle(players) {
-  var playerCount = players.length-2;
+  var playerCount = players.length - 2;
   var firstValue = players[0];
-  for (var i = 0; i<playerCount; i++) {
-      players[i] = players[i+1];
+  for (var i = 0; i < playerCount; i++) {
+    players[i] = players[i + 1];
   }
   players[playerCount] = firstValue;
   return players;
@@ -217,14 +206,13 @@ function polygonShuffle(players) {
 /* 
   POST handler for /api/8ball_fixture/generate/. On test URL for now. Replaces previous generate method.
   Function: Handles fixture generation and fixture splitting
-  Only works with even numbers of competitors at the moment.
+  Bugs: Will always send a 400 response, but adds rows fine. Only works with even numbers of competitors at the moment.
 */
 router.post("/test", async (req, res) => {
-  //var players = new Array('A', 'B', 'C', 'D', 'E', 'F');
   
   var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
   var fixtId = 0;
-  //set starting fixture. will need changing if odd numbers of players.
+  
   //take the seasonid and see if it's acceptable
   const schema = {
     seasonId: Joi.number()
@@ -251,22 +239,40 @@ router.post("/test", async (req, res) => {
     return;
   }
   var playerCount = players.length;
-console.log(players[0].staffName);
-console.log(players.length);
+  let fixture = [];
   //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j<playerCount-1; j++) {
-    for (var i = 0; i<playerCount/2-1; i++) { //value may be wrong
-      fixtSets.push(players[i].staffName + " " + players[players.length-i-2].staffName);
+  for (var j = 0; j<playerCount-1; j++) { //this represents fixture groups
+    for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these.
+      fixture = [...fixture, ({
+        seasonId: seasonId,
+        player1: players[i].staffName,
+        player2: players[players.length-i-2].staffName,
+        score1: fixtId
+      })];
     }
-    fixtSets.push(players[playerCount-1].staffName + " " + players[players.length/2-1].staffName); //set a row for the centre
-    fixtSets.push('^ FIX ID: ' + fixtId);
+    fixture = [...fixture, ({
+      seasonId: seasonId,
+      player1: players[playerCount-1].staffName,
+      player2: players[players.length/2-1].staffName,
+      score1: fixtId
+    })];
+    knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
+      result => {
+        if (result) {
+          res.status(200).send();
+        }
+      },
+      e => {
+        res.status(400).send(); //always sends this response but still adds to the database fine. no idea why
+      }
+    );
+    fixture = [];
     fixtId++;
     players = polygonShuffle(players); //rotate players for next fixture
   }
 
   console.log(fixtSets);
 });
-
 
 /*
   POST handler for /api/8ball_fixture/generate/
@@ -303,11 +309,14 @@ router.post("/generate", async (req, res) => {
   //LOOP
   for (let i = 0; i < players.length; i++) {
     for (let j = i + 1; j < players.length; j++) {
-      fixtures = [...fixtures, ({
-        seasonId: seasonId,
-        player1: players[i].staffName,
-        player2: players[j].staffName
-      })];
+      fixtures = [
+        ...fixtures,
+        {
+          seasonId: seasonId,
+          player1: players[i].staffName,
+          player2: players[j].staffName
+        }
+      ];
     }
   }
 
