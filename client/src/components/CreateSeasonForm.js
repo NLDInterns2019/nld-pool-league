@@ -91,11 +91,9 @@ class CreateSeasonForm extends Component {
             {this.state.players.map((player, index) => {
               return (
                 <div key={index} className="form-row">
-                  <label>Player {index + 1}:</label>
-
                   {/* player name text input */}
                   <input
-                    placeholder="Player name"
+                    placeholder={"Player " + (index + 1)}
                     className="inputPlayerName"
                     id={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}

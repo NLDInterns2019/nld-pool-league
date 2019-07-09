@@ -198,6 +198,16 @@ table td {
 }
 
 /* ==== Inputs ==== */
+input {
+  border-width: 0px 0px 3px 0px;
+}
+
+input:focus {
+  border-bottom-color: #127e5c;
+  border-width: 0px 0px 3px 0px;
+  outline: none;
+}
+
 input::placeholder,
 input,
 select {
