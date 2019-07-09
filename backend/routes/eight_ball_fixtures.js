@@ -8,7 +8,7 @@ const eight_ball_leagues = require("../models/eight_ball_leagues");
 const eight_ball_fixtures = require("../models/eight_ball_fixtures");
 
 const score = require("../functions/score");
-
+const fixture_split = require("../functions/fixture_split");
 /* 
   GET handler for /api/8ball_fixture
   Function: To get all the fixtures
@@ -193,20 +193,6 @@ router.put("/edit", async (req, res) => {
   res.status(200).send();
 });
 
-//shift values in an array
-function polygonShuffle(players) {
-  let offsets = 2;
-  if (players.length % 2 > 0) {
-    offsets = 1;
-  }
-  var playerCount = players.length-offsets;
-  var firstValue = players[0];
-  for (var i = 0; i<playerCount; i++) {
-      players[i] = players[i+1];
-  }
-  players[playerCount] = firstValue;
-  return players;
-}
 /* 
   POST handler for /api/8ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
@@ -271,12 +257,12 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
         }
       },
       e => {
-        res.status(400).send(); //always sends this response but still adds to the database fine. no idea why
+        res.status(400).send(); 
       }
     );
     fixture = [];
     group++;
-    players = polygonShuffle(players); //rotate players for next fixture
+    players = fixture_split.polygonShuffle(players);//polygonShuffle(players); //rotate players for next fixture
   }
 });
 
