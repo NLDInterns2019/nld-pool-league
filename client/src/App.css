@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   /*background-color: #f2f2f2;*/
-  background-color: #e9f2ed;
+  background-color: #dbe9e2;
   min-width: 800px;
 }
 
@@ -105,6 +105,7 @@ h3 {
 .content-centre {
   text-align: center;
   margin: auto;
+  padding-bottom: 8rem;
 }
 
 .contentRight {
@@ -126,8 +127,9 @@ table th {
   padding: 5px 15px 5px 15px;
   /*background-color: #0f5d0f;*/
   /*background-color: #025939;*/
-  background-color: #034732;
+  /*background-color: #034732;*/
   /*background-color: #1a936f;*/
+  background-color: #127e5c;
   color: white;
 }
 
@@ -206,15 +208,23 @@ select {
 /* ==== Input Players Text Inputs ==== */
 .inputPlayers label {
   padding-right: 0.5rem;
+  vertical-align: middle;
 }
 
 .inputPlayers {
   margin-top: 1rem;
 }
 
-.inputPlayers input,
 .inputPlayers button {
   margin-top: 0.75rem;
+}
+
+.inputPlayers input {
+  vertical-align: middle;
+}
+
+.form-row {
+  margin-bottom: 1rem;
 }
 
 /* ==== Buttons ==== */
@@ -267,6 +277,7 @@ button:hover {
   display: inline-block;
   padding: 1rem;
   width: 72%;
+  vertical-align: middle;
 }
 
 .seasonsList button {
@@ -308,6 +319,19 @@ button:hover {
 
 .form-popup button {
   margin-top: 0.5rem;
+}
+
+.seasonsList .delete-icon {
+  margin-left: 5.5rem;
+}
+
+.delete-icon {
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.delete-icon:hover {
+  cursor: pointer;
 }
 
 /* ==== White Boxes ==== */
@@ -376,7 +400,8 @@ button:hover {
 
 .landingPage .content a {
   text-decoration: none;
-  background-color: #0f5d0f;
+  /*background-color: #0f5d0f;*/
+  background-color: #127e5c;
   color: white;
   display: inline-block;
   padding: 5px 15px 5px 15px;
