@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/*.js --reporter -mochawesome --timeout 10000"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,9 @@
     "objection": "^1.6.9",
     "sqlite3": "^4.0.9",
     "tedious": "^6.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
   }
 }
