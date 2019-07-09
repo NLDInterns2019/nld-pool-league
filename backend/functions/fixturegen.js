@@ -4,7 +4,7 @@ module.exports = {
         let offset = 2;
         playerCount = players.length;
         fixture = [];
-        for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these. //was /2-1
+        for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows. batch insert these. //was
             fixture = [...fixture, ({
               seasonId: seasonId,
               player1: players[i].staffName,
