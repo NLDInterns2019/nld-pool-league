@@ -43,29 +43,20 @@ class CreateSeasonForm extends Component {
 
     /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
     if (!regexSeasonNumber.test(this.state.seasonName)) {
-      console.log("season regex failed! Input: " + this.state.seasonName);
       return { valid: false, message: "Season number can only be a number" };
     } else if (this.state.players.length < 2) {
-      console.log("player length failed! Input: " + this.state.players);
       return { valid: false, message: "Season requires at least 2 people" };
     }
 
     /* check if the player text inputs match the regular expression */
     for (var i = 0; i < this.state.players.length; i++) {
       if (!regex.test(this.state.players[i])) {
-        console.log("player name invalid ", this.state.players[i]);
         return {
           valid: false,
           message: "Player names can only include capital letters"
         };
       }
     }
-    console.log(
-      "Tests Passed! Input: season" +
-        this.state.seasonName +
-        " with " +
-        this.state.players
-    );
     return { valid: true };
   }
 
