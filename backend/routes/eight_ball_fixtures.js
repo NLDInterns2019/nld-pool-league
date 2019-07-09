@@ -212,7 +212,7 @@ function polygonShuffle(players) {
   Function: Handles fixture generation and fixture splitting
   Bugs: Will sometimes send a 400 response, but still adds the rows fine
 */
-router.post("/test", async (req, res) => { //no longer tiny :(
+router.post("/generate", async (req, res) => { //no longer tiny :(
   
   var fixtSets = []; //array holding fixturesets. Replace this with actual calls to add rows.
   var fixtId = 0;
