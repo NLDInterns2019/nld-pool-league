@@ -48,7 +48,7 @@ router.get("/:seasonId", (req, res) => {
 
 /* 
   POST handler for /api/8ball_league/add/player
-  Function: To add player to the 8 ball league
+  Function: To add player to the 8 ball league (FUTURE USE)
 */
 router.post("/add/player", (req, res) => {
   const schema = {
@@ -65,31 +65,16 @@ router.post("/add/player", (req, res) => {
   }
 
   knex("eight_ball_leagues")
-    //Check
-    .select()
-    .where("seasonId", req.body.seasonId)
+    .insert({
+      seasonId: req.body.seasonId,
+      staffName: req.body.staffName
+    })
     .then(
-      result => {
-        if (result === 0) {
-          return knex("eight_ball_leagues")
-            .insert({
-              seasonId: req.body.seasonId,
-              staffName: req.body.staffName
-            })
-            .then(
-              player => {
-                res.json(player);
-              },
-              e => {
-                res.status(400).json(e);
-              }
-            );
-        } else {
-          res.status(400).send();
-        }
+      player => {
+        res.json(player);
       },
       e => {
-        res.status(500).send();
+        res.status(400).json(e);
       }
     );
 });

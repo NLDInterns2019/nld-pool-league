@@ -107,7 +107,6 @@ describe("League", () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a("array");
           chai
             .request(server)
             .get("/api/8ball_league")
@@ -137,6 +136,56 @@ describe("League", () => {
     });
   });
 
+  describe("POST /api/8ball_league/add/players", () => {
+    it("should bulk post players to the league", done => {
+      chai
+        .request(server)
+        .post("/api/8ball_league/add/players")
+        .send({
+          seasonId: 2222,
+          staffs: [
+            {
+              seasonId: 2222,
+              staffName: "Michael"
+            },
+            { seasonId: 2222, staffName: "Matthew" }
+          ]
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/8ball_league")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.include.something.like({
+                seasonId: 2222,
+                staffName: "Michael"
+              });
+              res.body.should.include.something.like({
+                seasonId: 2222,
+                staffName: "Matthew"
+              });
+              done();
+            });
+        });
+    });
+    it("should not bulk post players on an existing season", done => {
+      chai
+        .request(server)
+        .post("/api/8ball_league/add/players")
+        .send({
+          seasonId: 2019,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+  });
+
   describe("DELETE /api/8ball_league/delete/player", () => {
     it("should delete a player from the league", done => {
       chai
@@ -149,17 +198,17 @@ describe("League", () => {
         .end((err, res) => {
           res.should.have.status(204);
           chai
-          .request(server)
-          .get("/api/8ball_league")
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.be.a("array");
-            res.body.should.not.include.something.like({
-              seasonId: 2019,
-              staffName: "Michael"
+            .request(server)
+            .get("/api/8ball_league")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.not.include.something.like({
+                seasonId: 2019,
+                staffName: "Michael"
+              });
+              done();
             });
-            done();
-          });
         });
     });
     it("should not delete a non-existing player from the league", done => {
