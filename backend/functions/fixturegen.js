@@ -1,14 +1,14 @@
 module.exports = {
     //calculate fixture values
     fixtureCalc: function (players, seasonId, group, date) {
-        let offset = 2;
+       // let offset = 2;
         playerCount = players.length;
         fixture = [];
         for (var i = 0; i<playerCount/2-1; i++) { //this represents fixture rows
             fixture = [...fixture, ({
               seasonId: seasonId,
               player1: players[i].staffName,
-              player2: players[players.length-i-offset].staffName,
+              player2: players[players.length-i-2].staffName, //2 was offset
               group: group,
               date: date
             })];
