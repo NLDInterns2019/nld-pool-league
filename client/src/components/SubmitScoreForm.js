@@ -100,7 +100,10 @@ class SubmitScoreForm extends Component {
           <button
             type="button"
             id="submitScoreBtn"
-            onClick={() => this.handleSubmit()}
+            onClick={() => {
+              if (window.confirm("Are you sure you want to submit this score?"))
+                this.handleSubmit();
+            }}
           >
             Submit Score
           </button>

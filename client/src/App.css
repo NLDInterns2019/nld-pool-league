@@ -105,7 +105,6 @@ h3 {
 .content-centre {
   text-align: center;
   margin: auto;
-  padding-bottom: 8rem;
 }
 
 .contentRight {
@@ -149,10 +148,6 @@ table td {
   padding-right: 15px;
 }
 
-.fixtureTableContainer {
-  margin-top: 8rem;
-}
-
 /* ==== League Table ==== */
 .leagueTable {
   font-size: 18pt;
@@ -177,10 +172,6 @@ table td {
 }
 
 /* ==== Submit Score Form ==== */
-.submitScoreForm {
-  margin-bottom: 8rem;
-}
-
 .submitScoreForm input {
   margin-right: 0.5rem;
   margin-top: 0.5rem;
@@ -361,13 +352,10 @@ button:hover {
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
+  margin-bottom: 8rem;
 }
 
 /* ==== Arrange Fixture ==== */
-.arrangeFixture {
-  margin-top: 8rem;
-}
-
 .arrangeFixture label {
   padding-right: 0.5rem;
 }
@@ -389,10 +377,6 @@ button:hover {
 /* ==== View Your Fixtures ==== */
 .viewYourFixtures label {
   padding-right: 0.5rem;
-}
-
-.viewYourFixtures {
-  margin-bottom: 8rem;
 }
 
 /* ==== Landing Page ==== */
