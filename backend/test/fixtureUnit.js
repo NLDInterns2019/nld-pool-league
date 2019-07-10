@@ -68,17 +68,3 @@ describe("polygonShuffle()", () => {
         expect(players).to.eql(expPlayers); 
     })
 });
-
-describe("fixtureGen()", () => {
-    beforeEach(() => {
-        var players = ['A', 'B', 'C', 'D']
-    })
-    it("should properly 'rotate' the polygon for an even number of players", () => {
-        //PREP
-
-        //ACT
-
-        //ASSERT
-
-    })
-});
