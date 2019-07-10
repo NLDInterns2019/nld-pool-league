@@ -50,6 +50,27 @@ router.get("/:seasonId", (req, res) => {
 });
 
 /* 
+  GET handler for /api/8ball_fixture/group/:seasonId
+  Function: To get the number of distinct group
+*/
+router.get("/group/:seasonId", (req, res) => {
+  let seasonId = parseInt(req.params.seasonId, 10);
+
+  eight_ball_fixtures
+    .query()
+    .where({ seasonId: seasonId })
+    .countDistinct("group as count")
+    .then(
+      count => {
+        res.json(count);
+      },
+      e => {
+        res.status(400).send();
+      }
+    );
+});
+
+/* 
   GET handler for /api/8ball_fixture/due/:staffName
   Function: To get all the fixtures unplayed by a user. Caps sensitive.
   TODO: make it player1 OR player2
@@ -76,12 +97,14 @@ router.get("/due/:staffName", (req, res) => {
 
 /* 
   GET handler for /api/8ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed
-  Bug: Should just be /due but refuses to work unless it has two sections
+  Function: To get all the fixtures unplayed by a user. Caps sensitive.
+  TODO: make it player1 OR player2
 */
-router.get("/unplayed/all", (req, res) => {
+router.get("/unplayed/:seasonId", (req, res) => {
+  let seasonId = parseInt(req.params.seasonId);
   eight_ball_fixtures
     .query()
+    .where({ seasonId: seasonId })
     .where({ score1: null })
     .then(
       fixture => {
@@ -247,8 +270,14 @@ router.put("/edit", async (req, res) => {
   Function: Handles fixture generation and fixture splitting
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
+  //NEEDS TO USE DATES INSTEAD OF INTEGERS FOR GROUP
+  //take in date from body
+  //validate
+  //initialise in group
+  //increment day by 7 each round - check if this is built in or requires another method
+
   var group = 0;
-  
+  let seasonId = req.body.seasonId;
   //take the seasonid and see if it's acceptable
   const schema = {
     seasonId: Joi.number()
@@ -259,8 +288,6 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
-  
-  let seasonId = req.body.seasonId;
 
   //db call to get names
   let players;
@@ -277,12 +304,13 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   var playerCount = players.length;
   let fixture = [];
   let exCount = 1;
-  if (playerCount%2>0) {
-   exCount = 0;
+  if (playerCount % 2 > 0) {
+    exCount = 0;
   }
   //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
-    fixture = fixturegen.fixtureCalc(players, seasonId , group) //this represents the fixture rows
+  for (var j = 0; j < playerCount - exCount; j++) {
+    //this represents fixture groups -1
+    fixture = fixturegen.fixtureCalc(players, seasonId, group); //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -290,7 +318,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
         }
       },
       e => {
-        res.status(400).send(); 
+        res.status(400).send();
       }
     );
     group++;
@@ -298,63 +326,4 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   }
 });
 
-
-/*
-  POST handler for /api/8ball_fixture/generate/
-  Function: To get all the fixtures in the specified season
-
-router.post("/generate", async (req, res) => {
-  const schema = {
-    seasonId: Joi.number()
-      .integer()
-      .required()
-  };
-
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
-
-  let seasonId = req.body.seasonId;
-
-  //Get the staff name of the specified season and store it in players array
-  let players;
-  try {
-    players = await eight_ball_leagues.query().where({ seasonId: seasonId });
-    if (players.length <= 1) {
-      res.status(400).send("Not enough player");
-      return;
-    }
-  } catch (e) {
-    res.status(500).send();
-    return;
-  }
-  console.log(players);
-  let fixtures = [];
-  //LOOP
-  for (let i = 0; i < players.length; i++) {
-    for (let j = i + 1; j < players.length; j++) {
-      fixtures = [
-        ...fixtures,
-        {
-          seasonId: seasonId,
-          player1: players[i].staffName,
-          player2: players[j].staffName
-        }
-      ];
-    }
-  }
-
-  knex.batchInsert("eight_ball_fixtures", fixtures, 100).then(
-    result => {
-      if (result) {
-        res.status(200).send();
-      }
-    },
-    e => {
-      res.status(400).send();
-    }
-  );
-});
-*/
 module.exports = router;
