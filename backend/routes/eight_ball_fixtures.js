@@ -50,11 +50,11 @@ router.get("/:seasonId", (req, res) => {
 });
 
 /* 
-  GET handler for /api/8ball_fixture/player/:staffName
+  GET handler for /api/8ball_fixture/due/:staffName
   Function: To get all the fixtures unplayed by a user. Caps sensitive.
   TODO: make it player1 OR player2
 */
-router.get("/player/:staffName", (req, res) => {
+router.get("/due/:staffName", (req, res) => {
   let staffName = req.params.staffName;
   eight_ball_fixtures
     .query()
@@ -74,6 +74,28 @@ router.get("/player/:staffName", (req, res) => {
     );
 });
 
+/* 
+  GET handler for /api/8ball_fixture/due/:staffName
+  Function: To get all the fixtures unplayed
+  Bug: Should just be /due but refuses to work unless it has two sections
+*/
+router.get("/unplayed/all", (req, res) => {
+  eight_ball_fixtures
+    .query()
+    .where({ score1: null })
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
 
 /* 
   PUT handler for /api/8ball_fixture/edit/
