@@ -56,36 +56,11 @@ class SeasonsPage extends Component {
           //To force update
           refresh: !this.state.refresh
         })
-      );
+      )
+      .catch(e=>{
+        window.alert("ERROR: Cannot add player(s) to an existing season!")
+      });
   };
-
-  // createSeason = state => {
-  //   Promise.all(
-  //     state.players.map(player =>
-  //       backend.post(
-  //         "/api/8ball_league/add/player",
-  //         {
-  //           seasonId: parseInt(state.seasonName),
-  //           staffName: player
-  //         }
-  //       )
-  //     )
-  //   )
-  //     .then(() =>
-  //       backend.post(
-  //         "/api/8ball_fixture/generate/",
-  //         {
-  //           seasonId: parseInt(state.seasonName)
-  //         }
-  //       )
-  //     )
-  //     .then(() =>
-  //       this.setState({
-  //         //To force update
-  //         refresh: !this.state.refresh
-  //       })
-  //     );
-  // };
 
   deleteSeason = async id => {
     await backend.delete("/api/8ball_season/delete/", {
