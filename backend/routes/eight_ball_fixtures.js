@@ -272,9 +272,9 @@ router.put("/edit", async (req, res) => {
   TODO: may want to put dates in their own table and connect to fixtures via groups
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
-  //var group = 0;
-  var group = new Date();
-  var aesGroup = group; //used to stop issue where date was placed in database in milliseconds of next month
+  var group = 0;
+ // var group = new Date();
+  //var aesGroup = group; //used to stop issue where date was placed in database in milliseconds of next month
   let seasonId = req.body.seasonId;
 
   //take the seasonid and see if it's acceptable
@@ -309,7 +309,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   }
   //this gets a fixture and puts it into fixtSets
   for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
-    aesGroup = group;
+    aesGroup = 'd'//group;
     var dd = String(aesGroup.getDate()).padStart(2, '0');
     var mm = String(aesGroup.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = aesGroup.getFullYear();
@@ -326,9 +326,9 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
         res.status(400).send(); 
       }
     );
-   // group++;
-    group.setDate(group.getDate() + 7);
-    console.log(aesGroup);
+    group++;
+    //group.setDate(group.getDate() + 7);
+    //console.log(aesGroup);
     //datet = new Date('25-01-2019S');
    // console.log(datet);
     //var date = new Date(aesGroup.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
