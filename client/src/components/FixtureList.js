@@ -9,7 +9,7 @@ const FixtureList = props => {
     const fixtures = props.fixtures.filter(fixture => fixture.group === i);
     tableArray.push(
       <div>
-        <FixtureTable key={i} fixtures={fixtures} />
+        <FixtureTable key={i} fixtures={fixtures} number={i} />
       </div>
     );
   }
