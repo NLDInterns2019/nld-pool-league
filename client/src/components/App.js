@@ -93,7 +93,7 @@ class App extends React.Component {
               <LeagueTable players={this.state.players} />
               <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             </div>
-            <div className="contentRight">
+            <div style={{height: "80vh", overflow: "auto"}} className="contentRight">
               <FixtureList
                 fixtures={this.state.fixtures}
                 groupCount={this.state.groupCount}
