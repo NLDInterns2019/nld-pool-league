@@ -315,7 +315,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     var yyyy = aesDate.getFullYear();
     aesDate = dd + '-' + mm + '-' + yyyy;
 
-    fixture = fixturegen.fixtureCalc(players, seasonId , group) //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(players, seasonId , group, aesDate) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -327,8 +327,8 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
       }
     );
     group++;
-    //group.setDate(group.getDate() + 7);
-    //console.log(aesGroup);
+    startDate.setDate(startDate.getDate() + 7);
+    console.log(aesDate);
     //datet = new Date('25-01-2019S');
    // console.log(datet);
     //var date = new Date(aesGroup.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
