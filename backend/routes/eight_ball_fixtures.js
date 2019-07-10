@@ -97,12 +97,14 @@ router.get("/due/:staffName", (req, res) => {
 
 /* 
   GET handler for /api/8ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed
-  Bug: Should just be /due but refuses to work unless it has two sections
+  Function: To get all the fixtures unplayed by a user. Caps sensitive.
+  TODO: make it player1 OR player2
 */
-router.get("/unplayed/all", (req, res) => {
+router.get("/unplayed/:seasonId", (req, res) => {
+  let seasonId = parseInt(req.params.seasonId);
   eight_ball_fixtures
     .query()
+    .where({ seasonId: seasonId })
     .where({ score1: null })
     .then(
       fixture => {
@@ -267,10 +269,15 @@ router.put("/edit", async (req, res) => {
   POST handler for /api/8ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
 */
-router.post("/generate", async (req, res) => {
-  //no longer tiny :(
-  var group = 0;
+router.post("/generate", async (req, res) => { //no longer tiny :(
+  //NEEDS TO USE DATES INSTEAD OF INTEGERS FOR GROUP
+  //take in date from body
+  //validate
+  //initialise in group
+  //increment day by 7 each round - check if this is built in or requires another method
 
+  var group = 0;
+  let seasonId = req.body.seasonId;
   //take the seasonid and see if it's acceptable
   const schema = {
     seasonId: Joi.number()
