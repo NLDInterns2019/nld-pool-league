@@ -1,11 +1,10 @@
 import React from "react";
 import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
-import { render, mount, shallow, configure } from "enzyme";
+import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import HeaderNavigator from "../HeaderNavigator.js";
 import SubNavigator from "../SubNavigator.js";
-import { BrowserRouter as Router, matchPath } from "react-router-dom";
 
 chai.should();
 
