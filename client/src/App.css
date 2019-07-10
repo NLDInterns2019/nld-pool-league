@@ -5,7 +5,6 @@ body {
   margin: 0rem;
   border: 0rem;
   font-family: "Montserrat";
-  /*background-color: #f2f2f2;*/
   background-color: #dbe9e2;
   min-width: 800px;
 }
@@ -20,10 +19,7 @@ h3 {
 
 /* ==== Header ==== */
 .header {
-  /*background-color: #0f5d0f;*/
-  /*background-color: #025939;*/
   background-color: #034732;
-
   color: white;
   padding: 1rem;
 }
@@ -53,8 +49,11 @@ h3 {
   text-decoration: none;
   color: white;
   font-size: 30pt;
-  font-weight: bold;
   padding-left: 1.5rem;
+}
+
+.headerLeft a:hover {
+  font-weight: bold;
 }
 
 /* ==== Navigation ==== */
@@ -87,8 +86,6 @@ h3 {
   padding-left: 2.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  /*background-color: #999999;*/
-  /*background-color: #05a678;*/
   background-color: #1f7058;
   box-shadow: 0px 8px 10px -6px;
   margin-bottom: 2.5rem;
@@ -105,7 +102,6 @@ h3 {
 .content-centre {
   text-align: center;
   margin: auto;
-  padding-bottom: 8rem;
 }
 
 .contentRight {
@@ -125,10 +121,6 @@ h3 {
 /* ==== Table ==== */
 table th {
   padding: 5px 15px 5px 15px;
-  /*background-color: #0f5d0f;*/
-  /*background-color: #025939;*/
-  /*background-color: #034732;*/
-  /*background-color: #1a936f;*/
   background-color: #127e5c;
   color: white;
 }
@@ -147,10 +139,6 @@ table td {
 .fixtureTableCell {
   padding-left: 15px;
   padding-right: 15px;
-}
-
-.fixtureTableContainer {
-  margin-top: 8rem;
 }
 
 /* ==== League Table ==== */
@@ -177,10 +165,6 @@ table td {
 }
 
 /* ==== Submit Score Form ==== */
-.submitScoreForm {
-  margin-bottom: 8rem;
-}
-
 .submitScoreForm input {
   margin-right: 0.5rem;
   margin-top: 0.5rem;
@@ -198,11 +182,26 @@ table td {
 }
 
 /* ==== Inputs ==== */
+input {
+  border-width: 0px 0px 3px 0px;
+}
+
+input:focus {
+  border-bottom-color: #127e5c;
+  border-width: 0px 0px 3px 0px;
+  outline: none;
+}
+
 input::placeholder,
 input,
 select {
   font-family: "Montserrat";
   font-size: 12pt;
+}
+
+select {
+  border-width: 0px 0px 3px 0px;
+  border-color: rgb(238, 238, 238);
 }
 
 /* ==== Input Players Text Inputs ==== */
@@ -229,10 +228,6 @@ select {
 
 /* ==== Buttons ==== */
 button {
-  /*background-color: #0f5d0f;*/
-  /*background-color: #025939;*/
-  /*background-color: #034732;*/
-  /*background-color: #1a936f;*/
   background-color: #127e5c;
   color: white;
   font-family: "Montserrat";
@@ -254,7 +249,6 @@ button:hover {
 }
 
 .removeBtn {
-  /*background-color: #c40000;*/
   background-color: #e23e4b;
   margin-left: 0.5rem;
 }
@@ -308,7 +302,6 @@ button:hover {
 }
 
 .form-popup .createSeasonForm .removeBtn {
-  /*background-color: #c40000;*/
   background-color: #e23e4b;
 }
 
@@ -332,6 +325,7 @@ button:hover {
 
 .delete-icon:hover {
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 /* ==== White Boxes ==== */
@@ -346,13 +340,10 @@ button:hover {
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
+  margin-bottom: 8rem;
 }
 
 /* ==== Arrange Fixture ==== */
-.arrangeFixture {
-  margin-top: 8rem;
-}
-
 .arrangeFixture label {
   padding-right: 0.5rem;
 }
@@ -374,10 +365,6 @@ button:hover {
 /* ==== View Your Fixtures ==== */
 .viewYourFixtures label {
   padding-right: 0.5rem;
-}
-
-.viewYourFixtures {
-  margin-bottom: 8rem;
 }
 
 /* ==== Landing Page ==== */

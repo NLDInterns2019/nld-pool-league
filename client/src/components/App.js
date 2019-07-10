@@ -81,10 +81,10 @@ class App extends React.Component {
           <div className="content">
             <div className="contentLeft">
               <LeagueTable players={this.state.players} />
+              <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             </div>
 
             <div className="contentRight">
-              <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
               <FixtureTable fixtures={this.state.fixtures} />
             </div>
           </div>
