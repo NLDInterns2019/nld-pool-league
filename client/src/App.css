@@ -367,8 +367,22 @@ button:hover {
 }
 
 /* ==== View Your Fixtures ==== */
+.viewYourFixtures form {
+  text-align: right;
+  width: 50%;
+  margin: auto;
+}
+
 .viewYourFixtures label {
   padding-right: 0.5rem;
+}
+
+.viewYourFixtures select {
+  margin-bottom: 1rem;
+}
+
+.viewBtn {
+  text-align: center;
 }
 
 /* ==== Landing Page ==== */
