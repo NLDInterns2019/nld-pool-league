@@ -73,7 +73,10 @@ class App extends React.Component {
           //To force update
           refresh: !this.state.refresh
         })
-      );
+      )
+      .catch(e=>{
+        window.alert("ERROR: Match not found / match is finished")
+      })
   };
 
   render() {

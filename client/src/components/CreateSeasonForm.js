@@ -6,8 +6,9 @@ class CreateSeasonForm extends Component {
     super(props);
 
     this.initialState = {
-      players: [],
-      seasonName: ""
+      playersName: [],
+      seasonName: "",
+      players: []
     };
 
     this.state = this.initialState;
@@ -15,12 +16,12 @@ class CreateSeasonForm extends Component {
   }
 
   addPlayer() {
-    this.setState({ players: [...this.state.players, ""] });
+    this.setState({ playersName: [...this.state.playersName, ""] });
   }
 
   handleChange(e, indexToChange) {
     this.setState({
-      players: this.state.players.map((player, index) => {
+      playersName: this.state.playersName.map((player, index) => {
         if (index === indexToChange) {
           return e.target.value.toUpperCase();
         }
@@ -30,8 +31,8 @@ class CreateSeasonForm extends Component {
   }
 
   removePlayer(index) {
-    this.state.players.splice(index, 1);
-    this.setState({ players: this.state.players });
+    this.state.playersName.splice(index, 1);
+    this.setState({ playersName: this.state.playersName });
   }
 
   setSeasonName(e) {
@@ -45,13 +46,13 @@ class CreateSeasonForm extends Component {
     /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
     if (!regexSeasonNumber.test(this.state.seasonName)) {
       return { valid: false, message: "Season number can only be a number" };
-    } else if (this.state.players.length < 2) {
+    } else if (this.state.playersName.length < 2) {
       return { valid: false, message: "Season requires at least 2 people" };
     }
 
     /* check if the player text inputs match the regular expression */
-    for (var i = 0; i < this.state.players.length; i++) {
-      if (!regex.test(this.state.players[i])) {
+    for (var i = 0; i < this.state.playersName.length; i++) {
+      if (!regex.test(this.state.playersName[i])) {
         return {
           valid: false,
           message: "Player names can only include capital letters"
@@ -67,10 +68,27 @@ class CreateSeasonForm extends Component {
     if (!valid.valid) {
       window.alert(valid.message);
     } else {
-      this.props.createSeason(this.state);
-      document.getElementById("container").style.display = "none";
-      this.setState(this.initialState);
+      const newState = this.state.players.concat(this.preparePlayers());
+
+      //SET STATE IS ASYNCHRONOUS
+      this.setState({ players: newState }, () => {
+        this.props.createSeason(this.state);
+        document.getElementById("container").style.display = "none";
+        this.setState(this.initialState);
+      });
     }
+  }
+
+  preparePlayers() {
+    let temp = [];
+    this.state.playersName.map(
+      playerName =>
+        (temp = [
+          ...temp,
+          { seasonId: parseInt(this.state.seasonName), staffName: playerName }
+        ])
+    );
+    return temp;
   }
 
   render() {
@@ -88,7 +106,7 @@ class CreateSeasonForm extends Component {
           />
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
-            {this.state.players.map((player, index) => {
+            {this.state.playersName.map((player, index) => {
               return (
                 <div key={index} className="form-row">
                   {/* player name text input */}

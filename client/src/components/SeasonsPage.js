@@ -41,14 +41,11 @@ class SeasonsPage extends Component {
   }
 
   createSeason = state => {
-    Promise.all(
-      state.players.map(player =>
-        backend.post("/api/8ball_league/add/player", {
-          seasonId: parseInt(state.seasonName),
-          staffName: player
-        })
-      )
-    )
+    backend
+      .post("/api/8ball_league/add/players", {
+        seasonId: parseInt(state.seasonName),
+        staffs: state.players
+      })
       .then(() =>
         backend.post("/api/8ball_fixture/generate/", {
           seasonId: parseInt(state.seasonName)
@@ -59,7 +56,10 @@ class SeasonsPage extends Component {
           //To force update
           refresh: !this.state.refresh
         })
-      );
+      )
+      .catch(e=>{
+        window.alert("ERROR: Cannot add player(s) to an existing season!")
+      });
   };
 
   deleteSeason = async id => {
