@@ -4,7 +4,7 @@ import backend from "../api/backend";
 import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
-import FixtureTable from "./FixtureTable.js";
+import FixtureList from "./FixtureList.js";
 import SubmitScoreForm from "./SubmitScoreForm.js";
 
 class App extends React.Component {
@@ -13,7 +13,8 @@ class App extends React.Component {
     fixtures: [],
     activeSeason: 0,
     refresh: "false",
-    windowWidth: 1400
+    windowWidth: 1400,
+    groupCount: 0
   };
 
   updateData = async () => {
@@ -28,6 +29,12 @@ class App extends React.Component {
     );
 
     this.setState({ fixtures: fixtures.data });
+
+    const count = await backend.get(
+      "/api/8ball_fixture/group/" + this.state.activeSeason
+    );
+
+    this.setState({ groupCount: count.data[0] });
   };
 
   updateDimensions() {
@@ -83,9 +90,11 @@ class App extends React.Component {
               <LeagueTable players={this.state.players} />
               <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             </div>
-
             <div className="contentRight">
-              <FixtureTable fixtures={this.state.fixtures} />
+              <FixtureList
+                fixtures={this.state.fixtures}
+                groupCount={this.state.groupCount}
+              />
             </div>
           </div>
         </div>
@@ -98,7 +107,10 @@ class App extends React.Component {
           <div className="content-centre">
             <LeagueTable players={this.state.players} />
             <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
-            <FixtureTable fixtures={this.state.fixtures} />
+            <FixtureList
+                fixtures={this.state.fixtures}
+                groupCount={this.state.groupCount}
+              />
           </div>
         </div>
       );
