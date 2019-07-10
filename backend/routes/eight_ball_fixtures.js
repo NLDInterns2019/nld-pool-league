@@ -313,7 +313,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     var dd = String(aesGroup.getDate()).padStart(2, '0');
     var mm = String(aesGroup.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = aesGroup.getFullYear();
-    aesGroup = mm + '/' + dd + '/' + yyyy;
+    aesGroup = dd + '/' + mm + '/' + yyyy;
 
     fixture = fixturegen.fixtureCalc(players, seasonId , aesGroup) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
