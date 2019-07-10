@@ -41,14 +41,11 @@ class SeasonsPage extends Component {
   }
 
   createSeason = state => {
-    Promise.all(
-      state.players.map(player =>
-        backend.post("/api/8ball_league/add/player", {
-          seasonId: parseInt(state.seasonName),
-          staffName: player
-        })
-      )
-    )
+    backend
+      .post("/api/8ball_league/add/players", {
+        seasonId: parseInt(state.seasonName),
+        staffs: state.players
+      })
       .then(() =>
         backend.post("/api/8ball_fixture/generate/", {
           seasonId: parseInt(state.seasonName)
@@ -61,6 +58,34 @@ class SeasonsPage extends Component {
         })
       );
   };
+
+  // createSeason = state => {
+  //   Promise.all(
+  //     state.players.map(player =>
+  //       backend.post(
+  //         "/api/8ball_league/add/player",
+  //         {
+  //           seasonId: parseInt(state.seasonName),
+  //           staffName: player
+  //         }
+  //       )
+  //     )
+  //   )
+  //     .then(() =>
+  //       backend.post(
+  //         "/api/8ball_fixture/generate/",
+  //         {
+  //           seasonId: parseInt(state.seasonName)
+  //         }
+  //       )
+  //     )
+  //     .then(() =>
+  //       this.setState({
+  //         //To force update
+  //         refresh: !this.state.refresh
+  //       })
+  //     );
+  // };
 
   deleteSeason = async id => {
     await backend.delete("/api/8ball_season/delete/", {

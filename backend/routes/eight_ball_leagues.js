@@ -48,7 +48,7 @@ router.get("/:seasonId", (req, res) => {
 
 /* 
   POST handler for /api/8ball_league/add/player
-  Function: To add player to the 8 ball league
+  Function: To add player to the 8 ball league (FUTURE USE)
 */
 router.post("/add/player", (req, res) => {
   const schema = {
@@ -64,16 +64,73 @@ router.post("/add/player", (req, res) => {
     return;
   }
 
-  knex('eight_ball_leagues')
-  .insert({ seasonId: req.body.seasonId, staffName: req.body.staffName })
-  .then(
-    player => {
-      res.json(player);
-    },
-    e => {
-      res.status(400).json(e);
-    }
-  );
+  knex("eight_ball_leagues")
+    .insert({
+      seasonId: req.body.seasonId,
+      staffName: req.body.staffName
+    })
+    .then(
+      player => {
+        res.json(player);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/8ball_league/add/players
+  Function: To add players to the 8 ball league (BATCH INSERT)
+*/
+router.post("/add/players", (req, res) => {
+  const schema = {
+    seasonId: Joi.number()
+      .integer()
+      .required(),
+    staffs: Joi.array().items(
+      Joi.object({
+        seasonId: Joi.number()
+          .integer()
+          .required(),
+        staffName: Joi.string().required()
+      })
+    )
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  knex("eight_ball_leagues")
+    //Check
+    .select()
+    .where("seasonId", req.body.seasonId)
+    .then(
+      result => {
+        if (result.length === 0) {
+          return knex
+            .batchInsert("eight_ball_leagues", req.body.staffs, 100)
+            .then(
+              result => {
+                if (result) {
+                  res.status(200).send();
+                }
+              },
+              e => {
+                res.status(400).send();
+              }
+            );
+        } else {
+          res.status(400).send();
+        }
+      },
+      e => {
+        res.status(500).send();
+      }
+    );
 });
 
 /* 
