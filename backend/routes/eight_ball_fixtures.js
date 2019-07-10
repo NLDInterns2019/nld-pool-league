@@ -249,8 +249,14 @@ router.put("/edit", async (req, res) => {
   Function: Handles fixture generation and fixture splitting
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
+  //NEEDS TO USE DATES INSTEAD OF INTEGERS FOR GROUP
+  //take in date from body
+  //validate
+  //initialise in group
+  //increment day by 7 each round - check if this is built in or requires another method
+
   var group = 0;
-  
+  let seasonId = req.body.seasonId;
   //take the seasonid and see if it's acceptable
   const schema = {
     seasonId: Joi.number()
@@ -261,8 +267,6 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
-  
-  let seasonId = req.body.seasonId;
 
   //db call to get names
   let players;
