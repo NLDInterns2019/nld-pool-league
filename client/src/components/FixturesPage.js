@@ -35,7 +35,7 @@ class FixturesPage extends Component {
             </div>
 
             <div className="contentRight">
-              <SubmitScoreForm />
+              {/*<SubmitScoreForm />*/}
               <ArrangeFixture />
             </div>
           </div>

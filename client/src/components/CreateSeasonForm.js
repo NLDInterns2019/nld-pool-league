@@ -99,20 +99,11 @@ class CreateSeasonForm extends Component {
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                   />
-
-                  {/* button for removing player */}
-                  {/*<button
-                    type="button"
-                    className="removeBtn"
-                    id={"button" + (index + 1)}
-                    onClick={() => this.removePlayer(index)}
-                  >
-                    - Remove
-                  </button>*/}
                   <img
                     src={DeleteButton}
                     id={"button" + (index + 1)}
                     className="delete-icon"
+                    alt="remove player"
                     onClick={() => this.removePlayer(index)}
                   />
                 </div>
