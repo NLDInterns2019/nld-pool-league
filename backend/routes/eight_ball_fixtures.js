@@ -50,6 +50,32 @@ router.get("/:seasonId", (req, res) => {
 });
 
 /* 
+  GET handler for /api/8ball_fixture/:seasonId/:staffName
+  Function: To get all the fixtures in the specified season for specified player
+*/
+router.get("/:seasonId/:staffName", (req, res) => {
+  let seasonId = parseInt(req.params.seasonId, 10);
+  let staffName = req.params.staffName;
+
+  eight_ball_fixtures
+    .query()
+    .where({ seasonId: seasonId, player1: staffName})
+    .orWhere({seasonId: seasonId, player2: staffName})
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+/* 
   GET handler for /api/8ball_fixture/group/:seasonId
   Function: To get the number of distinct group
 */
