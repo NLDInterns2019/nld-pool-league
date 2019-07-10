@@ -41,7 +41,6 @@ class SeasonsPage extends Component {
   }
 
   createSeason = state => {
-    console.log(state)
     backend
       .post("/api/8ball_league/add/players", {
         seasonId: parseInt(state.seasonName),

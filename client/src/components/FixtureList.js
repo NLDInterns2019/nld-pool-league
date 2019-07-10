@@ -8,8 +8,8 @@ const FixtureList = props => {
   for (let i = 0; i < count; i++) {
     const fixtures = props.fixtures.filter(fixture => fixture.group === i);
     tableArray.push(
-      <div key={i} >
-        <FixtureTable fixtures={fixtures} round={i} />
+      <div key={i}>
+        <FixtureTable fixtures={fixtures} round={i + 1} />
       </div>
     );
   }

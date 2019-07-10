@@ -1,6 +1,6 @@
 module.exports = {
     //calculate fixture values
-    fixtureCalc: function (players, seasonId, group) {
+    fixtureCalc: function (players, seasonId, group, date) {
         let offset = 2;
         playerCount = players.length;
         fixture = [];
@@ -9,7 +9,8 @@ module.exports = {
               seasonId: seasonId,
               player1: players[i].staffName,
               player2: players[players.length-i-offset].staffName,
-              group: group
+              group: group,
+              date: date
             })];
           }
           if (playerCount%2==0) {
@@ -17,7 +18,8 @@ module.exports = {
             seasonId: seasonId,
             player1: players[playerCount-1].staffName,
               player2: players[players.length/2-1].staffName,
-              group: group
+              group: group,
+              date: date
              })]
           }
           return fixture;

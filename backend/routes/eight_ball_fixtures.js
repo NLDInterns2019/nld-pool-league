@@ -265,25 +265,25 @@ router.put("/edit", async (req, res) => {
   res.status(200).send();
 });
 
+
 /* 
   POST handler for /api/8ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
+  TODO: may want to put dates in their own table and connect to fixtures via groups
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
-  //NEEDS TO USE DATES INSTEAD OF INTEGERS FOR GROUP
-  //take in date from body
-  //validate
-  //initialise in group
-  //increment day by 7 each round - check if this is built in or requires another method
-
   var group = 0;
+  var startDate = new Date();
+  var aesDate = startDate; //used to stop issue where date was placed in database in milliseconds of next month
   let seasonId = req.body.seasonId;
+
   //take the seasonid and see if it's acceptable
   const schema = {
     seasonId: Joi.number()
       .integer()
-      .required()
+      .required(),
   };
+  
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
@@ -304,13 +304,18 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   var playerCount = players.length;
   let fixture = [];
   let exCount = 1;
-  if (playerCount % 2 > 0) {
-    exCount = 0;
+  if (playerCount%2>0) {
+   exCount = 0;
   }
   //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j < playerCount - exCount; j++) {
-    //this represents fixture groups -1
-    fixture = fixturegen.fixtureCalc(players, seasonId, group); //this represents the fixture rows
+  for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
+    aesDate = startDate;
+    var dd = String(aesDate.getDate()).padStart(2, '0');
+    var mm = String(aesDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = aesDate.getFullYear();
+    aesDate = dd + '-' + mm + '-' + yyyy;
+
+    fixture = fixturegen.fixtureCalc(players, seasonId , group, aesDate) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -318,10 +323,16 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
         }
       },
       e => {
-        res.status(400).send();
+        res.status(400).send(); 
       }
     );
     group++;
+    startDate.setDate(startDate.getDate() + 7);
+    console.log(aesDate);
+    //datet = new Date('25-01-2019S');
+   // console.log(datet);
+    //var date = new Date(aesGroup.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
+//console.log(date);
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }
 });

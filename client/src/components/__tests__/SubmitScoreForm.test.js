@@ -90,23 +90,6 @@ describe("Type value into boxes", () => {
 
 /* ================================================================================================== */
 
-describe("Submit Score button click", () => {
-  it("should run handleSubmit()", () => {
-    var spy = sinon.spy(SubmitScoreForm.prototype, "handleSubmit");
-    const wrapper = shallow(<SubmitScoreForm />);
-    const submitScoreBtn = wrapper.find("#submitScoreBtn");
-
-    // prevents error with alerts. An alert showing is normal behaviour, not an error
-    window.alert = () => {};
-
-    submitScoreBtn.simulate("click");
-
-    spy.calledOnce.should.be.true;
-  });
-});
-
-/* ================================================================================================== */
-
 describe("Validation", () => {
   beforeEach(() => {
     wrapper.setState({
@@ -115,19 +98,6 @@ describe("Validation", () => {
       player1: "",
       player2: ""
     });
-  });
-
-  it("should be called when the submit score button is clicked", () => {
-    var spy = sinon.spy(SubmitScoreForm.prototype, "isValid");
-    const wrapper = shallow(<SubmitScoreForm />);
-    const submitScoreBtn = wrapper.find("#submitScoreBtn");
-
-    // prevents error with alerts. An alert showing is normal behaviour, not an error
-    window.alert = () => {};
-
-    submitScoreBtn.simulate("click");
-
-    spy.calledOnce.should.be.true;
   });
 
   it("should return false if all fields are empty", () => {

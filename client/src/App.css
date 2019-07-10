@@ -151,10 +151,14 @@ table td {
 }
 
 /* ==== Fixture and League Table positioning ==== */
-.fixtureTableContainer,
 .leagueTableContainer {
   display: inline-block;
   margin-bottom: 8rem;
+}
+
+.fixtureTableContainer {
+  display: inline-block;
+  margin-bottom: 4rem;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
