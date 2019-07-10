@@ -50,6 +50,32 @@ router.get("/:seasonId", (req, res) => {
 });
 
 /* 
+  GET handler for /api/8ball_fixture/player/:staffName
+  Function: To get all the fixtures unplayed by a user. Caps sensitive.
+  TODO: make it player1 OR player2
+*/
+router.get("/player/:staffName", (req, res) => {
+  let staffName = req.params.staffName;
+  eight_ball_fixtures
+    .query()
+    .where({ player1: staffName })
+    .where({ score1: null })
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+
+/* 
   PUT handler for /api/8ball_fixture/edit/
   Function: To update the score
   TODO: BREAK DOWN TO MORE MODULAR METHODS!
