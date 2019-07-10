@@ -76,12 +76,14 @@ router.get("/due/:staffName", (req, res) => {
 
 /* 
   GET handler for /api/8ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed
-  Bug: Should just be /due but refuses to work unless it has two sections
+  Function: To get all the fixtures unplayed by a user. Caps sensitive.
+  TODO: make it player1 OR player2
 */
-router.get("/unplayed/all", (req, res) => {
+router.get("/unplayed/:seasonId", (req, res) => {
+  let seasonId = parseInt(req.params.seasonId);
   eight_ball_fixtures
     .query()
+    .where({ seasonId: seasonId })
     .where({ score1: null })
     .then(
       fixture => {
