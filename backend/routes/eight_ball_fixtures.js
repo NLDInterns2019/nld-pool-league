@@ -273,8 +273,8 @@ router.put("/edit", async (req, res) => {
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
   var group = 0;
- // var group = new Date();
-  //var aesGroup = group; //used to stop issue where date was placed in database in milliseconds of next month
+  var startDate = new Date();
+  var aesDate = startDate; //used to stop issue where date was placed in database in milliseconds of next month
   let seasonId = req.body.seasonId;
 
   //take the seasonid and see if it's acceptable
@@ -309,13 +309,13 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   }
   //this gets a fixture and puts it into fixtSets
   for (var j = 0; j<playerCount-exCount; j++) { //this represents fixture groups -1
-    aesGroup = 'd'//group;
-    var dd = String(aesGroup.getDate()).padStart(2, '0');
-    var mm = String(aesGroup.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = aesGroup.getFullYear();
-    aesGroup = dd + '-' + mm + '-' + yyyy;
+    aesDate = startDate;
+    var dd = String(aesDate.getDate()).padStart(2, '0');
+    var mm = String(aesDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = aesDate.getFullYear();
+    aesDate = dd + '-' + mm + '-' + yyyy;
 
-    fixture = fixturegen.fixtureCalc(players, seasonId , aesGroup) //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(players, seasonId , group) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
