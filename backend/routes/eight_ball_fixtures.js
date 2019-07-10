@@ -274,6 +274,7 @@ router.put("/edit", async (req, res) => {
 router.post("/generate", async (req, res) => { //no longer tiny :(
   var group = 0;
   var startDate = new Date();
+  startDate.setDate(startDate.getDate() + 7);
   var aesDate = startDate; //used to stop issue where date was placed in database in milliseconds of next month
   let seasonId = req.body.seasonId;
 
@@ -337,4 +338,11 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   }
 });
 
+/* 
+  POST handler for /api/8ball_fixture/generate/. 
+  Function: Displays list of overdue fixtures.
+*/
+router.post("/test", async (req, res) => { //no longer tiny :(
+  var group = 0;
+});
 module.exports = router;
