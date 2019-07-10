@@ -289,8 +289,6 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     return;
   }
 
-  let seasonId = req.body.seasonId;
-
   //db call to get names
   let players;
   try {
