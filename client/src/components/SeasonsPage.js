@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import backend from '../api/backend';
+import backend from "../api/backend";
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
@@ -16,9 +16,7 @@ class SeasonsPage extends Component {
   }
 
   getSeasonsList = async () => {
-    const response = await backend.get(
-      "/api/8ball_season"
-    );
+    const response = await backend.get("/api/8ball_season");
     this.setState({ seasons: response.data });
   };
 
@@ -43,24 +41,16 @@ class SeasonsPage extends Component {
   }
 
   createSeason = state => {
-    Promise.all(
-      state.players.map(player =>
-        backend.post(
-          "/api/8ball_league/add/player",
-          {
-            seasonId: parseInt(state.seasonName),
-            staffName: player
-          }
-        )
-      )
-    )
+    console.log(state)
+    backend
+      .post("/api/8ball_league/add/players", {
+        seasonId: parseInt(state.seasonName),
+        staffs: state.players
+      })
       .then(() =>
-        backend.post(
-          "/api/8ball_fixture/generate/",
-          {
-            seasonId: parseInt(state.seasonName)
-          }
-        )
+        backend.post("/api/8ball_fixture/generate/", {
+          seasonId: parseInt(state.seasonName)
+        })
       )
       .then(() =>
         this.setState({
@@ -70,19 +60,46 @@ class SeasonsPage extends Component {
       );
   };
 
+  // createSeason = state => {
+  //   Promise.all(
+  //     state.players.map(player =>
+  //       backend.post(
+  //         "/api/8ball_league/add/player",
+  //         {
+  //           seasonId: parseInt(state.seasonName),
+  //           staffName: player
+  //         }
+  //       )
+  //     )
+  //   )
+  //     .then(() =>
+  //       backend.post(
+  //         "/api/8ball_fixture/generate/",
+  //         {
+  //           seasonId: parseInt(state.seasonName)
+  //         }
+  //       )
+  //     )
+  //     .then(() =>
+  //       this.setState({
+  //         //To force update
+  //         refresh: !this.state.refresh
+  //       })
+  //     );
+  // };
+
   deleteSeason = async id => {
     await backend.delete("/api/8ball_season/delete/", {
       data: {
         seasonId: parseInt(id)
       }
-    })
+    });
 
     this.setState({
       //To force update
       refresh: !this.state.refresh
-    })
-  }
-
+    });
+  };
 
   render() {
     return (
@@ -91,7 +108,10 @@ class SeasonsPage extends Component {
         <SubNavBar />
         <div className="content">
           <div className="seasonsListContainer">
-            <SeasonsList seasons={this.state.seasons} deleteSeason={this.deleteSeason} />
+            <SeasonsList
+              seasons={this.state.seasons}
+              deleteSeason={this.deleteSeason}
+            />
             <br />
             <button type="button" id="addSeasonBtn" onClick={this.openPopUp}>
               + Add new season
