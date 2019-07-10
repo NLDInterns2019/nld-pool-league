@@ -2,12 +2,16 @@ process.env.NODE_ENV = "test";
 
 var chai = require("chai");
 var chaiHttp = require("chai-http");
+var chaiThings = require("chai-things");
+var chaiLike = require("chai-like");
 var server = require("../server");
 var knex = require("../db/knex");
 
 var should = chai.should();
 
 chai.use(chaiHttp);
+chai.use(chaiLike);
+chai.use(chaiThings);
 
 describe("Seasons", () => {
   //PREPARE DB
@@ -29,10 +33,12 @@ describe("Seasons", () => {
           res.should.have.status(200);
           res.body.should.be.a("array");
           res.body.length.should.be.eql(2);
-          res.body[0].should.have.property("seasonId");
-          res.body[0].seasonId.should.be.eql(2019);
-          res.body[1].should.have.property("seasonId");
-          res.body[1].seasonId.should.be.eql(2020);
+          res.body.should.include.something.like({
+            seasonId: 2019
+          });
+          res.body.should.include.something.like({
+            seasonId: 2020
+          });
           done();
         });
     });
@@ -54,24 +60,24 @@ describe("Seasons", () => {
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
-              res.body.length.should.be.eql(1);
-              res.body[0].should.have.property("seasonId");
-              res.body[0].seasonId.should.be.eql(2020);
+              res.body.should.not.include.something.like({
+                seasonId: 2019
+              });
               done();
             });
         });
     });
     it("should not delete non-existent season", done => {
-        chai
+      chai
         .request(server)
         .delete("/api/8ball_season/delete/")
         .send({
           seasonId: 2077
         })
         .end((err, res) => {
-            res.should.have.status(404);
-            done();
-        })
-    })
+          res.should.have.status(404);
+          done();
+        });
+    });
   });
 });
