@@ -27,6 +27,9 @@ router.get("/", (req, res) => {
     .query()
     .where({ type: req.query.type })
     .orderBy("points", "desc")
+    .orderBy("win", "desc")
+    .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
     .then(
       players => {
         res.json(players);
@@ -63,6 +66,7 @@ router.get("/:seasonId", (req, res) => {
     .orderBy("points", "desc")
     .orderBy("win", "desc")
     .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
     .then(
       players => {
         if (!players.length) res.status(404).send();
