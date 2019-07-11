@@ -9,6 +9,7 @@ import SubmitScoreForm from "./SubmitScoreForm.js";
 
 class App extends React.Component {
   state = {
+    type: "",
     players: [],
     fixtures: [],
     activeSeason: 0,
@@ -19,19 +20,19 @@ class App extends React.Component {
 
   updateData = async () => {
     const response = await backend.get(
-      "/api/8ball_league/" + this.state.activeSeason
+      "/api/89ball_league/" + this.state.activeSeason
     );
 
     this.setState({ players: response.data });
 
     const fixtures = await backend.get(
-      "/api/8ball_fixture/" + this.state.activeSeason
+      "/api/89ball_fixture/" + this.state.activeSeason
     );
 
     this.setState({ fixtures: fixtures.data });
 
     const count = await backend.get(
-      "/api/8ball_fixture/group/" + this.state.activeSeason
+      "/api/89ball_fixture/group/" + this.state.activeSeason
     );
 
     this.setState({ groupCount: count.data[0] });

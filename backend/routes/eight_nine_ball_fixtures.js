@@ -15,6 +15,7 @@ const fixturegen = require("../functions/fixturegen");
   Function: To get all the fixtures of the specified type
 */
 router.get("/", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -22,13 +23,13 @@ router.get("/", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
   eight_nine_ball_fixtures
     .query()
-    .where({ type: req.body.type })
+    .where({ type: req.query.type })
     .then(
       fixture => {
         res.json(fixture);
@@ -44,6 +45,7 @@ router.get("/", (req, res) => {
   Function: To get all the fixtures in the specified season
 */
 router.get("/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -51,7 +53,7 @@ router.get("/:seasonId", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
@@ -60,7 +62,7 @@ router.get("/:seasonId", (req, res) => {
 
   eight_nine_ball_fixtures
     .query()
-    .where({type: req.body.type, seasonId: seasonId })
+    .where({ type: req.query.type, seasonId: seasonId })
     .then(
       fixture => {
         if (!fixture.length) {
@@ -80,6 +82,7 @@ router.get("/:seasonId", (req, res) => {
   Function: To get the number of distinct group
 */
 router.get("/group/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -87,7 +90,7 @@ router.get("/group/:seasonId", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
@@ -96,7 +99,7 @@ router.get("/group/:seasonId", (req, res) => {
 
   eight_nine_ball_fixtures
     .query()
-    .where({type: req.body.type, seasonId: seasonId })
+    .where({ type: req.query.type, seasonId: seasonId })
     .countDistinct("group as count")
     .then(
       count => {
@@ -113,6 +116,7 @@ router.get("/group/:seasonId", (req, res) => {
   Function: To get all the fixtures in the specified season for specified player
 */
 router.get("/:seasonId/:staffName", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -120,7 +124,7 @@ router.get("/:seasonId/:staffName", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
@@ -130,8 +134,8 @@ router.get("/:seasonId/:staffName", (req, res) => {
 
   eight_nine_ball_fixtures
     .query()
-    .where({type: req.body.type, seasonId: seasonId, player1: staffName })
-    .orWhere({type: req.body.type, seasonId: seasonId, player2: staffName })
+    .where({ type: req.query.type, seasonId: seasonId, player1: staffName })
+    .orWhere({ type: req.query.type, seasonId: seasonId, player2: staffName })
     .then(
       fixture => {
         if (!fixture.length) {
@@ -152,6 +156,7 @@ router.get("/:seasonId/:staffName", (req, res) => {
   TODO: FUNCTIONALITY NOT FINISHED
 */
 router.get("/due/:staffName", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -159,7 +164,7 @@ router.get("/due/:staffName", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
@@ -190,6 +195,13 @@ router.get("/due/:staffName", (req, res) => {
   TODO: FUNCTIONALITY NOT FINISHED
 */
 router.get("/unplayed/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
   let seasonId = parseInt(req.params.seasonId);
   eight_nine_ball_fixtures
     .query()
@@ -216,8 +228,8 @@ router.get("/unplayed/:seasonId", (req, res) => {
 router.put("/edit", async (req, res) => {
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
+      .integer()
+      .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
@@ -379,8 +391,8 @@ router.post("/generate", async (req, res) => {
   //take the seasonid and see if it's acceptable
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
+      .integer()
+      .required(),
     seasonId: Joi.number()
       .integer()
       .required()

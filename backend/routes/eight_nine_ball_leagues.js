@@ -10,6 +10,7 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
   Function: To get all the players detail in the 8ball/9ball league
 */
 router.get("/", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -17,14 +18,14 @@ router.get("/", (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
 
   eight_nine_ball_leagues
     .query()
-    .where({ type: req.body.type })
+    .where({ type: req.query.type })
     .orderBy("points", "desc")
     .then(
       players => {
@@ -40,8 +41,8 @@ router.get("/", (req, res) => {
   POST handler for /api/89_ball_league/add/player/:seasonId
   Function: To get all the players detail in the league of the SPECIFIED season
 */
-
 router.get("/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -49,7 +50,7 @@ router.get("/:seasonId", (req, res) => {
   };
 
     //Validation
-    if (Joi.validate(req.body, schema, { convert: false }).error) {
+    if (Joi.validate(req.query, schema, { convert: false }).error) {
       res.status(400).json({ status: "error", error: "Invalid data" });
       return;
     }
@@ -58,7 +59,7 @@ router.get("/:seasonId", (req, res) => {
 
   eight_nine_ball_leagues
     .query()
-    .where({ type: req.body.type, seasonId: seasonId })
+    .where({ type: req.query.type, seasonId: seasonId })
     .orderBy("points", "desc")
     .orderBy("win", "desc")
     .orderBy("goalsFor", "desc")

@@ -10,21 +10,22 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
   Function: To get all the 8/9 ball seasons
 */
 router.get("/", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
       .required()
   };
 
-    //Validation
-    if (Joi.validate(req.body, schema, { convert: false }).error) {
-      res.status(400).json({ status: "error", error: "Invalid data" });
-      return;
-    }
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
 
   eight_nine_ball_leagues
     .query()
-    .where({type: req.body.type})
+    .where({ type: req.query.type })
     .distinct("seasonId")
     .then(
       seasons => {
@@ -59,7 +60,7 @@ router.delete("/delete", (req, res) => {
   eight_nine_ball_leagues
     .query()
     .delete()
-    .where({type: req.body.type, seasonId: req.body.seasonId })
+    .where({ type: req.body.type, seasonId: req.body.seasonId })
     .then(
       result => {
         if (result === 0) {

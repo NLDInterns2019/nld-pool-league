@@ -11,6 +11,7 @@ const SeasonsList = props => {
             to={{
               pathname: "/8-ball/overview",
               state: {
+                type: props.type,
                 activeSeason: season.seasonId
               }
             }}

@@ -28,10 +28,7 @@ describe("Seasons", () => {
     it("should get all 8ball the seasons", done => {
       chai
         .request(server)
-        .get("/api/89ball_season")
-        .send({
-          type: 8
-        })
+        .get("/api/89ball_season?type=8")
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
@@ -49,7 +46,7 @@ describe("Seasons", () => {
     it("should get all 9ball the seasons", done => {
       chai
         .request(server)
-        .get("/api/89ball_season")
+        .get("/api/89ball_season?type=9")
         .send({
           type: 9
         })
@@ -81,10 +78,7 @@ describe("Seasons", () => {
           res.should.have.status(204);
           chai
             .request(server)
-            .get("/api/89ball_season")
-            .send({
-              type: 8
-            })
+            .get("/api/89ball_season?type=8")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
@@ -108,10 +102,7 @@ describe("Seasons", () => {
           res.should.have.status(204);
           chai
             .request(server)
-            .get("/api/89ball_season")
-            .send({
-              type: 9
-            })
+            .get("/api/89ball_season?type=9")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");

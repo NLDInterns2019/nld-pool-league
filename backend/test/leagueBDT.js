@@ -28,8 +28,7 @@ describe("League", () => {
     it("should get all the players in the 8 ball league", done => {
       chai
         .request(server)
-        .get("/api/89ball_league")
-        .send({ type: 8 })
+        .get("/api/89ball_league?type=8")
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
@@ -70,8 +69,7 @@ describe("League", () => {
     it("should get all the players in the 9 ball league", done => {
       chai
         .request(server)
-        .get("/api/89ball_league")
-        .send({ type: 9 })
+        .get("/api/89ball_league?type=9")
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
@@ -113,7 +111,7 @@ describe("League", () => {
     it("should get all the players in the specific season in the 8 league", done => {
       chai
         .request(server)
-        .get("/api/89ball_league/2019")
+        .get("/api/89ball_league/2019?type=8")
         .send({ type: 8 })
         .end((err, res) => {
           res.should.have.status(200);
@@ -141,7 +139,7 @@ describe("League", () => {
     it("should get all the players in the specific season in the 9 league", done => {
       chai
         .request(server)
-        .get("/api/89ball_league/2019")
+        .get("/api/89ball_league/2019?type=9")
         .send({ type: 9 })
         .end((err, res) => {
           res.should.have.status(200);
@@ -169,7 +167,7 @@ describe("League", () => {
     it("should not get any player for a nonexistent season", done => {
       chai
         .request(server)
-        .get("/api/89ball_league/2077")
+        .get("/api/89ball_league/2077?type=8")
         .send({ type: 8 })
         .end((err, res) => {
           res.should.have.status(404);
@@ -192,8 +190,7 @@ describe("League", () => {
           res.should.have.status(200);
           chai
             .request(server)
-            .get("/api/89ball_league")
-            .send({ type: 8 })
+            .get("/api/89ball_league?type=8")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
@@ -219,8 +216,7 @@ describe("League", () => {
           res.should.have.status(200);
           chai
             .request(server)
-            .get("/api/89ball_league")
-            .send({ type: 9 })
+            .get("/api/89ball_league?type=9")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
@@ -266,8 +262,7 @@ describe("League", () => {
           res.should.have.status(200);
           chai
             .request(server)
-            .get("/api/89ball_league")
-            .send({type: 8})
+            .get("/api/89ball_league?type=8")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
@@ -301,8 +296,7 @@ describe("League", () => {
           res.should.have.status(200);
           chai
             .request(server)
-            .get("/api/89ball_league")
-            .send({type: 9})
+            .get("/api/89ball_league?type=9")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
@@ -349,8 +343,7 @@ describe("League", () => {
           res.should.have.status(204);
           chai
             .request(server)
-            .get("/api/89ball_league")
-            .send({type: 8})
+            .get("/api/89ball_league?type=8")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");
@@ -376,8 +369,7 @@ describe("League", () => {
           res.should.have.status(204);
           chai
             .request(server)
-            .get("/api/89ball_league")
-            .send({type: 9})
+            .get("/api/89ball_league?type=9")
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a("array");

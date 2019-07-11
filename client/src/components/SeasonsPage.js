@@ -10,19 +10,22 @@ class SeasonsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: "",
       seasons: [],
       refresh: false
     };
   }
 
   getSeasonsList = async () => {
-    const response = await backend.get("/api/8ball_season");
+    const response = await backend.get("/api/89ball_season", {
+    });
     this.setState({ seasons: response.data });
   };
 
-  componentDidMount() {
+  componentDidMount = async () => {
+    await this.setState(this.props.location.state);
     this.getSeasonsList();
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.refresh !== prevState.refresh) {
@@ -42,12 +45,14 @@ class SeasonsPage extends Component {
 
   createSeason = state => {
     backend
-      .post("/api/8ball_league/add/players", {
+      .post("/api/89ball_league/add/players", {
+        type: parseInt(this.state.type),
         seasonId: parseInt(state.seasonName),
         staffs: state.players
       })
       .then(() =>
-        backend.post("/api/8ball_fixture/generate/", {
+        backend.post("/api/89ball_fixture/generate/", {
+          type: parseInt(this.state.type),
           seasonId: parseInt(state.seasonName)
         })
       )
@@ -57,14 +62,15 @@ class SeasonsPage extends Component {
           refresh: !this.state.refresh
         })
       )
-      .catch(e=>{
-        window.alert("ERROR: Cannot add player(s) to an existing season!")
+      .catch(e => {
+        window.alert("ERROR: Cannot add player(s) to an existing season!");
       });
   };
 
   deleteSeason = async id => {
-    await backend.delete("/api/8ball_season/delete/", {
+    await backend.delete("/api/89ball_season/delete/", {
       data: {
+        type: parseInt(this.state.type),
         seasonId: parseInt(id)
       }
     });
@@ -76,6 +82,7 @@ class SeasonsPage extends Component {
   };
 
   render() {
+    console.log(this.state)
     return (
       <div className="seasons">
         <Header />
@@ -83,6 +90,7 @@ class SeasonsPage extends Component {
         <div className="content">
           <div className="seasonsListContainer">
             <SeasonsList
+              type={this.state.type}
               seasons={this.state.seasons}
               deleteSeason={this.deleteSeason}
             />
@@ -93,7 +101,7 @@ class SeasonsPage extends Component {
           </div>
           <div className="popup-container" id="container">
             <div className="form-popup" id="popup">
-              <CreateSeasonForm createSeason={this.createSeason} />
+              <CreateSeasonForm type={this.state.type} createSeason={this.createSeason} />
               <button type="button" id="cancelbtn" onClick={this.closePopUp}>
                 Cancel
               </button>
