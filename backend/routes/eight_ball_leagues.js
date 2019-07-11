@@ -13,6 +13,9 @@ router.get("/", (req, res) => {
   eight_ball_leagues
     .query()
     .orderBy("points", "desc")
+    .orderBy("win", "desc")
+    .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
     .then(
       players => {
         res.json(players);
@@ -30,13 +33,14 @@ router.get("/", (req, res) => {
 
 router.get("/:seasonId", (req, res) => {
   let seasonId = parseInt(req.params.seasonId, 10);
-
+  //orders by points, then win, then goalsfor, then goals against
   eight_ball_leagues
     .query()
     .where({ seasonId: seasonId })
     .orderBy("points", "desc")
     .orderBy("win", "desc")
     .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
     .then(
       players => {
         if (!players.length) res.status(404).send();
