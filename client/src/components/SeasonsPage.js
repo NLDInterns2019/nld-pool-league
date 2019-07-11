@@ -18,6 +18,9 @@ class SeasonsPage extends Component {
 
   getSeasonsList = async () => {
     const response = await backend.get("/api/89ball_season", {
+      params: {
+        type: this.state.type
+      }
     });
     this.setState({ seasons: response.data });
   };
@@ -27,8 +30,9 @@ class SeasonsPage extends Component {
     this.getSeasonsList();
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.refresh !== prevState.refresh) {
+  componentDidUpdate= async (prevProps, prevState) => {
+    if ((this.state.refresh !== prevState.refresh) || (this.props.location.state !== prevProps.location.state)) {
+      await await this.setState(this.props.location.state);
       this.getSeasonsList();
     }
   }
@@ -82,11 +86,10 @@ class SeasonsPage extends Component {
   };
 
   render() {
-    console.log(this.state)
     return (
       <div className="seasons">
         <Header />
-        <SubNavBar />
+        <SubNavBar type={this.state.type} />
         <div className="content">
           <div className="seasonsListContainer">
             <SeasonsList

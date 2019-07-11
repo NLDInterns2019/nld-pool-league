@@ -2,10 +2,10 @@ import React from "react";
 import "../App.css";
 import SubNavigator from "./SubNavigator.js";
 
-const SubNavBar = () => {
+const SubNavBar = (props) => {
   return (
     <div className="subnav">
-      <SubNavigator />
+      <SubNavigator type={props.type} />
     </div>
   );
 };

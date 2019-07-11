@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, matchPath } from "react-router-dom";
 
-const HeaderNavigator = () => {
+const HeaderNavigator = (props) => {
   var currentPath = window.location.pathname;
   /* makes '8-ball' bold */
   var eightBallCurrentStyle = matchPath(currentPath, {
