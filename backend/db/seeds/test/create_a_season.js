@@ -15,6 +15,9 @@ exports.seed = function(knex) {
         { type: 9, seasonId: 2019, staffName: "Michael" },
         { type: 9, seasonId: 2019, staffName: "Matthew" },
         { type: 9, seasonId: 2019, staffName: "Natalie" },
+        { type: 9, seasonId: 2020, staffName: "Michael" },
+        { type: 9, seasonId: 2020, staffName: "Matthew" },
+        { type: 9, seasonId: 2020, staffName: "Natalie" },
       ]);
     });
 };

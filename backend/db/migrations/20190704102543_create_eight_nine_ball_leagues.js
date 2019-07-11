@@ -3,7 +3,7 @@ exports.up = function(knex) {
     table.primary(["seasonId", "staffName", "type"]);
     table.integer("seasonId").notNullable();
     table.string("staffName").notNullable();
-    table.string("type").notNullable();
+    table.integer("type").notNullable();
     table.integer("play").defaultTo(0);
     table.integer("win").defaultTo(0);
     table.integer("draw").defaultTo(0);
