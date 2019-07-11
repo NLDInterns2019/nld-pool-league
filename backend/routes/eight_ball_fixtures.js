@@ -368,7 +368,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
 
 /* 
   POST handler for /api/8ball_fixture/generate/. 
-  Function: Displays list of overdue fixtures.
+  Function: Displays list of overdue fixtures. Nonfunctional due to date storage.
 */
 router.get("/overdue", (req, res) => {
   let seasonId = parseInt(req.params.seasonId);
