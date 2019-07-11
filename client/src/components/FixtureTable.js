@@ -3,6 +3,9 @@ import FixtureTableBody from "./FixtureTableBody";
 import FixtureTableHeader from "./FixtureTableHeader";
 
 const FixtureTable = props => {
+  if(props.fixtures.length === 0){
+    return null;
+  }
   return (
     <div className="fixtureTableContainer">
       <h3>Round {props.round}</h3>
