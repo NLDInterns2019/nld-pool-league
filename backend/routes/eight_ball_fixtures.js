@@ -99,14 +99,14 @@ router.get("/:seasonId/:staffName", (req, res) => {
 /* 
   GET handler for /api/8ball_fixture/due/:staffName
   Function: To get all the fixtures unplayed by a user. Caps sensitive.
-  TODO: make it player1 OR player2
 */
 router.get("/due/:staffName", (req, res) => {
   let staffName = req.params.staffName;
   eight_ball_fixtures
     .query()
-    .where({ player1: staffName })
     .where({ score1: null })
+    .where({ player1: staffName })
+    .orWhere({player2: staffName})
     .then(
       fixture => {
         if (!fixture.length) {
@@ -124,7 +124,6 @@ router.get("/due/:staffName", (req, res) => {
 /* 
   GET handler for /api/8ball_fixture/due/:staffName
   Function: To get all the fixtures unplayed by a user. Caps sensitive.
-  TODO: make it player1 OR player2
 */
 router.get("/unplayed/:seasonId", (req, res) => {
   let seasonId = parseInt(req.params.seasonId);
@@ -298,6 +297,7 @@ router.put("/edit", async (req, res) => {
   TODO: may want to put dates in their own table and connect to fixtures via groups
 */
 router.post("/generate", async (req, res) => { //no longer tiny :(
+  //this date method makes it difficult to do the comparisons to look for overdue fixtures. might want to look into fixing storage of the raw date.
   var group = 0;
   var startDate = new Date();
   startDate.setDate(startDate.getDate() + 7);
@@ -341,8 +341,10 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     var mm = String(aesDate.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = aesDate.getFullYear();
     aesDate = dd + '-' + mm + '-' + yyyy;
+    var d = new Date(aesDate);
+    console.log('here is aesdate ' + d)
 
-    fixture = fixturegen.fixtureCalc(players, seasonId , group, aesDate) //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(players, seasonId , group, d) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -355,7 +357,7 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     );
     group++;
     startDate.setDate(startDate.getDate() + 7);
-    console.log(aesDate);
+    //console.log(aesDate);
     //datet = new Date('25-01-2019S');
    // console.log(datet);
     //var date = new Date(aesGroup.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
@@ -368,7 +370,24 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
   POST handler for /api/8ball_fixture/generate/. 
   Function: Displays list of overdue fixtures.
 */
-router.post("/test", async (req, res) => { //no longer tiny :(
-  var group = 0;
+router.get("/overdue", (req, res) => {
+  let seasonId = parseInt(req.params.seasonId);
+  let currentDate = new Date();
+  eight_ball_fixtures
+    .query()
+    .where({ seasonId: seasonId })
+    .where( 'date','!=',currentDate )
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
 });
 module.exports = router;

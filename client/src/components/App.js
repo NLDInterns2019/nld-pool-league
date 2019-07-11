@@ -74,9 +74,9 @@ class App extends React.Component {
           refresh: !this.state.refresh
         })
       )
-      .catch(e=>{
-        window.alert("ERROR: Match not found / match is finished")
-      })
+      .catch(e => {
+        window.alert("ERROR: Match not found / match is finished");
+      });
   };
 
   render() {
@@ -93,11 +93,13 @@ class App extends React.Component {
               <LeagueTable players={this.state.players} />
               <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             </div>
-            <div style={{height: "80vh", overflow: "auto"}} className="contentRight">
-              <FixtureList
-                fixtures={this.state.fixtures}
-                groupCount={this.state.groupCount}
-              />
+            <div className="contentRight">
+              <div className="scroll">
+                <FixtureList
+                  fixtures={this.state.fixtures}
+                  groupCount={this.state.groupCount}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -111,9 +113,9 @@ class App extends React.Component {
             <LeagueTable players={this.state.players} />
             <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             <FixtureList
-                fixtures={this.state.fixtures}
-                groupCount={this.state.groupCount}
-              />
+              fixtures={this.state.fixtures}
+              groupCount={this.state.groupCount}
+            />
           </div>
         </div>
       );

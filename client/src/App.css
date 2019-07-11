@@ -112,6 +112,11 @@ h3 {
   min-width: 700px;
 }
 
+.scroll {
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
 .contentLeft {
   width: 50%;
   display: inline-block;
