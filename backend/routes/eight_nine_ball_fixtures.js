@@ -135,6 +135,7 @@ router.get("/unplayed/:seasonId", (req, res) => {
   eight_nine_ball_fixtures
     .query()
     .where({type: req.query.type, seasonId: seasonId, score1: null, score2: null })
+    .orderBy("player1", "asc")
     .then(
       fixture => {
           res.send(fixture);
@@ -158,6 +159,7 @@ router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
     .where({ score1: null })
     .where({player1: staffName})
     .orWhere({player2: staffName})
+    .orderBy("player1", "asc")
     .then(
       fixture => {
         if (!fixture.length) {
