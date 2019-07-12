@@ -44,19 +44,17 @@ class SubmitScoreForm extends Component {
       // Use the `chat.postMessage` method to send a message from this app
       await this.web.chat.postMessage({
         channel: this.channel,
-        /* post a message saying 'PLAYER1 X - X PLAYER2' */
+        /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
         text:
-          document
-            .getElementById("selectedFixture")
-            .getAttribute("data-player1") +
+          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
           "  " +
-          document.getElementById("score1").value +
+          this.state.players.split(" ")[0] +
+          "  " +
+          this.state.score1 +
           "  -  " +
-          document.getElementById("score2").value +
+          this.state.score2 +
           "  " +
-          document
-            .getElementById("selectedFixture")
-            .getAttribute("data-player2")
+          this.state.players.split(" ")[1]
       });
 
       console.log("Message posted!");
@@ -106,10 +104,6 @@ class SubmitScoreForm extends Component {
           <select
             value={this.state.players}
             onChange={e => this.setState({ players: e.target.value })}
-            id="selectedFixture"
-            /* getting first and second player for slack message */
-            data-player1={this.state.players.split(" ")[0]}
-            data-player2={this.state.players.split(" ")[1]}
           >
             <option disabled value={""}>
               PLAYER1 &nbsp;&nbsp;VS&nbsp;&nbsp; PLAYER 2
