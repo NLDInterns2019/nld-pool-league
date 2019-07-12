@@ -41,43 +41,6 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  GET handler for /api/89_ball_fixture/:seasonId
-  Function: To get all the fixtures in the specified season
-*/
-router.get("/:seasonId", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
-
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
-
-  let seasonId = parseInt(req.params.seasonId, 10);
-
-  eight_nine_ball_fixtures
-    .query()
-    .where({ type: req.query.type, seasonId: seasonId })
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
-});
-
-/* 
   GET handler for /api/89_ball_fixture/group/:seasonId
   Function: To get the number of distinct group
 */
@@ -107,45 +70,6 @@ router.get("/group/:seasonId", (req, res) => {
       },
       e => {
         res.status(400).send();
-      }
-    );
-});
-
-/* 
-  GET handler for /api/89_ball_fixture/:seasonId/:staffName
-  Function: To get all the fixtures in the specified season for specified player
-*/
-router.get("/:seasonId/:staffName", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
-
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
-
-  let seasonId = parseInt(req.params.seasonId, 10);
-  let staffName = req.params.staffName;
-
-  eight_nine_ball_fixtures
-    .query()
-    .where({ type: req.query.type, seasonId: seasonId, player1: staffName })
-    .orWhere({ type: req.query.type, seasonId: seasonId, player2: staffName })
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
       }
     );
 });
@@ -190,22 +114,30 @@ router.get("/due/:staffName", (req, res) => {
 });
 
 /* 
-  GET handler for /api/8ball_fixture/due/:staffName
+  GET handler for /api/89ball_fixture/unplayed/:seasonId
   Function: To get all the fixtures unplayed in a season.
 */
-router.get("/unplayed/:seasonId", (req, res) => { //:seasonId
+router.get("/unplayed/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+    //Validation
+    if (Joi.validate(req.query, schema, { convert: false }).error) {
+      res.status(400).json({ status: "error", error: "Invalid data" });
+      return;
+    }
+
   let seasonId = parseInt(req.params.seasonId);
   eight_nine_ball_fixtures
     .query()
-    .where({ seasonId: seasonId })
-    .where({ score1: null })
+    .where({type: req.query.type, seasonId: seasonId, score1: null, score2: null })
     .then(
       fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
           res.send(fixture);
-        }
       },
       e => {
         res.status(500).json(e);
@@ -214,7 +146,7 @@ router.get("/unplayed/:seasonId", (req, res) => { //:seasonId
 });
 
 /* 
-  GET handler for /api/8ball_fixture/due/:staffName
+  GET handler for /api/89ball_fixture/due/:staffName
   Function: To get all the fixtures unplayed by a user in a season. Caps sensitive.
 */
 router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
@@ -241,7 +173,83 @@ router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
 });
 
 /* 
-  PUT handler for /api/8ball_fixture/edit/
+  GET handler for /api/89_ball_fixture/:seasonId
+  Function: To get all the fixtures in the specified season
+*/
+router.get("/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let seasonId = parseInt(req.params.seasonId, 10);
+
+  eight_nine_ball_fixtures
+    .query()
+    .where({ type: req.query.type, seasonId: seasonId })
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+/* 
+  GET handler for /api/89_ball_fixture/:seasonId/:staffName
+  Function: To get all the fixtures in the specified season for specified player
+*/
+router.get("/:seasonId/:staffName", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let seasonId = parseInt(req.params.seasonId, 10);
+  let staffName = req.params.staffName;
+
+  eight_nine_ball_fixtures
+    .query()
+    .where({ type: req.query.type, seasonId: seasonId, player1: staffName })
+    .orWhere({ type: req.query.type, seasonId: seasonId, player2: staffName })
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+/* 
+  PUT handler for /api/89ball_fixture/edit/
   Function: To update the score
 */
 router.put("/edit", async (req, res) => {
@@ -475,7 +483,7 @@ router.post("/generate", async (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_fixture/generate/. 
+  POST handler for /api/89ball_fixture/generate/. 
   Function: Displays list of overdue fixtures. Nonfunctional due to date storage.
 */
 router.get("/overdue", (req, res) => {
