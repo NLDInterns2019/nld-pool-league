@@ -75,45 +75,35 @@ class CreateSeasonForm extends Component {
     this.setState({ seasonName: e.target.value });
   }
 
-  isValid() {
-    var regex = /^[A-Z]+$/; // matches 1 or more capital letters
-    var regexSeasonNumber = /^[1-9]([0-9])*$/; // matches 1 number from 1 to 9 followed by 0 or more numbers from 0 to 9
-
+  isValidPlayersNumber() {
     /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
-    if (!regexSeasonNumber.test(this.state.seasonName)) {
-      return { valid: false, message: "Season number can only be a number" };
-    } else if (this.state.playersName.length < 2) {
-      return { valid: false, message: "Season requires at least 2 people" };
+    if (this.state.playersName.length < 2) {
+      return false;
     }
 
+    return true;
+  }
+
+  isValidPlayersName() {
+    var regex = /^[A-Z]+$/; // matches 1 or more capital letters
     /* check if the player text inputs match the regular expression */
     for (var i = 0; i < this.state.playersName.length; i++) {
       if (!regex.test(this.state.playersName[i])) {
-        return {
-          valid: false,
-          message: "Player names can only include capital letters"
-        };
+        return false;
       }
     }
-    return { valid: true };
+    return true;
   }
 
   createSeason() {
-    /* alert the user that their input is not valid, otherwise, create the season */
-    const valid = this.isValid();
-    if (!valid.valid) {
-      window.alert(valid.message);
-    } else {
-      const newState = this.state.players.concat(this.preparePlayers());
+    const newState = this.state.players.concat(this.preparePlayers());
 
-      //SET STATE IS ASYNCHRONOUS
-      this.setState({ players: newState }, () => {
-        this.props.createSeason(this.state);
-        //this.postCreateSeasonSlackMessage();
-        document.getElementById("container").style.display = "none";
-        this.setState(this.initialState);
-      });
-    }
+    //SET STATE IS ASYNCHRONOUS
+    this.setState({ players: newState }, () => {
+      this.props.createSeason(this.state);
+      document.getElementById("container").style.display = "none";
+      this.setState(this.initialState);
+    });
   }
 
   preparePlayers() {
@@ -132,7 +122,22 @@ class CreateSeasonForm extends Component {
     return temp;
   }
 
+  isValidSeason() {
+    var regexSeasonNumber = /^[1-9]([0-9])*$/; // matches 1 number from 1 to 9 followed by 0 or more numbers from 0 to 9
+
+    if (this.state.seasonName !== "") {
+      let res = this.props.seasons.filter(
+        season => season.seasonId === parseInt(this.state.seasonName)
+      );
+      if (res.length === 0 && regexSeasonNumber.test(this.state.seasonName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   render() {
+    console.log(this.isValidSeason());
     return (
       <div className="createSeasonForm">
         <h3>Create a Season</h3>
@@ -146,6 +151,9 @@ class CreateSeasonForm extends Component {
             onChange={e => this.setSeasonName(e)}
             onKeyPress={e => this.handleKeyDown(e)}
           />
+          {this.isValidSeason() ? null : (
+            <div className="error">Enter a valid season number!</div>
+          )}
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
             {this.state.playersName.map((player, index) => {
@@ -161,7 +169,6 @@ class CreateSeasonForm extends Component {
                     value={player}
                     onKeyDown={e => this.handleKeyDown(e, index + 1)}
                   />
-                  {console.log("id: inputPlayer" + (index + 1))}
                   <div
                     id={"button" + (index + 1)}
                     className="delete-icon"
@@ -171,6 +178,12 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
+            {this.isValidPlayersNumber() ? null : (
+              <div className="error">Not enough player</div>
+            )}
+            {this.isValidPlayersName() ? null : (
+              <div className="error">Invalid Player(s) name</div>
+            )}
 
             {/* button for adding a player */}
             <button
@@ -180,16 +193,27 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-
-            {/* button for creating new season */}
-            <button
-              type="button"
-              id="createSeasonBtn"
-              onClick={this.createSeason}
-              //style={createSeasonBtnStyle}
-            >
-              Create season
-            </button>
+            {this.isValidSeason() &&
+            this.isValidPlayersName() &&
+            this.isValidPlayersNumber() ? (
+              //USEFUL BUTTON
+              <button
+                type="button"
+                id="createSeasonBtn"
+                onClick={this.createSeason}
+              >
+                Create season
+              </button>
+            ) : (
+              //USELESS BUTTON
+              <button
+                type="button"
+                id="createSeasonBtn"
+                style={{ visibility: "hidden" }}
+              >
+                Create season
+              </button>
+            )}
           </div>
         </form>
       </div>
