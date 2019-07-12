@@ -181,6 +181,11 @@ table td {
   width: 150px;
 }
 
+.submitScoreForm select {
+  margin-right: 15px;
+  margin-left: 5px;
+}
+
 #score1,
 #score2 {
   width: 75px;
