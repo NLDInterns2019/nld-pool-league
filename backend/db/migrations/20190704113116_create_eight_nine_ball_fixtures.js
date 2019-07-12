@@ -1,7 +1,8 @@
 exports.up = function(knex) {
-  return knex.schema.createTable("eight_ball_fixtures", table => {
+  return knex.schema.createTable("eight_nine_ball_fixtures", table => {
     table.increments();
-    table.unique(["seasonId", "player1", "player2"]);
+    table.unique(["type","seasonId", "player1", "player2"]);
+    table.integer("type").notNullable();
     table.integer("seasonId").notNullable();
     table.string("player1").notNullable();
     table.integer("score1");
@@ -12,14 +13,14 @@ exports.up = function(knex) {
     // table.date("dueDate").notNullable();
 
     table
-      .foreign(["seasonId", "player1"])
-      .references(["seasonId", "staffName"])
-      .inTable("eight_ball_leagues")
+      .foreign(["type","seasonId", "player1"])
+      .references(["type","seasonId", "staffName"])
+      .inTable("eight_nine_ball_leagues")
       .onDelete("CASCADE");
     table
-      .foreign(["seasonId", "player2"])
-      .references(["seasonId", "staffName"])
-      .inTable("eight_ball_leagues")
+      .foreign(["type","seasonId", "player2"])
+      .references(["type","seasonId", "staffName"])
+      .inTable("eight_nine_ball_leagues")
       .onDelete("NO ACTION");
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
@@ -28,5 +29,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTable("eight_ball_fixtures");
+  return knex.schema.dropTable("eight_nine_ball_fixtures");
 };

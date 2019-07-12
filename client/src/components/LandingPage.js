@@ -12,17 +12,39 @@ const LandingPage = () => {
           <h2>Select a game type</h2>
           <ul>
             <li>
-              <Link to="/8-ball/seasons" id="eightBallLink">
+              <Link
+                to={{
+                  pathname: "/8-ball/seasons",
+                  state: {
+                    type: 8
+                  }
+                }}
+                id="eightBallLink"
+              >
                 8-Ball
               </Link>
             </li>
             <li>
-              <Link to="/9-ball/seasons" id="nineBallLink">
+              <Link
+                to={{
+                  pathname: "/9-ball/seasons",
+                  state: {
+                    type: 9
+                  }
+                }}
+                id="nineBallLink"
+              >
                 9-Ball
               </Link>
             </li>
             <li>
-              <Link to="/billiards/seasons" id="billiardsLink">
+              <Link
+                to={{
+                  pathname: "/billiards/seasons",
+                  state: {}
+                }}
+                id="billiardsLink"
+              >
                 Billiards
               </Link>
             </li>

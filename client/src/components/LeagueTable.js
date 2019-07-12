@@ -5,7 +5,7 @@ import LeagueTableHeader from "./LeagueTableHeader";
 const LeagueTable = props => {
   return (
     <div className="leagueTableContainer">
-      <h3>League Table</h3>
+      <h3>{props.activeSeason} League Table</h3>
       <table className="leagueTable" cellSpacing="0">
         <LeagueTableHeader />
         <LeagueTableBody players={props.players} />

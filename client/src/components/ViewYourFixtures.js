@@ -3,39 +3,49 @@ import backend from "../api/backend";
 
 class ViewYourFixtures extends React.Component {
   state = {
+    type: "",
     seasons: [],
     players: [],
     activeSeason: "",
-    activePlayer: "",
+    activePlayer: ""
   };
 
   getSeasonsList = async () => {
-    const response = await backend.get("/api/8ball_season");
+    const response = await backend.get("/api/89ball_season", {
+      params: {
+        type: this.state.type
+      }
+    });
     this.setState({ seasons: response.data });
   };
 
   getPlayers = async () => {
     const response = await backend.get(
-      "/api/8ball_league/" + this.state.activeSeason
+      "/api/89ball_league/" + this.state.activeSeason,
+      {
+        params: {
+          type: this.state.type
+        }
+      }
     );
-
     this.setState({ players: response.data });
   };
 
-  componentDidMount() {
-    this.getSeasonsList();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.activeSeason !== prevState.activeSeason) {
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (
+      (this.state.activeSeason !== prevState.activeSeason ||
+        this.props.type !== prevProps.type) &&
+      this.props.type !== undefined
+    ) {
+      await this.setState({ type: this.props.type });
       this.getSeasonsList();
-      this.getPlayers();
+      if (this.state.activeSeason !== "") this.getPlayers();
     }
-  }
+  };
 
   viewFixtures = () => {
     this.props.viewFixtures(this.state.activeSeason, this.state.activePlayer);
-  }
+  };
 
   render() {
     return (
@@ -51,7 +61,11 @@ class ViewYourFixtures extends React.Component {
               Season
             </option>
             {this.state.seasons.map(season => {
-              return <option key={season.seasonId} value={season.seasonId}>{season.seasonId}</option>;
+              return (
+                <option key={season.seasonId} value={season.seasonId}>
+                  {season.seasonId}
+                </option>
+              );
             })}
           </select>
           <br />
@@ -64,11 +78,17 @@ class ViewYourFixtures extends React.Component {
               Name
             </option>
             {this.state.players.map(player => {
-              return <option key={player.staffName} value={player.staffName}>{player.staffName}</option>;
+              return (
+                <option key={player.staffName} value={player.staffName}>
+                  {player.staffName}
+                </option>
+              );
             })}
           </select>
           <div className="viewBtn">
-            <button type="button" onClick={this.viewFixtures}>View</button>
+            <button type="button" onClick={this.viewFixtures}>
+              View
+            </button>
           </div>
         </form>
       </div>

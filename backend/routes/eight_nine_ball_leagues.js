@@ -3,15 +3,29 @@ var router = express.Router();
 const Joi = require("joi");
 const knex = require("../db/knex");
 
-const eight_ball_leagues = require("../models/eight_ball_leagues");
+const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
 /* 
-  GET handler for /api/8ball_league
-  Function: To get all the players detail in the league
+  GET handler for /api/89_ball_league
+  Function: To get all the players detail in the 8ball/9ball league
 */
 router.get("/", (req, res) => {
-  eight_ball_leagues
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  eight_nine_ball_leagues
     .query()
+    .where({ type: req.query.type })
     .orderBy("points", "desc")
     .orderBy("win", "desc")
     .orderBy("goalsFor", "desc")
@@ -27,16 +41,28 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_league/add/player/:seasonId
+  POST handler for /api/89_ball_league/add/player/:seasonId
   Function: To get all the players detail in the league of the SPECIFIED season
 */
-
 router.get("/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+    //Validation
+    if (Joi.validate(req.query, schema, { convert: false }).error) {
+      res.status(400).json({ status: "error", error: "Invalid data" });
+      return;
+    }
+
   let seasonId = parseInt(req.params.seasonId, 10);
-  //orders by points, then win, then goalsfor, then goals against
-  eight_ball_leagues
+
+  eight_nine_ball_leagues
     .query()
-    .where({ seasonId: seasonId })
+    .where({ type: req.query.type, seasonId: seasonId })
     .orderBy("points", "desc")
     .orderBy("win", "desc")
     .orderBy("goalsFor", "desc")
@@ -53,11 +79,14 @@ router.get("/:seasonId", (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_league/add/player
+  POST handler for /api/89_ball_league/add/player
   Function: To add player to the 8 ball league (FUTURE USE)
 */
 router.post("/add/player", (req, res) => {
   const schema = {
+    type: Joi.number()
+    .integer()
+    .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
@@ -70,8 +99,9 @@ router.post("/add/player", (req, res) => {
     return;
   }
 
-  knex("eight_ball_leagues")
+  knex("eight_nine_ball_leagues")
     .insert({
+      type: req.body.type,
       seasonId: req.body.seasonId,
       staffName: req.body.staffName
     })
@@ -86,16 +116,20 @@ router.post("/add/player", (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_league/add/players
+  POST handler for /api/89_ball_league/add/players
   Function: To add players to the 8 ball league (BATCH INSERT)
 */
 router.post("/add/players", (req, res) => {
   const schema = {
+    type: Joi.number()
+    .integer()
+    .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
     staffs: Joi.array().items(
       Joi.object({
+        type: Joi.number().integer().required(),
         seasonId: Joi.number()
           .integer()
           .required(),
@@ -110,15 +144,15 @@ router.post("/add/players", (req, res) => {
     return;
   }
 
-  knex("eight_ball_leagues")
+  knex("eight_nine_ball_leagues")
     //Check
     .select()
-    .where("seasonId", req.body.seasonId)
+    .where({type: req.body.type, seasonId: req.body.seasonId})
     .then(
       result => {
         if (result.length === 0) {
           return knex
-            .batchInsert("eight_ball_leagues", req.body.staffs, 100)
+            .batchInsert("eight_nine_ball_leagues", req.body.staffs, 100)
             .then(
               result => {
                 if (result) {
@@ -140,11 +174,14 @@ router.post("/add/players", (req, res) => {
 });
 
 /* 
-  DELETE handler for /api/8ball_league/delete/player
+  DELETE handler for /api/89_ball_league/delete/player
   Function: To delete player from the league (NOTE YET IMPLEMENTED IN THE UI)
 */
 router.delete("/delete/player", (req, res) => {
   const schema = {
+    type: Joi.number()
+    .integer()
+    .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
@@ -157,10 +194,10 @@ router.delete("/delete/player", (req, res) => {
     return;
   }
 
-  eight_ball_leagues
+  eight_nine_ball_leagues
     .query()
     .delete()
-    .where({ seasonId: req.body.seasonId, staffName: req.body.staffName })
+    .where({type: req.body.type, seasonId: req.body.seasonId, staffName: req.body.staffName })
     .then(
       result => {
         if (result === 0) {

@@ -9,6 +9,7 @@ import SubmitScoreForm from "./SubmitScoreForm.js";
 
 class App extends React.Component {
   state = {
+    type: "",
     players: [],
     fixtures: [],
     activeSeason: 0,
@@ -19,19 +20,31 @@ class App extends React.Component {
 
   updateData = async () => {
     const response = await backend.get(
-      "/api/8ball_league/" + this.state.activeSeason
+      "/api/89ball_league/" + this.state.activeSeason, {
+        params: {
+          type: this.state.type
+        }
+      }
     );
 
     this.setState({ players: response.data });
 
     const fixtures = await backend.get(
-      "/api/8ball_fixture/" + this.state.activeSeason
+      "/api/89ball_fixture/" + this.state.activeSeason, {
+        params: {
+          type: this.state.type
+        }
+      }
     );
 
     this.setState({ fixtures: fixtures.data });
 
     const count = await backend.get(
-      "/api/8ball_fixture/group/" + this.state.activeSeason
+      "/api/89ball_fixture/group/" + this.state.activeSeason, {
+        params: {
+          type: this.state.type
+        }
+      }
     );
 
     this.setState({ groupCount: count.data[0] });
@@ -61,7 +74,8 @@ class App extends React.Component {
 
   changeFixtureScore = async state => {
     await backend
-      .put("/api/8ball_fixture/edit", {
+      .put("/api/89ball_fixture/edit", {
+        type: this.state.type,
         seasonId: this.state.activeSeason,
         player1: state.player1,
         score1: parseInt(state.score1),
@@ -87,10 +101,10 @@ class App extends React.Component {
       return (
         <div className="app">
           <Header />
-          <SubNavBar />
+          <SubNavBar type={this.state.type}/>
           <div className="content">
             <div className="contentLeft">
-              <LeagueTable players={this.state.players} />
+              <LeagueTable activeSeason={this.state.activeSeason} players={this.state.players} />
               <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             </div>
             <div className="contentRight">
@@ -108,9 +122,9 @@ class App extends React.Component {
       return (
         <div className="app">
           <Header />
-          <SubNavBar />
+          <SubNavBar type={this.state.type}/>
           <div className="content-centre">
-            <LeagueTable players={this.state.players} />
+            <LeagueTable activeSeason={this.state.activeSeason} players={this.state.players} />
             <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             <FixtureList
               fixtures={this.state.fixtures}
