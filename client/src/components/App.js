@@ -104,7 +104,7 @@ class App extends React.Component {
           <SubNavBar type={this.state.type}/>
           <div className="content">
             <div className="contentLeft">
-              <LeagueTable players={this.state.players} />
+              <LeagueTable activeSeason={this.state.activeSeason} players={this.state.players} />
               <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             </div>
             <div className="contentRight">
@@ -124,7 +124,7 @@ class App extends React.Component {
           <Header />
           <SubNavBar type={this.state.type}/>
           <div className="content-centre">
-            <LeagueTable players={this.state.players} />
+            <LeagueTable activeSeason={this.state.activeSeason} players={this.state.players} />
             <SubmitScoreForm changeFixtureScore={this.changeFixtureScore} />
             <FixtureList
               fixtures={this.state.fixtures}

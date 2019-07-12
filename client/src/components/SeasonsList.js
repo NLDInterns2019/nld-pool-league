@@ -9,7 +9,7 @@ const SeasonsList = props => {
         <li>
           <Link
             to={{
-              pathname: "/8-ball/overview",
+              pathname: `/${props.type}-ball/overview`,
               state: {
                 type: props.type,
                 activeSeason: season.seasonId
@@ -38,7 +38,7 @@ const SeasonsList = props => {
 
   return (
     <div className="seasonsList">
-      <h3>List of Seasons</h3>
+      <h3>{props.type}-ball Seasons</h3>
       <ul>{listToBeDisplayed}</ul>
     </div>
   );
