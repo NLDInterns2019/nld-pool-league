@@ -49,8 +49,8 @@ class App extends React.Component {
         }
       }
     );
-    
-    this.setState({unplayedFixtures: unplayedFixtures.data})
+
+    this.setState({ unplayedFixtures: unplayedFixtures.data });
 
     const count = await backend.get(
       "/api/89ball_fixture/group/" + this.state.activeSeason,
@@ -110,7 +110,11 @@ class App extends React.Component {
               activeSeason={this.state.activeSeason}
               players={this.state.players}
             />
-            <SubmitScoreForm unplayedFixtures={this.state.unplayedFixtures} changeFixtureScore={this.changeFixtureScore} />
+            <SubmitScoreForm
+              type={this.state.type}
+              unplayedFixtures={this.state.unplayedFixtures}
+              changeFixtureScore={this.changeFixtureScore}
+            />
           </div>
           <div className="contentRight">
             <div className="scroll">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FixtureTable from "./FixtureTable";
+const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
   constructor(props) {
@@ -12,6 +13,13 @@ class SubmitScoreForm extends Component {
     };
 
     this.state = this.initialState;
+
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
   }
 
   isValid() {
@@ -31,6 +39,28 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
+  postScoreUpdateSlackMessage() {
+    (async () => {
+      // Use the `chat.postMessage` method to send a message from this app
+      await this.web.chat.postMessage({
+        channel: this.channel,
+        /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
+        text:
+          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
+          " RESULT:\n" +
+          this.state.players.split(" ")[0] +
+          "  " +
+          this.state.score1 +
+          "  -  " +
+          this.state.score2 +
+          "  " +
+          this.state.players.split(" ")[1]
+      });
+
+      console.log("Message posted!");
+    })();
+  }
+
   handleSubmit() {
     if (!this.isValid()) {
       alert("Not a valid input");
@@ -38,6 +68,7 @@ class SubmitScoreForm extends Component {
       /* submit score */
       this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState(this.initialState);
+      this.postScoreUpdateSlackMessage();
     }
   }
 
@@ -75,17 +106,17 @@ class SubmitScoreForm extends Component {
             onChange={e => this.setState({ players: e.target.value })}
           >
             <option disabled value={""}>
-              PLAYER1 VS PLAYER 2
+              PLAYER1 &nbsp;&nbsp;VS&nbsp;&nbsp; PLAYER 2
             </option>
             {this.props.unplayedFixtures.map(fixture => {
-              let player1 =fixture.player1
-              let player2 = fixture.player2
+              let player1 = fixture.player1;
+              let player2 = fixture.player2;
               return (
                 <option
                   key={fixture.seasonID + fixture.player1 + fixture.player2}
                   value={player1 + " " + player2}
                 >
-                  {player1} VS {player2}
+                  {player1} &nbsp;&nbsp;VS&nbsp;&nbsp; {player2}
                 </option>
               );
             })}

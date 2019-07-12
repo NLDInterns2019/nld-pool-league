@@ -105,7 +105,10 @@ describe("Fixture", () => {
         done();
       });
   });
+
+  
   });
+
   describe("GET /api/89ball_fixture/:seasonId/:staffName", () => {
     it("should fetch the correct staffmember's fixture from the correct season", done => {
         chai
@@ -143,20 +146,41 @@ describe("Fixture", () => {
       });
   });
 
-    // describe("GET /api/89ball_fixture/unplayed/:seasonId", () => {
-    //     it("should get fixtures that have not been played", done => {
-    //       chai
-    //         .request(server)
-    //         .get("/api/89ball_fixture/due/2019")
-    //         .end((err, res) => {
-    //             res.should.be.a("Object");
-    //             console.log(res.body + " MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMDDDDDDDDDDDDDDDDDD")
-    //             res.body[0].should.have.property("score1")
-    //             res.body[0].score1.should.be.eql(null)
-    //             res.body[0].should.have.property("score2")
-    //             res.body[0].score2.should.be.eql(null)
-    //             done();
-    //         });
-    //     });
-    // });
+  describe("GET /api/89ball_fixture/generate", () => {
+    it("should set the first date to today's date and iterate them suitably", done => {
+        chai
+          .request(server)
+          .get("/api/89ball_fixture/2020/generate?type=8")
+          .end((err, res) => {
+          });
+          done();
+    });
+
+    it("should set the first group as 0 and iterate them suitably", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_fixture/2020/Michael?type=8")
+        .end((err, res) => {
+        });
+        done();
+  });
+
+  it("should fetch the correct staffmember's fixture from the correct season", done => {
+    chai
+      .request(server)
+      .get("/api/89ball_fixture/2020/Michael?type=8")
+      .end((err, res) => {
+      });
+      done();
+    });
+
+    it("should ", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_fixture/2020/Matthew?type=8")
+        .end((err, res) => {
+        });
+        done();
+  });
+  }); 
 });  
