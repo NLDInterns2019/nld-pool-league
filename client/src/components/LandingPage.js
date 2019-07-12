@@ -9,7 +9,7 @@ const LandingPage = () => {
       <div className="content">
         <div className="menu">
           <h1>Get Started</h1>
-          <h2>Select a variant</h2>
+          <h2>Select a game type</h2>
           <ul>
             <li>
               <Link
