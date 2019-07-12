@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DeleteButton from "../delete-button.svg";
+const { WebClient } = require("@slack/web-api");
 
 class CreateSeasonForm extends Component {
   constructor(props) {
@@ -13,6 +13,13 @@ class CreateSeasonForm extends Component {
 
     this.state = this.initialState;
     this.createSeason = this.createSeason.bind(this);
+
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
   }
 
   addPlayer() {
@@ -28,6 +35,22 @@ class CreateSeasonForm extends Component {
         return player;
       })
     });
+  }
+
+  postCreateSeasonSlackMessage() {
+    (async () => {
+      await this.web.chat.postMessage({
+        channel: this.channel,
+        text:
+          "New " +
+          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
+          " season called 'Season " +
+          this.state.seasonName +
+          "' created"
+      });
+
+      console.log("Season message posted!");
+    })();
   }
 
   handleKeyDown(e, index) {
@@ -86,6 +109,7 @@ class CreateSeasonForm extends Component {
       //SET STATE IS ASYNCHRONOUS
       this.setState({ players: newState }, () => {
         this.props.createSeason(this.state);
+        //this.postCreateSeasonSlackMessage();
         document.getElementById("container").style.display = "none";
         this.setState(this.initialState);
       });
