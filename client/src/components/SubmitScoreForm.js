@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
   constructor(props) {
@@ -12,6 +13,13 @@ class SubmitScoreForm extends Component {
     };
 
     this.state = this.initialState;
+
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
   }
 
   isValid() {
@@ -37,6 +45,25 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
+  postSlackMessage() {
+    (async () => {
+      // Use the `chat.postMessage` method to send a message from this app
+      await this.web.chat.postMessage({
+        channel: this.channel,
+        text:
+          document.getElementById("player1").value +
+          "   " +
+          document.getElementById("score1").value +
+          "  VS  " +
+          document.getElementById("score2").value +
+          "   " +
+          document.getElementById("player2").value
+      });
+
+      console.log("Message posted!");
+    })();
+  }
+
   handleSubmit() {
     if (!this.isValid()) {
       alert("Not a valid input");
@@ -44,6 +71,7 @@ class SubmitScoreForm extends Component {
       /* submit score */
       this.props.changeFixtureScore(this.state);
       this.setState(this.initialState);
+      this.postSlackMessage();
     }
   }
 
