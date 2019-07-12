@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import FixtureTable from "./FixtureTable";
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
@@ -6,10 +7,9 @@ class SubmitScoreForm extends Component {
     super(props);
 
     this.initialState = {
+      players: "",
       score1: "",
-      player1: "",
-      score2: "",
-      player2: ""
+      score2: ""
     };
 
     this.state = this.initialState;
@@ -24,11 +24,8 @@ class SubmitScoreForm extends Component {
 
   isValid() {
     var regexScore = /^[0-2]$/; // matches 0, 1, or 2
-    var regexPlayer = /^[A-Z]+$/;
     var score1 = parseInt(this.state.score1);
     var score2 = parseInt(this.state.score2);
-    var player1 = this.state.player1;
-    var player2 = this.state.player2;
 
     /* check the inputs match the regular expressions */
     if (!regexScore.test(score1) || !regexScore.test(score2)) {
@@ -36,9 +33,6 @@ class SubmitScoreForm extends Component {
     }
     /* check the two scores entered add up to 2 */
     if (score1 + score2 !== 2) {
-      return false;
-    }
-    if (!regexPlayer.test(player1) || !regexPlayer.test(player2)) {
       return false;
     }
 
@@ -51,13 +45,17 @@ class SubmitScoreForm extends Component {
       await this.web.chat.postMessage({
         channel: this.channel,
         text:
-          document.getElementById("player1").value +
-          "   " +
+          document
+            .getElementById("selectedFixture")
+            .getAttribute("data-player1") +
+          "  " +
           document.getElementById("score1").value +
-          "  VS  " +
+          "  -  " +
           document.getElementById("score2").value +
-          "   " +
-          document.getElementById("player2").value
+          "  " +
+          document
+            .getElementById("selectedFixture")
+            .getAttribute("data-player2")
       });
 
       console.log("Message posted!");
@@ -69,10 +67,18 @@ class SubmitScoreForm extends Component {
       alert("Not a valid input");
     } else {
       /* submit score */
-      this.props.changeFixtureScore(this.state);
+      this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState(this.initialState);
       this.postSlackMessage();
     }
+  }
+
+  prepareSubmitState() {
+    let submitableState = this.state;
+    let arr = this.state.players.split(" ");
+    submitableState.player1 = arr[0];
+    submitableState.player2 = arr[1];
+    return submitableState;
   }
 
   setScore1(e) {
@@ -81,14 +87,6 @@ class SubmitScoreForm extends Component {
 
   setScore2(e) {
     this.setState({ score2: e.target.value });
-  }
-
-  setPlayer1(e) {
-    this.setState({ player1: e.target.value.toUpperCase() });
-  }
-
-  setPlayer2(e) {
-    this.setState({ player2: e.target.value.toUpperCase() });
   }
 
   render() {
@@ -104,20 +102,30 @@ class SubmitScoreForm extends Component {
             value={this.state.score1}
             onChange={e => this.setScore1(e)}
           />
-          <input
-            type="text"
-            placeholder="Player 1"
-            id="player1"
-            value={this.state.player1}
-            onChange={e => this.setPlayer1(e)}
-          />
-          <input
-            type="text"
-            placeholder="Player 2"
-            id="player2"
-            value={this.state.player2}
-            onChange={e => this.setPlayer2(e)}
-          />
+          <select
+            value={this.state.players}
+            onChange={e => this.setState({ players: e.target.value })}
+            id="selectedFixture"
+            data-player1={this.state.players.split(" ")[0]}
+            data-player2={this.state.players.split(" ")[1]}
+          >
+            <option disabled value={""}>
+              PLAYER1 &nbsp;&nbsp;VS&nbsp;&nbsp; PLAYER 2
+            </option>
+            {this.props.unplayedFixtures.map(fixture => {
+              let player1 = fixture.player1;
+              let player2 = fixture.player2;
+              return (
+                <option
+                  key={fixture.seasonID + fixture.player1 + fixture.player2}
+                  value={player1 + " " + player2}
+                >
+                  {player1} &nbsp;&nbsp;VS&nbsp;&nbsp; {player2}
+                </option>
+              );
+            })}
+          </select>
+
           <input
             type="number"
             min="0"
