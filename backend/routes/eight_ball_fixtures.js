@@ -123,14 +123,41 @@ router.get("/due/:staffName", (req, res) => {
 
 /* 
   GET handler for /api/8ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed by a user. Caps sensitive.
+  Function: To get all the fixtures unplayed in a season.
 */
-router.get("/unplayed/:seasonId", (req, res) => {
+router.get("/unplayed/:seasonId", (req, res) => { //:seasonId
   let seasonId = parseInt(req.params.seasonId);
   eight_ball_fixtures
     .query()
     .where({ seasonId: seasonId })
     .where({ score1: null })
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+/* 
+  GET handler for /api/8ball_fixture/due/:staffName
+  Function: To get all the fixtures unplayed by a user in a season. Caps sensitive.
+*/
+router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
+  let seasonId = parseInt(req.params.seasonId);
+  let staffName = req.params.staffName;
+  eight_ball_fixtures
+    .query()
+    .where({ seasonId: seasonId })
+    .where({ score1: null })
+    .where({player1: staffName})
+    .orWhere({player2: staffName})
     .then(
       fixture => {
         if (!fixture.length) {
@@ -342,7 +369,6 @@ router.post("/generate", async (req, res) => { //no longer tiny :(
     var yyyy = aesDate.getFullYear();
     aesDate = dd + '-' + mm + '-' + yyyy;
     var d = new Date(aesDate);
-    console.log('here is aesdate ' + d)
 
     fixture = fixturegen.fixtureCalc(players, seasonId , group, aesDate) //this represents the fixture rows
     knex.batchInsert("eight_ball_fixtures", fixture, 100).then(

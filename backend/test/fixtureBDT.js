@@ -111,4 +111,21 @@ describe("Fixture", () => {
           });
       });
   });
+
+    describe("GET /api/8ball_fixture/unplayed/:seasonId", () => {
+        it("should get fixtures that have not been played", done => {
+          chai
+            .request(server)
+            .get("/api/8ball_fixture/due/2019")
+            .end((err, res) => {
+                res.should.be.a("Object");
+                console.log(res.body + " MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMDDDDDDDDDDDDDDDDDD")
+                res.body[0].should.have.property("score1")
+                res.body[0].score1.should.be.eql(null)
+                res.body[0].should.have.property("score2")
+                res.body[0].score2.should.be.eql(null)
+                done();
+            });
+        });
+    });
 });  
