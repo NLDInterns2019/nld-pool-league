@@ -353,7 +353,6 @@ button:hover {
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
-  margin-bottom: 8rem;
 }
 
 /* ==== Arrange Fixture ==== */
@@ -380,6 +379,10 @@ button:hover {
   text-align: right;
   width: 50%;
   margin: auto;
+}
+
+.viewYourFixtures {
+  margin-bottom: 4rem;
 }
 
 .viewYourFixtures label {
