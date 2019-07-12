@@ -190,7 +190,7 @@ router.get("/due/:staffName", (req, res) => {
 });
 
 /* 
-  GET handler for /api/8ball_fixture/due/:staffName
+  GET handler for /api/89ball_fixture/unplayed/:seasonId
   Function: To get all the fixtures unplayed in a season.
 */
 router.get("/unplayed/:seasonId", (req, res) => { //:seasonId
@@ -214,7 +214,7 @@ router.get("/unplayed/:seasonId", (req, res) => { //:seasonId
 });
 
 /* 
-  GET handler for /api/8ball_fixture/due/:staffName
+  GET handler for /api/89ball_fixture/unplayed/:seasonId/:staffName
   Function: To get all the fixtures unplayed by a user in a season. Caps sensitive.
 */
 router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
@@ -241,7 +241,7 @@ router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
 });
 
 /* 
-  PUT handler for /api/8ball_fixture/edit/
+  PUT handler for /api/89ball_fixture/edit/
   Function: To update the score
 */
 router.put("/edit", async (req, res) => {
@@ -475,7 +475,7 @@ router.post("/generate", async (req, res) => {
 });
 
 /* 
-  POST handler for /api/8ball_fixture/generate/. 
+  POST handler for /api/89ball_fixture/overdue/. 
   Function: Displays list of overdue fixtures. Nonfunctional due to date storage.
 */
 router.get("/overdue", (req, res) => {
