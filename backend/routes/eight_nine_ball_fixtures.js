@@ -452,7 +452,7 @@ router.post("/generate", async (req, res) => {
     aesDate = dd + "-" + mm + "-" + yyyy;
     var d = new Date(aesDate);
 
-    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, d); //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, aesDate); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
