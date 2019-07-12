@@ -138,8 +138,7 @@ class CreateSeasonForm extends Component {
                     onKeyDown={e => this.handleKeyDown(e, index + 1)}
                   />
                   {console.log("id: inputPlayer" + (index + 1))}
-                  <img
-                    src={DeleteButton}
+                  <div
                     id={"button" + (index + 1)}
                     className="delete-icon"
                     alt="remove player"
