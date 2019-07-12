@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, matchPath } from "react-router-dom";
 
-const SubNavigator = (props) => {
+const SubNavigator = props => {
   var currentPath = window.location.pathname;
 
   /* set the title of the nav bar depending on the URL path */
@@ -50,7 +50,7 @@ const SubNavigator = (props) => {
             to={{
               pathname: "/" + title.toLowerCase() + "/seasons",
               state: {
-                type: props.type,
+                type: props.type
               }
             }}
             style={seasonsCurrentStyle}
@@ -73,7 +73,7 @@ const SubNavigator = (props) => {
             to={{
               pathname: "/" + title.toLowerCase() + "/fixtures",
               state: {
-                type: props.type,
+                type: props.type
               }
             }}
             style={fixturesCurrentStyle}

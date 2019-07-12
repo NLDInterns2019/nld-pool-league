@@ -6,7 +6,7 @@ class CreateSeasonForm extends Component {
     super(props);
 
     this.initialState = {
-      playersName: [],
+      playersName: ["", ""],
       seasonName: "",
       players: []
     };
@@ -30,9 +30,16 @@ class CreateSeasonForm extends Component {
     });
   }
 
-  handleKeyPress(e) {
+  handleKeyDown(e, index) {
     if (e.key === "Enter") {
+      console.log("enter pressed");
       this.addPlayer();
+    } else if (e.key === "ArrowUp" && index > 1) {
+      console.log("up arrow pressed");
+      document.getElementById("inputPlayer" + (index - 1)).focus();
+    } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
+      console.log("down arrow pressed");
+      document.getElementById("inputPlayer" + (index + 1)).focus();
     }
   }
 
@@ -113,7 +120,7 @@ class CreateSeasonForm extends Component {
             value={this.state.seasonName}
             id="inputSeasonNo"
             onChange={e => this.setSeasonName(e)}
-            onKeyPress={e => this.handleKeyPress(e)}
+            onKeyPress={e => this.handleKeyDown(e)}
           />
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
@@ -122,16 +129,16 @@ class CreateSeasonForm extends Component {
                 <div key={index} className="form-row">
                   {/* player name text input */}
                   <input
-                    autoFocus="true"
+                    autoFocus
                     placeholder={"Player " + (index + 1)}
                     className="inputPlayerName"
                     id={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}
                     value={player}
-                    onKeyPress={e => this.handleKeyPress(e)}
+                    onKeyDown={e => this.handleKeyDown(e, index + 1)}
                   />
-                  <img
-                    src={DeleteButton}
+                  {console.log("id: inputPlayer" + (index + 1))}
+                  <div
                     id={"button" + (index + 1)}
                     className="delete-icon"
                     alt="remove player"

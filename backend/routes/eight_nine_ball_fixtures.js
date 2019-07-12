@@ -483,7 +483,7 @@ router.post("/generate", async (req, res) => {
 });
 
 /* 
-  POST handler for /api/89ball_fixture/generate/. 
+  POST handler for /api/89ball_fixture/overdue/. 
   Function: Displays list of overdue fixtures. Nonfunctional due to date storage.
 */
 router.get("/overdue", (req, res) => {

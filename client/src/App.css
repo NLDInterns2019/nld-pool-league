@@ -328,13 +328,17 @@ button:hover {
 }
 
 .delete-icon {
+  display: inline-block;
   margin-left: 0.5rem;
   vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  background: url("./delete-button-grey.svg");
 }
 
 .delete-icon:hover {
   cursor: pointer;
-  transform: scale(1.1);
+  background: url("./delete-button.svg");
 }
 
 /* ==== White Boxes ==== */

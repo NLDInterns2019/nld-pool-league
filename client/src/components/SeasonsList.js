@@ -18,8 +18,8 @@ const SeasonsList = props => {
           >
             Season {season.seasonId}
           </Link>
-          <img
-            src={DeleteButton}
+          <div
+            // src={DeleteButton}
             id={"remove" + season.seasonId}
             className="delete-icon"
             alt="delete season"
