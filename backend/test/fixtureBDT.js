@@ -32,7 +32,6 @@ describe("Fixture", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
-          //res.body.length.should.be.eql(6);
           res.body.should.include.something.like({
             seasonId: 2020,
             score1: null,
