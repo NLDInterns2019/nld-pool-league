@@ -1,6 +1,6 @@
 exports.up = function(knex) {
   return knex.schema.createTable("eight_nine_ball_leagues", table => {
-    table.primary(["seasonId", "staffName", "type"]);
+    table.primary(["type","seasonId", "staffName"]);
     table.integer("seasonId").notNullable();
     table.string("staffName").notNullable();
     table.integer("type").notNullable();
