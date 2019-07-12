@@ -190,18 +190,10 @@ router.get("/due/:staffName", (req, res) => {
 });
 
 /* 
-  GET handler for /api/89_ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed by a user. Caps sensitive.
-  TODO: FUNCTIONALITY NOT FINISHED
+  GET handler for /api/8ball_fixture/due/:staffName
+  Function: To get all the fixtures unplayed in a season.
 */
-router.get("/unplayed/:seasonId", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
+router.get("/unplayed/:seasonId", (req, res) => { //:seasonId
   let seasonId = parseInt(req.params.seasonId);
   eight_nine_ball_fixtures
     .query()
@@ -222,7 +214,34 @@ router.get("/unplayed/:seasonId", (req, res) => {
 });
 
 /* 
-  PUT handler for /api/89_ball_fixture/edit/
+  GET handler for /api/8ball_fixture/due/:staffName
+  Function: To get all the fixtures unplayed by a user in a season. Caps sensitive.
+*/
+router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
+  let seasonId = parseInt(req.params.seasonId);
+  let staffName = req.params.staffName;
+  eight_ball_fixtures
+    .query()
+    .where({ seasonId: seasonId })
+    .where({ score1: null })
+    .where({player1: staffName})
+    .orWhere({player2: staffName})
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+/* 
+  PUT handler for /api/8ball_fixture/edit/
   Function: To update the score
 */
 router.put("/edit", async (req, res) => {
@@ -432,7 +451,6 @@ router.post("/generate", async (req, res) => {
     var yyyy = aesDate.getFullYear();
     aesDate = dd + "-" + mm + "-" + yyyy;
     var d = new Date(aesDate);
-    console.log("here is aesdate " + d);
 
     fixture = fixturegen.fixtureCalc(type, players, seasonId, group, d); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
