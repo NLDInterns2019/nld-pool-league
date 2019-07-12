@@ -70,6 +70,7 @@ class SubmitScoreForm extends Component {
         <form>
           <input
             type="number"
+            min="0"
             placeholder="Score"
             id="score1"
             value={this.state.score1}
@@ -91,6 +92,7 @@ class SubmitScoreForm extends Component {
           />
           <input
             type="number"
+            min="0"
             placeholder="Score"
             id="score2"
             value={this.state.score2}
