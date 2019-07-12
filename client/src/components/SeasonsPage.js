@@ -104,7 +104,7 @@ class SeasonsPage extends Component {
           </div>
           <div className="popup-container" id="container">
             <div className="form-popup" id="popup">
-              <CreateSeasonForm type={this.state.type} createSeason={this.createSeason} />
+              <CreateSeasonForm seasons={this.state.seasons} type={this.state.type} createSeason={this.createSeason} />
               <button type="button" id="cancelbtn" onClick={this.closePopUp}>
                 Cancel
               </button>

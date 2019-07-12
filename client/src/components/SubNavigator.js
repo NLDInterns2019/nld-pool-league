@@ -31,16 +31,6 @@ const SubNavigator = props => {
       }
     : {};
 
-  /* makes 'overview' link bold 
-  var overviewCurrentStyle =
-    matchPath(currentPath, { path: "overview", exact: false }) ||
-    matchPath(currentPath, { path: "/8-ball", exact: true }) ||
-    matchPath(currentPath, { path: "/9-ball", exact: true }) ||
-    matchPath(currentPath, { path: "/billiards", exact: true })
-      ? { fontWeight: "bold" }
-      : {};
-  */
-
   return (
     <div className="nav">
       <h2>{title}</h2>
@@ -59,15 +49,6 @@ const SubNavigator = props => {
             Seasons
           </Link>
         </li>
-        {/*<li>
-          <Link
-            to={"/" + title.toLowerCase() + "/overview"}
-            style={overviewCurrentStyle}
-            id="overviewLink"
-          >
-            Overview
-          </Link>
-        </li>*/}
         <li>
           <Link
             to={{
