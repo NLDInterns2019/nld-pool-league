@@ -30,6 +30,12 @@ class CreateSeasonForm extends Component {
     });
   }
 
+  handleKeyPress(e) {
+    if (e.key === "Enter") {
+      this.addPlayer();
+    }
+  }
+
   removePlayer(index) {
     this.state.playersName.splice(index, 1);
     this.setState({ playersName: this.state.playersName });
@@ -85,7 +91,11 @@ class CreateSeasonForm extends Component {
       playerName =>
         (temp = [
           ...temp,
-          { type: this.props.type, seasonId: parseInt(this.state.seasonName), staffName: playerName }
+          {
+            type: this.props.type,
+            seasonId: parseInt(this.state.seasonName),
+            staffName: playerName
+          }
         ])
     );
     return temp;
@@ -103,6 +113,7 @@ class CreateSeasonForm extends Component {
             value={this.state.seasonName}
             id="inputSeasonNo"
             onChange={e => this.setSeasonName(e)}
+            onKeyPress={e => this.handleKeyPress(e)}
           />
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
@@ -111,11 +122,13 @@ class CreateSeasonForm extends Component {
                 <div key={index} className="form-row">
                   {/* player name text input */}
                   <input
+                    autoFocus="true"
                     placeholder={"Player " + (index + 1)}
                     className="inputPlayerName"
                     id={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}
                     value={player}
+                    onKeyPress={e => this.handleKeyPress(e)}
                   />
                   <img
                     src={DeleteButton}
