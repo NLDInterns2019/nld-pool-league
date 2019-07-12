@@ -39,7 +39,7 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
-  postSlackMessage() {
+  postScoreUpdateSlackMessage() {
     (async () => {
       // Use the `chat.postMessage` method to send a message from this app
       await this.web.chat.postMessage({
@@ -47,7 +47,7 @@ class SubmitScoreForm extends Component {
         /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
         text:
           (this.props.type === 8 ? ":8ball:" : ":9ball:") +
-          "  " +
+          " RESULT:\n" +
           this.state.players.split(" ")[0] +
           "  " +
           this.state.score1 +
@@ -68,7 +68,7 @@ class SubmitScoreForm extends Component {
       /* submit score */
       this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState(this.initialState);
-      this.postSlackMessage();
+      this.postScoreUpdateSlackMessage();
     }
   }
 
