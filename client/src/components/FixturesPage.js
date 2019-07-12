@@ -10,7 +10,6 @@ import ArrangeFixture from "./ArrangeFixture";
 class FixturesPage extends Component {
   state = {
     type: "",
-    windowWidth: 1400,
     fixtures: [],
     groupCount: 0,
     refresh: false
@@ -18,8 +17,6 @@ class FixturesPage extends Component {
 
   componentDidMount = async () => {
     await this.setState(this.props.location.state);
-    this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -30,14 +27,6 @@ class FixturesPage extends Component {
       await this.setState(this.props.location.state);
     }
   };
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions.bind(this));
-  }
-
-  updateDimensions() {
-    this.setState({ windowWidth: window.innerWidth });
-  }
 
   viewFixtures = async (seasonId, staffName) => {
     const fixtures = await backend.get(
@@ -61,48 +50,30 @@ class FixturesPage extends Component {
   };
 
   render() {
-    if (this.state.windowWidth >= 1400) {
-      return (
-        <div className="fixtures">
-          <Header />
-          <SubNavBar type={this.state.type} />
-          <div className="content">
-            <div className="contentLeft">
-              <div>
-                <ViewYourFixtures
-                  type={this.state.type}
-                  viewFixtures={this.viewFixtures}
-                />
-                <FixtureList
-                  fixtures={this.state.fixtures}
-                  groupCount={this.state.groupCount}
-                />
-              </div>
-            </div>
-            <div className="contentRight">
-              {/*<SubmitScoreForm />*/}
-              <ArrangeFixture />
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="fixtures">
-          <Header />
-          <SubNavBar type={this.state.type} />
-          <div className="content">
-            <div className="content-centre">
+    return (
+      <div className="fixtures">
+        <Header />
+        <SubNavBar type={this.state.type} />
+        <div className="content">
+          <div className="contentLeft">
+            <div>
               <ViewYourFixtures
                 type={this.state.type}
                 viewFixtures={this.viewFixtures}
               />
-              <ArrangeFixture />
+              <FixtureList
+                fixtures={this.state.fixtures}
+                groupCount={this.state.groupCount}
+              />
             </div>
           </div>
+          <div className="contentRight">
+            {/*<SubmitScoreForm />*/}
+            <ArrangeFixture />
+          </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 export default FixturesPage;

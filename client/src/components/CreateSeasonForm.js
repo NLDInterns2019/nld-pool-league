@@ -155,6 +155,7 @@ class CreateSeasonForm extends Component {
               type="button"
               id="createSeasonBtn"
               onClick={this.createSeason}
+              //style={createSeasonBtnStyle}
             >
               Create season
             </button>
