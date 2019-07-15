@@ -407,17 +407,12 @@ router.put("/edit", async (req, res) => {
   Function: Handles fixture generation and fixture splitting
 */
 router.post("/generate", async (req, res) => {
-  //no longer tiny :(
   var group = 0;
   var aesDate = new Date(); 
   aesDate.setDate(aesDate.getDate() + 7);
   let seasonId = req.body.seasonId;
   let type = req.body.type;
   
-  //var milli = startDate.getTime(); convert date into milli
-  //var conv = new Date(milli); convert milli into date
-
-
   //take the seasonid and see if it's acceptable
   const schema = {
     type: Joi.number()
@@ -475,16 +470,14 @@ router.post("/generate", async (req, res) => {
 
 /* 
   POST handler for /api/89ball_fixture/overdue/. 
-  Function: Displays list of overdue fixtures. Nonfunctional due to date storage.
+  Function: Displays list of overdue fixtures.
 */
 router.get("/overdue", (req, res) => {
-  let seasonId = parseInt(req.params.seasonId);
   let currentDate = new Date();
-  currentDate = currentDate.getTime();
+  currentDate = parseInt(currentDate);
   eight_nine_ball_fixtures
     .query()
-    .where({ seasonId: seasonId })
-    .where("date", "<", currentDate)
+    .where("date", "!=", currentDate)
     .then(
       fixture => {
         if (!fixture.length) {
