@@ -117,12 +117,10 @@ class App extends React.Component {
             />
           </div>
           <div className="contentRight">
-            <div className="scroll">
-              <FixtureList
-                fixtures={this.state.fixtures}
-                groupCount={this.state.groupCount}
-              />
-            </div>
+            <FixtureList
+              fixtures={this.state.fixtures}
+              groupCount={this.state.groupCount}
+            />
           </div>
         </div>
       </div>
