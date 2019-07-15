@@ -361,6 +361,10 @@ button:hover {
   border-radius: 15px;
 }
 
+#seasonsListContainer {
+  margin-bottom: 8rem;
+}
+
 /* ==== Arrange Fixture ==== */
 #arrangeFixture label {
   padding-right: 0.5rem;
