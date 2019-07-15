@@ -11,7 +11,7 @@ class SeasonsPage extends Component {
     super(props);
     this.state = {
       type: "",
-      seasons: [],
+      seasons: []
     };
   }
 
@@ -25,16 +25,16 @@ class SeasonsPage extends Component {
   };
 
   componentDidMount = async () => {
-    await this.setState({type: this.props.match.params.type});
+    await this.setState({ type: this.props.match.params.type });
     this.getSeasonsList();
   };
 
-  componentDidUpdate= async (prevProps, prevState) => {
+  componentDidUpdate = async (prevProps, prevState) => {
     if (this.props.match.params.type !== prevProps.match.params.type) {
-      await this.setState({type: this.props.match.params.type});
+      await this.setState({ type: this.props.match.params.type });
       this.getSeasonsList();
     }
-  }
+  };
 
   openPopUp() {
     document.getElementById("popup").style.display = "block";
@@ -59,12 +59,7 @@ class SeasonsPage extends Component {
           seasonId: parseInt(state.seasonName)
         })
       )
-      .then(() =>
-        this.setState({
-          //To force update
-          refresh: !this.state.refresh
-        })
-      )
+      .then(() => this.getSeasonsList())
       .catch(e => {
         window.alert("ERROR: Cannot add player(s) to an existing season!");
       });
@@ -85,7 +80,7 @@ class SeasonsPage extends Component {
     return (
       <div className="seasons">
         <Header />
-        <SubNavBar type={this.state.type}/>
+        <SubNavBar type={this.state.type} />
         <div className="content">
           <div className="seasonsListContainer">
             <SeasonsList
@@ -100,7 +95,11 @@ class SeasonsPage extends Component {
           </div>
           <div className="popup-container" id="container">
             <div className="form-popup" id="popup">
-              <CreateSeasonForm seasons={this.state.seasons} type={this.state.type} createSeason={this.createSeason} />
+              <CreateSeasonForm
+                seasons={this.state.seasons}
+                type={this.state.type}
+                createSeason={this.createSeason}
+              />
               <button type="button" id="cancelbtn" onClick={this.closePopUp}>
                 Cancel
               </button>

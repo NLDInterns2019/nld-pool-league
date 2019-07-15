@@ -5,7 +5,7 @@ import Header from "./nav/Header.js";
 import SubNavBar from "./nav//SubNavBar.js";
 import LeagueTable from "./league/LeagueTable.js";
 import FixtureList from "./fixture/FixtureList";
-import SubmitScoreForm from "./league/SubmitScoreForm.js";
+import SubmitScoreForm from "./fixture/SubmitScoreForm.js";
 
 class App extends React.Component {
   state = {
@@ -65,8 +65,9 @@ class App extends React.Component {
   };
 
   componentDidMount = async () => {
-    await this.setState({type: this.props.match.params.type});
-    await this.setState({activeSeason: this.props.match.params.seasonId});
+    await this.setState({ type: this.props.match.params.type });
+    await this.setState({ activeSeason: parseInt(this.props.match.params.seasonId)});
+
     this.updateData();
   };
 
@@ -77,9 +78,10 @@ class App extends React.Component {
   };
 
   changeFixtureScore = async state => {
+    console.log(state);
     await backend
       .put("/api/89ball_fixture/edit", {
-        type: this.state.type,
+        type: parseInt(this.state.type),
         seasonId: this.state.activeSeason,
         player1: state.player1,
         score1: parseInt(state.score1),
@@ -104,7 +106,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <Header />
-        <SubNavBar type={this.state.type}/>
+        <SubNavBar type={this.state.type} />
         <div className="content">
           <div className="contentLeft">
             <LeagueTable

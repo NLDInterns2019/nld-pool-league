@@ -113,7 +113,7 @@ class CreateSeasonForm extends Component {
         (temp = [
           ...temp,
           {
-            type: this.props.type,
+            type: parseInt(this.props.type),
             seasonId: parseInt(this.state.seasonName),
             staffName: playerName
           }
