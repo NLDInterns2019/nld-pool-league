@@ -405,17 +405,18 @@ router.put("/edit", async (req, res) => {
 /* 
   POST handler for /api/89_ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
-  TODO: may want to put dates in their own table and connect to fixtures via groups
 */
 router.post("/generate", async (req, res) => {
   //no longer tiny :(
-  //this date method makes it difficult to do the comparisons to look for overdue fixtures. might want to look into fixing storage of the raw date.
   var group = 0;
-  var startDate = new Date();
-  startDate.setDate(startDate.getDate() + 7);
-  var aesDate = startDate; //used to stop issue where date was placed in database in milliseconds of next month
+  var aesDate = new Date(); 
+  aesDate.setDate(aesDate.getDate() + 7);
   let seasonId = req.body.seasonId;
   let type = req.body.type;
+  
+  //var milli = startDate.getTime(); convert date into milli
+  //var conv = new Date(milli); convert milli into date
+
 
   //take the seasonid and see if it's acceptable
   const schema = {
@@ -454,15 +455,7 @@ router.post("/generate", async (req, res) => {
   }
   //this gets a fixture and puts it into fixtSets
   for (var j = 0; j < playerCount - exCount; j++) {
-    //this represents fixture groups -1
-    aesDate = startDate;
-    var dd = String(aesDate.getDate()).padStart(2, "0");
-    var mm = String(aesDate.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = aesDate.getFullYear();
-    aesDate = dd + "-" + mm + "-" + yyyy;
-    var d = new Date(aesDate);
-
-    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, aesDate); //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, aesDate.getTime()); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -474,12 +467,8 @@ router.post("/generate", async (req, res) => {
       }
     );
     group++;
-    startDate.setDate(startDate.getDate() + 7);
-    //console.log(aesDate);
-    //datet = new Date('25-01-2019S');
-    // console.log(datet);
-    //var date = new Date(aesGroup.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
-    //console.log(date);
+    aesDate.setDate(aesDate.getDate()+7);
+    
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }
 });
@@ -491,10 +480,11 @@ router.post("/generate", async (req, res) => {
 router.get("/overdue", (req, res) => {
   let seasonId = parseInt(req.params.seasonId);
   let currentDate = new Date();
+  currentDate = currentDate.getTime();
   eight_nine_ball_fixtures
     .query()
     .where({ seasonId: seasonId })
-    .where("date", "!=", currentDate)
+    .where("date", "<", currentDate)
     .then(
       fixture => {
         if (!fixture.length) {
