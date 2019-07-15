@@ -491,4 +491,28 @@ router.get("/overdue", (req, res) => {
       }
     );
 });
+
+/* 
+  POST handler for /api/89ball_fixture/book/. 
+  Function: Books a fixture for a particular date.
+*/
+router.get("/book", (req, res) => {
+  
+});
+
+/* 
+  POST handler for /api/89ball_fixture/book/edit. 
+  Function: Edit a fixture's booking.
+*/
+router.get("/book/edit", (req, res) => {
+  
+});
+
+/* 
+  POST handler for /api/89ball_fixture/book/. 
+  Function: Remove a fixture booking.
+*/
+router.get("/book/delete", (req, res) => {
+  
+});
 module.exports = router;
