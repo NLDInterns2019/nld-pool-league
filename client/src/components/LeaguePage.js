@@ -4,8 +4,8 @@ import backend from "../api/backend";
 import Header from "./Header.js";
 import SubNavBar from "./SubNavBar.js";
 import LeagueTable from "./LeagueTable.js";
-import FixtureList from "./FixtureList.js";
-import SubmitScoreForm from "./SubmitScoreForm.js";
+import FixtureList from "./fixture/FixtureList.js/index.js";
+import SubmitScoreForm from "./league/SubmitScoreForm.js/index.js";
 
 class App extends React.Component {
   state = {

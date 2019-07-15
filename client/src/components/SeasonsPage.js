@@ -3,8 +3,8 @@ import backend from "../api/backend";
 import SubNavBar from "./SubNavBar.js";
 import Header from "./Header.js";
 import "../App.css";
-import CreateSeasonForm from "./CreateSeasonForm.js";
-import SeasonsList from "./SeasonsList.js";
+import CreateSeasonForm from "./season/CreateSeasonForm.js";
+import SeasonsList from "./season/SeasonsList.js";
 
 class SeasonsPage extends Component {
   constructor(props) {
