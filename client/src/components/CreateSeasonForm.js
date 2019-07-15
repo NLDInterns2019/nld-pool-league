@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SeasonsPage from "./SeasonsPage.js";
 const { WebClient } = require("@slack/web-api");
 
 class CreateSeasonForm extends Component {
@@ -101,7 +102,8 @@ class CreateSeasonForm extends Component {
     //SET STATE IS ASYNCHRONOUS
     this.setState({ players: newState }, () => {
       this.props.createSeason(this.state);
-      document.getElementById("container").style.display = "none";
+      this.props.closePopUp();
+      //document.getElementById("container").style.display = "none";
       this.setState(this.initialState);
     });
   }
