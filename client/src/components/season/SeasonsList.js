@@ -6,17 +6,24 @@ const SeasonsList = props => {
     return (
       <div key={season.seasonId}>
         <li>
-          <Link
-            to={{
-              pathname: `/${props.type}-ball/overview`,
-              state: {
-                type: props.type,
-                activeSeason: season.seasonId
-              }
-            }}
-          >
-            Season {season.seasonId}
-          </Link>
+          {props.type !== "Billiards" ? (
+            <Link
+              to={{
+                pathname: `/${props.type}-ball/overview/${season.seasonId}`
+              }}
+            >
+              Season {season.seasonId}
+            </Link>
+          ) : (
+            <Link
+              to={{
+                pathname: `/${props.type}/overview/${season.seasonId}`
+              }}
+            >
+              Season {season.seasonId}
+            </Link>
+          )}
+
           <div
             id={"remove" + season.seasonId}
             className="delete-icon"

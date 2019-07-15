@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import backend from "../api/backend";
 
-import Header from "./Header";
-import SubNavBar from "./SubNavBar";
-import FixtureList from "./FixtureList";
-import ViewYourFixtures from "./ViewYourFixtures";
-import ArrangeFixture from "./ArrangeFixture";
+import Header from "./nav/Header";
+import SubNavBar from "./nav/SubNavBar";
+import FixtureList from "./fixture/FixtureList";
+import ViewYourFixtures from "./fixture/ViewYourFixtures";
+import ArrangeFixture from "./fixture/ArrangeFixture";
 
 class FixturesPage extends Component {
   state = {
@@ -16,7 +16,7 @@ class FixturesPage extends Component {
   };
 
   componentDidMount = async () => {
-    await this.setState(this.props.location.state);
+    await this.setState({type: this.props.match.params.type});
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -53,7 +53,7 @@ class FixturesPage extends Component {
     return (
       <div className="fixtures">
         <Header />
-        <SubNavBar type={this.state.type} />
+        <SubNavBar type={this.state.type}/>
         <div className="content">
           <div className="contentLeft">
             <div>

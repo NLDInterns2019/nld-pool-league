@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, matchPath } from "react-router-dom";
 
-const HeaderNavigator = (props) => {
+const HeaderNavigator = props => {
   var currentPath = window.location.pathname;
   /* makes '8-ball' bold */
   var eightBallCurrentStyle = matchPath(currentPath, {
@@ -32,12 +32,7 @@ const HeaderNavigator = (props) => {
       <ul>
         <li>
           <Link
-            to={{
-              pathname: "/8-ball/seasons",
-              state: {
-                type: 8
-              }
-            }}
+            to="/8-ball/seasons"
             style={eightBallCurrentStyle}
             id="eightBallLink"
           >
@@ -45,25 +40,13 @@ const HeaderNavigator = (props) => {
           </Link>
         </li>
         <li>
-          <Link
-            to={{
-              pathname: "/9-ball/seasons",
-              state: {
-                type: 9
-              }
-            }}
-            style={nineBallCurrentStyle}
-            id="nineBallLink"
-          >
+          <Link to="/9-ball/seasons" style={nineBallCurrentStyle} id="nineBallLink">
             9-Ball
           </Link>
         </li>
         <li>
           <Link
-            to={{
-              pathname: "/billiards/seasons",
-              state: {}
-            }}
+            to="/billiards/seasons"
             style={billiardsCurrentStyle}
             id="billiardsLink"
           >

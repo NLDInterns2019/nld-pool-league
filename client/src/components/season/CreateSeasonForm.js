@@ -115,7 +115,7 @@ class CreateSeasonForm extends Component {
         (temp = [
           ...temp,
           {
-            type: this.props.type,
+            type: parseInt(this.props.type),
             seasonId: parseInt(this.state.seasonName),
             staffName: playerName
           }
@@ -156,7 +156,6 @@ class CreateSeasonForm extends Component {
   }
 
   render() {
-    console.log(this.isValidSeason());
     return (
       <div id="createSeasonForm">
         <h3>Create a Season</h3>

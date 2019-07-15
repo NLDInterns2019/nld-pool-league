@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import backend from "../api/backend";
-import SubNavBar from "./SubNavBar.js";
-import Header from "./Header.js";
+import SubNavBar from "./nav/SubNavBar.js";
+import Header from "./nav/Header.js";
 import "../App.css";
-import CreateSeasonForm from "./CreateSeasonForm.js";
-import SeasonsList from "./SeasonsList.js";
+import CreateSeasonForm from "./season/CreateSeasonForm.js";
+import SeasonsList from "./season/SeasonsList.js";
 
 class SeasonsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       type: "",
-      seasons: [],
-      refresh: false
+      seasons: []
     };
   }
 
@@ -26,16 +25,13 @@ class SeasonsPage extends Component {
   };
 
   componentDidMount = async () => {
-    await this.setState(this.props.location.state);
+    await this.setState({ type: this.props.match.params.type });
     this.getSeasonsList();
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
-    if (
-      this.state.refresh !== prevState.refresh ||
-      this.props.location.state !== prevProps.location.state
-    ) {
-      await await this.setState(this.props.location.state);
+    if (this.props.match.params.type !== prevProps.match.params.type) {
+      await this.setState({ type: this.props.match.params.type });
       this.getSeasonsList();
     }
   };
@@ -63,12 +59,7 @@ class SeasonsPage extends Component {
           seasonId: parseInt(state.seasonName)
         })
       )
-      .then(() =>
-        this.setState({
-          //To force update
-          refresh: !this.state.refresh
-        })
-      )
+      .then(() => this.getSeasonsList())
       .catch(e => {
         window.alert("ERROR: Cannot add player(s) to an existing season!");
       });
@@ -81,14 +72,11 @@ class SeasonsPage extends Component {
         seasonId: parseInt(id)
       }
     });
-
-    this.setState({
-      //To force update
-      refresh: !this.state.refresh
-    });
+    this.getSeasonsList();
   };
 
   render() {
+    //console.log(this.state)
     return (
       <div id="seasons">
         <Header />
