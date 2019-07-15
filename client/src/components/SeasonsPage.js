@@ -78,11 +78,11 @@ class SeasonsPage extends Component {
   render() {
     //console.log(this.state)
     return (
-      <div className="seasons">
+      <div id="seasons">
         <Header />
         <SubNavBar type={this.state.type} />
         <div className="content">
-          <div className="seasonsListContainer">
+          <div id="seasonsListContainer">
             <SeasonsList
               type={this.state.type}
               seasons={this.state.seasons}

@@ -155,7 +155,7 @@ class CreateSeasonForm extends Component {
 
   render() {
     return (
-      <div className="createSeasonForm">
+      <div id="createSeasonForm">
         <h3>Create a Season</h3>
         <form>
           <label>Season number:</label>

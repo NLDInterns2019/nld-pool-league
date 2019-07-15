@@ -89,7 +89,7 @@ class SubmitScoreForm extends Component {
 
   render() {
     return (
-      <div className="submitScoreForm">
+      <div id="submitScoreForm">
         <h3>Submit Score</h3>
         <form>
           <input

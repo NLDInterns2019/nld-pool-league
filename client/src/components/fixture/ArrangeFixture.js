@@ -2,7 +2,7 @@ import React from "react";
 
 const ArrangeFixture = () => {
   return (
-    <div className="arrangeFixture">
+    <div id="arrangeFixture">
       <h3>Arrange Fixture</h3>
       <form>
         <label>Select your name:</label>
@@ -61,7 +61,7 @@ const ArrangeFixture = () => {
           <option value="14:00">14:00</option>
         </select>
         <br />
-        <div className="arrangeFixtureBtn">
+        <div id="arrangeFixtureBtn">
           <button type="button">Arrange</button>
         </div>
       </form>

@@ -17,6 +17,12 @@ h3 {
   margin-bottom: 1rem;
 }
 
+/* ==== Unordered Lists ==== */
+ul {
+  padding: 0rem;
+  margin: 0rem;
+}
+
 /* ==== Header ==== */
 .header {
   background-color: #034732;
@@ -38,11 +44,6 @@ h3 {
 .headerRight {
   vertical-align: middle;
   text-align: right;
-}
-
-.headerRight ul {
-  padding: 0rem;
-  margin: 0rem;
 }
 
 .headerLeft a {
@@ -92,8 +93,6 @@ h3 {
 }
 
 .subnav ul {
-  padding: 0rem;
-  margin: 0rem;
   display: inline-block;
   padding-left: 5rem;
 }
@@ -110,8 +109,6 @@ h3 {
   width: 50%;
   text-align: center;
   min-width: 700px;
-  /*overflow: auto;
-  max-height: 80vh;*/
 }
 
 .contentLeft {
@@ -164,8 +161,8 @@ table td {
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
-.createSeasonForm label,
-.submitScoreForm label {
+#createSeasonForm label,
+#submitScoreForm label {
   font-size: 12pt;
   padding-right: 0.5rem;
 }
@@ -180,24 +177,24 @@ table td {
 }
 
 /* ==== Submit Score Form ==== */
-.submitScoreForm input {
+#submitScoreForm input {
   margin-right: 0.5rem;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   width: 150px;
 }
 
-.submitScoreForm select {
+#submitScoreForm select {
   margin-right: 15px;
   margin-left: 5px;
 }
 
-#score1,
-#score2 {
+#submitScoreForm #score1,
+#submitScoreForm #score2 {
   width: 75px;
 }
 
-.submitScoreForm button {
+#submitScoreForm button {
   margin-top: 0.5rem;
 }
 
@@ -274,18 +271,16 @@ button:hover {
 }
 
 /* ==== Seasons Page ==== */
-.seasons .content li {
+#seasons .content li {
   list-style-type: none;
   font-size: 20pt;
 }
 
-.seasons .content ul {
-  padding-left: 0rem;
+#seasons .content ul {
   text-align: left;
-  margin: 0rem;
 }
 
-.seasons .content a {
+#seasons .content a {
   text-decoration: none;
   color: black;
   display: inline-block;
@@ -294,15 +289,15 @@ button:hover {
   vertical-align: middle;
 }
 
-.seasonsList button {
+#seasonsList button {
   text-align: right;
 }
 
-.seasons .content a:hover {
+#seasons .content a:hover {
   background-color: #f2f2f2;
 }
 
-.seasonsList h3 {
+#seasonsList h3 {
   text-align: center;
 }
 
@@ -321,11 +316,11 @@ button:hover {
   padding-top: 60px;
 }
 
-.form-popup .createSeasonForm .removeBtn {
+.form-popup #createSeasonForm .removeBtn {
   background-color: #e23e4b;
 }
 
-.form-popup .createSeasonForm {
+.form-popup #createSeasonForm {
   margin-top: 0rem;
   text-align: center;
 }
@@ -334,7 +329,7 @@ button:hover {
   margin-top: 0.5rem;
 }
 
-.seasonsList .delete-icon {
+#seasonsList .delete-icon {
   margin-left: 5.5rem;
 }
 
@@ -354,11 +349,11 @@ button:hover {
 
 /* ==== White Boxes ==== */
 .viewYourFixtures,
-.submitScoreForm,
-.seasonsListContainer,
-.app .createSeasonForm,
+#submitScoreForm,
+#seasonsListContainer,
+.app #createSeasonForm,
 .form-popup,
-.arrangeFixture {
+#arrangeFixture {
   background-color: white;
   width: 600px;
   margin: auto;
@@ -367,21 +362,21 @@ button:hover {
 }
 
 /* ==== Arrange Fixture ==== */
-.arrangeFixture label {
+#arrangeFixture label {
   padding-right: 0.5rem;
 }
 
-.arrangeFixture form {
+#arrangeFixture form {
   text-align: right;
   width: 50%;
   margin: auto;
 }
 
-.arrangeFixture select {
+#arrangeFixture select {
   margin-bottom: 1rem;
 }
 
-.arrangeFixtureBtn {
+#arrangeFixtureBtn {
   text-align: center;
 }
 
@@ -404,7 +399,7 @@ button:hover {
   margin-bottom: 1rem;
 }
 
-.viewBtn {
+#viewBtn {
   text-align: center;
 }
 
@@ -418,7 +413,6 @@ button:hover {
 
 .landingPage .content ul {
   list-style-type: none;
-  padding: 0rem;
 }
 
 .landingPage .content li {
@@ -428,7 +422,6 @@ button:hover {
 
 .landingPage .content a {
   text-decoration: none;
-  /*background-color: #0f5d0f;*/
   background-color: #127e5c;
   color: white;
   display: inline-block;
@@ -483,6 +476,10 @@ button:hover {
 @media only screen and (min-width: 1351px) {
   .contentRight {
     overflow: auto;
-    max-height: 80vh;
+    max-height: 100%;
+  }
+
+  .submitScoreForm {
+    margin-bottom: 8rem;
   }
 }
