@@ -101,6 +101,7 @@ class CreateSeasonForm extends Component {
     //SET STATE IS ASYNCHRONOUS
     this.setState({ players: newState }, () => {
       this.props.createSeason(this.state);
+      //this.postCreateSeasonSlackMessage();
       this.props.closePopUp();
       this.setState(this.initialState);
     });

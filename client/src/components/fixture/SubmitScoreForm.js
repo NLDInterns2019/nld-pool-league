@@ -69,7 +69,7 @@ class SubmitScoreForm extends Component {
         this.setState(this.initialState);
         this.postScoreUpdateSlackMessage();
       } else {
-        console.log("Score Message not sent");
+        console.log("Message not posted");
       }
     }
   }
