@@ -136,6 +136,7 @@ class CreateSeasonForm extends Component {
     return false;
   }
 
+  /* displays button if inputs are valid, otherwise, hides it */
   createSeasonBtnStyle() {
     if (
       this.isValidSeason() &&
@@ -209,10 +210,6 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-            {/*{this.isValidSeason() &&
-            this.isValidPlayersName() &&
-            this.isValidPlayersNumber() ? (
-            //USEFUL BUTTON*/}
             <button
               type="button"
               id="createSeasonBtn"
@@ -221,16 +218,6 @@ class CreateSeasonForm extends Component {
             >
               Create season
             </button>
-            {/*}) : (
-              //USELESS BUTTON
-              <button
-                type="button"
-                id="createSeasonBtn"
-                style={{ visibility: "hidden" }}
-              >
-                Create season
-            </button>
-            )}*/}
           </div>
         </form>
       </div>
