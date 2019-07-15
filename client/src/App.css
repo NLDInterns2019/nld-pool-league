@@ -338,12 +338,12 @@ button:hover {
   vertical-align: middle;
   width: 32px;
   height: 32px;
-  background: url("./delete-button-grey.svg");
+  background: url("./assets/delete-button-grey.svg");
 }
 
 .delete-icon:hover {
   cursor: pointer;
-  background: url("./delete-button.svg");
+  background: url("./assets/delete-button.svg");
 }
 
 /* ==== White Boxes ==== */
