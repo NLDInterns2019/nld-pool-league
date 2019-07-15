@@ -30,39 +30,48 @@ const SubNavBar = props => {
         fontWeight: "bold"
       }
     : {};
-
   return (
     <div className="subnav">
       <div className="nav">
         <h2>{title}</h2>
         <ul>
           <li>
-            <Link
-              to={{
-                pathname: "/" + title.toLowerCase() + "/seasons",
-                state: {
-                  type: props.type
-                }
-              }}
-              style={seasonsCurrentStyle}
-              id="seasonsLink"
-            >
-              Seasons
-            </Link>
+            {title !== "Billiards" ? (
+              <Link
+                to={`/${props.type}-ball/seasons`}
+                style={seasonsCurrentStyle}
+                id="seasonsLink"
+              >
+                Seasons
+              </Link>
+            ) : (
+              <Link
+                to={`/${props.type}/seasons`}
+                style={seasonsCurrentStyle}
+                id="seasonsLink"
+              >
+                Seasons
+              </Link>
+            )}
           </li>
           <li>
-            <Link
-              to={{
-                pathname: "/" + title.toLowerCase() + "/fixtures",
-                state: {
-                  type: props.type
-                }
-              }}
-              style={fixturesCurrentStyle}
-              id="fixturesLink"
-            >
-              Fixtures
-            </Link>
+            {title !== "Billiards" ? (
+              <Link
+                to={`/${props.type}-ball/fixtures`}
+                style={fixturesCurrentStyle}
+                id="fixturesLink"
+              >
+                Fixtures
+              </Link>
+            ) : (
+              <Link
+                to={`/${props.type}/fixtures`}
+                style={fixturesCurrentStyle}
+                id="fixturesLink"
+              >
+                Fixtures
+              </Link>
+            )}
           </li>
         </ul>
       </div>

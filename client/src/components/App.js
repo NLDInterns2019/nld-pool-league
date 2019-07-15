@@ -11,10 +11,13 @@ const App = () => {
     <Router>
       <div>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="*/overview" component={LeaguePage} />
-          <Route path="*/seasons" component={SeasonsPage} />
-          <Route path="*/fixtures" component={FixturesPage} />
+          <Route path="/" exact component={LandingPage} />
+          <Route path="/:type(8|9)-ball/overview/:seasonId?" component={LeaguePage} />
+          <Route path="/:type(billiards)/overview/:seasonId?" component={LeaguePage} />
+          <Route path="/:type(8|9)-ball/seasons" component={SeasonsPage} />
+          <Route path="/:type(billiards)/seasons" component={SeasonsPage} />
+          <Route path="/:type(8|9)-ball/fixtures" component={FixturesPage} />
+          <Route path="/:type(billiards)/fixtures" component={FixturesPage} />
           <Route component={NotFound} />
         </Switch>
       </div>

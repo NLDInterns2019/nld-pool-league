@@ -65,7 +65,8 @@ class App extends React.Component {
   };
 
   componentDidMount = async () => {
-    await this.setState(this.props.location.state);
+    await this.setState({type: this.props.match.params.type});
+    await this.setState({activeSeason: this.props.match.params.seasonId});
     this.updateData();
   };
 
@@ -103,7 +104,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <Header />
-        <SubNavBar type={this.state.type} />
+        <SubNavBar type={this.state.type}/>
         <div className="content">
           <div className="contentLeft">
             <LeagueTable

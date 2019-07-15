@@ -25,13 +25,13 @@ class SeasonsPage extends Component {
   };
 
   componentDidMount = async () => {
-    await this.setState(this.props.location.state);
+    await this.setState({type: this.props.match.params.type});
     this.getSeasonsList();
   };
 
   componentDidUpdate= async (prevProps, prevState) => {
-    if ((this.state.seasons !== prevState.seasons) || (this.props.location.state !== prevProps.location.state)) {
-      await this.setState(this.props.location.state);
+    if (this.props.match.params.type !== prevProps.match.params.type) {
+      await this.setState({type: this.props.match.params.type});
       this.getSeasonsList();
     }
   }
@@ -81,10 +81,11 @@ class SeasonsPage extends Component {
   };
 
   render() {
+    //console.log(this.state)
     return (
       <div className="seasons">
         <Header />
-        <SubNavBar type={this.state.type} />
+        <SubNavBar type={this.state.type}/>
         <div className="content">
           <div className="seasonsListContainer">
             <SeasonsList
