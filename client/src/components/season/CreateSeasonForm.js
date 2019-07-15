@@ -154,6 +154,30 @@ class CreateSeasonForm extends Component {
     }
   }
 
+  checkPlayersNumberError() {
+    if (this.isValidPlayersNumber()) {
+      return null;
+    } else {
+      return <div className="error">Not enough players</div>;
+    }
+  }
+
+  checkPlayersNameError() {
+    if (this.isValidPlayersName()) {
+      return null;
+    } else {
+      return <div className="error">Invalid player name(s)</div>;
+    }
+  }
+
+  checkSeasonError() {
+    if (this.isValidSeason()) {
+      return null;
+    } else {
+      return <div className="error">Enter a valid season number</div>;
+    }
+  }
+
   render() {
     return (
       <div id="createSeasonForm">
@@ -168,9 +192,7 @@ class CreateSeasonForm extends Component {
             onChange={e => this.setSeasonName(e)}
             onKeyPress={e => this.handleKeyDown(e)}
           />
-          {this.isValidSeason() ? null : (
-            <div className="error">Enter a valid season number!</div>
-          )}
+          {this.checkSeasonError()}
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
             {this.state.playersName.map((player, index) => {
@@ -195,12 +217,8 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
-            {this.isValidPlayersNumber() ? null : (
-              <div className="error">Not enough players</div>
-            )}
-            {this.isValidPlayersName() ? null : (
-              <div className="error">Invalid Player(s) name</div>
-            )}
+            {this.checkPlayersNumberError()}
+            {this.checkPlayersNameError()}
 
             {/* button for adding a player */}
             <button
