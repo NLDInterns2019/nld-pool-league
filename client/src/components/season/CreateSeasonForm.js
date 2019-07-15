@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SeasonsPage from "./SeasonsPage.js";
 const { WebClient } = require("@slack/web-api");
 
 class CreateSeasonForm extends Component {
