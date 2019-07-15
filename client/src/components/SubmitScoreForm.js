@@ -39,9 +39,9 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
+  /* posts a message to a slack channel with the submitted score */
   postScoreUpdateSlackMessage() {
     (async () => {
-      // Use the `chat.postMessage` method to send a message from this app
       await this.web.chat.postMessage({
         channel: this.channel,
         /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
@@ -102,6 +102,7 @@ class SubmitScoreForm extends Component {
             onChange={e => this.setScore1(e)}
           />
           <select
+            id="selectFixture"
             value={this.state.players}
             onChange={e => this.setState({ players: e.target.value })}
           >
