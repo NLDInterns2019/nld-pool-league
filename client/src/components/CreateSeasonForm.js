@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DeleteButton from "../delete-button.svg";
 
 class CreateSeasonForm extends Component {
   constructor(props) {

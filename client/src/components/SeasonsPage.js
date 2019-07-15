@@ -12,7 +12,6 @@ class SeasonsPage extends Component {
     this.state = {
       type: "",
       seasons: [],
-      refresh: false
     };
   }
 
@@ -31,8 +30,8 @@ class SeasonsPage extends Component {
   };
 
   componentDidUpdate= async (prevProps, prevState) => {
-    if ((this.state.refresh !== prevState.refresh) || (this.props.location.state !== prevProps.location.state)) {
-      await await this.setState(this.props.location.state);
+    if ((this.state.seasons !== prevState.seasons) || (this.props.location.state !== prevProps.location.state)) {
+      await this.setState(this.props.location.state);
       this.getSeasonsList();
     }
   }
@@ -78,11 +77,7 @@ class SeasonsPage extends Component {
         seasonId: parseInt(id)
       }
     });
-
-    this.setState({
-      //To force update
-      refresh: !this.state.refresh
-    });
+    this.getSeasonsList();
   };
 
   render() {

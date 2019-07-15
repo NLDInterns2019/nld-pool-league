@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import FixtureTable from "./FixtureTable";
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
