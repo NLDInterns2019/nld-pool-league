@@ -35,7 +35,7 @@ const SeasonsList = props => {
   });
 
   return (
-    <div className="seasonsList">
+    <div id="seasonsList">
       <h3>{props.type}-ball Seasons</h3>
       <ul>{listToBeDisplayed}</ul>
     </div>

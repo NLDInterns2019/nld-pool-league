@@ -156,7 +156,7 @@ class CreateSeasonForm extends Component {
   render() {
     console.log(this.isValidSeason());
     return (
-      <div className="createSeasonForm">
+      <div id="createSeasonForm">
         <h3>Create a Season</h3>
         <form>
           <label>Season number:</label>

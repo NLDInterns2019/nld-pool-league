@@ -85,7 +85,7 @@ class ViewYourFixtures extends React.Component {
               );
             })}
           </select>
-          <div className="viewBtn">
+          <div id="viewBtn">
             <button type="button" onClick={this.viewFixtures}>
               View
             </button>

@@ -30,12 +30,15 @@ class SeasonsPage extends Component {
     this.getSeasonsList();
   };
 
-  componentDidUpdate= async (prevProps, prevState) => {
-    if ((this.state.refresh !== prevState.refresh) || (this.props.location.state !== prevProps.location.state)) {
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (
+      this.state.refresh !== prevState.refresh ||
+      this.props.location.state !== prevProps.location.state
+    ) {
       await await this.setState(this.props.location.state);
       this.getSeasonsList();
     }
-  }
+  };
 
   openPopUp() {
     document.getElementById("popup").style.display = "block";
@@ -87,11 +90,11 @@ class SeasonsPage extends Component {
 
   render() {
     return (
-      <div className="seasons">
+      <div id="seasons">
         <Header />
         <SubNavBar type={this.state.type} />
         <div className="content">
-          <div className="seasonsListContainer">
+          <div id="seasonsListContainer">
             <SeasonsList
               type={this.state.type}
               seasons={this.state.seasons}
@@ -104,7 +107,11 @@ class SeasonsPage extends Component {
           </div>
           <div className="popup-container" id="container">
             <div className="form-popup" id="popup">
-              <CreateSeasonForm seasons={this.state.seasons} type={this.state.type} createSeason={this.createSeason} />
+              <CreateSeasonForm
+                seasons={this.state.seasons}
+                type={this.state.type}
+                createSeason={this.createSeason}
+              />
               <button type="button" id="cancelbtn" onClick={this.closePopUp}>
                 Cancel
               </button>
