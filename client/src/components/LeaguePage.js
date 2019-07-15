@@ -66,7 +66,9 @@ class App extends React.Component {
 
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
-    await this.setState({ activeSeason: parseInt(this.props.match.params.seasonId)});
+    await this.setState({
+      activeSeason: parseInt(this.props.match.params.seasonId)
+    });
 
     this.updateData();
   };

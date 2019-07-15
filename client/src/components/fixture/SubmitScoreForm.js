@@ -45,7 +45,7 @@ class SubmitScoreForm extends Component {
         channel: this.channel,
         /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
         text:
-          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
+          (this.props.type === "8" ? ":8ball:" : ":9ball:") +
           " RESULT:\n" +
           this.state.players.split(" ")[0] +
           "  " +
@@ -65,9 +65,12 @@ class SubmitScoreForm extends Component {
       alert("Not a valid input");
     } else {
       /* submit score */
-      this.props.changeFixtureScore(this.prepareSubmitState());
-      this.setState(this.initialState);
-      this.postScoreUpdateSlackMessage();
+      if (this.props.changeFixtureScore(this.prepareSubmitState())) {
+        this.setState(this.initialState);
+        this.postScoreUpdateSlackMessage();
+      } else {
+        console.log("Score Message not sent");
+      }
     }
   }
 
