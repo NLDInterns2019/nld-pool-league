@@ -480,10 +480,11 @@ router.post("/generate", async (req, res) => {
 router.get("/overdue", (req, res) => {
   let seasonId = parseInt(req.params.seasonId);
   let currentDate = new Date();
+  var  currentDate = currentDate.getTime();
   eight_nine_ball_fixtures
     .query()
     .where({ seasonId: seasonId })
-    .where("date", "!=", currentDate)
+    .where("date", "<", currentDate)
     .then(
       fixture => {
         if (!fixture.length) {
