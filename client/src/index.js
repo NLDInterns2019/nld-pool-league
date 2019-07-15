@@ -1,12 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-
-import Routes from "./components/Routes.js";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import LandingPage from "./components/LandingPage.js";
+import App from "./components/App";
+import SeasonsPage from "./components/SeasonsPage.js";
+import FixturesPage from "./components/FixturesPage.js";
+import NotFound from "./components/NotFound";
 
 ReactDOM.render(
   <Router>
-    <Routes />
+    <div>
+      <Switch>
+        <Route exact path="/" component={LandingPage} />
+        <Route path="*/overview" component={App} />
+        <Route path="*/seasons" component={SeasonsPage} />
+        <Route path="*/fixtures" component={FixturesPage} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
   </Router>,
   document.getElementById("root")
 );
