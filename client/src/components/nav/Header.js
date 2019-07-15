@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../../App.css";
 import HeaderNavigator from "./HeaderNavigator.js";
 import { Link, matchPath } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import backend from "../api/backend";
-import SubNavBar from "./SubNavBar.js";
-import Header from "./Header.js";
+import SubNavBar from "./nav/SubNavBar.js";
+import Header from "./nav/Header.js";
 import "../App.css";
 import CreateSeasonForm from "./season/CreateSeasonForm.js";
 import SeasonsList from "./season/SeasonsList.js";

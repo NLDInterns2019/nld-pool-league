@@ -1,11 +1,11 @@
 import React from "react";
 import backend from "../api/backend";
 
-import Header from "./Header.js";
-import SubNavBar from "./SubNavBar.js";
-import LeagueTable from "./LeagueTable.js";
-import FixtureList from "./fixture/FixtureList.js/index.js";
-import SubmitScoreForm from "./league/SubmitScoreForm.js/index.js";
+import Header from "./nav/Header.js";
+import SubNavBar from "./nav//SubNavBar.js";
+import LeagueTable from "./league/LeagueTable.js";
+import FixtureList from "./fixture/FixtureList";
+import SubmitScoreForm from "./league/SubmitScoreForm.js";
 
 class App extends React.Component {
   state = {
