@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+const { WebClient } = require("@slack/web-api");
 
 class CreateSeasonForm extends Component {
   constructor(props) {
@@ -12,6 +13,13 @@ class CreateSeasonForm extends Component {
 
     this.state = this.initialState;
     this.createSeason = this.createSeason.bind(this);
+
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
   }
 
   addPlayer() {
@@ -27,6 +35,22 @@ class CreateSeasonForm extends Component {
         return player;
       })
     });
+  }
+
+  postCreateSeasonSlackMessage() {
+    (async () => {
+      await this.web.chat.postMessage({
+        channel: this.channel,
+        text:
+          "New " +
+          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
+          " season called 'Season " +
+          this.state.seasonName +
+          "' created"
+      });
+
+      console.log("Season message posted!");
+    })();
   }
 
   handleKeyDown(e, index) {
@@ -112,6 +136,23 @@ class CreateSeasonForm extends Component {
     return false;
   }
 
+  /* displays button if inputs are valid, otherwise, hides it */
+  createSeasonBtnStyle() {
+    if (
+      this.isValidSeason() &&
+      this.isValidPlayersName() &&
+      this.isValidPlayersNumber()
+    ) {
+      return {
+        display: "inline-block"
+      };
+    } else {
+      return {
+        display: "none"
+      };
+    }
+  }
+
   render() {
     console.log(this.isValidSeason());
     return (
@@ -128,7 +169,7 @@ class CreateSeasonForm extends Component {
             onKeyPress={e => this.handleKeyDown(e)}
           />
           {this.isValidSeason() ? null : (
-            <div>Enter a valid season number!</div>
+            <div className="error">Enter a valid season number!</div>
           )}
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
@@ -154,8 +195,12 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
-            {this.isValidPlayersNumber()? null : <div>Not enough player</div>}
-            {this.isValidPlayersName()? null : <div>Invalid Player(s) name</div>}
+            {this.isValidPlayersNumber() ? null : (
+              <div className="error">Not enough players</div>
+            )}
+            {this.isValidPlayersName() ? null : (
+              <div className="error">Invalid Player(s) name</div>
+            )}
 
             {/* button for adding a player */}
             <button
@@ -165,28 +210,14 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-            {this.isValidSeason() &&
-            this.isValidPlayersName() &&
-            this.isValidPlayersNumber() ? 
-            (
-              //USEFUL BUTTON
-              <button
-                type="button"
-                id="createSeasonBtn"
-                onClick={this.createSeason}
-              >
-                Create season
-              </button>
-            ) : (
-              //USELESS BUTTON
-              <button
-                type="button"
-                id="createSeasonBtn"
-                style={{ visibility: "hidden" }}
-              >
-                Create season
-              </button>
-            )}
+            <button
+              type="button"
+              id="createSeasonBtn"
+              onClick={this.createSeason}
+              style={this.createSeasonBtnStyle()}
+            >
+              Create season
+            </button>
           </div>
         </form>
       </div>

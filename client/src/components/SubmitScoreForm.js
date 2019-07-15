@@ -56,7 +56,7 @@ class SubmitScoreForm extends Component {
           this.state.players.split(" ")[1]
       });
 
-      console.log("Message posted!");
+      console.log("Score message posted!");
     })();
   }
 
