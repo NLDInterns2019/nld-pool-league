@@ -178,24 +178,21 @@ table td {
 
 /* ==== Submit Score Form ==== */
 #submitScoreForm input {
-  margin-right: 0.5rem;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
-  width: 150px;
 }
 
 #submitScoreForm select {
-  margin-right: 15px;
-  margin-left: 5px;
-}
-
-#submitScoreForm #score1,
-#submitScoreForm #score2 {
-  width: 75px;
+  margin-bottom: 1rem;
 }
 
 #submitScoreForm button {
   margin-top: 0.5rem;
+}
+
+.selectWinner label:hover,
+.selectWinner input:hover {
+  cursor: pointer;
 }
 
 /* ==== Inputs ==== */

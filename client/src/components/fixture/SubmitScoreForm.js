@@ -79,27 +79,52 @@ class SubmitScoreForm extends Component {
     return submitableState;
   }
 
-  setScore1(e) {
-    this.setState({ score1: e.target.value });
+  setScore1(score) {
+    this.setState({ score1: score });
   }
 
-  setScore2(e) {
-    this.setState({ score2: e.target.value });
+  setScore2(score) {
+    this.setState({ score2: score });
+  }
+
+  handleRadioClick() {
+    if (this.refs.player1won.checked) {
+      this.setScore1(2);
+      this.setScore2(0);
+    } else if (this.refs.player2won.checked) {
+      this.setScore1(0);
+      this.setScore2(2);
+    } else {
+      this.setScore1(1);
+      this.setScore2(1);
+    }
+  }
+
+  resultStyle() {
+    if (this.state.players === "") {
+      return {
+        display: "none"
+      };
+    } else {
+      return {
+        display: "block"
+      };
+    }
   }
 
   render() {
     return (
       <div id="submitScoreForm">
-        <h3>Submit Score</h3>
+        <h3>Submit Result</h3>
         <form>
-          <input
+          {/*<input
             type="number"
             min="0"
             placeholder="Score"
             id="score1"
             value={this.state.score1}
             onChange={e => this.setScore1(e)}
-          />
+          />*/}
           <select
             id="selectFixture"
             value={this.state.players}
@@ -121,25 +146,61 @@ class SubmitScoreForm extends Component {
               );
             })}
           </select>
-
-          <input
+          {/*<input
             type="number"
             min="0"
             placeholder="Score"
             id="score2"
             value={this.state.score2}
             onChange={e => this.setScore2(e)}
-          />
+          />*/}
           <br />
+          <div id="result" className="selectWinner" style={this.resultStyle()}>
+            <label>Who won?</label> <br />
+            <input
+              id="player1won"
+              ref="player1won"
+              type="radio"
+              name="result"
+              value="player1"
+              onClick={this.handleRadioClick.bind(this)}
+            />
+            <label htmlFor="player1won">
+              {this.state.players.split(" ")[0]}
+            </label>
+            <input
+              id="draw"
+              ref="draw"
+              type="radio"
+              name="result"
+              value="draw"
+              onClick={this.handleRadioClick.bind(this)}
+            />
+            <label htmlFor="draw">DRAW</label>
+            <input
+              id="player2won"
+              ref="player2won"
+              type="radio"
+              name="result"
+              value="player2"
+              onClick={this.handleRadioClick.bind(this)}
+            />
+            <label htmlFor="player2won">
+              {this.state.players.split(" ")[1]}
+            </label>{" "}
+            <br />
+          </div>
           <button
             type="button"
             id="submitScoreBtn"
             onClick={() => {
-              if (window.confirm("Are you sure you want to submit this score?"))
+              if (
+                window.confirm("Are you sure you want to submit this result?")
+              )
                 this.handleSubmit();
             }}
           >
-            Submit Score
+            Submit Result
           </button>
         </form>
       </div>
