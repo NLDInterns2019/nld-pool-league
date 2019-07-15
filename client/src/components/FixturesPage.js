@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import backend from "../../api/backend";
+import backend from "../api/backend";
 
-import Header from "../Header";
-import SubNavBar from "../SubNavBar";
-import FixtureList from "./FixtureList";
-import ViewYourFixtures from "../FixturePage";
-import ArrangeFixture from "./ArrangeFixture";
+import Header from "./nav/Header";
+import SubNavBar from "./nav/SubNavBar";
+import FixtureList from "./fixture/FixtureList";
+import ViewYourFixtures from "./fixture/ViewYourFixtures";
+import ArrangeFixture from "./fixture/ArrangeFixture";
 
 class FixturesPage extends Component {
   state = {

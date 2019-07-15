@@ -1,5 +1,5 @@
 import React from "react";
-import backend from "../api/backend";
+import backend from "../../api/backend";
 
 class ViewYourFixtures extends React.Component {
   state = {

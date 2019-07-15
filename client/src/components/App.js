@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./LandingPage.js";
 import LeaguePage from "./LeaguePage";
 import SeasonsPage from "./SeasonsPage.js";
-import FixturesPage from "./FixturePage";
+import FixturesPage from "./FixturesPage";
 import NotFound from "./NotFound";
 
 const App = () => {
