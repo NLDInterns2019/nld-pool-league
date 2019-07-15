@@ -59,10 +59,10 @@ class CreateSeasonForm extends Component {
       this.addPlayer();
     } else if (e.key === "ArrowUp" && index > 1) {
       console.log("up arrow pressed");
-      document.getElementById("inputPlayer" + (index - 1)).focus();
+      this.refs["inputPlayer" + (index - 1)].focus();
     } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
       console.log("down arrow pressed");
-      document.getElementById("inputPlayer" + (index + 1)).focus();
+      this.refs["inputPlayer" + (index + 1)].focus();
     }
   }
 
@@ -102,7 +102,6 @@ class CreateSeasonForm extends Component {
     this.setState({ players: newState }, () => {
       this.props.createSeason(this.state);
       this.props.closePopUp();
-      //document.getElementById("container").style.display = "none";
       this.setState(this.initialState);
     });
   }
@@ -204,6 +203,7 @@ class CreateSeasonForm extends Component {
                     placeholder={"Player " + (index + 1)}
                     className="inputPlayerName"
                     id={"inputPlayer" + (index + 1)}
+                    ref={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                     onKeyDown={e => this.handleKeyDown(e, index + 1)}
