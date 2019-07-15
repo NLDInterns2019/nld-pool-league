@@ -136,6 +136,22 @@ class CreateSeasonForm extends Component {
     return false;
   }
 
+  createSeasonBtnStyle() {
+    if (
+      this.isValidSeason() &&
+      this.isValidPlayersName() &&
+      this.isValidPlayersNumber()
+    ) {
+      return {
+        display: "inline-block"
+      };
+    } else {
+      return {
+        display: "none"
+      };
+    }
+  }
+
   render() {
     console.log(this.isValidSeason());
     return (
@@ -179,7 +195,7 @@ class CreateSeasonForm extends Component {
               );
             })}
             {this.isValidPlayersNumber() ? null : (
-              <div className="error">Not enough player</div>
+              <div className="error">Not enough players</div>
             )}
             {this.isValidPlayersName() ? null : (
               <div className="error">Invalid Player(s) name</div>
@@ -193,18 +209,19 @@ class CreateSeasonForm extends Component {
             >
               + Add player
             </button>
-            {this.isValidSeason() &&
+            {/*{this.isValidSeason() &&
             this.isValidPlayersName() &&
             this.isValidPlayersNumber() ? (
-              //USEFUL BUTTON
-              <button
-                type="button"
-                id="createSeasonBtn"
-                onClick={this.createSeason}
-              >
-                Create season
-              </button>
-            ) : (
+            //USEFUL BUTTON*/}
+            <button
+              type="button"
+              id="createSeasonBtn"
+              onClick={this.createSeason}
+              style={this.createSeasonBtnStyle()}
+            >
+              Create season
+            </button>
+            {/*}) : (
               //USELESS BUTTON
               <button
                 type="button"
@@ -212,8 +229,8 @@ class CreateSeasonForm extends Component {
                 style={{ visibility: "hidden" }}
               >
                 Create season
-              </button>
-            )}
+            </button>
+            )}*/}
           </div>
         </form>
       </div>
