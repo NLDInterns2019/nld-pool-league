@@ -10,7 +10,7 @@ exports.up = function(knex) {
     table.integer("score2");
     table.integer("group");
     table.integer("date");
-    table.date("booked");
+    table.integer("booked");
 
     table
       .foreign(["type","seasonId", "player1"])
