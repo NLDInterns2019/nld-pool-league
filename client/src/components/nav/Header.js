@@ -1,10 +1,17 @@
 import React from "react";
 import "../../App.css";
+import { Link, matchPath, withRouter } from "react-router-dom";
+import auth0Client from "../../Auth";
 import HeaderNavigator from "./HeaderNavigator.js";
-import { Link, matchPath } from "react-router-dom";
 
-const Header = () => {
+const Header = (props) => {
   var currentPath = window.location.pathname;
+  /* SIGN OUT */
+  const signOut = () => {
+    auth0Client.signOut();
+    props.history.replace("/");
+  };
+
   return (
     <div className="header" id="headerBox">
       <div className="headerLeft">
@@ -14,11 +21,11 @@ const Header = () => {
         {matchPath(currentPath, { path: "/", exact: true }) ? (
           <div />
         ) : (
-          <HeaderNavigator />
+          <HeaderNavigator signOut={signOut} />
         )}
       </div>
     </div>
   );
 };
 
-export default Header;
+export default withRouter(Header);

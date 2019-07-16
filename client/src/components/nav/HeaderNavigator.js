@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, matchPath } from "react-router-dom";
+import { Link, matchPath, withRouter } from "react-router-dom";
+import auth0Client from "../../Auth";
 
 const HeaderNavigator = props => {
   var currentPath = window.location.pathname;
@@ -40,7 +41,11 @@ const HeaderNavigator = props => {
           </Link>
         </li>
         <li>
-          <Link to="/9-ball/seasons" style={nineBallCurrentStyle} id="nineBallLink">
+          <Link
+            to="/9-ball/seasons"
+            style={nineBallCurrentStyle}
+            id="nineBallLink"
+          >
             9-Ball
           </Link>
         </li>
@@ -53,9 +58,30 @@ const HeaderNavigator = props => {
             Billiards
           </Link>
         </li>
+        <li>
+          <Link>
+            {!auth0Client.isAuthenticated() && (
+              <button className="btn btn-dark" onClick={auth0Client.signIn}>
+                Sign In
+              </button>
+            )}
+            {auth0Client.isAuthenticated() && (
+              <div>
+                <button
+                  className="btn btn-dark"
+                  onClick={() => {
+                    props.signOut();
+                  }}
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </Link>
+        </li>
       </ul>
     </div>
   );
 };
 
-export default HeaderNavigator;
+export default withRouter(HeaderNavigator);
