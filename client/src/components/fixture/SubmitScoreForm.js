@@ -120,14 +120,7 @@ class SubmitScoreForm extends Component {
       <div id="submitScoreForm">
         <h3>Submit Result</h3>
         <form>
-          {/*<input
-            type="number"
-            min="0"
-            placeholder="Score"
-            id="score1"
-            value={this.state.score1}
-            onChange={e => this.setScore1(e)}
-          />*/}
+          <label>Select fixture:</label>
           <select
             id="selectFixture"
             value={this.state.players}
@@ -149,14 +142,6 @@ class SubmitScoreForm extends Component {
               );
             })}
           </select>
-          {/*<input
-            type="number"
-            min="0"
-            placeholder="Score"
-            id="score2"
-            value={this.state.score2}
-            onChange={e => this.setScore2(e)}
-          />*/}
           <br />
           <div id="result" className="selectWinner" style={this.resultStyle()}>
             <label>Who won?</label> <br />
