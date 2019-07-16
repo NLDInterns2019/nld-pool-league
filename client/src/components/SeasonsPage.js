@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import auth0Client from "../Auth";
 import backend from "../api/backend";
 import SubNavBar from "./nav/SubNavBar.js";
 import Header from "./nav/Header.js";
@@ -49,37 +54,80 @@ class SeasonsPage extends Component {
   // callback is to make sure the slack message only posts after the database has been updated
   createSeason = (state, callback) => {
     backend
-      .post("/api/89ball_league/add/players", {
-        type: parseInt(this.state.type),
-        seasonId: parseInt(state.seasonName),
-        staffs: state.players
-      })
-      .then(() =>
-        backend.post("/api/89ball_fixture/generate/", {
+      .post(
+        "/api/89ball_league/add/players",
+        {
           type: parseInt(this.state.type),
-          seasonId: parseInt(state.seasonName)
-        })
+          seasonId: parseInt(state.seasonName),
+          staffs: state.players
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
+      .then(() =>
+        backend.post(
+          "/api/89ball_fixture/generate/",
+          {
+            type: parseInt(this.state.type),
+            seasonId: parseInt(state.seasonName)
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        )
       )
       .then(() => this.getSeasonsList(), callback)
       .catch(e => {
-        window.alert("ERROR: Cannot add player(s) to an existing season!");
+        this.toastUnauthorised();
       });
   };
 
   deleteSeason = async id => {
-    await backend.delete("/api/89ball_season/delete/", {
-      data: {
-        type: parseInt(this.state.type),
-        seasonId: parseInt(id)
-      }
+    await backend
+      .delete("/api/89ball_season/delete/", {
+        data: {
+          type: parseInt(this.state.type),
+          seasonId: parseInt(id)
+        },
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      })
+      .then(() => {
+        this.getSeasonsList();
+        this.toastSucess("Deleted");
+      })
+      .catch(e => {
+        this.toastUnauthorised();
+      });
+  };
+
+  toastUnauthorised = () => {
+    toast.error("⛔ Unauthorised! Please login", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
     });
-    this.getSeasonsList();
+  };
+
+  toastSucess = message => {
+    toast.success(`✅ ${message}!`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
   };
 
   render() {
     //console.log(this.state)
     return (
       <div id="seasons">
+        <ToastContainer />
         <Header />
         <SubNavBar type={this.state.type} />
         <div className="content">
@@ -121,4 +169,4 @@ class SeasonsPage extends Component {
   }
 }
 
-export default SeasonsPage;
+export default withRouter(SeasonsPage);

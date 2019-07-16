@@ -63,6 +63,9 @@ class CreateSeasonForm extends Component {
     } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
       console.log("down arrow pressed");
       this.refs["inputPlayer" + (index + 1)].focus();
+    } else if (e.key === "Backspace" && e.target.value === "" && index > 1) {
+      this.removePlayer(index - 1);
+      this.refs["inputPlayer" + (index - 1)].focus();
     }
   }
 

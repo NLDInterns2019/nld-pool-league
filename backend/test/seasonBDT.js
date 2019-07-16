@@ -13,7 +13,20 @@ chai.use(chaiHttp);
 chai.use(chaiLike);
 chai.use(chaiThings);
 
+var token = require("./function/token");
+
+
+
 describe("Seasons", () => {
+  let bearerToken;
+  //Get token
+  before(function(done) {
+    token().then(result => {
+      bearerToken = result;
+      done();
+    });
+  });
+
   //PREPARE DB
   beforeEach(function(done) {
     knex.migrate
@@ -70,6 +83,7 @@ describe("Seasons", () => {
       chai
         .request(server)
         .delete("/api/89ball_season/delete/")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2019
@@ -94,6 +108,7 @@ describe("Seasons", () => {
       chai
         .request(server)
         .delete("/api/89ball_season/delete/")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 9,
           seasonId: 2019
@@ -118,6 +133,7 @@ describe("Seasons", () => {
       chai
         .request(server)
         .delete("/api/89ball_season/delete/")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2077

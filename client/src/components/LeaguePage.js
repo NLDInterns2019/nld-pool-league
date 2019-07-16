@@ -1,5 +1,7 @@
 import React from "react";
 import backend from "../api/backend";
+import auth0Client from "../Auth";
+import { ToastContainer, toast } from "react-toastify";
 
 import Header from "./nav/Header.js";
 import SubNavBar from "./nav//SubNavBar.js";
@@ -14,7 +16,6 @@ class App extends React.Component {
     unplayedFixtures: [],
     fixtures: [],
     activeSeason: 0,
-    refresh: "false",
     groupCount: 0
   };
 
@@ -73,43 +74,59 @@ class App extends React.Component {
     this.updateData();
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (this.state.refresh !== prevState.refresh) {
-      this.updateData();
-    }
-  };
-
-  // callback is to make sure the slack message only posts after the database has been updated
-  changeFixtureScore = async (state, callback) => {
+  changeFixtureScore = async state => {
     console.log(state);
     await backend
-      .put("/api/89ball_fixture/edit", {
-        type: parseInt(this.state.type),
-        seasonId: this.state.activeSeason,
-        player1: state.player1,
-        score1: parseInt(state.score1),
-        player2: state.player2,
-        score2: parseInt(state.score2)
-      })
-      .then(
-        () =>
-          this.setState({
-            //To force update
-            refresh: !this.state.refresh
-          }),
-        callback
+      .put(
+        "/api/89ball_fixture/edit",
+        {
+          type: parseInt(this.state.type),
+          seasonId: this.state.activeSeason,
+          player1: state.player1,
+          score1: parseInt(state.score1),
+          player2: state.player2,
+          score2: parseInt(state.score2)
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
+      .then(() => {
+        this.updateData();
+        this.toastSucess("Score Changed")
+      }
       )
       .catch(e => {
-        window.alert("ERROR: Match not found / match is finished");
+        this.toastUnauthorised();
       });
   };
 
-  render() {
-    //HELP TO CHECK STATE
-    //console.log(this.state);
+  toastUnauthorised = () => {
+    toast.error("⛔ Unauthorised! Please login", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
 
+  toastSucess = message => {
+    toast.success(`✅ ${message}!`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  render() {
     return (
       <div className="app">
+        <ToastContainer />
         <Header />
         <SubNavBar type={this.state.type} />
         <div className="content">

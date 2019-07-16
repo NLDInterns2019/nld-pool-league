@@ -3,6 +3,7 @@ var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
+const auth = require("../auth");
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
@@ -254,7 +255,7 @@ router.get("/:seasonId/:staffName", (req, res) => {
   PUT handler for /api/89ball_fixture/edit/
   Function: To update the score
 */
-router.put("/edit", async (req, res) => {
+router.put("/edit",auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
@@ -288,7 +289,11 @@ router.put("/edit", async (req, res) => {
     staffName: req.body.player1
   };
 
-
+  const p2Attributes = {
+    type: req.body.type,
+    seasonId: req.body.seasonId,
+    staffName: req.body.player2
+  };
 
   //Check if fixture exist and score is still null (means fixture hasnt been played)
   try {
@@ -375,7 +380,7 @@ router.put("/edit", async (req, res) => {
       return;
     }
   } catch (e) {
-    res.status(500).send("5");
+    res.status(500).send();
     return;
   }
 
@@ -390,7 +395,7 @@ router.put("/edit", async (req, res) => {
       return;
     }
   } catch (e) {
-    res.status(500).send("6");
+    res.status(500).send();
     return;
   }
 
@@ -402,7 +407,7 @@ router.put("/edit", async (req, res) => {
   POST handler for /api/89_ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
 */
-router.post("/generate", async (req, res) => {
+router.post("/generate",auth.checkJwt, async (req, res) => {
   var group = 0;
   var aesDate = new Date(); 
   aesDate.setDate(aesDate.getDate() + 7);

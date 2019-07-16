@@ -7,6 +7,8 @@ var chaiLike = require("chai-like");
 var server = require("../server");
 var knex = require("../db/knex");
 
+var token = require("./function/token");
+
 var should = chai.should();
 
 chai.use(chaiHttp);
@@ -14,6 +16,15 @@ chai.use(chaiLike);
 chai.use(chaiThings);
 
 describe("League", () => {
+  let bearerToken;
+  //Get token
+  before(function(done) {
+    token().then(result => {
+      bearerToken = result;
+      done();
+    });
+  });
+
   //PREPARE DB
   beforeEach(function(done) {
     knex.migrate
@@ -181,6 +192,7 @@ describe("League", () => {
       chai
         .request(server)
         .post("/api/89ball_league/add/player")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2222,
@@ -207,6 +219,7 @@ describe("League", () => {
       chai
         .request(server)
         .post("/api/89ball_league/add/player")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 9,
           seasonId: 2222,
@@ -233,6 +246,7 @@ describe("League", () => {
       chai
         .request(server)
         .post("/api/89ball_league/add/player")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2019,
@@ -250,6 +264,7 @@ describe("League", () => {
       chai
         .request(server)
         .post("/api/89ball_league/add/players")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2222,
@@ -284,6 +299,7 @@ describe("League", () => {
       chai
         .request(server)
         .post("/api/89ball_league/add/players")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 9,
           seasonId: 2222,
@@ -318,6 +334,7 @@ describe("League", () => {
       chai
         .request(server)
         .post("/api/89ball_league/add/players")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           seasonId: 2019,
           staffName: "Michael"
@@ -334,6 +351,7 @@ describe("League", () => {
       chai
         .request(server)
         .delete("/api/89ball_league/delete/player")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2019,
@@ -360,6 +378,7 @@ describe("League", () => {
       chai
         .request(server)
         .delete("/api/89ball_league/delete/player")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 9,
           seasonId: 2019,
@@ -386,6 +405,7 @@ describe("League", () => {
       chai
         .request(server)
         .delete("/api/89ball_league/delete/player")
+        .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
           seasonId: 2077,

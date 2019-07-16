@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
+const auth = require("../auth");
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
@@ -41,7 +42,7 @@ router.get("/", (req, res) => {
   DELETE handler for /api/89ball_season/delete/
   Function: To delete seasons (NOTE YET IMPLEMENTED IN THE UI)
 */
-router.delete("/delete", (req, res) => {
+router.delete("/delete", auth.checkJwt,  (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
