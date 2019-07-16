@@ -459,7 +459,7 @@ router.post("/generate",auth.checkJwt, async (req, res) => {
         }
       },
       e => {
-        res.status(400).send();
+        res.status(400).send(e);
       }
     );
     group++;

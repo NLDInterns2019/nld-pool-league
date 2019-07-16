@@ -74,9 +74,14 @@ class SeasonsPage extends Component {
     console.log("Season message posted!");
   };
 
-  createSeason = state => {
-    backend
-      .post(
+  createSeason = async state => {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${auth0Client.getIdToken()}`
+      };
+
+      await backend.post(
         "/api/89ball_league/add/players",
         {
           type: parseInt(this.state.type),
@@ -84,29 +89,29 @@ class SeasonsPage extends Component {
           staffs: state.players
         },
         {
-          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          headers: headers
         }
-      )
-      .then(() => {
-        backend.post(
+      );
+
+      await backend
+        .post(
           "/api/89ball_fixture/generate/",
           {
             type: parseInt(this.state.type),
             seasonId: parseInt(state.seasonName)
           },
           {
-            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            headers: headers
           }
-        );
-      })
-      .then(() => {
-        this.getSeasonsList();
-        this.toastSuccess("Season Created");
-        this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
-      })
-      .catch(e => {
-        this.toastUnauthorised();
-      });
+        )
+        .then(() => {
+          this.getSeasonsList();
+          this.toastSuccess("Season Created");
+          this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
+        });
+    } catch (e) {
+      this.toastUnauthorised();
+    }
   };
 
   deleteSeason = async id => {
