@@ -6,7 +6,7 @@ module.exports = () => {
     url: "https://dev-q70ogh1b.eu.auth0.com/oauth/token",
     headers: { "content-type": "application/json" },
     body:
-      '{"client_id":"90sFoptiMN30dXtcvbj0DY36DbVfukho","client_secret":"Z8PYwXm4FE7w1rWNBlSF1GDjjdtwb0RAkKZ1pZehhYBb3pXQWn_c8qRXmgw9h13R","audience":"https://dev-q70ogh1b.eu.auth0.com/api/v2/","grant_type":"client_credentials"}'
+      `{"client_id":"${process.env.CLIENT_ID}","client_secret":"${process.env.CLIENT_SECRET}","audience":"${process.env.AUDIENCE}","grant_type":"client_credentials"}`
   };
 
   return new Promise(function(resolve, reject){
