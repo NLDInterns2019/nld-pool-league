@@ -77,7 +77,11 @@ class SeasonsPage extends Component {
           }
         )
       )
-      .then(() => this.getSeasonsList(), callback)
+      .then(
+        () => this.getSeasonsList(),
+        this.toastSuccess("Season Created"),
+        callback
+      )
       .catch(e => {
         this.toastUnauthorised();
       });
@@ -94,7 +98,7 @@ class SeasonsPage extends Component {
       })
       .then(() => {
         this.getSeasonsList();
-        this.toastSucess("Deleted");
+        this.toastSuccess("Deleted");
       })
       .catch(e => {
         this.toastUnauthorised();
@@ -112,7 +116,7 @@ class SeasonsPage extends Component {
     });
   };
 
-  toastSucess = message => {
+  toastSuccess = message => {
     toast.success(`✅ ${message}!`, {
       position: "top-center",
       autoClose: 1000,
