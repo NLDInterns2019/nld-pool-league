@@ -64,13 +64,13 @@ class SubmitScoreForm extends Component {
     if (!this.isValid()) {
       alert("Not a valid input");
     } else {
-      this.clearRadioButtons();
       /* submit score */
       this.props.changeFixtureScore(
         this.prepareSubmitState(),
         this.postScoreUpdateSlackMessage()
       );
       this.setState(this.initialState);
+      this.clearRadioButtons();
     }
   }
 

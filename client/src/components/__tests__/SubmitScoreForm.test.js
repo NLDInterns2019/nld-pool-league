@@ -3,7 +3,7 @@ import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import SubmitScoreForm from "../SubmitScoreForm.js";
+import SubmitScoreForm from "../fixture/SubmitScoreForm";
 import sinon from "sinon";
 chai.should();
 
@@ -11,53 +11,22 @@ configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
 
 const wrapper = shallow(<SubmitScoreForm unplayedFixtures={[""]} />);
-const score1 = wrapper.find("#score1");
-const score2 = wrapper.find("#score2");
 const selectFixture = wrapper.find("#selectFixture");
 const submitScoreBtn = wrapper.find("#submitScoreBtn");
+const player1RadioBtn = wrapper.find("#player1won");
+const player2RadioBtn = wrapper.find("#player2won");
+const drawRadioBtn = wrapper.find("#draw");
 
 /* ================================================================================================== */
 
 describe("Rendering", () => {
   it("should render all the elements", () => {
     wrapper.exists().should.be.true;
-    score1.exists().should.be.true;
-    score2.exists().should.be.true;
     selectFixture.exists().should.be.true;
     submitScoreBtn.exists().should.be.true;
-  });
-});
-
-/* ================================================================================================== */
-
-describe("Type value into boxes", () => {
-  it("should run the relevant functions", () => {
-    var score1Spy = sinon.spy(SubmitScoreForm.prototype, "setScore1");
-    var score2Spy = sinon.spy(SubmitScoreForm.prototype, "setScore2");
-
-    const eventScore1 = { target: { value: "2" } };
-    const eventScore2 = { target: { value: "0" } };
-
-    score1.simulate("change", eventScore1);
-    score1Spy.calledOnce.should.be.true;
-
-    score2.simulate("change", eventScore2);
-    score2Spy.calledOnce.should.be.true;
-  });
-
-  /* ================================================================================================== */
-
-  describe("Type value into score boxes", () => {
-    it("should update the state", () => {
-      const eventScore1 = { target: { value: "2" } };
-      const eventScore2 = { target: { value: "0" } };
-
-      score1.simulate("change", eventScore1);
-      score2.simulate("change", eventScore2);
-
-      wrapper.state().score1.should.equal("2");
-      wrapper.state().score2.should.equal("0");
-    });
+    player1RadioBtn.exists().should.be.true;
+    player2RadioBtn.exists().should.be.true;
+    drawRadioBtn.exists().should.be.true;
   });
 });
 
@@ -119,41 +88,26 @@ describe("Validation", () => {
   });
 });
 
+/*describe("Clicking a radio button", () => {
+  it("should set the score correctly", () => {
+    wrapper.instance().refs = {
+      player1won: { checked: false },
+      draw: { checked: false },
+      player2won: { checked: false }
+    };
+
+    player1RadioBtn.simulate("click");
+
+    wrapper.state().score1.should.equal(2);
+    wrapper.state().score2.should.equal(0);
+  });
+});*/
+
 describe("Clicking Submit", () => {
   it("should run handleSubmit()", () => {
     const wrapper = shallow(<SubmitScoreForm unplayedFixtures={[""]} />);
     const submitScoreBtn = wrapper.find("#submitScoreBtn");
     var spy = sinon.spy(SubmitScoreForm.prototype, "handleSubmit");
-    window.alert = () => {};
-    var confirm = sinon.stub(global, "confirm");
-    confirm.returns(true);
-
-    submitScoreBtn.simulate("click");
-
-    confirm.calledOnce.should.be.true;
-    spy.calledOnce.should.be.true;
-
-    confirm.restore();
-  });
-});
-
-describe("Clicking submit with valid input", () => {
-  it("should run postScoreUpdateSlackMessage()", () => {
-    var spy = sinon.spy(
-      SubmitScoreForm.prototype,
-      "postScoreUpdateSlackMessage"
-    );
-    const wrapper = shallow(
-      <SubmitScoreForm unplayedFixtures={[""]} changeFixtureScore={() => {}} />
-    );
-    const submitScoreBtn = wrapper.find("#submitScoreBtn");
-
-    wrapper.setState({
-      players: "PAUL DAVE",
-      score1: "2",
-      score2: "0"
-    });
-
     window.alert = () => {};
     var confirm = sinon.stub(global, "confirm");
     confirm.returns(true);

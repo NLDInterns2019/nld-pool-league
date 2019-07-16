@@ -3,7 +3,7 @@ import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import CreateSeasonForm from "../CreateSeasonForm.js";
+import CreateSeasonForm from "../season/CreateSeasonForm.js";
 import sinon from "sinon";
 chai.should();
 
