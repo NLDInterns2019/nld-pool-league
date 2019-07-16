@@ -84,25 +84,6 @@ describe("Remove Player button click", () => {
 
 /* ================================================================================================== */
 
-describe("Create Season button click", () => {
-  it("should run createSeason() function", () => {
-    var spy = sinon.spy(CreateSeasonForm.prototype, "createSeason");
-    const wrapper = shallow(
-      <CreateSeasonForm createSeason={() => {}} closePopUp={() => {}} />
-    );
-    const createSeasonBtn = wrapper.find("#createSeasonBtn");
-
-    // prevents error with alerts. An alert showing is normal behaviour, not an error
-    window.alert = () => {};
-
-    createSeasonBtn.simulate("click");
-
-    spy.calledOnce.should.be.true;
-  });
-});
-
-/* ================================================================================================== */
-
 describe("Typing a season number", () => {
   it("should run setSeasonName()", () => {
     var spy = sinon.spy(CreateSeasonForm.prototype, "setSeasonName");
