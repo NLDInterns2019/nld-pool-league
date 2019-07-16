@@ -11,7 +11,7 @@ module.exports = {
     }),
 
     // Validate the audience and the issuer.
-    audience: "33YrQE03f8FWXKFzLl9RXvKj1XszVCab",
+    aud: "https://dev-q70ogh1b.eu.auth0.com/api/v2/",
     issuer: `https://dev-q70ogh1b.eu.auth0.com/`,
     algorithms: ["RS256"]
   })
