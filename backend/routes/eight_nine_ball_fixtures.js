@@ -492,7 +492,8 @@ router.get("/overdue", (req, res) => {
   POST handler for /api/89ball_fixture/book/. 
   Function: Books a fixture for a particular date.
 */
-router.get("/book", (req, res) => {
+router.post("/book",  async (req, res) => {
+  console.log("AFASFASFASFSAFSAF")
   req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
@@ -503,38 +504,20 @@ router.get("/book", (req, res) => {
   let opponent = req.body.opponent;
   let day = req.body.day;
   let time = req.body.time;
-
-  try {
-    player2 = await eight_nine_ball_fixtures.query().findOne(p2Attributes);
-    if (!player2) {
-      res.status(404).send();
-      return;
-    }
-  } catch (e) {
-    res.status(500).send();
-    return;
-  }
+  
   //find the fixture
-  eight_ball_fixtures
-    .query()
-    .findOne()
-   // .where({ seasonId: seasonId }) //should be added later
-    .where({player1: name})
-    .where({player2: opponent}) //TODO let it work with either
-    .orderBy("player1", "asc")
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
+  const fixt = await eight_nine_ball_fixtures.query().findOne({ //new Date(props.fixtures[0].date).toString().split(' ').slice(1,4).join(' ')
+      player1: name,
+      player2: opponent
+  })
+  console.log(fixt.date + " date")
+  let convDate = new Date(fixt.date)
+  console.log(convDate.toString())
+  let day = convDate.toString().split(' ').slice(5,5).join(' ')
 
+
+  //could take time and just remove
+  //then remove days as necessary
 });
 
 /* 
