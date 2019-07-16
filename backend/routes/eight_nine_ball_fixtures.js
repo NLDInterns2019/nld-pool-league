@@ -288,11 +288,7 @@ router.put("/edit", async (req, res) => {
     staffName: req.body.player1
   };
 
-  const p2Attributes = {
-    type: req.body.type,
-    seasonId: req.body.seasonId,
-    staffName: req.body.player2
-  };
+
 
   //Check if fixture exist and score is still null (means fixture hasnt been played)
   try {
@@ -497,7 +493,48 @@ router.get("/overdue", (req, res) => {
   Function: Books a fixture for a particular date.
 */
 router.get("/book", (req, res) => {
-  
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+  let name = req.body.name;
+  let opponent = req.body.opponent;
+  let day = req.body.day;
+  let time = req.body.time;
+
+  try {
+    player2 = await eight_nine_ball_fixtures.query().findOne(p2Attributes);
+    if (!player2) {
+      res.status(404).send();
+      return;
+    }
+  } catch (e) {
+    res.status(500).send();
+    return;
+  }
+  //find the fixture
+  eight_ball_fixtures
+    .query()
+    .findOne()
+   // .where({ seasonId: seasonId }) //should be added later
+    .where({player1: name})
+    .where({player2: opponent}) //TODO let it work with either
+    .orderBy("player1", "asc")
+    .then(
+      fixture => {
+        if (!fixture.length) {
+          res.status(404).send();
+        } else {
+          res.send(fixture);
+        }
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+
 });
 
 /* 
