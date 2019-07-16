@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-const { WebClient } = require("@slack/web-api");
 
 class CreateSeasonForm extends Component {
   constructor(props) {
@@ -12,14 +11,6 @@ class CreateSeasonForm extends Component {
     };
 
     this.state = this.initialState;
-    this.createSeason = this.createSeason.bind(this);
-
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
   }
 
   addPlayer() {
@@ -37,21 +28,20 @@ class CreateSeasonForm extends Component {
     });
   }
 
-  postCreateSeasonSlackMessage() {
-    (async () => {
-      await this.web.chat.postMessage({
-        channel: this.channel,
-        text:
-          "New " +
-          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
-          " season called 'Season " +
-          this.state.seasonName +
-          "' created"
-      });
+  /* posts a message to slack saying a new season has been created */
+  postCreateSeasonSlackMessage = async () => {
+    await this.web.chat.postMessage({
+      channel: this.channel,
+      text:
+        "New " +
+        (this.props.type === "8" ? ":8ball:" : ":9ball:") +
+        " season called 'Season " +
+        this.state.seasonName +
+        "' created"
+    });
 
-      console.log("Season message posted!");
-    })();
-  }
+    console.log("Season message posted!");
+  };
 
   handleKeyDown(e, index) {
     if (e.key === "Enter") {
@@ -63,6 +53,9 @@ class CreateSeasonForm extends Component {
     } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
       console.log("down arrow pressed");
       this.refs["inputPlayer" + (index + 1)].focus();
+    } else if (e.key === "Backspace" && e.target.value === "" && index > 1) {
+      this.removePlayer(index - 1);
+      this.refs["inputPlayer" + (index - 1)].focus();
     }
   }
 
@@ -95,17 +88,15 @@ class CreateSeasonForm extends Component {
     return true;
   }
 
-  createSeason() {
-    const newState = this.state.players.concat(this.preparePlayers());
-
+  createSeason = () => {
     //SET STATE IS ASYNCHRONOUS
-    this.setState({ players: newState }, () => {
-      this.props.createSeason(this.state, this.postCreateSeasonSlackMessage());
+    this.setState({ players: this.preparePlayers() }, () => {
+      this.props.createSeason(this.state);
       //this.postCreateSeasonSlackMessage();
       this.props.closePopUp();
       this.setState(this.initialState);
     });
-  }
+  };
 
   preparePlayers() {
     let temp = [];

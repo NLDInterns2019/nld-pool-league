@@ -465,11 +465,8 @@ button:hover {
     display: block;
   }
 
-  .submitScoreForm {
-    margin-bottom: 8rem;
-  }
-
   .contentRight {
+    margin-top: 8rem;
     position: relative;
   }
 }
