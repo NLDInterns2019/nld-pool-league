@@ -2,6 +2,7 @@
   "name": "nld-pool-league",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@slack/web-api": "^5.0.1",
     "axios": "^0.19.0",
