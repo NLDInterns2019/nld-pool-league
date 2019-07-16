@@ -11,6 +11,8 @@ const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const score = require("../functions/score");
 const fixture_split = require("../functions/polygonshuffle");
 const fixturegen = require("../functions/fixturegen");
+const dayVal = require("../functions/dayVal");
+const timeInMillis = require("../functions/timeInMillis");
 /* 
   GET handler for /api/89_ball_fixture
   Function: To get all the fixtures of the specified type
@@ -459,7 +461,7 @@ router.post("/generate",auth.checkJwt, async (req, res) => {
         }
       },
       e => {
-        res.status(400).send(e);
+        res.status(400).send();
       }
     );
     group++;
@@ -498,18 +500,12 @@ router.get("/overdue", (req, res) => {
   Function: Books a fixture for a particular date.
 */
 router.put("/book",  async (req, res) => {
-  console.log("AFASFASFASFSAFSAF")
   req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
   let name = req.body.name;
   let opponent = req.body.opponent;
   let day = req.body.day;
   let time = req.body.time;
-  
+
   //find the fixture
   const fixt = await eight_nine_ball_fixtures.query().findOne({
       player1: name,
@@ -517,88 +513,38 @@ router.put("/book",  async (req, res) => {
   })
 
   //set the time from the db value to 00:00
-  console.log(fixt.date + " date")
-  let convDate = new Date(fixt.date) //fixt.date stores the time in milliseconds. this must be stripped to 00:00 of its base day.
-  console.log(convDate.toString())
+  let convDate = new Date(fixt.date) 
+  console.log("Maximum date: " + convDate.toString())
   let oldDay = convDate.toString().split(' ').slice(0,1).join(' ') //stores day from db
   let oldTime = convDate.toString().split(' ').slice(4,5).join(' ') //stores time from db
-  console.log("day: " + oldDay + ", time: " + oldTime)
 
-  let hrs = oldTime.split(':').slice(0,1)
-  let mins = oldTime.split(':').slice(1,2)
-  let secs = oldTime.split(':').slice(2,3)
-
-  let timeDeduct = (parseInt(hrs) * 3600000) + (parseInt(mins) * 60000) + (parseInt(secs) * 1000)
-  fixt.date = fixt.date - timeDeduct; //date is now 00:00
-
+  let timeDeduct = timeInMillis.getMillis(oldTime);
+  let booked = fixt.date - timeDeduct; //date is now 00:00
+  
   //go back a suitable number of days
   let oPlace = 0;
-  switch(oldDay) {
-    case "Mon":
-      oPlace = 1;
-      break;
-    case "Tues":
-      oPlace = 2;
-      break;
-    case "Weds":
-      oPlace = 3;
-      break;
-    case "Thurs":
-      oPlace = 4;
-      break;
-    case "Fri":
-      oPlace = 5;
-      break;
-    case "Sat":
-      oPlace = 6;
-      break;
-    case "Sun":
-      oPlace = 7;
-      break;
-  }
-  nPlace = 0;
-  switch(day) {
-    case "Monday":
-      nPlace = 1;
-      break;
-    case "Tuesday":
-      nPlace = 2;
-      break;
-    case "Wednesday":
-      nPlace = 3;
-      break;
-    case "Thursday":
-      nPlace = 4;
-      break;
-    case "Friday":
-      nPlace = 5;
-      break;
-  }
+  oPlace = dayVal.dayValue(oldDay);
+  nPlace = dayVal.dayValue(day);
+  
   let multiplier = parseInt(oPlace)-parseInt(nPlace);
   if (multiplier<0) {
     multiplier = Math.abs(multiplier);
-  }
-  console.log(multiplier);
-  if (multiplier>0) {
+  } 
+   if (multiplier>0) {
     multiplier = 7-multiplier;
   }
-  fixt.date = parseInt(fixt.date) - (parseInt(86400000) * parseInt(multiplier))
-  console.log(fixt.date)
-  let test = new Date(parseInt(fixt.date))
-  console.log(test.toString())
+  booked = parseInt(booked) - (parseInt(86400000) * parseInt(multiplier))
 
-  //set date to a suitable value
-  hrs = time.split(':').slice(0,1)
-  mins = time.split(':').slice(1,2)
-  console.log(hrs + " " + mins)
-  fixt.date = fixt.date + (hrs * 3600000) + (mins * 60000);
-  console.log(new Date(fixt.date).toString())
+  //add the extra time back on
+  let timeAdd = timeInMillis.getMillis(time);
+  booked = booked + timeAdd; //this one is stored in the db
+  console.log("Matched date: " + new Date(booked).toString()) //this is what it would look like parsed. do NOT store this one
 
   //add it to the db
-  const result = await eight_nine_ball_fixtures.query().findOne({
+ /* const result = await eight_nine_ball_fixtures.query().findOne({
     player1: name,
     player2: opponent
-  }).patch(fixt)
+  }).patch(fixt)*/
 
   
 });
