@@ -9,9 +9,10 @@ should();
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
 
+const wrapper = shallow(<SeasonsPage />);
+
 describe("SeasonsPage component", () => {
   it("should render", () => {
-    const wrapper = shallow(<SeasonsPage />);
     wrapper.exists().should.be.true;
   });
 });
