@@ -84,8 +84,6 @@ describe("Remove Player button click", () => {
 
 /* ================================================================================================== */
 
-/* ================================================================================================== */
-
 describe("Typing a season number", () => {
   it("should run setSeasonName()", () => {
     var spy = sinon.spy(CreateSeasonForm.prototype, "setSeasonName");

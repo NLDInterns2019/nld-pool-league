@@ -127,7 +127,7 @@ class App extends React.Component {
         this.updateData();
         this.toastSucess("Score Changed");
         this.postScoreUpdateSlackMessage(
-          state.type,
+          this.state.type,
           state.players,
           state.score1,
           state.score2
