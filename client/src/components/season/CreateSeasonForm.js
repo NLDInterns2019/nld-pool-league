@@ -43,7 +43,7 @@ class CreateSeasonForm extends Component {
         channel: this.channel,
         text:
           "New " +
-          (this.props.type === 8 ? ":8ball:" : ":9ball:") +
+          (this.props.type === "8" ? ":8ball:" : ":9ball:") +
           " season called 'Season " +
           this.state.seasonName +
           "' created"
