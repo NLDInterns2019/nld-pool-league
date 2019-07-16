@@ -506,18 +506,48 @@ router.post("/book",  async (req, res) => {
   let time = req.body.time;
   
   //find the fixture
-  const fixt = await eight_nine_ball_fixtures.query().findOne({ //new Date(props.fixtures[0].date).toString().split(' ').slice(1,4).join(' ')
+  const fixt = await eight_nine_ball_fixtures.query().findOne({
       player1: name,
       player2: opponent
   })
   console.log(fixt.date + " date")
-  let convDate = new Date(fixt.date)
+  let convDate = new Date(fixt.date) //fixt.date stores the time in milliseconds. this must be stripped to 00:00 of its base day.
   console.log(convDate.toString())
-  let day = convDate.toString().split(' ').slice(5,5).join(' ')
+  let oldDay = convDate.toString().split(' ').slice(0,1).join(' ') //stores day from db
+  let oldTime = convDate.toString().split(' ').slice(4,5).join(' ') //stores time from db
+  console.log("day: " + oldDay + ", time: " + oldTime)
 
+  let hrs = oldTime.split(':').slice(0,1)
+  let mins = oldTime.split(':').slice(1,2)
+  let secs = oldTime.split(':').slice(2,3)
 
+  let timeDeduct = (parseInt(hrs) * 3600000) + (parseInt(mins) * 60000) + (parseInt(secs) * 1000)
+  fixt.date = fixt.date - timeDeduct; //date is now 00:00
+  let val = new Date(parseInt(fixt.date)-timeDeduct)
+  console.log(val.toString())
   //could take time and just remove
   //then remove days as necessary
+  if (oldDay == "Mon") {
+    console.log("cool")
+  }
+
+  multiplier = 1
+  switch(oldDay) {
+    case "Mon":
+     break;
+    case "Tues":
+      break;
+    case "Weds":
+      break;
+    case "Thurs":
+      break;
+    case "Fri":
+      break;
+    case "Sat":
+      break;
+    case "Sun":
+      break;
+  }
 });
 
 /* 
