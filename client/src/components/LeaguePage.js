@@ -9,7 +9,19 @@ import LeagueTable from "./league/LeagueTable.js";
 import FixtureList from "./fixture/FixtureList";
 import SubmitScoreForm from "./fixture/SubmitScoreForm.js";
 
+const { WebClient } = require("@slack/web-api");
+
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
+  }
   state = {
     type: "",
     players: [],
@@ -74,6 +86,26 @@ class App extends React.Component {
     this.updateData();
   };
 
+  /* posts a message to a slack channel with the submitted score */
+  postScoreUpdateSlackMessage = async (type, players, score1, score2) => {
+    await this.web.chat.postMessage({
+      channel: this.channel,
+      /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
+      text:
+        (type === "8" ? ":8ball:" : ":9ball:") +
+        " RESULT:\n" +
+        players.split(" ")[0] +
+        "  " +
+        score1 +
+        "  -  " +
+        score2 +
+        "  " +
+        players.split(" ")[1]
+    });
+
+    console.log("Score message posted!");
+  };
+
   changeFixtureScore = async state => {
     console.log(state);
     await backend
@@ -93,9 +125,14 @@ class App extends React.Component {
       )
       .then(() => {
         this.updateData();
-        this.toastSucess("Score Changed")
-      }
-      )
+        this.toastSucess("Score Changed");
+        this.postScoreUpdateSlackMessage(
+          state.type,
+          state.players,
+          state.score1,
+          state.score2
+        );
+      })
       .catch(e => {
         this.toastUnauthorised();
       });

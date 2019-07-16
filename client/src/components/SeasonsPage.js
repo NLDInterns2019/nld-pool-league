@@ -11,6 +11,8 @@ import "../App.css";
 import CreateSeasonForm from "./season/CreateSeasonForm.js";
 import SeasonsList from "./season/SeasonsList.js";
 
+const { WebClient } = require("@slack/web-api");
+
 class SeasonsPage extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,13 @@ class SeasonsPage extends Component {
       type: "",
       seasons: []
     };
+
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
   }
 
   getSeasonsList = async () => {
@@ -51,8 +60,22 @@ class SeasonsPage extends Component {
     this.refs.container.style.display = "none";
   }
 
+  postCreateSeasonSlackMessage = async (type, seasonName) => {
+    await this.web.chat.postMessage({
+      channel: this.channel,
+      text:
+        "New " +
+        (type === "8" ? ":8ball:" : ":9ball:") +
+        " season called 'Season " +
+        seasonName +
+        "' created"
+    });
+
+    console.log("Season message posted!");
+  };
+
   // callback is to make sure the slack message only posts after the database has been updated
-  createSeason = (state, callback) => {
+  createSeason = state => {
     backend
       .post(
         "/api/89ball_league/add/players",
@@ -77,11 +100,11 @@ class SeasonsPage extends Component {
           }
         )
       )
-      .then(
-        () => this.getSeasonsList(),
-        this.toastSuccess("Season Created"),
-        callback
-      )
+      .then(() => {
+        this.getSeasonsList();
+        this.toastSuccess("Season Created");
+        this.postCreateSeasonSlackMessage(state.type, state.seasonName);
+      })
       .catch(e => {
         this.toastUnauthorised();
       });
