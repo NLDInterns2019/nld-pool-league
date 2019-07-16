@@ -151,35 +151,39 @@ class SubmitScoreForm extends Component {
           <br />
           <div id="result" className="selectWinner" style={this.resultStyle()}>
             <label>Who won?</label> <br />
-            <input
-              id="player1won"
-              ref="player1won"
-              type="radio"
-              name="result"
-              value="player1"
-              onClick={this.handleRadioClick.bind(this)}
-            />
-            <label htmlFor="player1won">
+            <label className="radioContainer">
+              <input
+                id="player1won"
+                ref="player1won"
+                type="radio"
+                name="result"
+                value="player1"
+                onClick={this.handleRadioClick.bind(this)}
+              />
+
               {this.state.players.split(" ")[0]}
             </label>
-            <input
-              id="draw"
-              ref="draw"
-              type="radio"
-              name="result"
-              value="draw"
-              onClick={this.handleRadioClick.bind(this)}
-            />
-            <label htmlFor="draw">DRAW</label>
-            <input
-              id="player2won"
-              ref="player2won"
-              type="radio"
-              name="result"
-              value="player2"
-              onClick={this.handleRadioClick.bind(this)}
-            />
-            <label htmlFor="player2won">
+            <label className="radioContainer">
+              <input
+                id="draw"
+                ref="draw"
+                type="radio"
+                name="result"
+                value="draw"
+                onClick={this.handleRadioClick.bind(this)}
+              />
+              DRAW
+            </label>
+            <label className="radioContainer">
+              <input
+                id="player2won"
+                ref="player2won"
+                type="radio"
+                name="result"
+                value="player2"
+                onClick={this.handleRadioClick.bind(this)}
+              />
+
               {this.state.players.split(" ")[1]}
             </label>
             <br />
