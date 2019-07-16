@@ -74,7 +74,6 @@ class SeasonsPage extends Component {
     console.log("Season message posted!");
   };
 
-  // callback is to make sure the slack message only posts after the database has been updated
   createSeason = state => {
     backend
       .post(
@@ -103,7 +102,7 @@ class SeasonsPage extends Component {
       .then(() => {
         this.getSeasonsList();
         this.toastSuccess("Season Created");
-        this.postCreateSeasonSlackMessage(state.type, state.seasonName);
+        this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
       })
       .catch(e => {
         this.toastUnauthorised();
