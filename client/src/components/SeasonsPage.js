@@ -87,7 +87,7 @@ class SeasonsPage extends Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       )
-      .then(() =>
+      .then(() => {
         backend.post(
           "/api/89ball_fixture/generate/",
           {
@@ -97,8 +97,8 @@ class SeasonsPage extends Component {
           {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
-        )
-      )
+        );
+      })
       .then(() => {
         this.getSeasonsList();
         this.toastSuccess("Season Created");
