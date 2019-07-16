@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const Joi = require("joi");
 const knex = require("../db/knex");
+const auth = require("../auth");
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
@@ -82,7 +83,7 @@ router.get("/:seasonId", (req, res) => {
   POST handler for /api/89_ball_league/add/player
   Function: To add player to the 8 ball league (FUTURE USE)
 */
-router.post("/add/player", (req, res) => {
+router.post("/add/player", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
     .integer()
@@ -119,7 +120,7 @@ router.post("/add/player", (req, res) => {
   POST handler for /api/89_ball_league/add/players
   Function: To add players to the 8 ball league (BATCH INSERT)
 */
-router.post("/add/players", (req, res) => {
+router.post("/add/players", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
     .integer()
@@ -168,7 +169,7 @@ router.post("/add/players", (req, res) => {
         }
       },
       e => {
-        res.status(500).send();
+        res.status(500).send(e);
       }
     );
 });
@@ -177,7 +178,7 @@ router.post("/add/players", (req, res) => {
   DELETE handler for /api/89_ball_league/delete/player
   Function: To delete player from the league (NOTE YET IMPLEMENTED IN THE UI)
 */
-router.delete("/delete/player", (req, res) => {
+router.delete("/delete/player", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
     .integer()

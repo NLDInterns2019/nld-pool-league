@@ -3,6 +3,7 @@ var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
+const auth = require("../auth");
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
@@ -254,7 +255,7 @@ router.get("/:seasonId/:staffName", (req, res) => {
   PUT handler for /api/89ball_fixture/edit/
   Function: To update the score
 */
-router.put("/edit", async (req, res) => {
+router.put("/edit",auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
@@ -407,7 +408,7 @@ router.put("/edit", async (req, res) => {
   Function: Handles fixture generation and fixture splitting
   TODO: may want to put dates in their own table and connect to fixtures via groups
 */
-router.post("/generate", async (req, res) => {
+router.post("/generate",auth.checkJwt, async (req, res) => {
   //no longer tiny :(
   //this date method makes it difficult to do the comparisons to look for overdue fixtures. might want to look into fixing storage of the raw date.
   var group = 0;
