@@ -65,12 +65,12 @@ class SubmitScoreForm extends Component {
       alert("Not a valid input");
     } else {
       /* submit score */
-      if (this.props.changeFixtureScore(this.prepareSubmitState())) {
-        this.setState(this.initialState);
-        this.postScoreUpdateSlackMessage();
-      } else {
-        console.log("Message not posted");
-      }
+      this.props.changeFixtureScore(
+        this.prepareSubmitState(),
+        this.postScoreUpdateSlackMessage()
+      );
+      this.setState(this.initialState);
+      //this.postScoreUpdateSlackMessage();
     }
   }
 

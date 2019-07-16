@@ -46,7 +46,8 @@ class SeasonsPage extends Component {
     this.refs.container.style.display = "none";
   }
 
-  createSeason = state => {
+  // callback is to make sure the slack message only posts after the database has been updated
+  createSeason = (state, callback) => {
     backend
       .post("/api/89ball_league/add/players", {
         type: parseInt(this.state.type),
@@ -59,7 +60,7 @@ class SeasonsPage extends Component {
           seasonId: parseInt(state.seasonName)
         })
       )
-      .then(() => this.getSeasonsList())
+      .then(() => this.getSeasonsList(), callback)
       .catch(e => {
         window.alert("ERROR: Cannot add player(s) to an existing season!");
       });

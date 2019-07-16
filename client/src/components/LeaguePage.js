@@ -79,7 +79,8 @@ class App extends React.Component {
     }
   };
 
-  changeFixtureScore = async state => {
+  // callback is to make sure the slack message only posts after the database has been updated
+  changeFixtureScore = async (state, callback) => {
     console.log(state);
     await backend
       .put("/api/89ball_fixture/edit", {
@@ -90,11 +91,13 @@ class App extends React.Component {
         player2: state.player2,
         score2: parseInt(state.score2)
       })
-      .then(() =>
-        this.setState({
-          //To force update
-          refresh: !this.state.refresh
-        })
+      .then(
+        () =>
+          this.setState({
+            //To force update
+            refresh: !this.state.refresh
+          }),
+        callback
       )
       .catch(e => {
         window.alert("ERROR: Match not found / match is finished");
