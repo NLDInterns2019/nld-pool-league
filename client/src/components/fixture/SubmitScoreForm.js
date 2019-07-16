@@ -175,7 +175,7 @@ class SubmitScoreForm extends Component {
             />
             <label htmlFor="player2won">
               {this.state.players.split(" ")[1]}
-            </label>{" "}
+            </label>
             <br />
           </div>
           <button
