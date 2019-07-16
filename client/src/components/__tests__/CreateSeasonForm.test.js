@@ -3,7 +3,7 @@ import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import CreateSeasonForm from "../CreateSeasonForm.js";
+import CreateSeasonForm from "../season/CreateSeasonForm.js";
 import sinon from "sinon";
 chai.should();
 
@@ -11,7 +11,7 @@ configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
 
 /* initalise the different elements to avoid repetition */
-const wrapper = shallow(<CreateSeasonForm />);
+const wrapper = shallow(<CreateSeasonForm seasons={[]} />);
 const addPlayerBtn = wrapper.find("#addPlayer");
 const createSeasonBtn = wrapper.find("#createSeasonBtn");
 const inputSeasonNo = wrapper.find("#inputSeasonNo");
@@ -30,9 +30,9 @@ describe("Rendering", () => {
 describe("Add a Player", () => {
   it("should add a player to the state", () => {
     // run the add player method, players length should increase by 1
-    wrapper.setState({ players: [] });
+    wrapper.setState({ playersName: ["", ""] });
     wrapper.instance().addPlayer();
-    wrapper.state().players.should.have.lengthOf(1);
+    wrapper.state().playersName.should.have.lengthOf(3);
   });
 });
 
@@ -54,14 +54,14 @@ describe("Remove a Player", () => {
     const initialArr = ["ALICE", "BOB", "CHARLES"];
     const expectedArr = ["ALICE", "CHARLES"];
 
-    wrapper.setState({ players: initialArr });
-    wrapper.state().players.should.have.lengthOf(3);
+    wrapper.setState({ playersName: initialArr });
+    wrapper.state().playersName.should.have.lengthOf(3);
 
     wrapper.instance().removePlayer(1);
 
-    wrapper.state().players.should.have.lengthOf(2);
-    wrapper.state().players[0].should.equal(expectedArr[0]);
-    wrapper.state().players[1].should.equal(expectedArr[1]);
+    wrapper.state().playersName.should.have.lengthOf(2);
+    wrapper.state().playersName[0].should.equal(expectedArr[0]);
+    wrapper.state().playersName[1].should.equal(expectedArr[1]);
   });
 });
 
@@ -87,7 +87,9 @@ describe("Remove Player button click", () => {
 describe("Create Season button click", () => {
   it("should run createSeason() function", () => {
     var spy = sinon.spy(CreateSeasonForm.prototype, "createSeason");
-    const wrapper = shallow(<CreateSeasonForm />);
+    const wrapper = shallow(
+      <CreateSeasonForm createSeason={() => {}} closePopUp={() => {}} />
+    );
     const createSeasonBtn = wrapper.find("#createSeasonBtn");
 
     // prevents error with alerts. An alert showing is normal behaviour, not an error
@@ -122,75 +124,79 @@ describe("Typing a season number", () => {
 describe("Validation", () => {
   beforeEach(() => {
     wrapper.setState({
-      players: [],
+      playersName: [""],
       seasonName: ""
     });
   });
 
   it("should return false when nothing is entered", () => {
-    wrapper.instance().isValid().valid.should.be.false;
+    wrapper.instance().isValidSeason().should.be.false;
+    wrapper.instance().isValidPlayersName().should.be.false;
+    wrapper.instance().isValidPlayersNumber().should.be.false;
   });
 
   it("should return false when there is no season name entered", () => {
     wrapper.setState({
-      players: ["STEVE", "DAVE"],
+      playersName: ["STEVE", "DAVE"],
       seasonName: ""
     });
 
-    wrapper.instance().isValid().valid.should.be.false;
+    wrapper.instance().isValidSeason().should.be.false;
   });
 
   it("should return false when no player names are entered", () => {
     wrapper.setState({
-      players: [],
+      playersName: ["", ""],
       seasonName: "3"
     });
 
-    wrapper.instance().isValid().valid.should.be.false;
+    wrapper.instance().isValidPlayersName().should.be.false;
   });
 
   it("should return false when only 1 player name is entered", () => {
     wrapper.setState({
-      players: ["STEVE"],
+      playersName: ["STEVE", ""],
       seasonName: "3"
     });
 
-    wrapper.instance().isValid().valid.should.be.false;
+    wrapper.instance().isValidPlayersName().should.be.false;
   });
 
   it("should return false if a letter is entered into season name", () => {
     wrapper.setState({
-      players: ["STEVE", "DAVE"],
+      playersName: ["STEVE", "DAVE"],
       seasonName: "season"
     });
 
-    wrapper.instance().isValid().valid.should.be.false;
+    wrapper.instance().isValidSeason().should.be.false;
   });
 
   it("should return false if a lowercase letter is entered into players", () => {
     wrapper.setState({
-      players: ["Steve", "Dave"],
+      playersName: ["Steve", "Dave"],
       seasonName: "3"
     });
 
-    wrapper.instance().isValid().valid.should.be.false;
+    wrapper.instance().isValidPlayersName().should.be.false;
   });
 
   it("should return true if all inputs are correct", () => {
     wrapper.setState({
-      players: ["STEVE", "DAVE"],
+      playersName: ["STEVE", "DAVE"],
       seasonName: "3"
     });
 
-    wrapper.instance().isValid().valid.should.be.true;
+    wrapper.instance().isValidSeason().should.be.true;
+    wrapper.instance().isValidPlayersNumber().should.be.true;
+    wrapper.instance().isValidPlayersName().should.be.true;
   });
 
   it("should return true if there are more than 2 players", () => {
     wrapper.setState({
-      players: ["STEVE", "DAVE", "CHARLIE", "RACHEL"],
+      playersName: ["STEVE", "DAVE", "CHARLIE", "RACHEL"],
       seasonName: "3"
     });
 
-    wrapper.instance().isValid().valid.should.be.true;
+    wrapper.instance().isValidPlayersNumber().should.be.true;
   });
 });

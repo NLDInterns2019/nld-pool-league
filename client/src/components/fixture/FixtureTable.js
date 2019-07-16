@@ -9,7 +9,7 @@ const FixtureTable = props => {
   return (
     <div className="fixtureTableContainer">
       <h3>Round {props.round}</h3>
-      <p>Due {props.fixtures[0].date}</p>
+      <p>Due: {new Date(props.fixtures[0].date).toString().split(' ').slice(1,4).join('-')}</p>
       <table className="fixtureTable" cellSpacing="0">
         <FixtureTableHeader />
         <FixtureTableBody fixtures={props.fixtures} />

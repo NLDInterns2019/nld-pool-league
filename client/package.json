@@ -2,6 +2,7 @@
   "name": "nld-pool-league",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@slack/web-api": "^5.0.1",
     "auth0-js": "^9.11.1",

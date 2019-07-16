@@ -380,7 +380,7 @@ router.put("/edit",auth.checkJwt, async (req, res) => {
       return;
     }
   } catch (e) {
-    res.status(500).send("5");
+    res.status(500).send();
     return;
   }
 
@@ -395,7 +395,7 @@ router.put("/edit",auth.checkJwt, async (req, res) => {
       return;
     }
   } catch (e) {
-    res.status(500).send("6");
+    res.status(500).send();
     return;
   }
 
@@ -406,18 +406,14 @@ router.put("/edit",auth.checkJwt, async (req, res) => {
 /* 
   POST handler for /api/89_ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
-  TODO: may want to put dates in their own table and connect to fixtures via groups
 */
 router.post("/generate",auth.checkJwt, async (req, res) => {
-  //no longer tiny :(
-  //this date method makes it difficult to do the comparisons to look for overdue fixtures. might want to look into fixing storage of the raw date.
   var group = 0;
-  var startDate = new Date();
-  startDate.setDate(startDate.getDate() + 7);
-  var aesDate = startDate; //used to stop issue where date was placed in database in milliseconds of next month
+  var aesDate = new Date(); 
+  aesDate.setDate(aesDate.getDate() + 7);
   let seasonId = req.body.seasonId;
   let type = req.body.type;
-
+  
   //take the seasonid and see if it's acceptable
   const schema = {
     type: Joi.number()
@@ -455,15 +451,7 @@ router.post("/generate",auth.checkJwt, async (req, res) => {
   }
   //this gets a fixture and puts it into fixtSets
   for (var j = 0; j < playerCount - exCount; j++) {
-    //this represents fixture groups -1
-    aesDate = startDate;
-    var dd = String(aesDate.getDate()).padStart(2, "0");
-    var mm = String(aesDate.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = aesDate.getFullYear();
-    aesDate = dd + "-" + mm + "-" + yyyy;
-    var d = new Date(aesDate);
-
-    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, aesDate); //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, aesDate.getTime()); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -475,26 +463,21 @@ router.post("/generate",auth.checkJwt, async (req, res) => {
       }
     );
     group++;
-    startDate.setDate(startDate.getDate() + 7);
-    //console.log(aesDate);
-    //datet = new Date('25-01-2019S');
-    // console.log(datet);
-    //var date = new Date(aesGroup.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
-    //console.log(date);
+    aesDate.setDate(aesDate.getDate()+7);
+    
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }
 });
 
 /* 
   POST handler for /api/89ball_fixture/overdue/. 
-  Function: Displays list of overdue fixtures. Nonfunctional due to date storage.
+  Function: Displays list of overdue fixtures.
 */
 router.get("/overdue", (req, res) => {
-  let seasonId = parseInt(req.params.seasonId);
   let currentDate = new Date();
+  currentDate = parseInt(currentDate);
   eight_nine_ball_fixtures
     .query()
-    .where({ seasonId: seasonId })
     .where("date", "!=", currentDate)
     .then(
       fixture => {
@@ -508,5 +491,83 @@ router.get("/overdue", (req, res) => {
         res.status(500).json(e);
       }
     );
+});
+
+/* 
+  POST handler for /api/89ball_fixture/book/. 
+  Function: Books a fixture for a particular date.
+*/
+router.post("/book",  async (req, res) => {
+  console.log("AFASFASFASFSAFSAF")
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+  let name = req.body.name;
+  let opponent = req.body.opponent;
+  let day = req.body.day;
+  let time = req.body.time;
+  
+  //find the fixture
+  const fixt = await eight_nine_ball_fixtures.query().findOne({
+      player1: name,
+      player2: opponent
+  })
+  console.log(fixt.date + " date")
+  let convDate = new Date(fixt.date) //fixt.date stores the time in milliseconds. this must be stripped to 00:00 of its base day.
+  console.log(convDate.toString())
+  let oldDay = convDate.toString().split(' ').slice(0,1).join(' ') //stores day from db
+  let oldTime = convDate.toString().split(' ').slice(4,5).join(' ') //stores time from db
+  console.log("day: " + oldDay + ", time: " + oldTime)
+
+  let hrs = oldTime.split(':').slice(0,1)
+  let mins = oldTime.split(':').slice(1,2)
+  let secs = oldTime.split(':').slice(2,3)
+
+  let timeDeduct = (parseInt(hrs) * 3600000) + (parseInt(mins) * 60000) + (parseInt(secs) * 1000)
+  fixt.date = fixt.date - timeDeduct; //date is now 00:00
+  let val = new Date(parseInt(fixt.date)-timeDeduct)
+  console.log(val.toString())
+  //could take time and just remove
+  //then remove days as necessary
+  if (oldDay == "Mon") {
+    console.log("cool")
+  }
+
+  multiplier = 1
+  switch(oldDay) {
+    case "Mon":
+     break;
+    case "Tues":
+      break;
+    case "Weds":
+      break;
+    case "Thurs":
+      break;
+    case "Fri":
+      break;
+    case "Sat":
+      break;
+    case "Sun":
+      break;
+  }
+});
+
+/* 
+  POST handler for /api/89ball_fixture/book/edit. 
+  Function: Edit a fixture's booking.
+*/
+router.get("/book/edit", (req, res) => {
+  
+});
+
+/* 
+  POST handler for /api/89ball_fixture/book/. 
+  Function: Remove a fixture booking.
+*/
+router.get("/book/delete", (req, res) => {
+  
 });
 module.exports = router;

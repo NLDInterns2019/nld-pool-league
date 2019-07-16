@@ -59,10 +59,10 @@ class CreateSeasonForm extends Component {
       this.addPlayer();
     } else if (e.key === "ArrowUp" && index > 1) {
       console.log("up arrow pressed");
-      document.getElementById("inputPlayer" + (index - 1)).focus();
+      this.refs["inputPlayer" + (index - 1)].focus();
     } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
       console.log("down arrow pressed");
-      document.getElementById("inputPlayer" + (index + 1)).focus();
+      this.refs["inputPlayer" + (index + 1)].focus();
     }
   }
 
@@ -100,8 +100,9 @@ class CreateSeasonForm extends Component {
 
     //SET STATE IS ASYNCHRONOUS
     this.setState({ players: newState }, () => {
-      this.props.createSeason(this.state);
-      document.getElementById("container").style.display = "none";
+      this.props.createSeason(this.state, this.postCreateSeasonSlackMessage());
+      //this.postCreateSeasonSlackMessage();
+      this.props.closePopUp();
       this.setState(this.initialState);
     });
   }
@@ -153,6 +154,30 @@ class CreateSeasonForm extends Component {
     }
   }
 
+  checkPlayersNumberError() {
+    if (this.isValidPlayersNumber()) {
+      return null;
+    } else {
+      return <div className="error">Not enough players</div>;
+    }
+  }
+
+  checkPlayersNameError() {
+    if (this.isValidPlayersName()) {
+      return null;
+    } else {
+      return <div className="error">Invalid player name(s)</div>;
+    }
+  }
+
+  checkSeasonError() {
+    if (this.isValidSeason()) {
+      return null;
+    } else {
+      return <div className="error">Enter a valid season number</div>;
+    }
+  }
+
   render() {
     return (
       <div id="createSeasonForm">
@@ -164,12 +189,11 @@ class CreateSeasonForm extends Component {
             placeholder="Season number"
             value={this.state.seasonName}
             id="inputSeasonNo"
+            ref="inputSeasonNo"
             onChange={e => this.setSeasonName(e)}
             onKeyPress={e => this.handleKeyDown(e)}
           />
-          {this.isValidSeason() ? null : (
-            <div className="error">Enter a valid season number!</div>
-          )}
+          {this.checkSeasonError()}
           <div className="inputPlayers">
             {/* map the players in the state to inputs */}
             {this.state.playersName.map((player, index) => {
@@ -181,6 +205,7 @@ class CreateSeasonForm extends Component {
                     placeholder={"Player " + (index + 1)}
                     className="inputPlayerName"
                     id={"inputPlayer" + (index + 1)}
+                    ref={"inputPlayer" + (index + 1)}
                     onChange={e => this.handleChange(e, index)}
                     value={player}
                     onKeyDown={e => this.handleKeyDown(e, index + 1)}
@@ -194,12 +219,8 @@ class CreateSeasonForm extends Component {
                 </div>
               );
             })}
-            {this.isValidPlayersNumber() ? null : (
-              <div className="error">Not enough players</div>
-            )}
-            {this.isValidPlayersName() ? null : (
-              <div className="error">Invalid Player(s) name</div>
-            )}
+            {this.checkPlayersNumberError()}
+            {this.checkPlayersNameError()}
 
             {/* button for adding a player */}
             <button
@@ -212,6 +233,7 @@ class CreateSeasonForm extends Component {
             <button
               type="button"
               id="createSeasonBtn"
+              ref="createSeasonBtn"
               onClick={this.createSeason}
               style={this.createSeasonBtnStyle()}
             >

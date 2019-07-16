@@ -42,16 +42,17 @@ class SeasonsPage extends Component {
   };
 
   openPopUp() {
-    document.getElementById("popup").style.display = "block";
-    document.getElementById("container").style.display = "block";
+    this.refs.popup.style.display = "block";
+    this.refs.container.style.display = "block";
   }
 
   closePopUp() {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("container").style.display = "none";
+    this.refs.popup.style.display = "none";
+    this.refs.container.style.display = "none";
   }
 
-  createSeason = state => {
+  // callback is to make sure the slack message only posts after the database has been updated
+  createSeason = (state, callback) => {
     backend
       .post(
         "/api/89ball_league/add/players",
@@ -76,10 +77,7 @@ class SeasonsPage extends Component {
           }
         )
       )
-      .then(() => {
-        this.getSeasonsList();
-        this.toastSucess("Created")
-      } )
+      .then(() => this.getSeasonsList(), callback)
       .catch(e => {
         this.toastUnauthorised();
       });
@@ -140,18 +138,27 @@ class SeasonsPage extends Component {
               deleteSeason={this.deleteSeason}
             />
             <br />
-            <button type="button" id="addSeasonBtn" onClick={this.openPopUp}>
+            <button
+              type="button"
+              id="addSeasonBtn"
+              onClick={this.openPopUp.bind(this)}
+            >
               + Add new season
             </button>
           </div>
-          <div className="popup-container" id="container">
-            <div className="form-popup" id="popup">
+          <div className="popup-container" id="container" ref="container">
+            <div className="form-popup" id="popup" ref="popup">
               <CreateSeasonForm
                 seasons={this.state.seasons}
                 type={this.state.type}
                 createSeason={this.createSeason}
+                closePopUp={this.closePopUp.bind(this)}
               />
-              <button type="button" id="cancelbtn" onClick={this.closePopUp}>
+              <button
+                type="button"
+                id="cancelbtn"
+                onClick={this.closePopUp.bind(this)}
+              >
                 Cancel
               </button>
             </div>

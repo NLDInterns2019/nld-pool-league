@@ -7,7 +7,7 @@ class Auth {
       domain: 'dev-q70ogh1b.eu.auth0.com',
       audience: 'https://dev-q70ogh1b.eu.auth0.com/userinfo',
       clientID: '33YrQE03f8FWXKFzLl9RXvKj1XszVCab',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}/callback`,
       responseType: 'id_token',
       scope: 'openid profile'
     });

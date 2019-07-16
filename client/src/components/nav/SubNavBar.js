@@ -61,7 +61,7 @@ const SubNavBar = props => {
                 style={fixturesCurrentStyle}
                 id="fixturesLink"
               >
-                Fixtures
+                View/Arrange Fixtures
               </Link>
             ) : (
               <Link
@@ -69,7 +69,7 @@ const SubNavBar = props => {
                 style={fixturesCurrentStyle}
                 id="fixturesLink"
               >
-                Fixtures
+                View/Arrange Fixtures
               </Link>
             )}
           </li>
