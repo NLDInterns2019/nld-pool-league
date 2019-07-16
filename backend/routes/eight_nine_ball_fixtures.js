@@ -497,7 +497,7 @@ router.get("/overdue", (req, res) => {
   POST handler for /api/89ball_fixture/book/. 
   Function: Books a fixture for a particular date.
 */
-router.post("/book",  async (req, res) => {
+router.put("/book",  async (req, res) => {
   console.log("AFASFASFASFSAFSAF")
   req.query.type = parseInt(req.query.type, 10);
   const schema = {
@@ -515,6 +515,8 @@ router.post("/book",  async (req, res) => {
       player1: name,
       player2: opponent
   })
+
+  //set the time from the db value to 00:00
   console.log(fixt.date + " date")
   let convDate = new Date(fixt.date) //fixt.date stores the time in milliseconds. this must be stripped to 00:00 of its base day.
   console.log(convDate.toString())
@@ -528,31 +530,77 @@ router.post("/book",  async (req, res) => {
 
   let timeDeduct = (parseInt(hrs) * 3600000) + (parseInt(mins) * 60000) + (parseInt(secs) * 1000)
   fixt.date = fixt.date - timeDeduct; //date is now 00:00
-  let val = new Date(parseInt(fixt.date)-timeDeduct)
-  console.log(val.toString())
-  //could take time and just remove
-  //then remove days as necessary
-  if (oldDay == "Mon") {
-    console.log("cool")
-  }
 
-  multiplier = 1
+  //go back a suitable number of days
+  let oPlace = 0;
   switch(oldDay) {
     case "Mon":
-     break;
+      oPlace = 1;
+      break;
     case "Tues":
+      oPlace = 2;
       break;
     case "Weds":
+      oPlace = 3;
       break;
     case "Thurs":
+      oPlace = 4;
       break;
     case "Fri":
+      oPlace = 5;
       break;
     case "Sat":
+      oPlace = 6;
       break;
     case "Sun":
+      oPlace = 7;
       break;
   }
+  nPlace = 0;
+  switch(day) {
+    case "Monday":
+      nPlace = 1;
+      break;
+    case "Tuesday":
+      nPlace = 2;
+      break;
+    case "Wednesday":
+      nPlace = 3;
+      break;
+    case "Thursday":
+      nPlace = 4;
+      break;
+    case "Friday":
+      nPlace = 5;
+      break;
+  }
+  let multiplier = parseInt(oPlace)-parseInt(nPlace);
+  if (multiplier<0) {
+    multiplier = Math.abs(multiplier);
+  }
+  console.log(multiplier);
+  if (multiplier>0) {
+    multiplier = 7-multiplier;
+  }
+  fixt.date = parseInt(fixt.date) - (parseInt(86400000) * parseInt(multiplier))
+  console.log(fixt.date)
+  let test = new Date(parseInt(fixt.date))
+  console.log(test.toString())
+
+  //set date to a suitable value
+  hrs = time.split(':').slice(0,1)
+  mins = time.split(':').slice(1,2)
+  console.log(hrs + " " + mins)
+  fixt.date = fixt.date + (hrs * 3600000) + (mins * 60000);
+  console.log(new Date(fixt.date).toString())
+
+  //add it to the db
+  const result = await eight_nine_ball_fixtures.query().findOne({
+    player1: name,
+    player2: opponent
+  }).patch(fixt)
+
+  
 });
 
 /* 
