@@ -189,6 +189,7 @@ class CreateSeasonForm extends Component {
             placeholder="Season number"
             value={this.state.seasonName}
             id="inputSeasonNo"
+            ref="inputSeasonNo"
             onChange={e => this.setSeasonName(e)}
             onKeyPress={e => this.handleKeyDown(e)}
           />
@@ -232,6 +233,7 @@ class CreateSeasonForm extends Component {
             <button
               type="button"
               id="createSeasonBtn"
+              ref="createSeasonBtn"
               onClick={this.createSeason}
               style={this.createSeasonBtnStyle()}
             >

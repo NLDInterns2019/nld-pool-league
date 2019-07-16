@@ -16,7 +16,7 @@ class FixturesPage extends Component {
   };
 
   componentDidMount = async () => {
-    await this.setState({type: this.props.match.params.type});
+    await this.setState({ type: this.props.match.params.type });
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -53,7 +53,7 @@ class FixturesPage extends Component {
     return (
       <div className="fixtures">
         <Header />
-        <SubNavBar type={this.state.type}/>
+        <SubNavBar type={this.state.type} />
         <div className="content">
           <div className="contentLeft">
             <div>
