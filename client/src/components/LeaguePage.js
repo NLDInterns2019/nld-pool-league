@@ -29,7 +29,9 @@ class App extends React.Component {
     unplayedFixtures: [],
     fixtures: [],
     activeSeason: 0,
-    groupCount: 0
+    activePlayer: " ",
+    groupCount: 0,
+    hidePlayed: false
   };
 
   updateData = async () => {
@@ -48,7 +50,9 @@ class App extends React.Component {
       "/api/89ball_fixture/" + this.state.activeSeason,
       {
         params: {
-          type: this.state.type
+          type: this.state.type,
+          staffName: this.state.activePlayer,
+          hidePlayed: this.state.hidePlayed
         }
       }
     );
@@ -60,7 +64,8 @@ class App extends React.Component {
       {
         params: {
           type: this.state.type,
-          hidePlayed: true,
+          staffName: this.state.activePlayer,
+          hidePlayed: true
         }
       }
     );
@@ -163,32 +168,9 @@ class App extends React.Component {
   };
 
   applyFilter = async (staffName, hidePlayed) => {
-    const fixtures = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type,
-          staffName: staffName,
-          hidePlayed: hidePlayed
-        }
-      }
-    );
-
-    this.setState({ fixtures: fixtures.data });
-
-    const unplayedFixtures = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type,
-          staffName: staffName,
-          hidePlayed: true,
-        }
-      }
-    );
-
-    this.setState({ unplayedFixtures: unplayedFixtures.data });
-  }
+    await this.setState({ activePlayer: staffName, hidePlayed: hidePlayed });
+    this.updateData();
+  };
 
   render() {
     return (
