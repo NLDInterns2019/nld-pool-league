@@ -31,6 +31,14 @@ const SubNavBar = props => {
       }
     : {};
 
+  /* makes 'current season' link bold */
+  var currentSeasonCurrentStyle = matchPath(currentPath, {
+    path: "*/overview",
+    exact: false
+  })
+    ? { fontWeight: "bold" }
+    : {};
+
   return (
     <div className="subnav">
       <div className="nav">
@@ -54,6 +62,11 @@ const SubNavBar = props => {
                 All Seasons
               </Link>
             )}
+          </li>
+          <li>
+            <Link style={currentSeasonCurrentStyle} id="currentSeasonLink">
+              Current Season
+            </Link>
           </li>
           <li>
             {title !== "Billiards" ? (
