@@ -69,6 +69,7 @@ const HeaderNavigator = props => {
               <div>
                 <button
                   className="btn btn-dark"
+                  id="signout"
                   onClick={() => {
                     props.signOut();
                   }}

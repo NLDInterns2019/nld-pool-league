@@ -267,6 +267,10 @@ button:hover {
   margin-left: 0.5rem;
 }
 
+#signout {
+  background-color: #e23e4b;
+}
+
 /* ==== Seasons Page ==== */
 #seasons .content li {
   list-style-type: none;
