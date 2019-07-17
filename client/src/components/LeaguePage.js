@@ -26,10 +26,11 @@ class App extends React.Component {
   state = {
     type: "",
     players: [],
-    unplayedFixtures: [],
-    fixtures: [],
+    unplayedViewFixtures: [],
+    viewFixtures: [],
     activeSeason: 0,
-    activePlayer: " ",
+    activeViewPlayer: " ",
+    activeSubmitPlayer: " ",
     groupCount: 0,
     hidePlayed: false
   };
@@ -46,31 +47,31 @@ class App extends React.Component {
 
     this.setState({ players: response.data });
 
-    const fixtures = await backend.get(
+    const viewFixtures = await backend.get(
       "/api/89ball_fixture/" + this.state.activeSeason,
       {
         params: {
           type: this.state.type,
-          staffName: this.state.activePlayer,
+          staffName: this.state.activeViewPlayer,
           hidePlayed: this.state.hidePlayed
         }
       }
     );
 
-    this.setState({ fixtures: fixtures.data });
+    this.setState({ viewFixtures: viewFixtures.data });
 
-    const unplayedFixtures = await backend.get(
+    const unplayedViewFixtures = await backend.get(
       "/api/89ball_fixture/" + this.state.activeSeason,
       {
         params: {
           type: this.state.type,
-          staffName: this.state.activePlayer,
+          staffName: this.state.activeViewPlayer,
           hidePlayed: true
         }
       }
     );
 
-    this.setState({ unplayedFixtures: unplayedFixtures.data });
+    this.setState({ unplayedViewFixtures: unplayedViewFixtures.data });
 
     const count = await backend.get(
       "/api/89ball_fixture/group/" + this.state.activeSeason,
@@ -167,8 +168,11 @@ class App extends React.Component {
     });
   };
 
-  applyFilter = async (staffName, hidePlayed) => {
-    await this.setState({ activePlayer: staffName, hidePlayed: hidePlayed });
+  applyViewFilter = async (staffName, hidePlayed) => {
+    await this.setState({
+      activeViewPlayer: staffName,
+      hidePlayed: hidePlayed
+    });
     this.updateData();
   };
 
@@ -189,20 +193,20 @@ class App extends React.Component {
             />
             <SubmitScoreForm
               type={this.state.type}
-              unplayedFixtures={this.state.unplayedFixtures}
               changeFixtureScore={this.changeFixtureScore}
               activeSeason={this.state.activeSeason}
+              applySubmitFilter={this.applySubmitFilter}
             />
           </div>
           <div className="contentRight">
             <ViewYourFixtures
               type={this.state.type}
               activeSeason={this.state.activeSeason}
-              applyFilter={this.applyFilter}
+              applyFilter={this.applyViewFilter}
             />
             <div className="contentRight-bottom">
               <FixtureList
-                fixtures={this.state.fixtures}
+                fixtures={this.state.viewFixtures}
                 groupCount={this.state.groupCount}
               />
             </div>
