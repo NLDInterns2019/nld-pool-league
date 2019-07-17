@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import auth0Client from "../../Auth";
 
 const Login = props => {
@@ -7,7 +7,6 @@ const Login = props => {
     <div className="nav">
       <ul>
         <li>
-          <Link>
             {!auth0Client.isAuthenticated() && (
               <button className="btn btn-dark" onClick={auth0Client.signIn}>
                 Sign In
@@ -26,7 +25,6 @@ const Login = props => {
                 </button>
               </div>
             )}
-          </Link>
         </li>
       </ul>
     </div>
