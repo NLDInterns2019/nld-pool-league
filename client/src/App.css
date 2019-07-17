@@ -7,6 +7,7 @@ body {
   font-family: "Montserrat";
   background-color: #dbe9e2;
   min-width: 950px;
+  padding-bottom: 8rem;
 }
 
 /* ==== Headings ==== */
@@ -412,7 +413,7 @@ select:hover {
 
 /* ==== View Your Fixtures ==== */
 .viewYourFixtures form {
-  text-align: right;
+  text-align: center;
   width: 50%;
   margin: auto;
 }
@@ -512,10 +513,6 @@ select:hover {
 @media only screen and (min-width: 1351px) {
   .contentRight-bottom {
     overflow: auto;
-    max-height: 500px;
-  }
-
-  .submitScoreForm {
-    margin-bottom: 8rem;
+    max-height: 550px;
   }
 }
