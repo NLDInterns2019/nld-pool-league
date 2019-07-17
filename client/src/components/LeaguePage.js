@@ -191,6 +191,7 @@ class App extends React.Component {
               type={this.state.type}
               unplayedFixtures={this.state.unplayedFixtures}
               changeFixtureScore={this.changeFixtureScore}
+              activeSeason={this.state.activeSeason}
             />
           </div>
           <div className="contentRight">

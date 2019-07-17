@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import backend from "../../api/backend";
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
@@ -6,9 +7,13 @@ class SubmitScoreForm extends Component {
     super(props);
 
     this.initialState = {
+      allPlayers: [],
       players: "",
       score1: "",
-      score2: ""
+      score2: "",
+      type: "",
+      activeSeason: "",
+      activePlayer: " "
     };
 
     this.state = this.initialState;
@@ -20,6 +25,30 @@ class SubmitScoreForm extends Component {
     this.channel = "CLB0QN8JY";
     this.web = new WebClient(token);
   }
+
+  getPlayers = async () => {
+    const response = await backend.get(
+      "/api/89ball_league/" + this.state.activeSeason,
+      {
+        params: {
+          type: this.state.type
+        }
+      }
+    );
+    this.setState({ allPlayers: response.data });
+  };
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (
+      (this.state.activeSeason !== prevState.activeSeason ||
+        this.props.type !== prevProps.type) &&
+      this.props.type !== undefined
+    ) {
+      await this.setState({ type: this.props.type });
+      await this.setState({ activeSeason: this.props.activeSeason });
+      if (this.state.activeSeason !== undefined) this.getPlayers();
+    }
+  };
 
   isValid() {
     var regexScore = /^[0-2]$/; // matches 0, 1, or 2
@@ -101,6 +130,22 @@ class SubmitScoreForm extends Component {
       <div id="submitScoreForm">
         <h3>Submit Result</h3>
         <form>
+          <label>Select your name:</label>
+          <select
+            id="selectPlayer"
+            value={this.state.activePlayer}
+            onChange={e => this.setState({ activePlayer: e.target.value })}
+          >
+            <option value=" ">ALL</option>
+            {this.state.allPlayers.map(player => {
+              return (
+                <option key={player.staffName} value={player.staffName}>
+                  {player.staffName}
+                </option>
+              );
+            })}
+          </select>
+          <br />
           <label>Select fixture:</label>
           <select
             id="selectFixture"
