@@ -3,8 +3,9 @@ import "../../App.css";
 import { Link, matchPath, withRouter } from "react-router-dom";
 import auth0Client from "../../Auth";
 import HeaderNavigator from "./HeaderNavigator.js";
+import Login from "./Login";
 
-const Header = (props) => {
+const Header = props => {
   var currentPath = window.location.pathname;
   /* SIGN OUT */
   const signOut = () => {
@@ -21,8 +22,9 @@ const Header = (props) => {
         {matchPath(currentPath, { path: "/", exact: true }) ? (
           <div />
         ) : (
-          <HeaderNavigator signOut={signOut} />
+          <HeaderNavigator />
         )}
+        <Login signOut={signOut} />
       </div>
     </div>
   );
