@@ -27,7 +27,11 @@ ul {
 .header {
   background-color: #034732;
   color: white;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .header ul {
@@ -37,25 +41,23 @@ ul {
 
 .headerLeft,
 .headerRight {
-  display: inline-block;
   width: 50%;
 }
 
 .headerRight {
-  width: 450px;
-  vertical-align: middle;
-  text-align: right;
-  position: absolute;
+  padding-right: 1rem;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .headerRight-left {
-  float: left;
-  width: 337.5px;
+  order: 1;
 }
 
 .headerRight-right {
-  width: 112.5px;
-  float: right;
+  order: 2;
 }
 
 .headerLeft a {
