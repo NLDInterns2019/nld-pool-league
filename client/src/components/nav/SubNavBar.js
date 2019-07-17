@@ -7,11 +7,13 @@ const SubNavBar = props => {
   /* set the title of the nav bar depending on the URL path */
   var title = matchPath(currentPath, { path: "/8-ball/overview", exact: false })
     ? "8-Ball Season " + props.activeSeason
-    : matchPath(currentPath, { path: "/8-ball/seasons" })
+    : matchPath(currentPath, { path: "/8-ball/seasons" }) ||
+      matchPath(currentPath, { path: "/8-ball/fixtures" })
     ? "8-Ball"
     : matchPath(currentPath, { path: "/9-ball/overview", exact: false })
     ? "9-Ball Season " + props.activeSeason
-    : matchPath(currentPath, { path: "/9-ball/seasons" })
+    : matchPath(currentPath, { path: "/9-ball/seasons" }) ||
+      matchPath(currentPath, { path: "/9-ball/fixtures" })
     ? "9-Ball"
     : "Billiards";
 
