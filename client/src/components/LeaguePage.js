@@ -92,7 +92,7 @@ class App extends React.Component {
       channel: this.channel,
       /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
       text:
-        (type === "8" ? ":8ball:" : ":9ball:") +
+        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
         " RESULT:\n" +
         players.split(" ")[0] +
         "  " +

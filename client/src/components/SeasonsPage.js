@@ -65,7 +65,7 @@ class SeasonsPage extends Component {
       channel: this.channel,
       text:
         "New " +
-        (type === "8" ? ":8ball:" : ":9ball:") +
+        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
         " season called 'Season " +
         seasonName +
         "' created"
