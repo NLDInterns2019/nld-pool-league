@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #dbe9e2;
-  min-width: 800px;
+  min-width: 950px;
 }
 
 /* ==== Headings ==== */
@@ -27,23 +27,37 @@ ul {
 .header {
   background-color: #034732;
   color: white;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .header ul {
   display: inline-block;
-  align-content: right;
+  text-align: right;
 }
 
 .headerLeft,
 .headerRight {
-  display: inline-block;
   width: 50%;
 }
 
 .headerRight {
-  vertical-align: middle;
-  text-align: right;
+  padding-right: 1rem;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.headerRight-left {
+  order: 1;
+}
+
+.headerRight-right {
+  order: 2;
 }
 
 .headerLeft a {
@@ -157,7 +171,7 @@ table td {
 
 .fixtureTableContainer {
   display: inline-block;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
@@ -267,6 +281,10 @@ button:hover {
   margin-left: 0.5rem;
 }
 
+#signout {
+  background-color: #e23e4b;
+}
+
 /* ==== Seasons Page ==== */
 #seasons .content li {
   list-style-type: none;
@@ -363,6 +381,9 @@ button:hover {
 }
 
 /* ==== Arrange Fixture ==== */
+#arrangeFixture {
+  text-align: center;
+}
 #arrangeFixture label {
   padding-right: 0.5rem;
 }
@@ -398,6 +419,11 @@ button:hover {
 
 .viewYourFixtures select {
   margin-bottom: 1rem;
+}
+
+.viewYourFixtures input {
+  margin-bottom: 1rem;
+  vertical-align: top;
 }
 
 #viewBtn {
@@ -472,9 +498,9 @@ button:hover {
 }
 
 @media only screen and (min-width: 1351px) {
-  .contentRight {
+  .contentRight-bottom {
     overflow: auto;
-    max-height: 80%;
+    max-height: 500px;
   }
 
   .submitScoreForm {

@@ -57,8 +57,6 @@ const HeaderNavigator = () => {
             Billiards
           </Link>
         </li>
-        <li>
-        </li>
       </ul>
     </div>
   );
