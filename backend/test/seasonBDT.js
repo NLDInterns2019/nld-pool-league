@@ -78,6 +78,41 @@ describe("Seasons", () => {
     });
   });
 
+  describe("GET /api/89ball_season/latest", () => {
+    it("should get the latest season of 8 ball", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_season/latest?type=8")
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            seasonId: 2020
+          });
+          done();
+        });
+    });
+
+    it("should get the latest season of 9 ball", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_season/latest?type=9")
+        .send({
+          type: 9
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            seasonId: 2020
+          });
+          done();
+        });
+    });
+  });
+
   describe("DELETE /api/8ball_season/delete/", () => {
     it("should delete 8 ball 2019 season", done => {
       chai

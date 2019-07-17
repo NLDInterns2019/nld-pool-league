@@ -27,8 +27,8 @@ const App = () => {
         />
         <Route path="/:type(8|9)-ball/seasons" component={SeasonsPage} />
         <Route path="/:type(billiards)/seasons" component={SeasonsPage} />
-        <Route path="/:type(8|9)-ball/fixtures" component={FixturesPage} />
-        <Route path="/:type(billiards)/fixtures" component={FixturesPage} />
+        <Route path="/:type(8|9)-ball/fixtures/:seasonId" component={FixturesPage} />
+        <Route path="/:type(billiards)/fixtures/:seasonId" component={FixturesPage} />
         <Route path="/callback" component={Callback} />
         <Route component={NotFound} />
       </Switch>

@@ -3,8 +3,6 @@ import backend from "../api/backend";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
-import FixtureList from "./fixture/FixtureList";
-import ViewYourFixtures from "./fixture/ViewYourFixtures";
 import ArrangeFixture from "./fixture/ArrangeFixture";
 
 class FixturesPage extends Component {
@@ -12,11 +10,12 @@ class FixturesPage extends Component {
     type: "",
     fixtures: [],
     groupCount: 0,
-    refresh: false
+    refresh: false,
+    activeSeason: 0,
   };
 
   componentDidMount = async () => {
-    await this.setState({ type: this.props.match.params.type });
+    await this.setState({ type: this.props.match.params.type, activeSeason: this.props.match.params.seasonId});
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -53,24 +52,9 @@ class FixturesPage extends Component {
     return (
       <div className="fixtures">
         <Header />
-        <SubNavBar type={this.state.type} />
+        <SubNavBar activeSeason={this.state.activeSeason} type={this.state.type} />
         <div className="content">
-          {/*<div className="contentLeft">
-            <div>
-              <ViewYourFixtures
-                type={this.state.type}
-                viewFixtures={this.viewFixtures}
-              />
-              <FixtureList
-                fixtures={this.state.fixtures}
-                groupCount={this.state.groupCount}
-              />
-            </div>
-          </div>
-    <div className="contentRight">*/}
-          {/*<SubmitScoreForm />*/}
           <ArrangeFixture />
-          {/*</div>*/}
         </div>
       </div>
     );

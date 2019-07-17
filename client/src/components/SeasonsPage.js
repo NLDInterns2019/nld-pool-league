@@ -18,7 +18,8 @@ class SeasonsPage extends Component {
     super(props);
     this.state = {
       type: "",
-      seasons: []
+      seasons: [],
+      latestSeason: null
     };
 
     /* slack token */
@@ -28,6 +29,18 @@ class SeasonsPage extends Component {
     this.channel = "CLB0QN8JY";
     this.web = new WebClient(token);
   }
+
+  getLatestSeason = async () => {
+    const latest = await backend.get("/api/89ball_season/latest", {
+      params: {
+        type: this.state.type
+      }
+    });
+
+    this.setState({
+      latestSeason: latest.data[0].seasonId
+    });
+  };
 
   getSeasonsList = async () => {
     const response = await backend.get("/api/89ball_season", {
@@ -41,12 +54,14 @@ class SeasonsPage extends Component {
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     this.getSeasonsList();
+    this.getLatestSeason();
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
     if (this.props.match.params.type !== prevProps.match.params.type) {
       await this.setState({ type: this.props.match.params.type });
       this.getSeasonsList();
+      this.getLatestSeason();
     }
   };
 
@@ -78,7 +93,7 @@ class SeasonsPage extends Component {
     try {
       const headers = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${auth0Client.getIdToken()}`
+        Authorization: `Bearer ${auth0Client.getIdToken()}`
       };
 
       await backend.post(
@@ -106,6 +121,7 @@ class SeasonsPage extends Component {
         )
         .then(() => {
           this.getSeasonsList();
+          this.getLatestSeason();
           this.toastSuccess("Season Created");
           this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
         });
@@ -125,6 +141,7 @@ class SeasonsPage extends Component {
       })
       .then(() => {
         this.getSeasonsList();
+        this.getLatestSeason();
         this.toastSuccess("Deleted");
       })
       .catch(e => {
@@ -160,7 +177,10 @@ class SeasonsPage extends Component {
       <div id="seasons">
         <ToastContainer />
         <Header />
-        <SubNavBar type={this.state.type} />
+        <SubNavBar
+          latestSeason={this.state.latestSeason}
+          type={this.state.type}
+        />
         <div className="content">
           <div id="seasonsListContainer">
             <SeasonsList
