@@ -66,7 +66,9 @@ const SubNavBar = props => {
           return (
             <span>
               <li>
-                <Link onClick={() => toastSeasonNotFound()}>Latest Season</Link>
+                <Link onClick={() => toastSeasonNotFound()}>
+                  Current Season
+                </Link>
               </li>
               <li>
                 <Link onClick={() => toastSeasonNotFound()}>
@@ -84,7 +86,7 @@ const SubNavBar = props => {
                   style={currentSeasonCurrentStyle}
                   id="fixturesLink"
                 >
-                  Latest Season
+                  Current Season
                 </Link>
               </li>
               <li>
@@ -108,7 +110,7 @@ const SubNavBar = props => {
                 style={currentSeasonCurrentStyle}
                 id="fixturesLink"
               >
-                Current Seasons
+                Current Season
               </Link>
             </li>
             <li>
