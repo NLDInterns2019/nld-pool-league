@@ -1,8 +1,7 @@
 import React from "react";
 import { Link, matchPath, withRouter } from "react-router-dom";
-import auth0Client from "../../Auth";
 
-const HeaderNavigator = props => {
+const HeaderNavigator = () => {
   var currentPath = window.location.pathname;
   /* makes '8-ball' bold */
   var eightBallCurrentStyle = matchPath(currentPath, {
@@ -56,28 +55,6 @@ const HeaderNavigator = props => {
             id="billiardsLink"
           >
             Billiards
-          </Link>
-        </li>
-        <li>
-          <Link>
-            {!auth0Client.isAuthenticated() && (
-              <button className="btn btn-dark" onClick={auth0Client.signIn}>
-                Sign In
-              </button>
-            )}
-            {auth0Client.isAuthenticated() && (
-              <div>
-                <button
-                  className="btn btn-dark"
-                  id="signout"
-                  onClick={() => {
-                    props.signOut();
-                  }}
-                >
-                  Sign Out
-                </button>
-              </div>
-            )}
           </Link>
         </li>
       </ul>
