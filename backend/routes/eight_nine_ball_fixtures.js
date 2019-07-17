@@ -13,35 +13,6 @@ const fixture_split = require("../functions/polygonshuffle");
 const fixturegen = require("../functions/fixturegen");
 const dayVal = require("../functions/dayVal");
 const timeInMillis = require("../functions/timeInMillis");
-/* 
-  GET handler for /api/89_ball_fixture
-  Function: To get all the fixtures of the specified type
-*/
-router.get("/", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
-
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
-  eight_nine_ball_fixtures
-    .query()
-    .where({ type: req.query.type })
-    .then(
-      fixture => {
-        res.json(fixture);
-      },
-      e => {
-        res.status(400).json(e);
-      }
-    );
-});
 
 /* 
   GET handler for /api/89_ball_fixture/group/:seasonId
@@ -117,67 +88,6 @@ router.get("/due/:staffName", (req, res) => {
 });
 
 /* 
-  GET handler for /api/89ball_fixture/unplayed/:seasonId
-  Function: To get all the fixtures unplayed in a season.
-*/
-router.get("/unplayed/:seasonId", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
-
-    //Validation
-    if (Joi.validate(req.query, schema, { convert: false }).error) {
-      res.status(400).json({ status: "error", error: "Invalid data" });
-      return;
-    }
-
-  let seasonId = parseInt(req.params.seasonId);
-  eight_nine_ball_fixtures
-    .query()
-    .where({type: req.query.type, seasonId: seasonId, score1: null, score2: null })
-    .orderBy("player1", "asc")
-    .then(
-      fixture => {
-          res.send(fixture);
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
-});
-
-/* 
-  GET handler for /api/89ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed by a user in a season. Caps sensitive.
-*/
-router.get("/unplayed/:seasonId/:staffName", (req, res) => { //fix urls
-  let seasonId = parseInt(req.params.seasonId);
-  let staffName = req.params.staffName;
-  eight_ball_fixtures
-    .query()
-    .where({ seasonId: seasonId })
-    .where({ score1: null })
-    .where({player1: staffName})
-    .orWhere({player2: staffName})
-    .orderBy("player1", "asc")
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
-});
-
-/* 
   GET handler for /api/89_ball_fixture/:seasonId
   Function: To get all the fixtures in the specified season
 */
@@ -186,7 +96,9 @@ router.get("/:seasonId", (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
-      .required()
+      .required(),
+    staffName: Joi.string(),
+    hidePlayed: Joi.string()
   };
 
   //Validation
@@ -195,57 +107,35 @@ router.get("/:seasonId", (req, res) => {
     return;
   }
 
-  let seasonId = parseInt(req.params.seasonId, 10);
-
-  eight_nine_ball_fixtures
-    .query()
-    .where({ type: req.query.type, seasonId: seasonId })
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
-});
-
-/* 
-  GET handler for /api/89_ball_fixture/:seasonId/:staffName
-  Function: To get all the fixtures in the specified season for specified player
-*/
-router.get("/:seasonId/:staffName", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
+  //Build the filter
+  let where1 = {
+    type: req.query.type,
+    seasonId: parseInt(req.params.seasonId, 10)
+  };
+  let where2 = {
+    type: req.query.type,
+    seasonId: parseInt(req.params.seasonId, 10)
   };
 
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
+  //Params handling
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== "") {
+    where1.player1 = req.query.staffName;
+    where2.player2 = req.query.staffName;
   }
-
-  let seasonId = parseInt(req.params.seasonId, 10);
-  let staffName = req.params.staffName;
+  if (req.query.hasOwnProperty("hidePlayed") && req.query.hidePlayed === "true") {
+    where1.score1 = null;
+    where1.score2 = null;
+    where2.score1 = null;
+    where2.score2 = null;
+  }
 
   eight_nine_ball_fixtures
     .query()
-    .where({ type: req.query.type, seasonId: seasonId, player1: staffName })
-    .orWhere({ type: req.query.type, seasonId: seasonId, player2: staffName })
+    .where(where1)
+    .orWhere(where2)
     .then(
       fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
+        res.send(fixture);
       },
       e => {
         res.status(500).json(e);
@@ -257,7 +147,7 @@ router.get("/:seasonId/:staffName", (req, res) => {
   PUT handler for /api/89ball_fixture/edit/
   Function: To update the score
 */
-router.put("/edit",auth.checkJwt, async (req, res) => {
+router.put("/edit", auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
@@ -409,13 +299,13 @@ router.put("/edit",auth.checkJwt, async (req, res) => {
   POST handler for /api/89_ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
 */
-router.post("/generate",auth.checkJwt, async (req, res) => {
+router.post("/generate", auth.checkJwt, async (req, res) => {
   var group = 0;
-  var aesDate = new Date(); 
+  var aesDate = new Date();
   aesDate.setDate(aesDate.getDate() + 7);
   let seasonId = req.body.seasonId;
   let type = req.body.type;
-  
+
   //take the seasonid and see if it's acceptable
   const schema = {
     type: Joi.number()
@@ -453,7 +343,13 @@ router.post("/generate",auth.checkJwt, async (req, res) => {
   }
   //this gets a fixture and puts it into fixtSets
   for (var j = 0; j < playerCount - exCount; j++) {
-    fixture = fixturegen.fixtureCalc(type, players, seasonId, group, aesDate.getTime()); //this represents the fixture rows
+    fixture = fixturegen.fixtureCalc(
+      type,
+      players,
+      seasonId,
+      group,
+      aesDate.getTime()
+    ); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -465,8 +361,8 @@ router.post("/generate",auth.checkJwt, async (req, res) => {
       }
     );
     group++;
-    aesDate.setDate(aesDate.getDate()+7);
-    
+    aesDate.setDate(aesDate.getDate() + 7);
+
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }
 });
@@ -499,7 +395,7 @@ router.get("/overdue", (req, res) => {
   POST handler for /api/89ball_fixture/book/. 
   Function: Books a fixture for a particular date.
 */
-router.put("/book",  async (req, res) => {
+router.put("/book", async (req, res) => {
   req.query.type = parseInt(req.query.type, 10);
   let name = req.body.name;
   let opponent = req.body.opponent;
@@ -508,60 +404,62 @@ router.put("/book",  async (req, res) => {
 
   //find the fixture
   const fixt = await eight_nine_ball_fixtures.query().findOne({
-      player1: name,
-      player2: opponent
-  })
+    player1: name,
+    player2: opponent
+  });
 
   //set the time from the db value to 00:00
-  let convDate = new Date(fixt.date) 
-  console.log("Maximum date: " + convDate.toString())
-  let oldDay = convDate.toString().split(' ').slice(0,1).join(' ') //stores day from db
-  let oldTime = convDate.toString().split(' ').slice(4,5).join(' ') //stores time from db
+  let convDate = new Date(fixt.date);
+  console.log("Maximum date: " + convDate.toString());
+  let oldDay = convDate
+    .toString()
+    .split(" ")
+    .slice(0, 1)
+    .join(" "); //stores day from db
+  let oldTime = convDate
+    .toString()
+    .split(" ")
+    .slice(4, 5)
+    .join(" "); //stores time from db
 
   let timeDeduct = timeInMillis.getMillis(oldTime);
   let booked = fixt.date - timeDeduct; //date is now 00:00
-  
+
   //go back a suitable number of days
   let oPlace = 0;
   oPlace = dayVal.dayValue(oldDay);
   nPlace = dayVal.dayValue(day);
-  
-  let multiplier = parseInt(oPlace)-parseInt(nPlace);
-  if (multiplier<0) {
+
+  let multiplier = parseInt(oPlace) - parseInt(nPlace);
+  if (multiplier < 0) {
     multiplier = Math.abs(multiplier);
-  } 
-   if (multiplier>0) {
-    multiplier = 7-multiplier;
   }
-  booked = parseInt(booked) - (parseInt(86400000) * parseInt(multiplier))
+  if (multiplier > 0) {
+    multiplier = 7 - multiplier;
+  }
+  booked = parseInt(booked) - parseInt(86400000) * parseInt(multiplier);
 
   //add the extra time back on
   let timeAdd = timeInMillis.getMillis(time);
   booked = booked + timeAdd; //this one is stored in the db
-  console.log("Matched date: " + new Date(booked).toString()) //this is what it would look like parsed. do NOT store this one
+  console.log("Matched date: " + new Date(booked).toString()); //this is what it would look like parsed. do NOT store this one
 
   //add it to the db
- /* const result = await eight_nine_ball_fixtures.query().findOne({
+  /* const result = await eight_nine_ball_fixtures.query().findOne({
     player1: name,
     player2: opponent
   }).patch(fixt)*/
-
-  
 });
 
 /* 
   POST handler for /api/89ball_fixture/book/edit. 
   Function: Edit a fixture's booking.
 */
-router.get("/book/edit", (req, res) => {
-  
-});
+router.get("/book/edit", (req, res) => {});
 
 /* 
   POST handler for /api/89ball_fixture/book/. 
   Function: Remove a fixture booking.
 */
-router.get("/book/delete", (req, res) => {
-  
-});
+router.get("/book/delete", (req, res) => {});
 module.exports = router;
