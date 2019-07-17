@@ -60,9 +60,12 @@ class ViewYourFixtures extends React.Component {
             })}
           </select>
           <br />
-          <label htmlFor="hide">Hide Played Fixtures</label>
+          <label htmlFor="hide" className="hide">
+            Hide Played Fixtures
+          </label>
           <input
             id="hide"
+            className="hide"
             type="checkbox"
             name="hidePlayed"
             checked={this.state.hidePlayed}
@@ -70,10 +73,11 @@ class ViewYourFixtures extends React.Component {
               this.setState({ hidePlayed: e.target.checked });
             }}
           />
-          <div id="viewBtn">
+          <div id="viewFixtureBtns">
             <button type="button" onClick={this.viewFixtures}>
               View
             </button>
+            <button type="button">Clear</button>
           </div>
         </form>
       </div>

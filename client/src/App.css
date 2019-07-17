@@ -285,6 +285,11 @@ button:hover {
   background-color: #e23e4b;
 }
 
+/* ==== Drop Downs ==== */
+select:hover {
+  cursor: pointer;
+}
+
 /* ==== Seasons Page ==== */
 #seasons .content li {
   list-style-type: none;
@@ -426,7 +431,11 @@ button:hover {
   vertical-align: top;
 }
 
-#viewBtn {
+.viewYourFixtures .hide:hover {
+  cursor: pointer;
+}
+
+#viewFixtureBtns {
   text-align: center;
 }
 
