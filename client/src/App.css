@@ -419,6 +419,11 @@ button:hover {
   margin-bottom: 1rem;
 }
 
+.viewYourFixtures input {
+  margin-bottom: 1rem;
+  vertical-align: top;
+}
+
 #viewBtn {
   text-align: center;
 }

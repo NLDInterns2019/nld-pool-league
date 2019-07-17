@@ -50,7 +50,7 @@ class ViewYourFixtures extends React.Component {
   render() {
     return (
       <div className="viewYourFixtures">
-        <h3>View Your Fixtures</h3>
+        <h3>View Fixtures</h3>
         <form>
           <label>Select a season:</label>
           <select
@@ -85,6 +85,14 @@ class ViewYourFixtures extends React.Component {
               );
             })}
           </select>
+          <br />
+          <label htmlFor="hide">Hide Played Fixtures</label>
+          <input
+            id="hide"
+            type="checkbox"
+            name="hidePlayedFixtures"
+            value="hidePlayedFixtures"
+          />
           <div id="viewBtn">
             <button type="button" onClick={this.viewFixtures}>
               View
