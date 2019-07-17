@@ -84,7 +84,7 @@ const SubNavBar = props => {
                   style={currentSeasonCurrentStyle}
                   id="fixturesLink"
                 >
-                  Latest Season
+                  Current Season
                 </Link>
               </li>
               <li>
@@ -108,7 +108,7 @@ const SubNavBar = props => {
                 style={currentSeasonCurrentStyle}
                 id="fixturesLink"
               >
-                Current Seasons
+                Current Season
               </Link>
             </li>
             <li>
