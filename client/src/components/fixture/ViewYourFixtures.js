@@ -4,19 +4,10 @@ import backend from "../../api/backend";
 class ViewYourFixtures extends React.Component {
   state = {
     type: "",
-    seasons: [],
     players: [],
     activeSeason: "",
-    activePlayer: ""
-  };
-
-  getSeasonsList = async () => {
-    const response = await backend.get("/api/89ball_season", {
-      params: {
-        type: this.state.type
-      }
-    });
-    this.setState({ seasons: response.data });
+    activePlayer: "",
+    hidePlayed: false
   };
 
   getPlayers = async () => {
@@ -38,37 +29,20 @@ class ViewYourFixtures extends React.Component {
       this.props.type !== undefined
     ) {
       await this.setState({ type: this.props.type });
-      this.getSeasonsList();
-      if (this.state.activeSeason !== "") this.getPlayers();
+      await this.setState({ activeSeason: this.props.activeSeason });
+      if (this.state.activeSeason !== undefined) this.getPlayers();
     }
   };
 
   viewFixtures = () => {
-    this.props.viewFixtures(this.state.activeSeason, this.state.activePlayer);
-  };
+    this.props.applyFilter(this.state.activePlayer, this.state.hidePlayed);
+  }
 
   render() {
     return (
       <div className="viewYourFixtures">
         <h3>View Fixtures</h3>
         <form>
-          <label>Select a season:</label>
-          <select
-            value={this.state.activeSeason}
-            onChange={e => this.setState({ activeSeason: e.target.value })}
-          >
-            <option disabled value="">
-              Season
-            </option>
-            {this.state.seasons.map(season => {
-              return (
-                <option key={season.seasonId} value={season.seasonId}>
-                  {season.seasonId}
-                </option>
-              );
-            })}
-          </select>
-          <br />
           <label>Select your name:</label>
           <select
             value={this.state.activePlayer}
@@ -90,8 +64,11 @@ class ViewYourFixtures extends React.Component {
           <input
             id="hide"
             type="checkbox"
-            name="hidePlayedFixtures"
-            value="hidePlayedFixtures"
+            name="hidePlayed"
+            checked={this.state.hidePlayed}
+            onChange={e => {
+              this.setState({ hidePlayed: e.target.checked });
+            }}
           />
           <div id="viewBtn">
             <button type="button" onClick={this.viewFixtures}>
