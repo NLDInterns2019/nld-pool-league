@@ -11,7 +11,7 @@ const SubNavBar = props => {
     ? "9-Ball"
     : "Billiards";
 
-  /* makes 'seasons' link bold */
+  /* makes 'All Seasons' link bold */
   var seasonsCurrentStyle = matchPath(currentPath, {
     path: "*/seasons",
     exact: false
@@ -30,6 +30,7 @@ const SubNavBar = props => {
         fontWeight: "bold"
       }
     : {};
+
   return (
     <div className="subnav">
       <div className="nav">
@@ -42,7 +43,7 @@ const SubNavBar = props => {
                 style={seasonsCurrentStyle}
                 id="seasonsLink"
               >
-                Seasons
+                All Seasons
               </Link>
             ) : (
               <Link
@@ -50,7 +51,7 @@ const SubNavBar = props => {
                 style={seasonsCurrentStyle}
                 id="seasonsLink"
               >
-                Seasons
+                All Seasons
               </Link>
             )}
           </li>
