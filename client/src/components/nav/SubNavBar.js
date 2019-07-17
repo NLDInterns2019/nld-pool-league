@@ -36,7 +36,9 @@ const SubNavBar = props => {
     path: "*/overview",
     exact: false
   })
-    ? { fontWeight: "bold" }
+    ? {
+        fontWeight: "bold"
+      }
     : {};
 
   return (
