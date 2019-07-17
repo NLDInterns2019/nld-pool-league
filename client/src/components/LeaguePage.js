@@ -177,7 +177,10 @@ class App extends React.Component {
       <div className="app">
         <ToastContainer />
         <Header />
-        <SubNavBar type={this.state.type} />
+        <SubNavBar
+          type={this.state.type}
+          activeSeason={this.state.activeSeason}
+        />
         <div className="content">
           <div className="contentLeft">
             <LeagueTable

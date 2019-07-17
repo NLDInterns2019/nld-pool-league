@@ -5,9 +5,13 @@ const SubNavBar = props => {
   var currentPath = window.location.pathname;
 
   /* set the title of the nav bar depending on the URL path */
-  var title = matchPath(currentPath, { path: "/8-ball", exact: false })
+  var title = matchPath(currentPath, { path: "/8-ball/overview", exact: false })
+    ? "8-Ball Season " + props.activeSeason
+    : matchPath(currentPath, { path: "/8-ball/seasons" })
     ? "8-Ball"
-    : matchPath(currentPath, { path: "/9-ball", exact: false })
+    : matchPath(currentPath, { path: "/9-ball/overview", exact: false })
+    ? "9-Ball Season " + props.activeSeason
+    : matchPath(currentPath, { path: "/9-ball/seasons" })
     ? "9-Ball"
     : "Billiards";
 
