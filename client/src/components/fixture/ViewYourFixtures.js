@@ -36,7 +36,12 @@ class ViewYourFixtures extends React.Component {
 
   viewFixtures = () => {
     this.props.applyFilter(this.state.activePlayer, this.state.hidePlayed);
-  }
+  };
+
+  clear = async () => {
+    await this.setState({ activePlayer: " ", hidePlayed: false });
+    this.viewFixtures();
+  };
 
   render() {
     return (
@@ -48,9 +53,7 @@ class ViewYourFixtures extends React.Component {
             value={this.state.activePlayer}
             onChange={e => this.setState({ activePlayer: e.target.value })}
           >
-            <option value=" ">
-              ALL
-            </option>
+            <option value=" ">ALL</option>
             {this.state.players.map(player => {
               return (
                 <option key={player.staffName} value={player.staffName}>
@@ -77,7 +80,9 @@ class ViewYourFixtures extends React.Component {
             <button type="button" onClick={this.viewFixtures}>
               View
             </button>
-            <button type="button">Clear</button>
+            <button type="button" onClick={this.clear}>
+              Clear
+            </button>
           </div>
         </form>
       </div>
