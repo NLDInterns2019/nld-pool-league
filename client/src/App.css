@@ -110,6 +110,9 @@ ul {
   display: inline-block;
   padding-left: 5rem;
 }
+.subnav li {
+  padding-right: 2.5rem;
+}
 
 /* ==== Content ==== */
 .content-centre {
