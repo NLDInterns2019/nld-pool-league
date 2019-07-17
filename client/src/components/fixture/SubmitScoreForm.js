@@ -13,7 +13,8 @@ class SubmitScoreForm extends Component {
       score2: "",
       type: "",
       activeSeason: "",
-      activePlayer: " "
+      activePlayer: " ",
+      unplayedFixtures: []
     };
 
     this.state = this.initialState;
@@ -38,15 +39,33 @@ class SubmitScoreForm extends Component {
     this.setState({ allPlayers: response.data });
   };
 
+  getFixtures = async () => {
+    const response = await backend.get(
+      "/api/89ball_fixture/" + this.state.activeSeason,
+      {
+        params: {
+          type: this.state.type,
+          hidePlayed: true,
+          staffName: this.state.activePlayer
+        }
+      }
+    );
+    this.setState({ unplayedFixtures: response.data });
+  };
+
   componentDidUpdate = async (prevProps, prevState) => {
     if (
       (this.state.activeSeason !== prevState.activeSeason ||
-        this.props.type !== prevProps.type) &&
+        this.props.type !== prevProps.type ||
+        this.state.activePlayer !== prevState.activePlayer) &&
       this.props.type !== undefined
     ) {
       await this.setState({ type: this.props.type });
       await this.setState({ activeSeason: this.props.activeSeason });
-      if (this.state.activeSeason !== undefined) this.getPlayers();
+      if (this.state.activeSeason !== undefined) {
+        this.getPlayers();
+        this.getFixtures();
+      }
     }
   };
 
@@ -155,7 +174,7 @@ class SubmitScoreForm extends Component {
             <option disabled value={""}>
               PLAYER1 &nbsp;&nbsp;VS&nbsp;&nbsp; PLAYER 2
             </option>
-            {this.props.unplayedFixtures.map(fixture => {
+            {this.state.unplayedFixtures.map(fixture => {
               let player1 = fixture.player1;
               let player2 = fixture.player2;
               return (
