@@ -19,12 +19,16 @@ const Header = props => {
         <Link to="/">POOL MANAGER</Link>
       </div>
       <div className="headerRight">
-        {matchPath(currentPath, { path: "/", exact: true }) ? (
-          <div />
-        ) : (
-          <HeaderNavigator />
-        )}
-        <Login signOut={signOut} />
+        <div className="headerRight-left">
+          {matchPath(currentPath, { path: "/", exact: true }) ? (
+            <div />
+          ) : (
+            <HeaderNavigator />
+          )}
+        </div>
+        <div className="headerRight-right">
+          <Login signOut={signOut} />
+        </div>
       </div>
     </div>
   );

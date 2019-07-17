@@ -8,6 +8,7 @@ import SubNavBar from "./nav//SubNavBar.js";
 import LeagueTable from "./league/LeagueTable.js";
 import FixtureList from "./fixture/FixtureList";
 import SubmitScoreForm from "./fixture/SubmitScoreForm.js";
+import ViewYourFixtures from "./fixture/ViewYourFixtures.js";
 
 const { WebClient } = require("@slack/web-api");
 
@@ -179,10 +180,16 @@ class App extends React.Component {
             />
           </div>
           <div className="contentRight">
-            <FixtureList
-              fixtures={this.state.fixtures}
-              groupCount={this.state.groupCount}
+            <ViewYourFixtures
+              type={this.state.type}
+              viewFixtures={this.viewFixtures}
             />
+            <div className="contentRight-bottom">
+              <FixtureList
+                fixtures={this.state.fixtures}
+                groupCount={this.state.groupCount}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -55,7 +55,7 @@ class FixturesPage extends Component {
         <Header />
         <SubNavBar type={this.state.type} />
         <div className="content">
-          <div className="contentLeft">
+          {/*<div className="contentLeft">
             <div>
               <ViewYourFixtures
                 type={this.state.type}
@@ -67,10 +67,10 @@ class FixturesPage extends Component {
               />
             </div>
           </div>
-          <div className="contentRight">
-            {/*<SubmitScoreForm />*/}
-            <ArrangeFixture />
-          </div>
+    <div className="contentRight">*/}
+          {/*<SubmitScoreForm />*/}
+          <ArrangeFixture />
+          {/*</div>*/}
         </div>
       </div>
     );
