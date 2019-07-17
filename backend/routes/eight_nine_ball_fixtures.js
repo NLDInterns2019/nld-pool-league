@@ -89,7 +89,7 @@ router.get("/due/:staffName", (req, res) => {
 
 /* 
   GET handler for /api/89_ball_fixture/:seasonId
-  Function: To get all the fixtures in the specified season
+  Function: To get the fixtures in the specified seasons with specified params
 */
 router.get("/:seasonId", (req, res) => {
   req.query.type = parseInt(req.query.type, 10);
@@ -118,7 +118,7 @@ router.get("/:seasonId", (req, res) => {
   };
 
   //Params handling
-  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== "") {
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
     where1.player1 = req.query.staffName;
     where2.player2 = req.query.staffName;
   }

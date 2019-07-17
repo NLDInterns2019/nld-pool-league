@@ -6,7 +6,7 @@ class ViewYourFixtures extends React.Component {
     type: "",
     players: [],
     activeSeason: "",
-    activePlayer: "",
+    activePlayer: " ",
     hidePlayed: false
   };
 
@@ -48,8 +48,8 @@ class ViewYourFixtures extends React.Component {
             value={this.state.activePlayer}
             onChange={e => this.setState({ activePlayer: e.target.value })}
           >
-            <option value="" disabled>
-              Name
+            <option value=" ">
+              ALL
             </option>
             {this.state.players.map(player => {
               return (
