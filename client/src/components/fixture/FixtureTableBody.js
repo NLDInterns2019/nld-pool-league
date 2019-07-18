@@ -4,7 +4,7 @@ const FixtureTableBody = props => {
   const itemsToBeDisplayed = props.fixtures.map(fixture => {
     return (
       <tr key={fixture.id}>
-        <td align="center" className="fixtureTableCell">
+        <td align="center" className="fixtureTableCell" id="tableScore1">
           {fixture.score1}
         </td>
         <td align="center" className="fixtureTableCell">
@@ -16,7 +16,7 @@ const FixtureTableBody = props => {
         <td align="center" className="fixtureTableCell">
           {fixture.player2}
         </td>
-        <td align="center" className="fixtureTableCell">
+        <td align="center" className="fixtureTableCell" id="tableScore2">
           {fixture.score2}
         </td>
       </tr>
