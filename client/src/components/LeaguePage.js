@@ -32,7 +32,7 @@ class App extends React.Component {
     activeViewPlayer: " ",
     activeSubmitPlayer: " ",
     groupCount: 0,
-    hidePlayed: false
+    hidePlayed: true
   };
 
   updateData = async () => {

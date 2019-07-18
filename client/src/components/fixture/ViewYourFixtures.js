@@ -7,7 +7,7 @@ class ViewYourFixtures extends React.Component {
     players: [],
     activeSeason: "",
     activePlayer: " ",
-    hidePlayed: false
+    hidePlayed: true
   };
 
   getPlayers = async () => {
@@ -39,7 +39,7 @@ class ViewYourFixtures extends React.Component {
   };
 
   clear = async () => {
-    await this.setState({ activePlayer: " ", hidePlayed: false });
+    await this.setState({ activePlayer: " ", hidePlayed: true });
     this.viewFixtures();
   };
 
@@ -64,16 +64,16 @@ class ViewYourFixtures extends React.Component {
           </select>
           <br />
           <label htmlFor="hide" className="hide">
-            Hide Played Fixtures
+            Show Played Fixtures
           </label>
           <input
             id="hide"
             className="hide"
             type="checkbox"
             name="hidePlayed"
-            checked={this.state.hidePlayed}
+            checked={!this.state.hidePlayed}
             onChange={e => {
-              this.setState({ hidePlayed: e.target.checked });
+              this.setState({ hidePlayed: !e.target.checked });
             }}
           />
           <div id="viewFixtureBtns">
