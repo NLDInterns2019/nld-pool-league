@@ -2,14 +2,20 @@ import React from "react";
 import backend from "../../api/backend";
 
 class ArrangeFixture extends React.Component {
-  state = {
-    type: "",
-    players: [],
-    activeSeason: 0,
-    activePlayer: " ",
-    activeOpponent: " ",
-    unplayedFixtures: []
-  };
+  constructor(props) {
+    super(props);
+
+    this.initialState = {
+      type: "",
+      players: [],
+      activeSeason: 0,
+      activePlayer: " ",
+      activeOpponent: " ",
+      unplayedFixtures: []
+    };
+
+    this.state = this.initialState;
+  }
 
   getPlayers = async () => {
     const response = await backend.get(
@@ -104,6 +110,14 @@ class ArrangeFixture extends React.Component {
     );
   };
 
+  makeBooking = () => {
+    this.props.makeBooking(
+      this.state.activePlayer,
+      this.state.activeOpponent
+    );
+    this.setState(this.initialState)
+  };
+
   render() {
     return (
       <div id="arrangeFixture">
@@ -114,41 +128,8 @@ class ArrangeFixture extends React.Component {
           <br />
           <label>Select your opponent:</label>
           {this.opponentDropDown()}
-          <br />
-          {/* <label>Day:</label>
-          <select>
-            <option selected disabled value="day">
-              Day
-            </option>
-            <option value="monday">Monday</option>
-            <option value="tuesday">Tuesday</option>
-            <option value="wednesday">Wednesday</option>
-            <option value="thursday">Thursday</option>
-            <option value="friday">Friday</option>
-          </select>
-          <br />
-          <label>Time:</label>
-          <select>
-            <option selected disabled value="time">
-              Time
-            </option>
-            <option value="11:00">11:00</option>
-            <option value="11:15">11:15</option>
-            <option value="11:30">11:30</option>
-            <option value="11:45">11:45</option>
-            <option value="12:00">12:00</option>
-            <option value="12:15">12:15</option>
-            <option value="12:30">12:30</option>
-            <option value="12:45">12:45</option>
-            <option value="13:00">13:00</option>
-            <option value="13:15">13:15</option>
-            <option value="13:30">13:30</option>
-            <option value="13:45">13:45</option>
-            <option value="14:00">14:00</option>
-          </select>
-          <br /> */}
           <div id="arrangeFixtureBtn">
-            <button type="button" onClick={this.props.closePopUp}>
+            <button type="button" onClick={this.makeBooking}>
               Arrange
             </button>
           </div>
