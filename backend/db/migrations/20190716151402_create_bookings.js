@@ -1,15 +1,16 @@
-
 exports.up = function(knex) {
-    return knex.schema.createTable("bookings", table => {
-        table.increments();
-        table.string("date");
-        table.integer("booking");
-    
-        table.timestamp("created_at").defaultTo(knex.fn.now());
-        table.timestamp("updated_at").defaultTo(knex.fn.now());
-      });
+  return knex.schema.createTable("bookings", table => {
+    table.increments();
+    table.string("date").notNullable();
+    table.integer("booking");
+    table.string("player1").notNullable();
+    table.string("player2").notNullable();
+
+    table.timestamp("created_at").defaultTo(knex.fn.now());
+    table.timestamp("updated_at").defaultTo(knex.fn.now());
+  });
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTable("bookings");
-  };
+  return knex.schema.dropTable("bookings");
+};
