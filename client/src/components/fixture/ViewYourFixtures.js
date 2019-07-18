@@ -32,14 +32,16 @@ class ViewYourFixtures extends React.Component {
       await this.setState({ activeSeason: this.props.activeSeason });
       if (this.state.activeSeason !== undefined) this.getPlayers();
     }
-    if(this.state.activePlayer !== prevState.activePlayer || this.state.hidePlayed !== prevState.hidePlayed){
+    if (
+      this.state.activePlayer !== prevState.activePlayer ||
+      this.state.hidePlayed !== prevState.hidePlayed
+    ) {
       this.props.applyFilter(this.state.activePlayer, this.state.hidePlayed);
     }
   };
 
   clear = async () => {
     await this.setState({ activePlayer: " ", hidePlayed: true });
-    this.viewFixtures();
   };
 
   render() {
