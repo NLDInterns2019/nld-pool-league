@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import backend from "../api/backend";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
@@ -21,36 +20,6 @@ class FixturesPage extends Component {
     });
   };
 
-  componentDidUpdate = async (prevProps, prevState) => {
-    if (
-      this.state.type !== prevState.type ||
-      this.props.location.state !== prevProps.location.state
-    ) {
-      await this.setState(this.props.location.state);
-    }
-  };
-
-  viewFixtures = async (seasonId, staffName) => {
-    const fixtures = await backend.get(
-      "/api/89ball_fixture/" + seasonId + "/" + staffName,
-      {
-        params: {
-          type: this.state.type
-        }
-      }
-    );
-
-    this.setState({ fixtures: fixtures.data });
-
-    const count = await backend.get("/api/89ball_fixture/group/" + seasonId, {
-      params: {
-        type: this.state.type
-      }
-    });
-
-    this.setState({ groupCount: count.data[0] });
-  };
-
   render() {
     return (
       <div className="fixtures">
@@ -61,7 +30,7 @@ class FixturesPage extends Component {
         />
         <div className="content">
           <div className="content-centre">
-            <ArrangeFixture />
+            <ArrangeFixture type={this.state.type} activeSeason={this.state.activeSeason} />
           </div>
         </div>
       </div>
