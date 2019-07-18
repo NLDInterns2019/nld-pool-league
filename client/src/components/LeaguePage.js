@@ -199,11 +199,13 @@ class App extends React.Component {
             />
           </div>
           <div className="contentRight">
-            <ViewYourFixtures
-              type={this.state.type}
-              activeSeason={this.state.activeSeason}
-              applyFilter={this.applyViewFilter}
-            />
+            <div className="contentRight-top">
+              <ViewYourFixtures
+                type={this.state.type}
+                activeSeason={this.state.activeSeason}
+                applyFilter={this.applyViewFilter}
+              />
+            </div>
             <div className="contentRight-bottom">
               <FixtureList
                 fixtures={this.state.viewFixtures}

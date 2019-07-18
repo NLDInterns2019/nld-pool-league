@@ -49,7 +49,7 @@ const SubNavBar = props => {
     : {};
 
   const toastSeasonNotFound = () => {
-    toast.error("⛔Season not found! Try again or create a new season", {
+    toast.error("⛔ Season not found! Try again or create a new season", {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,

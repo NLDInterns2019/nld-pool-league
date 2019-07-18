@@ -11,11 +11,14 @@ class FixturesPage extends Component {
     fixtures: [],
     groupCount: 0,
     refresh: false,
-    activeSeason: 0,
+    activeSeason: 0
   };
 
   componentDidMount = async () => {
-    await this.setState({ type: this.props.match.params.type, activeSeason: this.props.match.params.seasonId});
+    await this.setState({
+      type: this.props.match.params.type,
+      activeSeason: this.props.match.params.seasonId
+    });
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -52,9 +55,14 @@ class FixturesPage extends Component {
     return (
       <div className="fixtures">
         <Header />
-        <SubNavBar activeSeason={this.state.activeSeason} type={this.state.type} />
+        <SubNavBar
+          activeSeason={this.state.activeSeason}
+          type={this.state.type}
+        />
         <div className="content">
-          <ArrangeFixture />
+          <div className="content-centre">
+            <ArrangeFixture />
+          </div>
         </div>
       </div>
     );
