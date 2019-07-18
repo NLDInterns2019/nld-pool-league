@@ -8,6 +8,7 @@ body {
   background-color: #dbe9e2;
   min-width: 950px;
   padding-bottom: 8rem;
+  scroll-behavior: smooth;
 }
 
 /* ==== Headings ==== */
@@ -183,6 +184,11 @@ table td {
   padding-right: 15px;
 }
 
+#tableScore1,
+#tableScore2 {
+  width: 50px;
+}
+
 /* ==== League Table ==== */
 .leagueTable {
   font-size: 18pt;
@@ -200,7 +206,7 @@ table td {
 
 .fixtureTableContainer {
   display: inline-block;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
@@ -418,10 +424,6 @@ select:hover {
   border-radius: 15px;
 }
 
-#seasonsListContainer {
-  margin-bottom: 8rem;
-}
-
 /* ==== Arrange Fixture ==== */
 #arrangeFixture {
   text-align: center;
@@ -541,7 +543,6 @@ select:hover {
 @media only screen and (min-width: 1351px) {
   .contentRight-bottom {
     overflow: auto;
-    max-height: fit-content;
     align-self: stretch;
   }
 }
