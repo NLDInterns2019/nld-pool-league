@@ -133,7 +133,7 @@ class App extends React.Component {
       )
       .then(() => {
         this.updateData();
-        this.toastSucess("Score Changed");
+        this.toastSucess(<p>Update success!<br/>{state.player1}:{state.score1} - {state.player2}:{state.score2}</p>);
         this.postScoreUpdateSlackMessage(
           this.state.type,
           state.players,
@@ -158,10 +158,10 @@ class App extends React.Component {
   };
 
   toastSucess = message => {
-    toast.success(`✅ ${message}!`, {
+    toast.success(message, {
       position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: true,
+      autoClose: 3000,
+      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true

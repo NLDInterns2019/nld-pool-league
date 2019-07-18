@@ -32,10 +32,9 @@ class ViewYourFixtures extends React.Component {
       await this.setState({ activeSeason: this.props.activeSeason });
       if (this.state.activeSeason !== undefined) this.getPlayers();
     }
-  };
-
-  viewFixtures = () => {
-    this.props.applyFilter(this.state.activePlayer, this.state.hidePlayed);
+    if(this.state.activePlayer !== prevState.activePlayer || this.state.hidePlayed !== prevState.hidePlayed){
+      this.props.applyFilter(this.state.activePlayer, this.state.hidePlayed);
+    }
   };
 
   clear = async () => {
@@ -77,9 +76,6 @@ class ViewYourFixtures extends React.Component {
             }}
           />
           <div id="viewFixtureBtns">
-            <button type="button" onClick={this.viewFixtures}>
-              View
-            </button>
             <button type="button" onClick={this.clear}>
               Clear
             </button>
