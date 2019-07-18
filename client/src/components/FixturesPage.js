@@ -4,9 +4,12 @@ import "../react-big-calendar.css";
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 
+import auth0Client from "../Auth";
+
 import ArrangeFixture from "./fixture/ArrangeFixture";
 import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
+import backend from "../api/backend";
 
 const localizer = momentLocalizer(moment);
 
@@ -17,29 +20,33 @@ class FixturesPage extends Component {
     groupCount: 0,
     refresh: false,
     activeSeason: 0,
-    events: []
+    events: [],
+    start: "",
+    end: "",
   };
+
+  getBookings = async() => {
+    const bookings = await backend.get("/api/booking")
+
+    const parsedBookings = bookings.data.map(booking => {
+      booking.start = new Date(booking.start);
+      booking.end = new Date(booking.end)
+      return booking
+    })
+
+    this.setState({events: parsedBookings})  
+  }
 
   componentDidMount = async () => {
     await this.setState({
       type: this.props.match.params.type,
       activeSeason: this.props.match.params.seasonId
     });
+    this.getBookings();
   };
 
-  handleSelect = ({ start, end }) => {
-    // const title = window.prompt("New Event name");
-    // if (title)
-    //   this.setState({
-    //     events: [
-    //       ...this.state.events,
-    //       {
-    //         start,
-    //         end,
-    //         title
-    //       }
-    //     ]
-    //   });
+  handleSelect = async ({ start, end }) => {
+    await this.setState({start: new Date(start).toISOString() , end: new Date(end).toISOString()})
     this.openPopUp();
   };
 
@@ -64,14 +71,38 @@ class FixturesPage extends Component {
     });
   };
 
-  openPopUp() {
+  openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
   }
 
-  closePopUp() {
+  closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
+  }
+
+  makeBooking = async(player1, player2) => {
+    this.closePopUp()
+
+    console.log(this.state.start)
+    //POST
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth0Client.getIdToken()}`
+    };
+    await backend.post("/api/booking/add", 
+      {
+        start: this.state.start,
+        end: this.state.end,
+        player1: player1,
+        player2: player2,
+        title: `${player1} VS ${player2}`
+      },
+      {
+        headers: headers
+      }
+    )
+    this.getBookings();
   }
 
   render() {
@@ -110,12 +141,13 @@ class FixturesPage extends Component {
           <div className="form-popup" id="popup" ref="popup">
             <ArrangeFixture
               type={this.state.type}
-              closePopUp={this.closePopUp.bind(this)}
+              activeSeason={this.state.activeSeason}
+              makeBooking={this.makeBooking}
             />
             <button
               type="button"
               id="cancelbtn"
-              onClick={this.closePopUp.bind(this)}
+              onClick={this.closePopUp}
             >
               Cancel
             </button>

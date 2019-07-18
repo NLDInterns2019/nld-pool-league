@@ -5,6 +5,7 @@ exports.up = function(knex) {
     table.datetime("end").unique().notNullable();
     table.string("player1").notNullable();
     table.string("player2").notNullable();
+    table.string("title").notNullable();
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());

@@ -1,11 +1,13 @@
 var express = require("express");
 var router = express.Router();
+const Joi = require("joi");
+const knex = require("../db/knex");
 const auth = require("../auth");
 
 const bookings = require("../models/bookings");
 
 /* 
-  GET handler for /api/bookings
+  GET handler for /api/booking
   Function: To get all the bookings
 */
 router.get("/", (req, res) => {
@@ -20,15 +22,22 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  POST handler for /api/bookings/add
+  POST handler for /api/booking/add
   Function: To add booking
 */
 router.post("/add", auth.checkJwt, (req, res) => {
+  req.body.start = new Date(req.body.start);
+  req.body.end = new Date(req.body.end);
   const schema = {
-    start: joi.date.iso().required(),
-    end: joi.date.iso().required(),
+    start: Joi.date()
+      .iso()
+      .required(),
+    end: Joi.date()
+      .iso()
+      .required(),
     player1: Joi.string().required(),
-    player2: Joi.string().required()
+    player2: Joi.string().required(),
+    title: Joi.string().required(),
   };
 
   //Validation
@@ -42,7 +51,8 @@ router.post("/add", auth.checkJwt, (req, res) => {
       start: req.body.start,
       end: req.body.end,
       player1: req.body.player1,
-      player2: req.body.player2
+      player2: req.body.player2,
+      title: req.body.title
     })
     .then(
       player => {
