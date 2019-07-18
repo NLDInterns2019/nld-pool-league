@@ -142,6 +142,10 @@ ul {
   flex-direction: column;
 }
 
+#seasonsListContainer {
+  margin-top: 0rem;
+}
+
 /* .contentRight {
   display: inline-block;
   position: absolute;
@@ -395,13 +399,21 @@ select:hover {
 /* ==== White Boxes ==== */
 .viewYourFixtures,
 #submitScoreForm,
-#seasonsListContainer,
 .app #createSeasonForm,
 .form-popup,
 #arrangeFixture {
   background-color: white;
   width: 600px;
   margin: auto;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+#seasonsListContainer {
+  background-color: white;
+  width: 600px;
+  margin-top: 0rem;
+  align-self: flex-start;
   padding: 1rem;
   border-radius: 15px;
 }
