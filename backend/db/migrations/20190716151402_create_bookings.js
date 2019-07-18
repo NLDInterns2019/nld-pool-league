@@ -1,9 +1,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable("bookings", table => {
     table.increments();
-    table.string("start").unique().notNullable();
-    table.string("end").unique().notNullable();
-    table.integer("booking");
+    table.datetime("start").unique().notNullable();
+    table.datetime("end").unique().notNullable();
     table.string("player1").notNullable();
     table.string("player2").notNullable();
 
