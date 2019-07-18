@@ -127,7 +127,7 @@ ul {
 
 .content-centre {
   text-align: center;
-  margin: auto;
+  margin-top: 0rem;
 }
 
 .contentLeft {
@@ -508,17 +508,11 @@ select:hover {
 
 /* ==== Responsive Styling ==== */
 @media only screen and (max-width: 1350px) {
-  /* body,
-  .contentLeft,
-  .contentRight {
-    display: block;
-  } */
-
   .content {
     display: flex;
     flex-direction: column;
     text-align: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     height: 100%;
   }
 
@@ -530,18 +524,6 @@ select:hover {
   .contentRight {
     order: 2;
   }
-
-  /* .contentLeft,
-  .contentRight {
-    width: 80%;
-    margin: auto;
-    display: block;
-  } */
-
-  /* .contentRight {
-    margin-top: 8rem;
-    position: relative;
-  } */
 }
 
 @media only screen and (min-width: 1351px) {
