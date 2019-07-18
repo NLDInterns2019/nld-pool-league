@@ -7,13 +7,13 @@ const FixtureTableBody = props => {
         <td align="center" className="fixtureTableCell" id="tableScore1">
           {fixture.score1}
         </td>
-        <td align="center" className="fixtureTableCell">
+        <td align="center" className="fixtureTableCell" id="tablePlayer1">
           {fixture.player1}
         </td>
         <td align="center" className="fixtureTableCell">
           VS
         </td>
-        <td align="center" className="fixtureTableCell">
+        <td align="center" className="fixtureTableCell" id="tablePlayer2">
           {fixture.player2}
         </td>
         <td align="center" className="fixtureTableCell" id="tableScore2">

@@ -184,6 +184,13 @@ table td {
   padding-right: 15px;
 }
 
+#tablePlayer1,
+#tablePlayer2 {
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #tableScore1,
 #tableScore2 {
   width: 50px;
@@ -204,6 +211,12 @@ table td {
 
 .leagueTableContainer h2 {
   margin-top: 0rem;
+}
+
+#leagueTablePlayerName {
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ==== Fixture and League Table positioning ==== */
@@ -247,10 +260,16 @@ table td {
   margin-top: 0.5rem;
 }
 
+
 .selectWinner label:hover,
 .selectWinner input:hover {
   cursor: pointer;
 }
+
+#selectFixture {
+  max-width: 200px;
+}
+
 
 /* ==== Inputs ==== */
 input {
