@@ -260,7 +260,6 @@ table td {
   margin-top: 0.5rem;
 }
 
-
 .selectWinner label:hover,
 .selectWinner input:hover {
   cursor: pointer;
@@ -269,7 +268,6 @@ table td {
 #selectFixture {
   max-width: 200px;
 }
-
 
 /* ==== Inputs ==== */
 input {
@@ -433,8 +431,7 @@ select:hover {
 .viewYourFixtures,
 #submitScoreForm,
 .app #createSeasonForm,
-.form-popup,
-#arrangeFixture {
+.form-popup {
   background-color: white;
   width: 600px;
   margin: auto;
