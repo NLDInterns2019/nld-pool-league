@@ -199,7 +199,6 @@ class SubmitScoreForm extends Component {
                 value="player1"
                 onClick={this.handleRadioClick.bind(this)}
               />
-
               {this.state.players.split(" ")[0]}
             </label>
             <label className="radioContainer">

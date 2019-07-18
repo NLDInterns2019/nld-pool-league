@@ -8,7 +8,6 @@ body {
   background-color: #dbe9e2;
   min-width: 950px;
   padding-bottom: 8rem;
-  scroll-behavior: smooth;
 }
 
 /* ==== Headings ==== */
@@ -118,7 +117,7 @@ ul {
 
 /* ==== Content ==== */
 .content {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: stretch;
@@ -177,6 +176,7 @@ table td {
 /* ==== Fixture Table ==== */
 .fixtureTable {
   font-size: 18pt;
+  min-width: 500px;
 }
 
 .fixtureTableCell {
@@ -184,9 +184,24 @@ table td {
   padding-right: 15px;
 }
 
+#tablePlayer1,
+#tablePlayer2 {
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #tableScore1,
 #tableScore2 {
   width: 50px;
+}
+
+#tableScore1 {
+  border-right: 2px solid #127e5c;
+}
+
+#tableScore2 {
+  border-left: 2px solid #127e5c;
 }
 
 /* ==== League Table ==== */
@@ -196,6 +211,12 @@ table td {
 
 .leagueTableContainer h2 {
   margin-top: 0rem;
+}
+
+#leagueTablePlayerName {
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ==== Fixture and League Table positioning ==== */
@@ -242,6 +263,10 @@ table td {
 .selectWinner label:hover,
 .selectWinner input:hover {
   cursor: pointer;
+}
+
+#selectFixture {
+  max-width: 250px;
 }
 
 /* ==== Inputs ==== */
@@ -406,8 +431,7 @@ select:hover {
 .viewYourFixtures,
 #submitScoreForm,
 .app #createSeasonForm,
-.form-popup,
-#arrangeFixture {
+.form-popup {
   background-color: white;
   width: 600px;
   margin: auto;
@@ -543,6 +567,8 @@ select:hover {
 @media only screen and (min-width: 1351px) {
   .contentRight-bottom {
     overflow: auto;
+    max-height: auto;
     align-self: stretch;
+    flex-shrink: 10;
   }
 }

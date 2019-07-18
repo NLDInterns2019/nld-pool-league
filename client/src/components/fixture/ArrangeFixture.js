@@ -115,7 +115,7 @@ class ArrangeFixture extends React.Component {
           <label>Select your opponent:</label>
           {this.opponentDropDown()}
           <br />
-          <label>Day:</label>
+          {/* <label>Day:</label>
           <select>
             <option selected disabled value="day">
               Day
@@ -146,9 +146,11 @@ class ArrangeFixture extends React.Component {
             <option value="13:45">13:45</option>
             <option value="14:00">14:00</option>
           </select>
-          <br />
+          <br /> */}
           <div id="arrangeFixtureBtn">
-            <button type="button">Arrange</button>
+            <button type="button" onClick={this.props.closePopUp}>
+              Arrange
+            </button>
           </div>
         </form>
       </div>

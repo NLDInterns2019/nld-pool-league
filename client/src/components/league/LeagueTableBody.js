@@ -5,7 +5,9 @@ const LeagueTableBody = props => {
     return (
       <tr key={player.seasonId + player.staffName}>
         <td align="center">{index + 1}</td>
-        <td align="center">{player.staffName}</td>
+        <td align="center" id="leagueTablePlayerName">
+          {player.staffName}
+        </td>
         <td align="center">{player.play}</td>
         <td align="center">{player.win}</td>
         <td align="center">{player.draw}</td>
