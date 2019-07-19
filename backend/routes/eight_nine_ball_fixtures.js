@@ -301,8 +301,8 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
 */
 router.post("/generate", auth.checkJwt, async (req, res) => {
   var group = 0;
-  var aesDate = new Date();
-  aesDate.setDate(aesDate.getDate() + 7);
+  var date = new Date();
+  date.setDate(date.getDate() + 7);
   let seasonId = req.body.seasonId;
   let type = req.body.type;
 
@@ -348,7 +348,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       players,
       seasonId,
       group,
-      aesDate.getTime()
+      date.getTime()
     ); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
@@ -361,7 +361,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       }
     );
     group++;
-    aesDate.setDate(aesDate.getDate() + 7);
+    date.setDate(date.getDate() + 7);
 
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }
