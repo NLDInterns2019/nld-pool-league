@@ -104,9 +104,8 @@ class FixturesPage extends Component {
       channel: this.channel,
       /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
       text:
-        "New " +
         (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " Booking:\n" +
+        " Booking created:\n" +
         player1 +
         "  VS  " +
         player2 +

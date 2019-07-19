@@ -79,9 +79,8 @@ class SeasonsPage extends Component {
     await this.web.chat.postMessage({
       channel: this.channel,
       text:
-        "New " +
         (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " season called 'Season " +
+        " Season called 'Season " +
         seasonName +
         "' created"
     });
