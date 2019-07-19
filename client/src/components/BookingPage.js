@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import auth0Client from "../Auth";
 
-import ArrangeFixture from "./fixture/ArrangeFixture";
+import CreateBooking from "./fixture/CreateBooking";
 import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
@@ -187,7 +187,7 @@ class FixturesPage extends Component {
         </div>
         <div className="popup-container" id="container" ref="container">
           <div className="form-popup" id="popup" ref="popup">
-            <ArrangeFixture
+            <CreateBooking
               type={this.state.type}
               activeSeason={this.state.activeSeason}
               makeBooking={this.makeBooking}

@@ -1,7 +1,7 @@
 import React from "react";
 import backend from "../../api/backend";
 
-class ArrangeFixture extends React.Component {
+class CreateBooking extends React.Component {
   constructor(props) {
     super(props);
 
@@ -111,11 +111,15 @@ class ArrangeFixture extends React.Component {
   };
 
   makeBooking = () => {
-    this.props.makeBooking(
-      this.state.activePlayer,
-      this.state.activeOpponent
-    );
-    this.setState(this.initialState)
+    this.props.makeBooking(this.state.activePlayer, this.state.activeOpponent);
+    this.setState(this.initialState);
+  };
+
+  isValidBooking = () => {
+    if (this.state.activePlayer === " " || this.state.activeOpponent === " ") {
+      return false;
+    }
+    return true;
   };
 
   render() {
@@ -129,9 +133,11 @@ class ArrangeFixture extends React.Component {
           <label>Select your opponent:</label>
           {this.opponentDropDown()}
           <div id="arrangeFixtureBtn">
-            <button type="button" onClick={this.makeBooking}>
-              Arrange
-            </button>
+            {this.isValidBooking() ? (
+              <button type="button" onClick={this.makeBooking}>
+                Arrange
+              </button>
+            ) : null}
           </div>
         </form>
       </div>
@@ -139,4 +145,4 @@ class ArrangeFixture extends React.Component {
   }
 }
 
-export default ArrangeFixture;
+export default CreateBooking;
