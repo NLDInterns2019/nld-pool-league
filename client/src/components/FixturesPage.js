@@ -22,20 +22,20 @@ class FixturesPage extends Component {
     activeSeason: 0,
     events: [],
     start: "",
-    end: "",
+    end: ""
   };
 
-  getBookings = async() => {
-    const bookings = await backend.get("/api/booking")
+  getBookings = async () => {
+    const bookings = await backend.get("/api/booking");
 
     const parsedBookings = bookings.data.map(booking => {
       booking.start = new Date(booking.start);
-      booking.end = new Date(booking.end)
-      return booking
-    })
+      booking.end = new Date(booking.end);
+      return booking;
+    });
 
-    this.setState({events: parsedBookings})  
-  }
+    this.setState({ events: parsedBookings });
+  };
 
   componentDidMount = async () => {
     await this.setState({
@@ -46,7 +46,10 @@ class FixturesPage extends Component {
   };
 
   handleSelect = async ({ start, end }) => {
-    await this.setState({start: new Date(start).toISOString() , end: new Date(end).toISOString()})
+    await this.setState({
+      start: new Date(start).toISOString(),
+      end: new Date(end).toISOString()
+    });
     this.openPopUp();
   };
 
@@ -74,36 +77,81 @@ class FixturesPage extends Component {
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
-  }
+  };
 
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
-  }
+  };
 
-  makeBooking = async(player1, player2) => {
-    this.closePopUp()
-
-    console.log(this.state.start)
-    //POST
+  makeBooking = async (player1, player2) => {
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${auth0Client.getIdToken()}`
     };
-    await backend.post("/api/booking/add", 
-      {
-        start: this.state.start,
-        end: this.state.end,
-        player1: player1,
-        player2: player2,
-        title: `${player1} VS ${player2}`
-      },
-      {
-        headers: headers
-      }
-    )
-    this.getBookings();
-  }
+
+    await backend
+      .post(
+        "/api/booking/add",
+        {
+          start: this.state.start,
+          end: this.state.end,
+          player1: player1,
+          player2: player2,
+          title: `${player1} VS ${player2}`
+        },
+        {
+          headers: headers
+        }
+      )
+      .then(() => {
+        this.toastSuccess("Booking Sucess!")
+        this.closePopUp();
+        this.getBookings();
+      })
+      .catch(e => {
+        if(e.response.status === 401){
+          this.toastUnauthorised();
+        }
+        if(e.response.status === 400){
+          this.toastInvalid();
+        }
+        
+      });
+  };
+
+  toastSuccess = message => {
+    toast.success(`✅ ${message}!`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastUnauthorised = () => {
+    toast.error("⛔ Unauthorised! Please login", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastInvalid = () => {
+    toast.error(<p>⛔ Invalid booking! <br/> Choose other timeslot</p>, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
 
   render() {
     return (
@@ -120,7 +168,7 @@ class FixturesPage extends Component {
             height: "80vh",
             margin: "auto",
             backgroundColor: "white",
-            padding: "50px",
+            padding: "80px",
             borderRadius: "15px"
           }}
         >
@@ -128,8 +176,8 @@ class FixturesPage extends Component {
             selectable
             localizer={localizer}
             defaultDate={new Date()}
-            views={["month", "week"]}
-            defaultView="week"
+            views={["work_week", "day"]}
+            defaultView="work_week"
             min={new Date(2017, 10, 0, 8, 0, 0)}
             max={new Date(2017, 10, 0, 18, 0, 0)}
             events={this.state.events}
@@ -144,11 +192,7 @@ class FixturesPage extends Component {
               activeSeason={this.state.activeSeason}
               makeBooking={this.makeBooking}
             />
-            <button
-              type="button"
-              id="cancelbtn"
-              onClick={this.closePopUp}
-            >
+            <button type="button" id="cancelbtn" onClick={this.closePopUp}>
               Cancel
             </button>
           </div>
