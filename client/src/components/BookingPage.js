@@ -47,8 +47,8 @@ class FixturesPage extends Component {
 
   handleSelect = async ({ start, end }) => {
     await this.setState({
-      start: new Date(start).toISOString(),
-      end: new Date(end).toISOString()
+      start: moment(start).toISOString(),
+      end: moment(end).toISOString()
     });
     this.openPopUp();
   };

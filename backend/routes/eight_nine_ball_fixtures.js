@@ -4,6 +4,7 @@ const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
+const moment = require("moment")
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
@@ -301,8 +302,7 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
 */
 router.post("/generate", auth.checkJwt, async (req, res) => {
   var group = 0;
-  var aesDate = new Date();
-  aesDate.setDate(aesDate.getDate() + 7);
+  aesDate = moment().add(1, 'week')
   let seasonId = req.body.seasonId;
   let type = req.body.type;
 
@@ -348,7 +348,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       players,
       seasonId,
       group,
-      aesDate.getTime()
+      aesDate.toISOString()
     ); //this represents the fixture rows
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
@@ -361,7 +361,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       }
     );
     group++;
-    aesDate.setDate(aesDate.getDate() + 7);
+    aesDate = aesDate.add(1, 'week')
 
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }

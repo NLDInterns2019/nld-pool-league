@@ -1,4 +1,5 @@
 import React from "react";
+import moment from 'moment';
 
 // const headerLeftStyle = date => {
 //   if (isOverdue(date)) {
@@ -34,11 +35,7 @@ const FixtureTableHeader = props => {
           style={{ textAlign: "right" }}
         >
           Due:&nbsp;
-          {new Date(parseInt(props.fixtures[0].date))
-            .toString()
-            .split(" ")
-            .slice(1, 4)
-            .join("-")}
+          {moment(props.fixtures[0].date).format('DD-MMM-YYYY')}
         </th>
       </tr>
     </thead>

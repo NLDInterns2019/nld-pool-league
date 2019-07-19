@@ -3,6 +3,7 @@ var router = express.Router();
 const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
+const moment = require("moment");
 
 const bookings = require("../models/bookings");
 
@@ -26,15 +27,11 @@ router.get("/", (req, res) => {
   Function: To add booking
 */
 router.post("/add", auth.checkJwt, (req, res) => {
-  req.body.start = new Date(req.body.start);
-  req.body.end = new Date(req.body.end);
+  req.body.start = moment(req.body.start).toISOString();
+  req.body.end = moment(req.body.end).toISOString();
   const schema = {
-    start: Joi.date()
-      .iso()
-      .required(),
-    end: Joi.date()
-      .iso()
-      .required(),
+    start: Joi.string(),
+    end: Joi.string(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
     title: Joi.string().required()

@@ -9,8 +9,8 @@ exports.up = function(knex) {
     table.string("player2").notNullable();
     table.integer("score2");
     table.integer("group");
-    table.string("date");
-    table.integer("booked");
+    table.datetime("date");
+    table.datetime("booked");
 
     table
       .foreign(["type","seasonId", "player1"])
