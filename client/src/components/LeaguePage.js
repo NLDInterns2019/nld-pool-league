@@ -9,6 +9,7 @@ import LeagueTable from "./league/LeagueTable.js";
 import FixtureList from "./fixture/FixtureList";
 import SubmitScoreForm from "./fixture/SubmitScoreForm.js";
 import ViewYourFixtures from "./fixture/ViewYourFixtures.js";
+import Axios from "axios";
 
 const { WebClient } = require("@slack/web-api");
 
@@ -23,6 +24,9 @@ class App extends React.Component {
     this.channel = "CLB0QN8JY";
     this.web = new WebClient(token);
   }
+
+  signal = Axios.CancelToken.source()
+
   state = {
     type: "",
     players: [],
@@ -36,53 +40,62 @@ class App extends React.Component {
   };
 
   updateData = async () => {
-    const response = await backend.get(
-      "/api/89ball_league/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type
+    try{
+      const response = await backend.get(
+        "/api/89ball_league/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
         }
-      }
-    );
-
-    this.setState({ players: response.data });
-
-    const viewFixtures = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type,
-          staffName: this.state.activeViewPlayer,
-          hidePlayed: this.state.hidePlayed
+      );
+  
+      this.setState({ players: response.data });
+  
+      const viewFixtures = await backend.get(
+        "/api/89ball_fixture/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type,
+            staffName: this.state.activeViewPlayer,
+            hidePlayed: this.state.hidePlayed
+          }
         }
-      }
-    );
-
-    this.setState({ viewFixtures: viewFixtures.data });
-
-    const unplayedViewFixtures = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type,
-          staffName: this.state.activeViewPlayer,
-          hidePlayed: true
+      );
+  
+      this.setState({ viewFixtures: viewFixtures.data });
+  
+      const unplayedViewFixtures = await backend.get(
+        "/api/89ball_fixture/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type,
+            staffName: this.state.activeViewPlayer,
+            hidePlayed: true
+          }
         }
-      }
-    );
-
-    this.setState({ unplayedViewFixtures: unplayedViewFixtures.data });
-
-    const count = await backend.get(
-      "/api/89ball_fixture/group/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type
+      );
+  
+      this.setState({ unplayedViewFixtures: unplayedViewFixtures.data });
+  
+      const count = await backend.get(
+        "/api/89ball_fixture/group/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
         }
-      }
-    );
-
-    this.setState({ groupCount: count.data[0] });
+      );
+  
+      this.setState({ groupCount: count.data[0] });
+    }
+    catch(err){
+      //API CALL BEING CANCELED
+    }  
   };
 
   componentDidMount = async () => {
@@ -93,6 +106,10 @@ class App extends React.Component {
 
     this.updateData();
   };
+  
+  componentWillUnmount() {
+    this.signal.cancel("")
+  }
 
   /* posts a message to a slack channel with the submitted score */
   postScoreUpdateSlackMessage = async (type, players, score1, score2) => {
@@ -132,7 +149,6 @@ class App extends React.Component {
         }
       )
       .then(() => {
-        this.updateData();
         this.toastSucess(
           <p>
             Result Submitted!
@@ -140,6 +156,7 @@ class App extends React.Component {
             {state.player1} {state.score1} - {state.score2} {state.player2}
           </p>
         );
+        this.updateData();
         this.postScoreUpdateSlackMessage(
           this.state.type,
           state.players,

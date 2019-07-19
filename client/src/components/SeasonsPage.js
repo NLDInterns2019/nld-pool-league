@@ -120,9 +120,9 @@ class SeasonsPage extends Component {
           }
         )
         .then(() => {
+          this.toastSuccess("Season Created");
           this.getSeasonsList();
           this.getLatestSeason();
-          this.toastSuccess("Season Created");
           this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
         });
     } catch (e) {
@@ -140,9 +140,9 @@ class SeasonsPage extends Component {
         headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
       })
       .then(() => {
+        this.toastSuccess("Deleted");
         this.getSeasonsList();
         this.getLatestSeason();
-        this.toastSuccess("Deleted");
       })
       .catch(e => {
         this.toastUnauthorised();
