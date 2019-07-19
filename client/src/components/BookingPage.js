@@ -97,8 +97,9 @@ class FixturesPage extends Component {
   };
 
   /* posts a message to a slack channel with the bookin that has been created */
-  postBookingUpdateSlackMessage = async (type, player1, player2, fullDate) => {
-    var newDate = new Date(fullDate);
+  postBookingUpdateSlackMessage = async (type, player1, player2, start) => {
+    var date = moment(start).format("DD-MMM-YYYY");
+    var time = moment(start).format("HH:mm");
     await this.web.chat.postMessage({
       channel: this.channel,
       /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
@@ -110,18 +111,12 @@ class FixturesPage extends Component {
         "  VS  " +
         player2 +
         "  on " +
-        newDate.getDate() +
-        "/" +
-        newDate.getMonth() +
-        "/" +
-        newDate.getFullYear() +
+        date +
         " at " +
-        newDate.getHours() +
-        ":" +
-        (newDate.getMinutes() === 0 ? "00" : newDate.getMinutes())
+        time
     });
 
-    console.log("Score message posted!");
+    console.log("Booking message posted!");
   };
 
   makeBooking = async (player1, player2) => {
