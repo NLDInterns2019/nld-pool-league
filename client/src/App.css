@@ -18,6 +18,14 @@ h3 {
   margin-bottom: 1rem;
 }
 
+h4 {
+  margin: 0rem;
+  margin-bottom: 1rem;
+  font-size: 15pt;
+  font-weight: normal;
+  color: #999999;
+}
+
 /* ==== Unordered Lists ==== */
 ul {
   padding: 0rem;
@@ -427,6 +435,14 @@ select:hover {
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
+}
+
+#calendarContainer {
+  background-color: white;
+  width: 80%;
+  margin: auto;
+  padding: 4rem;
+  border-radius: 30px;
 }
 
 #seasonsListContainer {

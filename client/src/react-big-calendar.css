@@ -426,7 +426,8 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-timeslot-group {
   border-bottom: 1px solid #ddd;
-  min-height: 40px;
+  /* min-height: 40px; */
+  min-height: 60px;
   display: flex;
   flex-flow: column nowrap;
 }
@@ -460,7 +461,8 @@ button.rbc-input::-moz-focus-inner {
   border: none;
   display: flex;
   max-height: 100%;
-  min-height: 20px;
+  /* min-height: 20px; */
+  min-height: 30px;
   flex-flow: column wrap;
   align-items: flex-start;
   overflow: hidden;
