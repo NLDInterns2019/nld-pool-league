@@ -32,7 +32,11 @@ class Auth {
   }
 
   signIn() {
-    this.auth0.authorize();
+    this.auth0.authorize(({
+      appState: {
+        url: window.location.pathname
+      }
+    }));
   }
 
   handleAuthentication() {
@@ -46,9 +50,9 @@ class Auth {
         this.profile = authResult.idTokenPayload;
         // set the time that the id token will expire at
         this.expiresAt = authResult.idTokenPayload.exp * 1000;
-        resolve();
+        resolve(authResult.appState.url);
       });
-    })
+    }) 
   }
 
   signOut() {

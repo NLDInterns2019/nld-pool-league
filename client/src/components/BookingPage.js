@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import auth0Client from "../Auth";
 
-import ArrangeFixture from "./fixture/ArrangeFixture";
+import CreateBooking from "./fixture/CreateBooking";
 import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
@@ -22,20 +22,20 @@ class FixturesPage extends Component {
     activeSeason: 0,
     events: [],
     start: "",
-    end: "",
+    end: ""
   };
 
-  getBookings = async() => {
-    const bookings = await backend.get("/api/booking")
+  getBookings = async () => {
+    const bookings = await backend.get("/api/booking");
 
     const parsedBookings = bookings.data.map(booking => {
       booking.start = new Date(booking.start);
-      booking.end = new Date(booking.end)
-      return booking
-    })
+      booking.end = new Date(booking.end);
+      return booking;
+    });
 
-    this.setState({events: parsedBookings})  
-  }
+    this.setState({ events: parsedBookings });
+  };
 
   componentDidMount = async () => {
     await this.setState({
@@ -46,64 +46,113 @@ class FixturesPage extends Component {
   };
 
   handleSelect = async ({ start, end }) => {
-    await this.setState({start: new Date(start).toISOString() , end: new Date(end).toISOString()})
+    await this.setState({
+      start: new Date(start).toISOString(),
+      end: new Date(end).toISOString()
+    });
     this.openPopUp();
   };
 
-  handleEventClick = e => {
-    const start =
-      e.start.getHours().toString() + ":" + e.start.getMinutes().toString();
-    const end =
-      e.end.getHours().toString() + ":" + e.end.getMinutes().toString();
-    const text = (
-      <p>
-        {e.title}
-        <br />
-        From:{start} To: {end}
-      </p>
-    );
-    toast.info(text, {
-      position: "top-center",
-      autoClose: 2000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
+  handleEventClick = async e => {
+    await backend.delete("/api/booking/delete/", {
+      data: {
+        id: e.id
+      },
+      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+    })
+    .then(() => {
+      this.toastSuccess("Booking Deleted!");
+      this.getBookings()
+    })
+    .catch(e => {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
     });
   };
 
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
-  }
+  };
 
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
-  }
+  };
 
-  makeBooking = async(player1, player2) => {
-    this.closePopUp()
-
-    console.log(this.state.start)
-    //POST
+  makeBooking = async (player1, player2) => {
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${auth0Client.getIdToken()}`
     };
-    await backend.post("/api/booking/add", 
+
+    await backend
+      .post(
+        "/api/booking/add",
+        {
+          start: this.state.start,
+          end: this.state.end,
+          player1: player1,
+          player2: player2,
+          title: `${player1} VS ${player2}`
+        },
+        {
+          headers: headers
+        }
+      )
+      .then(() => {
+        this.toastSuccess("Booking Sucess!");
+        this.closePopUp();
+        this.getBookings();
+      })
+      .catch(e => {
+        if (e.response.status === 401) {
+          this.toastUnauthorised();
+        }
+        if (e.response.status === 400) {
+          this.toastInvalid();
+        }
+      });
+  };
+
+  toastSuccess = message => {
+    toast.success(`✅ ${message}!`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastUnauthorised = () => {
+    toast.error("⛔ Unauthorised! Please login", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastInvalid = () => {
+    toast.error(
+      <p>
+        ⛔ Invalid booking! <br /> Choose other timeslot
+      </p>,
       {
-        start: this.state.start,
-        end: this.state.end,
-        player1: player1,
-        player2: player2,
-        title: `${player1} VS ${player2}`
-      },
-      {
-        headers: headers
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
       }
-    )
-    this.getBookings();
-  }
+    );
+  };
 
   render() {
     return (
@@ -120,16 +169,17 @@ class FixturesPage extends Component {
             height: "80vh",
             margin: "auto",
             backgroundColor: "white",
-            padding: "50px",
+            padding: "80px",
             borderRadius: "15px"
           }}
         >
+          <p>Click the booking to delete them</p>
           <Calendar
             selectable
             localizer={localizer}
             defaultDate={new Date()}
-            views={["month", "week"]}
-            defaultView="week"
+            views={["work_week", "day"]}
+            defaultView="work_week"
             min={new Date(2017, 10, 0, 8, 0, 0)}
             max={new Date(2017, 10, 0, 18, 0, 0)}
             events={this.state.events}
@@ -139,16 +189,12 @@ class FixturesPage extends Component {
         </div>
         <div className="popup-container" id="container" ref="container">
           <div className="form-popup" id="popup" ref="popup">
-            <ArrangeFixture
+            <CreateBooking
               type={this.state.type}
               activeSeason={this.state.activeSeason}
               makeBooking={this.makeBooking}
             />
-            <button
-              type="button"
-              id="cancelbtn"
-              onClick={this.closePopUp}
-            >
+            <button type="button" id="cancelbtn" onClick={this.closePopUp}>
               Cancel
             </button>
           </div>

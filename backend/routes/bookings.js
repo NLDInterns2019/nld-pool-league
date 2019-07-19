@@ -37,7 +37,7 @@ router.post("/add", auth.checkJwt, (req, res) => {
       .required(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
-    title: Joi.string().required(),
+    title: Joi.string().required()
   };
 
   //Validation
@@ -64,4 +64,41 @@ router.post("/add", auth.checkJwt, (req, res) => {
     );
 });
 
+/* 
+  DELETE handler for /api/booking/delete
+  Function: To delete booking
+*/
+router.delete("/delete", auth.checkJwt, (req, res) => {
+  const schema = {
+    id: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  bookings
+    .query()
+    .delete()
+    .where({ id: req.body.id })
+    .then(
+      result => {
+        if (result === 0) {
+          //Nothing deleted
+          res.status(404).json();
+        } else {
+          //Something deleted
+          res.status(204).send();
+        }
+      },
+      e => {
+        //Internal error
+        res.status(500).send();
+      }
+    );
+});
 module.exports = router;
