@@ -53,24 +53,21 @@ class FixturesPage extends Component {
     this.openPopUp();
   };
 
-  handleEventClick = e => {
-    const start =
-      e.start.getHours().toString() + ":" + e.start.getMinutes().toString();
-    const end =
-      e.end.getHours().toString() + ":" + e.end.getMinutes().toString();
-    const text = (
-      <p>
-        {e.title}
-        <br />
-        From:{start} To: {end}
-      </p>
-    );
-    toast.info(text, {
-      position: "top-center",
-      autoClose: 2000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
+  handleEventClick = async e => {
+    await backend.delete("/api/booking/delete/", {
+      data: {
+        id: e.id
+      },
+      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+    })
+    .then(() => {
+      this.toastSuccess("Booking Deleted!");
+      this.getBookings()
+    })
+    .catch(e => {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
     });
   };
 
@@ -105,18 +102,17 @@ class FixturesPage extends Component {
         }
       )
       .then(() => {
-        this.toastSuccess("Booking Sucess!")
+        this.toastSuccess("Booking Sucess!");
         this.closePopUp();
         this.getBookings();
       })
       .catch(e => {
-        if(e.response.status === 401){
+        if (e.response.status === 401) {
           this.toastUnauthorised();
         }
-        if(e.response.status === 400){
+        if (e.response.status === 400) {
           this.toastInvalid();
         }
-        
       });
   };
 
@@ -143,14 +139,19 @@ class FixturesPage extends Component {
   };
 
   toastInvalid = () => {
-    toast.error(<p>⛔ Invalid booking! <br/> Choose other timeslot</p>, {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
+    toast.error(
+      <p>
+        ⛔ Invalid booking! <br /> Choose other timeslot
+      </p>,
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      }
+    );
   };
 
   render() {
@@ -172,6 +173,7 @@ class FixturesPage extends Component {
             borderRadius: "15px"
           }}
         >
+          <p>Click the booking to delete them</p>
           <Calendar
             selectable
             localizer={localizer}
