@@ -7,7 +7,7 @@ import {
 import LandingPage from "./LandingPage.js";
 import LeaguePage from "./LeaguePage";
 import SeasonsPage from "./SeasonsPage.js";
-import FixturesPage from "./FixturesPage";
+import BookingPage from "./BookingPage";
 import NotFound from "./NotFound";
 
 import Callback from "../Callback";
@@ -27,8 +27,8 @@ const App = () => {
         />
         <Route path="/:type(8|9)-ball/seasons" component={SeasonsPage} />
         <Route path="/:type(billiards)/seasons" component={SeasonsPage} />
-        <Route path="/:type(8|9)-ball/fixtures/:seasonId" component={FixturesPage} />
-        <Route path="/:type(billiards)/fixtures/:seasonId" component={FixturesPage} />
+        <Route path="/:type(8|9)-ball/fixtures/:seasonId" component={BookingPage} />
+        <Route path="/:type(billiards)/fixtures/:seasonId" component={BookingPage} />
         <Route path="/callback" component={Callback} />
         <Route component={NotFound} />
       </Switch>
