@@ -166,17 +166,10 @@ class FixturesPage extends Component {
           activeSeason={this.state.activeSeason}
           type={this.state.type}
         />
-        <div
-          style={{
-            width: "80%",
-            height: "80vh",
-            margin: "auto",
-            backgroundColor: "white",
-            padding: "80px",
-            borderRadius: "15px"
-          }}
-        >
-          <p>Click the booking to delete them</p>
+        <div id="calendarContainer">
+          <h3>Arrange Fixtures</h3>
+          <h4>Click an empty slot to create a booking</h4>
+          <h4>Click an event to delete a booking</h4>
           <Calendar
             selectable
             localizer={localizer}

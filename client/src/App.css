@@ -18,6 +18,14 @@ h3 {
   margin-bottom: 1rem;
 }
 
+h4 {
+  margin: 0rem;
+  margin-bottom: 1rem;
+  font-size: 15pt;
+  font-weight: normal;
+  color: #999999;
+}
+
 /* ==== Unordered Lists ==== */
 ul {
   padding: 0rem;
@@ -429,6 +437,14 @@ select:hover {
   border-radius: 15px;
 }
 
+#calendarContainer {
+  background-color: white;
+  width: 80%;
+  margin: auto;
+  padding: 4rem;
+  border-radius: 30px;
+}
+
 #seasonsListContainer {
   background-color: white;
   width: 600px;
@@ -544,13 +560,19 @@ select:hover {
     height: 100%;
   }
 
-  .contentLeft {
+  #seasonsListContainer {
     order: 1;
+    align-self: center;
+    text-align: left;
+  }
+
+  .contentLeft {
+    order: 2;
     margin-bottom: 8rem;
   }
 
   .contentRight {
-    order: 2;
+    order: 3;
   }
 }
 

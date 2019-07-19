@@ -65,7 +65,7 @@ class ViewYourFixtures extends React.Component {
           </select>
           <br />
           <label htmlFor="hide" className="hide">
-            Show Played Fixtures
+            Show played fixtures
           </label>
           <input
             id="hide"
