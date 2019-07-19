@@ -544,13 +544,19 @@ select:hover {
     height: 100%;
   }
 
-  .contentLeft {
+  #seasonsListContainer {
     order: 1;
+    align-self: center;
+    text-align: left;
+  }
+
+  .contentLeft {
+    order: 2;
     margin-bottom: 8rem;
   }
 
   .contentRight {
-    order: 2;
+    order: 3;
   }
 }
 
