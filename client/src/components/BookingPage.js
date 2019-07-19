@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Calendar, momentLocalizer} from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../react-big-calendar.css";
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,9 +11,21 @@ import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
 
+const { WebClient } = require("@slack/web-api");
+
 const localizer = momentLocalizer(moment);
 
 class FixturesPage extends Component {
+  constructor(props) {
+    super(props);
+    /* slack token */
+    const token =
+      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
+    /* test channel */
+    this.channel = "CLB0QN8JY";
+    this.web = new WebClient(token);
+  }
+
   state = {
     type: "",
     fixtures: [],
@@ -84,6 +96,34 @@ class FixturesPage extends Component {
     this.refs.container.style.display = "none";
   };
 
+  /* posts a message to a slack channel with the bookin that has been created */
+  postBookingUpdateSlackMessage = async (type, player1, player2, fullDate) => {
+    var newDate = new Date(fullDate);
+    await this.web.chat.postMessage({
+      channel: this.channel,
+      /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
+      text:
+        "New " +
+        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+        " Booking:\n" +
+        player1 +
+        "  VS  " +
+        player2 +
+        "  on " +
+        newDate.getDate() +
+        "/" +
+        newDate.getMonth() +
+        "/" +
+        newDate.getFullYear() +
+        " at " +
+        newDate.getHours() +
+        ":" +
+        (newDate.getMinutes() === 0 ? "00" : newDate.getMinutes())
+    });
+
+    console.log("Score message posted!");
+  };
+
   makeBooking = async (player1, player2) => {
     const headers = {
       "Content-Type": "application/json",
@@ -108,6 +148,12 @@ class FixturesPage extends Component {
         this.toastSuccess("Booking Sucess!");
         this.closePopUp();
         this.getBookings();
+        this.postBookingUpdateSlackMessage(
+          this.state.type,
+          player1,
+          player2,
+          this.state.start
+        );
       })
       .catch(e => {
         if (e.response.status === 401) {
