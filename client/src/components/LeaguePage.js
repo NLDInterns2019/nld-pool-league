@@ -149,7 +149,6 @@ class App extends React.Component {
         }
       )
       .then(() => {
-        this.updateData();
         this.toastSucess(
           <p>
             Result Submitted!
@@ -157,6 +156,7 @@ class App extends React.Component {
             {state.player1} {state.score1} - {state.score2} {state.player2}
           </p>
         );
+        this.updateData();
         this.postScoreUpdateSlackMessage(
           this.state.type,
           state.players,
