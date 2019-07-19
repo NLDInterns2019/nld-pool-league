@@ -1,10 +1,10 @@
 import React from "react";
 
-const today = new Date("Aug 03 2019");
+const today = new Date();
 
 const cellStyle = (fixtureDate, score) => {
   if (isOverdue(fixtureDate) && isNotFinished(score)) {
-    return { color: "red" };
+    return { color: "white", backgroundColor: "#e23e4b", fontWeight: "bold" };
   } else {
     return { color: "black" };
   }
@@ -13,7 +13,7 @@ const cellStyle = (fixtureDate, score) => {
 const score1CellStyle = (fixtureDate, score) => {
   if (isOverdue(fixtureDate) && isNotFinished(score)) {
     return {
-      borderRightColor: "red"
+      borderRightColor: "#e23e4b"
     };
   } else {
     return { color: "black" };
@@ -23,7 +23,7 @@ const score1CellStyle = (fixtureDate, score) => {
 const score2CellStyle = (fixtureDate, score) => {
   if (isOverdue(fixtureDate) && isNotFinished(score)) {
     return {
-      borderLeftColor: "red"
+      borderLeftColor: "#e23e4b"
     };
   } else {
     return { color: "black" };
