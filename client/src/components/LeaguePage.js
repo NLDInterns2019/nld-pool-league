@@ -25,7 +25,7 @@ class App extends React.Component {
     this.web = new WebClient(token);
   }
 
-  signal = Axios.CancelToken.source()
+  signal = Axios.CancelToken.source();
 
   state = {
     type: "",
@@ -40,7 +40,7 @@ class App extends React.Component {
   };
 
   updateData = async () => {
-    try{
+    try {
       const response = await backend.get(
         "/api/89ball_league/" + this.state.activeSeason,
         {
@@ -50,9 +50,9 @@ class App extends React.Component {
           }
         }
       );
-  
+
       this.setState({ players: response.data });
-  
+
       const viewFixtures = await backend.get(
         "/api/89ball_fixture/" + this.state.activeSeason,
         {
@@ -64,9 +64,9 @@ class App extends React.Component {
           }
         }
       );
-  
+
       this.setState({ viewFixtures: viewFixtures.data });
-  
+
       const unplayedViewFixtures = await backend.get(
         "/api/89ball_fixture/" + this.state.activeSeason,
         {
@@ -78,9 +78,9 @@ class App extends React.Component {
           }
         }
       );
-  
+
       this.setState({ unplayedViewFixtures: unplayedViewFixtures.data });
-  
+
       const count = await backend.get(
         "/api/89ball_fixture/group/" + this.state.activeSeason,
         {
@@ -90,12 +90,11 @@ class App extends React.Component {
           }
         }
       );
-  
+
       this.setState({ groupCount: count.data[0] });
-    }
-    catch(err){
+    } catch (err) {
       //API CALL BEING CANCELED
-    }  
+    }
   };
 
   componentDidMount = async () => {
@@ -106,9 +105,9 @@ class App extends React.Component {
 
     this.updateData();
   };
-  
+
   componentWillUnmount() {
-    this.signal.cancel("")
+    this.signal.cancel("");
   }
 
   /* posts a message to a slack channel with the submitted score */
@@ -118,7 +117,7 @@ class App extends React.Component {
       /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
       text:
         (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " RESULT:\n" +
+        " Result:\n" +
         players.split(" ")[0] +
         "  " +
         score1 +
