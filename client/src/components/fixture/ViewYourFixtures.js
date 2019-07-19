@@ -1,5 +1,6 @@
 import React from "react";
 import backend from "../../api/backend";
+import axios from 'axios'
 
 class ViewYourFixtures extends React.Component {
   state = {
@@ -10,16 +11,24 @@ class ViewYourFixtures extends React.Component {
     hidePlayed: true
   };
 
+  signal = axios.CancelToken.source();
+
   getPlayers = async () => {
-    const response = await backend.get(
-      "/api/89ball_league/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type
+    try{
+      const response = await backend.get(
+        "/api/89ball_league/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
         }
-      }
-    );
-    this.setState({ players: response.data });
+      );
+      this.setState({ players: response.data });
+    }
+    catch(err) {
+      //API BEING CALLED
+    }    
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -39,6 +48,10 @@ class ViewYourFixtures extends React.Component {
       this.props.applyFilter(this.state.activePlayer, this.state.hidePlayed);
     }
   };
+
+  componentWillUnmount() {
+    this.signal.cancel("")
+  }
 
   clear = async () => {
     await this.setState({ activePlayer: " ", hidePlayed: true });

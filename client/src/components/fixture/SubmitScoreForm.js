@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import backend from "../../api/backend";
+import axios from 'axios';
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
@@ -27,30 +28,47 @@ class SubmitScoreForm extends Component {
     this.web = new WebClient(token);
   }
 
+  signal = axios.CancelToken.source();
+
   getPlayers = async () => {
-    const response = await backend.get(
-      "/api/89ball_league/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type
+    try{
+      const response = await backend.get(
+        "/api/89ball_league/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
         }
-      }
-    );
-    this.setState({ allPlayers: response.data });
+      );
+      this.setState({ allPlayers: response.data });
+    }
+    catch (err) {
+      //API CALL BEING CANCELED
+    }
+
   };
 
   getFixtures = async () => {
-    const response = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type,
-          hidePlayed: true,
-          staffName: this.state.activePlayer
+    try{
+      const response = await backend.get(
+        "/api/89ball_fixture/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type,
+            hidePlayed: true,
+            staffName: this.state.activePlayer
+          }
         }
-      }
-    );
-    this.setState({ unplayedFixtures: response.data });
+      );
+      this.setState({ unplayedFixtures: response.data });
+    }
+    catch(err){
+      //API CALL BEING CANCELED
+    }
+    
+    
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -68,6 +86,10 @@ class SubmitScoreForm extends Component {
       }
     }
   };
+
+  componentWillUnmount() {
+    this.signal.cancel("")
+  }
 
   isValid() {
     var regexScore = /^[0-2]$/; // matches 0, 1, or 2
