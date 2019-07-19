@@ -54,21 +54,24 @@ class FixturesPage extends Component {
   };
 
   handleEventClick = async e => {
-    await backend.delete("/api/booking/delete/", {
-      data: {
-        id: e.id
-      },
-      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-    })
-    .then(() => {
-      this.toastSuccess("Booking Deleted!");
-      this.getBookings()
-    })
-    .catch(e => {
-      if (e.response.status === 401) {
-        this.toastUnauthorised();
-      }
-    });
+    if (window.confirm("Are you sure you want to delete this booking?")) {
+      await backend
+        .delete("/api/booking/delete/", {
+          data: {
+            id: e.id
+          },
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        })
+        .then(() => {
+          this.toastSuccess("Booking Deleted!");
+          this.getBookings();
+        })
+        .catch(e => {
+          if (e.response.status === 401) {
+            this.toastUnauthorised();
+          }
+        });
+    }
   };
 
   openPopUp = () => {
@@ -141,7 +144,7 @@ class FixturesPage extends Component {
   toastInvalid = () => {
     toast.error(
       <p>
-        ⛔ Invalid booking! <br /> Choose other timeslot
+        ⛔ Invalid booking! <br /> Choose another timeslot
       </p>,
       {
         position: "top-center",
