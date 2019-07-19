@@ -30,8 +30,8 @@ class App extends React.Component {
   state = {
     type: "",
     players: [],
-    unplayedViewFixtures: [],
-    viewFixtures: [],
+    unplayedFixtures: [],
+    fixtures: [],
     activeSeason: 0,
     activeViewPlayer: " ",
     activeSubmitPlayer: " ",
@@ -53,7 +53,7 @@ class App extends React.Component {
 
       this.setState({ players: response.data });
 
-      const viewFixtures = await backend.get(
+      const fixtures = await backend.get(
         "/api/89ball_fixture/" + this.state.activeSeason,
         {
           cancelToken: this.signal.token,
@@ -65,9 +65,9 @@ class App extends React.Component {
         }
       );
 
-      this.setState({ viewFixtures: viewFixtures.data });
+      this.setState({ fixtures: fixtures.data });
 
-      const unplayedViewFixtures = await backend.get(
+      const unplayedFixtures = await backend.get(
         "/api/89ball_fixture/" + this.state.activeSeason,
         {
           cancelToken: this.signal.token,
@@ -79,7 +79,7 @@ class App extends React.Component {
         }
       );
 
-      this.setState({ unplayedViewFixtures: unplayedViewFixtures.data });
+      this.setState({ unplayedFixtures: unplayedFixtures.data });
 
       const count = await backend.get(
         "/api/89ball_fixture/group/" + this.state.activeSeason,
@@ -230,7 +230,7 @@ class App extends React.Component {
             </div>
             <div className="contentRight-bottom">
               <FixtureList
-                fixtures={this.state.viewFixtures}
+                fixtures={this.state.fixtures}
                 groupCount={this.state.groupCount}
               />
             </div>
