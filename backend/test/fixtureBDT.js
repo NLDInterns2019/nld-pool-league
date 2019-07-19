@@ -8,11 +8,22 @@ var server = require("../server");
 var knex = require("../db/knex");
 var should = chai.should();
 
+var token = require("./function/token");
+
 chai.use(chaiHttp);
 chai.use(chaiLike);
 chai.use(chaiThings);
 
 describe("Fixture", () => {
+  let bearerToken;
+  //Get token
+  before(function(done) {
+    token().then(result => {
+      bearerToken = result;
+      done();
+    });
+  });
+
     //PREPARE DB
     beforeEach(function(done) {
       knex.migrate
@@ -114,12 +125,24 @@ describe("Fixture", () => {
       });
   });
 
-  describe("GET /api/89ball_fixture/generate", () => {
+  //need to set up fixturegen with some data where it can generate current date
+  describe("POST /api/89ball_fixture/generate", () => {
     it("should set the first date to today's date and iterate them suitably", done => {
         chai
           .request(server)
-          .get("/api/89ball_fixture/2020/generate?type=8")
+          .post("/api/89ball_fixture/generate")
+          .set("authorization", `Bearer ${bearerToken}`)
+          .send({
+            seasonId: 2020,
+            type: 8
+          })
           .end((err, res) => {
+            console.log(res.body.type + " MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM")
+            res.body.should.include.something.like({
+              type: 8,
+              seasonId: 2020,
+             // date: new Date().getDate()
+            })
           });
           done();
     });
@@ -127,7 +150,7 @@ describe("Fixture", () => {
     it("should set the first group as 0 and iterate them suitably", done => {
       chai
         .request(server)
-        .get("/api/89ball_fixture/2020/Michael?type=8")
+        .get("/api/89ball_fixture/generate/2019?type=8")
         .end((err, res) => {
         });
         done();
