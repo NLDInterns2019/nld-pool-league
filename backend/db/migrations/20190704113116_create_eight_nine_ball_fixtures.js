@@ -9,7 +9,7 @@ exports.up = function(knex) {
     table.string("player2").notNullable();
     table.integer("score2");
     table.integer("group");
-    table.string("date");
+    table.datetime("date");
     table.integer("booked");
 
     table
