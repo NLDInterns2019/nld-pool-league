@@ -1,6 +1,7 @@
 import React from "react";
+import moment from "moment";
 
-const today = new Date();
+const today = new Date("27 Jul 2019");
 
 const cellStyle = (fixtureDate, score) => {
   if (isOverdue(fixtureDate) && isNotFinished(score)) {
@@ -31,7 +32,8 @@ const score2CellStyle = (fixtureDate, score) => {
 };
 
 const isOverdue = fixtureDate => {
-  return fixtureDate < today;
+  return moment(fixtureDate).isBefore(today);
+  //return fixtureDate < today;
 };
 
 const isNotFinished = score => {
