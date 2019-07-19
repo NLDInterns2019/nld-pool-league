@@ -46,11 +46,12 @@ class Auth {
         if (!authResult || !authResult.idToken) {
           return reject(err);
         }
+        console.log(authResult)
         this.idToken = authResult.idToken;
         this.profile = authResult.idTokenPayload;
         // set the time that the id token will expire at
         this.expiresAt = authResult.idTokenPayload.exp * 1000;
-        resolve(authResult.appState.url);
+        resolve();
       });
     }) 
   }
