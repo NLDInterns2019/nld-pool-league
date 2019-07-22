@@ -15,6 +15,6 @@ describe("Rendering", () => {
     wrapper.exists().should.be.true;
     wrapper.find("#eightBallLink").exists().should.be.true;
     wrapper.find("#nineBallLink").exists().should.be.true;
-    wrapper.find("#billiardsLink").exists().should.be.true;
+    // wrapper.find("#billiardsLink").exists().should.be.true;
   });
 });
