@@ -9,6 +9,8 @@ import LeagueTable from "./league/LeagueTable.js";
 import FixtureList from "./fixture/FixtureList";
 import SubmitScoreForm from "./fixture/SubmitScoreForm.js";
 import ViewYourFixtures from "./fixture/ViewYourFixtures.js";
+import FinalRankTable from "./league/FinalRankTable";
+
 import Axios from "axios";
 
 const { WebClient } = require("@slack/web-api");
@@ -195,7 +197,7 @@ class App extends React.Component {
       )
       .then(() => {
         this.toastSucess("🔐Season closed");
-        this.updateData()
+        this.updateData();
       })
       .catch(e => {
         if (e.response.status === 401) {
@@ -205,7 +207,7 @@ class App extends React.Component {
   };
 
   toastUnauthorised = () => {
-    toast.error("⛔ Unauthorised! Please login", {
+    toast.error(<p><span role="img" aria-label="forbidden">⛔</span> Unauthorised! Please login</p>, {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -259,7 +261,12 @@ class App extends React.Component {
   };
 
   showSeasonClosed = () => {
-    return <h1>Season is closed</h1>;
+    return (
+      <div>
+        <h1><span role="img" aria-label="lock">🔐</span>Season is closed</h1>
+        <FinalRankTable activeSeason={this.state.activeSeason} players={this.state.players} />
+      </div>
+    );
   };
 
   render() {
@@ -280,7 +287,7 @@ class App extends React.Component {
             {this.state.finished === null
               ? null
               : this.state.finished
-              ? this.showSeasonClosed() 
+              ? this.showSeasonClosed()
               : this.showSubmitResult()}
           </div>
           <div className="contentRight">

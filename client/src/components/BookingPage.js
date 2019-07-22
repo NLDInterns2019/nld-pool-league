@@ -171,7 +171,7 @@ class FixturesPage extends Component {
   };
 
   toastUnauthorised = () => {
-    toast.error("⛔ Unauthorised! Please login", {
+    toast.error(<p><span role="img" aria-label="forbidden">⛔</span>Unauthorised! Please login</p>, {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -184,7 +184,7 @@ class FixturesPage extends Component {
   toastInvalid = () => {
     toast.error(
       <p>
-        ⛔ Invalid booking! <br /> Choose another timeslot
+        <span role="img" aria-label="forbidden">⛔</span> Invalid booking! <br /> Choose another timeslot
       </p>,
       {
         position: "top-center",

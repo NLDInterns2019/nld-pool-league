@@ -170,7 +170,7 @@ table td {
 /* ==== Fixture Table ==== */
 .fixtureTable {
   font-size: 18pt;
-  min-width: 500px;
+  width: 550px;
 }
 
 .fixtureTableCell {
@@ -220,7 +220,7 @@ table td {
 /* ==== Fixture and League Table positioning ==== */
 .leagueTableContainer {
   display: inline-block;
-  margin-bottom: 8rem;
+  margin-bottom: 4rem;
 }
 
 .fixtureTableContainer {
