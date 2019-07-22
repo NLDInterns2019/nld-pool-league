@@ -2,22 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SeasonsList = props => {
+  console.log(props)
   const listToBeDisplayed = props.seasons.map(season => {
     return (
       <div key={season.seasonId}>
         <li>
-          {props.type !== "Billiards" ? (
+          {season.finished ? (
             <Link
-              to={{
-                pathname: `/${props.type}-ball/overview/${season.seasonId}`
-              }}
-            >
-              Season {season.seasonId}
-            </Link>
+            to={{
+              pathname: `/${props.type}-ball/overview/${season.seasonId}`
+            }}
+          >
+            Season {season.seasonId} 🏁
+          </Link>
           ) : (
             <Link
               to={{
-                pathname: `/${props.type}/overview/${season.seasonId}`
+                pathname: `/${props.type}-ball/overview/${season.seasonId}`
               }}
             >
               Season {season.seasonId}
