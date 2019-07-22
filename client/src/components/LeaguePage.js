@@ -179,7 +179,10 @@ class App extends React.Component {
         );
       })
       .catch(e => {
-        this.toastUnauthorised();
+        if (e.response.status === 401) {
+          this.toastUnauthorised();
+        }
+        this.toastError(<p><span role="img" aria-label="forbidden">⛔</span> Something went wrong. Please try again</p>)
       });
   };
 
@@ -208,6 +211,17 @@ class App extends React.Component {
 
   toastUnauthorised = () => {
     toast.error(<p><span role="img" aria-label="forbidden">⛔</span> Unauthorised! Please login</p>, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastError = message => {
+    toast.error(message, {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
