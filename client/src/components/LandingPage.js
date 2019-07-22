@@ -66,12 +66,11 @@ class LandingPage extends React.Component {
                   </Link>
                 </li>
               )}
-
-              <li>
+              {/* <li>
                 <Link to="/billiards/seasons" id="billiardsLink">
                   Billiards
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

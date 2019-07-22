@@ -48,7 +48,7 @@ const HeaderNavigator = () => {
             9-Ball
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             to="/billiards/seasons"
             style={billiardsCurrentStyle}
@@ -56,7 +56,7 @@ const HeaderNavigator = () => {
           >
             Billiards
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );
