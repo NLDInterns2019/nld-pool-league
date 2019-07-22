@@ -36,7 +36,8 @@ class App extends React.Component {
     activeViewPlayer: " ",
     activeSubmitPlayer: " ",
     groupCount: 0,
-    hidePlayed: true
+    hidePlayed: true,
+    finished: true
   };
 
   updateData = async () => {
@@ -92,6 +93,19 @@ class App extends React.Component {
       );
 
       this.setState({ groupCount: count.data[0] });
+
+      const season = await backend.get(
+        "/api/89ball_season/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
+        }
+      );
+      this.setState({
+        finished: season.data[0].finished
+      });
     } catch (err) {
       //API CALL BEING CANCELED
     }
@@ -234,29 +248,32 @@ class App extends React.Component {
               activeSeason={this.state.activeSeason}
               players={this.state.players}
             />
-            <SubmitScoreForm
-              type={this.state.type}
-              changeFixtureScore={this.changeFixtureScore}
-              activeSeason={this.state.activeSeason}
-              applySubmitFilter={this.applySubmitFilter}
-            />
-            <br />
-            <br />
-            <div>
-              <button
-                id="closeSeason"
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      "Are you sure you want to close this season?"
+            {this.state.finished ? <h1>Season is closed</h1> : (
+              <div>
+                <SubmitScoreForm
+                  type={this.state.type}
+                  changeFixtureScore={this.changeFixtureScore}
+                  activeSeason={this.state.activeSeason}
+                  applySubmitFilter={this.applySubmitFilter}
+                />
+                <br />
+                <br />
+
+                <button
+                  id="closeSeason"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to close this season?"
+                      )
                     )
-                  )
-                    this.closeSeason();
-                }}
-              >
-                Close Season
-              </button>
-            </div>
+                      this.closeSeason();
+                  }}
+                >
+                  Close Season
+                </button>
+              </div>
+            )}
           </div>
           <div className="contentRight">
             <div className="contentRight-top">
