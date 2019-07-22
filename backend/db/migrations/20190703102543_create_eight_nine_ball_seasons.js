@@ -11,5 +11,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTable("eight_nine_ball_leagues");
+  return knex.schema.dropTable("eight_nine_ball_seasons");
 };
