@@ -131,7 +131,6 @@ class App extends React.Component {
   };
 
   changeFixtureScore = async state => {
-    console.log(state);
     await backend
       .put(
         "/api/89ball_fixture/edit",
@@ -165,6 +164,28 @@ class App extends React.Component {
       })
       .catch(e => {
         this.toastUnauthorised();
+      });
+  };
+
+  closeSeason = async () => {
+    await backend
+      .put(
+        "/api/89ball_season/close",
+        {
+          type: parseInt(this.state.type),
+          seasonId: this.state.activeSeason
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
+      .then(() => {
+        this.toastSucess("🔐Season closed");
+      })
+      .catch(e => {
+        if (e.response.status === 401) {
+          this.toastUnauthorised();
+        }
       });
   };
 
@@ -219,6 +240,23 @@ class App extends React.Component {
               activeSeason={this.state.activeSeason}
               applySubmitFilter={this.applySubmitFilter}
             />
+            <br />
+            <br />
+            <div>
+              <button
+                id="closeSeason"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you want to close this season?"
+                    )
+                  )
+                    this.closeSeason();
+                }}
+              >
+                Close Season
+              </button>
+            </div>
           </div>
           <div className="contentRight">
             <div className="contentRight-top">

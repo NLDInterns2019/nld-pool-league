@@ -343,6 +343,10 @@ button:hover {
   background-color: #e23e4b;
 }
 
+#closeSeason {
+  background-color: #e23e4b;
+}
+
 /* ==== Drop Downs ==== */
 select:hover {
   cursor: pointer;

@@ -125,7 +125,9 @@ class SeasonsPage extends Component {
           this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
         });
     } catch (e) {
-      this.toastUnauthorised();
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
     }
   };
 
@@ -144,7 +146,9 @@ class SeasonsPage extends Component {
         this.getLatestSeason();
       })
       .catch(e => {
-        this.toastUnauthorised();
+        if (e.response.status === 401) {
+          this.toastUnauthorised();
+        }
       });
   };
 

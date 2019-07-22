@@ -20,12 +20,12 @@ const HeaderNavigator = () => {
     : {};
 
   /* makes 'billiards' bold */
-  var billiardsCurrentStyle = matchPath(currentPath, {
-    path: "/billiards",
-    exact: false
-  })
-    ? { fontWeight: "bold" }
-    : {};
+  // var billiardsCurrentStyle = matchPath(currentPath, {
+  //   path: "/billiards",
+  //   exact: false
+  // })
+  //   ? { fontWeight: "bold" }
+  //   : {};
 
   return (
     <div className="nav">
