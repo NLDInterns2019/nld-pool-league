@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import backend from "../../api/backend";
-import axios from 'axios';
+import axios from "axios";
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
@@ -31,7 +31,7 @@ class SubmitScoreForm extends Component {
   signal = axios.CancelToken.source();
 
   getPlayers = async () => {
-    try{
+    try {
       const response = await backend.get(
         "/api/89ball_league/" + this.state.activeSeason,
         {
@@ -42,15 +42,13 @@ class SubmitScoreForm extends Component {
         }
       );
       this.setState({ allPlayers: response.data });
-    }
-    catch (err) {
+    } catch (err) {
       //API CALL BEING CANCELED
     }
-
   };
 
   getFixtures = async () => {
-    try{
+    try {
       const response = await backend.get(
         "/api/89ball_fixture/" + this.state.activeSeason,
         {
@@ -63,23 +61,25 @@ class SubmitScoreForm extends Component {
         }
       );
       this.setState({ unplayedFixtures: response.data });
-    }
-    catch(err){
+    } catch (err) {
       //API CALL BEING CANCELED
     }
-    
-    
+  };
+
+  componentDidMount = async () => {
+    await this.setState({ type: this.props.type });
+    await this.setState({ activeSeason: this.props.activeSeason });
+    this.getPlayers();
+    this.getFixtures();
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
     if (
-      (this.state.activeSeason !== prevState.activeSeason ||
-        this.props.type !== prevProps.type ||
-        this.state.activePlayer !== prevState.activePlayer) &&
+      this.state.activePlayer !== prevState.activePlayer &&
       this.props.type !== undefined
     ) {
-      await this.setState({ type: this.props.type });
-      await this.setState({ activeSeason: this.props.activeSeason });
+      console.log("update");
+      console.log(this.state);
       if (this.state.activeSeason !== undefined) {
         this.getPlayers();
         this.getFixtures();
@@ -88,7 +88,7 @@ class SubmitScoreForm extends Component {
   };
 
   componentWillUnmount() {
-    this.signal.cancel("")
+    this.signal.cancel("");
   }
 
   isValid() {
@@ -114,7 +114,13 @@ class SubmitScoreForm extends Component {
     } else {
       /* submit score */
       this.props.changeFixtureScore(this.prepareSubmitState());
-      this.setState(this.initialState);
+      this.setState({
+        score1: "",
+        score2: "",
+        players: ""
+      });
+      this.getPlayers();
+      this.getFixtures();
       this.clearRadioButtons();
     }
   }

@@ -37,7 +37,7 @@ class App extends React.Component {
     activeSubmitPlayer: " ",
     groupCount: 0,
     hidePlayed: true,
-    finished: true
+    finished: null
   };
 
   updateData = async () => {
@@ -195,6 +195,7 @@ class App extends React.Component {
       )
       .then(() => {
         this.toastSucess("🔐Season closed");
+        this.updateData()
       })
       .catch(e => {
         if (e.response.status === 401) {
@@ -233,6 +234,34 @@ class App extends React.Component {
     this.updateData();
   };
 
+  showSubmitResult = () => {
+    return (
+      <div>
+        <SubmitScoreForm
+          type={this.state.type}
+          changeFixtureScore={this.changeFixtureScore}
+          activeSeason={this.state.activeSeason}
+        />
+        <br />
+        <br />
+
+        <button
+          id="closeSeason"
+          onClick={() => {
+            if (window.confirm("Are you sure you want to close this season?"))
+              this.closeSeason();
+          }}
+        >
+          Close Season
+        </button>
+      </div>
+    );
+  };
+
+  showSeasonClosed = () => {
+    return <h1>Season is closed</h1>;
+  };
+
   render() {
     return (
       <div className="app">
@@ -248,32 +277,11 @@ class App extends React.Component {
               activeSeason={this.state.activeSeason}
               players={this.state.players}
             />
-            {this.state.finished ? <h1>Season is closed</h1> : (
-              <div>
-                <SubmitScoreForm
-                  type={this.state.type}
-                  changeFixtureScore={this.changeFixtureScore}
-                  activeSeason={this.state.activeSeason}
-                  applySubmitFilter={this.applySubmitFilter}
-                />
-                <br />
-                <br />
-
-                <button
-                  id="closeSeason"
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to close this season?"
-                      )
-                    )
-                      this.closeSeason();
-                  }}
-                >
-                  Close Season
-                </button>
-              </div>
-            )}
+            {this.state.finished === null
+              ? null
+              : this.state.finished
+              ? this.showSeasonClosed() 
+              : this.showSubmitResult()}
           </div>
           <div className="contentRight">
             <div className="contentRight-top">
