@@ -78,6 +78,41 @@ describe("Seasons", () => {
     });
   });
 
+  describe("GET /api/89ball_season/:seasonId", () => {
+    it("should get specific 8ball season", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_season/2019?type=8")
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            seasonId: 2019,
+          });
+          done();
+        });
+    });
+
+    it("should get specific 9ball season", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_season/2019?type=9")
+        .send({
+          type: 9
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            seasonId: 2019
+          });
+          done();
+        });
+    });
+  });
+
   describe("GET /api/89ball_season/latest", () => {
     it("should get the latest season of 8 ball", done => {
       chai

@@ -148,4 +148,40 @@ router.put("/close", auth.checkJwt, (req, res) => {
     );
 });
 
+/* 
+  GET handler for /api/89ball_season/:seasonId
+  Function: To get specific season finished status
+*/
+router.get("/:seasonId", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let seasonId = parseInt(req.params.seasonId, 10);
+
+  eight_nine_ball_seasons
+    .query()
+    .where({ type: req.query.type, seasonId: seasonId})
+    .then(
+      season => {
+        if(season.lenght === 0){
+          res.status(404).json(e);
+        }
+        res.json(season);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
+
 module.exports = router;
