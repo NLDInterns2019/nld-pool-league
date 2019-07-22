@@ -115,6 +115,7 @@ class SubmitScoreForm extends Component {
       /* submit score */
       this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState({
+        activePlayer: " ",
         score1: "",
         score2: "",
         players: ""
