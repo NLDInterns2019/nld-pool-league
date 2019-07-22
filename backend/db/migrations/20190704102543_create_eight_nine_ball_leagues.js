@@ -12,6 +12,12 @@ exports.up = function(knex) {
     table.integer("goalsAgainst").defaultTo(0);
     table.integer("points").defaultTo(0);
 
+    table
+    .foreign(["type","seasonId"])
+    .references(["type","seasonId"])
+    .inTable("eight_nine_ball_seasons")
+    .onDelete("CASCADE");
+
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
   });

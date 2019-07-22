@@ -25,7 +25,15 @@ class eight_nine_ball_leagues extends Model {
           from: ["eight_nine_ball_leagues.seasonId", "eight_nine_ball_leagues.staffName"],
           to: ["eight_nine_ball_fixtures.seasonId", "eight_nine_ball_fixtures.player2"]
         }
-      }
+      },
+      season: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: eight_nine_ball_seasons,
+        join: {
+          from: ["eight_nine_ball_leagues.seasonId", "eight_nine_ball_leagues.type"],
+          to: ["eight_nine_ball_seasons.seasonId", "eight_nine_ball_seasons.staffName"]
+        }
+      },
     };
   }
 }
