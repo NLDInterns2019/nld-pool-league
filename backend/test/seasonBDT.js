@@ -179,4 +179,83 @@ describe("Seasons", () => {
         });
     });
   });
+
+  describe("PUT /api/8ball_season/close/", () => {
+    it("should close 8 ball 2019 season", done => {
+      chai
+        .request(server)
+        .put("/api/89ball_season/close/")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2019
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/89ball_season?type=8")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2019,
+                finished: 1
+              });
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2020,
+                finished: 0
+              });
+              done();
+            });
+        });
+    });
+    it("should close 9 ball 2019 season", done => {
+      chai
+        .request(server)
+        .put("/api/89ball_season/close/")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 9,
+          seasonId: 2019
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/89ball_season?type=9")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.include.something.like({
+                type: 9,
+                seasonId: 2019,
+                finished: 1
+              });
+              res.body.should.include.something.like({
+                type: 9,
+                seasonId: 2020,
+                finished: 0
+              });
+              done();
+            });
+        });
+    });
+    it("should not close non-existent season", done => {
+      chai
+        .request(server)
+        .put("/api/89ball_season/delete/")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2077
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
 });

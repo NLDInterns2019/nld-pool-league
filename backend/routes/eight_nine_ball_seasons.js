@@ -73,7 +73,7 @@ router.get("/latest", (req, res) => {
   DELETE handler for /api/89ball_season/delete/
   Function: To delete seasons (NOTE YET IMPLEMENTED IN THE UI)
 */
-router.delete("/delete", auth.checkJwt,  (req, res) => {
+router.delete("/delete", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
@@ -106,6 +106,44 @@ router.delete("/delete", auth.checkJwt,  (req, res) => {
       e => {
         //Internal error
         res.status(500).send();
+      }
+    );
+});
+
+/* 
+  PUT handler for /api/89ball_season/close
+  Function: To close a season
+*/
+router.put("/close", auth.checkJwt, (req, res) => {
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    seasonId: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  eight_nine_ball_seasons
+    .query()
+    .findOne({ type: req.body.type, seasonId: req.body.seasonId })
+    .patch({ finished: true })
+    .then(
+      result => {
+        if (result === 0) {
+          res.status(404).send();
+          return;
+        }
+        res.json(result);
+      },
+      e => {
+        res.status(400).json(e);
       }
     );
 });

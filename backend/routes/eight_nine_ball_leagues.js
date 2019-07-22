@@ -4,7 +4,6 @@ const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
 
-const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
 /* 
