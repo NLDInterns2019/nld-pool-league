@@ -119,10 +119,12 @@ class SubmitScoreForm extends Component {
         score1: "",
         score2: "",
         players: ""
-      });
-      this.getPlayers();
-      this.getFixtures();
-      this.clearRadioButtons();
+      })
+      .then(() => {
+        this.getPlayers();
+        this.getFixtures();
+        this.clearRadioButtons();
+      })  
     }
   }
 
