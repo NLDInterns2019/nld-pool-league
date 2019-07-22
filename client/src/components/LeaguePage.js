@@ -181,8 +181,9 @@ class App extends React.Component {
       .catch(e => {
         if (e.response.status === 401) {
           this.toastUnauthorised();
+        }else{
+          this.toastError(<p><span role="img" aria-label="forbidden">⛔</span> Something went wrong. Please try again</p>)
         }
-        this.toastError(<p><span role="img" aria-label="forbidden">⛔</span> Something went wrong. Please try again</p>)
       });
   };
 
