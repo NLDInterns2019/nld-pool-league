@@ -125,6 +125,76 @@ describe("Fixture", () => {
       });
   });
 
+
+//need to set up fixturegen with some data where it can generate current date
+  describe("POST /api/89ball_fixture/generate", () => {
+    it("should add players in prep", done => {
+      chai
+        .request(server)
+        .post("/api/89ball_league/add/player")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2424,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/89ball_league?type=8")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2424,
+                staffName: "Michael"
+              });
+              done();
+            });
+        });
+    });
+    it("should post a player to the 8 league", done => {
+      chai
+        .request(server)
+        .post("/api/89ball_league/add/player")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2424,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/89ball_league?type=8")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2424,
+                staffName: "Michael"
+              });
+              done();
+            });
+        });
+    });
+
+    it("should set the first date to today's date and iterate them suitably", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_fixture/generate/2019?type=8")
+        .end((err, res) => {
+        });
+        done();
+    });
+  });
+
+ 
+
   // //need to set up fixturegen with some data where it can generate current date
   // describe("POST /api/89ball_fixture/generate", () => {
   //   it("should set the first date to today's date and iterate them suitably", done => {
