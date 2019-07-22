@@ -4,7 +4,7 @@ const _ = require("lodash");
 const Joi = require("joi");
 const auth = require("../auth");
 
-const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
+const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 
 /* 
   GET handler for /api/89ball_season
@@ -24,10 +24,9 @@ router.get("/", (req, res) => {
     return;
   }
 
-  eight_nine_ball_leagues
+  eight_nine_ball_seasons
     .query()
     .where({ type: req.query.type })
-    .distinct("seasonId")
     .then(
       seasons => {
         res.json(seasons);
@@ -56,7 +55,7 @@ router.get("/latest", (req, res) => {
     return;
   }
 
-  eight_nine_ball_leagues
+  eight_nine_ball_seasons
     .query()
     .where({ type: req.query.type })
     .max("seasonId as seasonId")
@@ -90,7 +89,7 @@ router.delete("/delete", auth.checkJwt,  (req, res) => {
     return;
   }
 
-  eight_nine_ball_leagues
+  eight_nine_ball_seasons
     .query()
     .delete()
     .where({ type: req.body.type, seasonId: req.body.seasonId })

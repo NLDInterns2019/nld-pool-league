@@ -4,6 +4,7 @@ const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
 
+const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
 /* 
@@ -53,11 +54,11 @@ router.get("/:seasonId", (req, res) => {
       .required()
   };
 
-    //Validation
-    if (Joi.validate(req.query, schema, { convert: false }).error) {
-      res.status(400).json({ status: "error", error: "Invalid data" });
-      return;
-    }
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
 
   let seasonId = parseInt(req.params.seasonId, 10);
 
@@ -86,8 +87,8 @@ router.get("/:seasonId", (req, res) => {
 router.post("/add/player", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
+      .integer()
+      .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
@@ -100,15 +101,27 @@ router.post("/add/player", auth.checkJwt, (req, res) => {
     return;
   }
 
-  knex("eight_nine_ball_leagues")
+  knex("eight_nine_ball_seasons")
     .insert({
       type: req.body.type,
-      seasonId: req.body.seasonId,
-      staffName: req.body.staffName
+      seasonId: req.body.seasonId
     })
     .then(
-      player => {
-        res.json(player);
+      () => {
+        knex("eight_nine_ball_leagues")
+          .insert({
+            type: req.body.type,
+            seasonId: req.body.seasonId,
+            staffName: req.body.staffName
+          })
+          .then(
+            player => {
+              res.json(player);
+            },
+            e => {
+              res.status(400).json(e);
+            }
+          );
       },
       e => {
         res.status(400).json(e);
@@ -123,14 +136,16 @@ router.post("/add/player", auth.checkJwt, (req, res) => {
 router.post("/add/players", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
+      .integer()
+      .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
     staffs: Joi.array().items(
       Joi.object({
-        type: Joi.number().integer().required(),
+        type: Joi.number()
+          .integer()
+          .required(),
         seasonId: Joi.number()
           .integer()
           .required(),
@@ -145,31 +160,26 @@ router.post("/add/players", auth.checkJwt, (req, res) => {
     return;
   }
 
-  knex("eight_nine_ball_leagues")
-    //Check
-    .select()
-    .where({type: req.body.type, seasonId: req.body.seasonId})
+  knex("eight_nine_ball_seasons")
+    .insert({
+      type: req.body.type,
+      seasonId: req.body.seasonId
+    })
     .then(
-      result => {
-        if (result.length === 0) {
-          return knex
-            .batchInsert("eight_nine_ball_leagues", req.body.staffs, 100)
-            .then(
-              result => {
-                if (result) {
-                  res.status(200).send();
-                }
-              },
-              e => {
-                res.status(400).send();
-              }
-            );
-        } else {
-          res.status(400).send();
-        }
+      () => {
+        knex.batchInsert("eight_nine_ball_leagues", req.body.staffs, 100).then(
+          result => {
+            if (result) {
+              res.status(200).send();
+            }
+          },
+          e => {
+            res.status(400).send(e);
+          }
+        );
       },
       e => {
-        res.status(500).send(e);
+        res.status(400).json(e);
       }
     );
 });
@@ -181,8 +191,8 @@ router.post("/add/players", auth.checkJwt, (req, res) => {
 router.delete("/delete/player", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
+      .integer()
+      .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
@@ -198,7 +208,11 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
   eight_nine_ball_leagues
     .query()
     .delete()
-    .where({type: req.body.type, seasonId: req.body.seasonId, staffName: req.body.staffName })
+    .where({
+      type: req.body.type,
+      seasonId: req.body.seasonId,
+      staffName: req.body.staffName
+    })
     .then(
       result => {
         if (result === 0) {
