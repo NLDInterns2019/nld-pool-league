@@ -19,7 +19,7 @@ class CreateBooking extends React.Component {
 
   getPlayers = async () => {
     const response = await backend.get(
-      "/api/89ball_league/" + this.state.activeSeason,
+      "/api/89ball_league/" + this.state.activeSeason +"/asc",
       {
         params: {
           type: this.state.type

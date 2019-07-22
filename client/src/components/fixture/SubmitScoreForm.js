@@ -33,7 +33,7 @@ class SubmitScoreForm extends Component {
   getPlayers = async () => {
     try {
       const response = await backend.get(
-        "/api/89ball_league/" + this.state.activeSeason,
+        "/api/89ball_league/" + this.state.activeSeason +"/asc",
         {
           cancelToken: this.signal.token,
           params: {

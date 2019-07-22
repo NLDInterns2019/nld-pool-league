@@ -134,6 +134,7 @@ router.get("/:seasonId", (req, res) => {
     .query()
     .where(where1)
     .orWhere(where2)
+    .orderBy("player1")
     .then(
       fixture => {
         res.send(fixture);
