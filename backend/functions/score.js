@@ -1,5 +1,7 @@
+const moment = require("moment")
+
 module.exports = {
-  calculateScore: function(player1, player2, score1, score2) {
+  calculateScore: function(player1, player2, score1, score2, dueDate) {
     //Increment the play
     player1.play++;
     player2.play++;
@@ -21,6 +23,15 @@ module.exports = {
     } else {
       player1.draw++;
       player2.draw++;
+    }
+
+    //Calculate punctuality
+    if(moment().isSameOrBefore(dueDate)){
+      player1.punctuality++;
+      player2.punctuality++;
+    }else{
+      player1.punctuality--;
+      player2.punctuality--;
     }
 
     //Calculate score

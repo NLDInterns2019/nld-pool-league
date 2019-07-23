@@ -1,7 +1,10 @@
 const expect = require("chai").expect;
 const score = require("../functions/score");
+const moment = require("moment");
 
 describe("calculateScore()", () => {
+  const dueDate = moment().add(7, "d");
+
   beforeEach(() => {
     player1 = {
       play: 0,
@@ -10,7 +13,8 @@ describe("calculateScore()", () => {
       lose: 0,
       goalsFor: 0,
       goalsAgainst: 0,
-      points: 0
+      points: 0,
+      punctuality: 0,
     };
 
     player2 = {
@@ -20,7 +24,8 @@ describe("calculateScore()", () => {
       lose: 0,
       goalsFor: 0,
       goalsAgainst: 0,
-      points: 0
+      points: 0,
+      punctuality: 0
     };
   });
 
@@ -36,7 +41,8 @@ describe("calculateScore()", () => {
       lose: 0,
       goalsFor: 2,
       goalsAgainst: 0,
-      points: 3
+      points: 3,
+      punctuality: 1
     };
 
     let expectedPlayer2 = {
@@ -46,11 +52,18 @@ describe("calculateScore()", () => {
       lose: 1,
       goalsFor: 0,
       goalsAgainst: 2,
-      points: 0
+      points: 0,
+      punctuality: 1
     };
 
     //2. ACT
-    let players = score.calculateScore(player1, player2, score1, score2);
+    let players = score.calculateScore(
+      player1,
+      player2,
+      score1,
+      score2,
+      dueDate
+    );
 
     //3. ASSERT
     expect(players.player1).to.eql(expectedPlayer1);
@@ -68,7 +81,8 @@ describe("calculateScore()", () => {
       lose: 1,
       goalsFor: 0,
       goalsAgainst: 2,
-      points: 0
+      points: 0,
+      punctuality: 1
     };
 
     expectedPlayer2 = {
@@ -78,11 +92,18 @@ describe("calculateScore()", () => {
       lose: 0,
       goalsFor: 2,
       goalsAgainst: 0,
-      points: 3
+      points: 3,
+      punctuality: 1
     };
 
     //2. ACT
-    let players = score.calculateScore(player1, player2, score1, score2);
+    let players = score.calculateScore(
+      player1,
+      player2,
+      score1,
+      score2,
+      dueDate
+    );
 
     //3. ASSERT
     expect(players.player1).to.eql(expectedPlayer1);
@@ -100,7 +121,8 @@ describe("calculateScore()", () => {
       lose: 0,
       goalsFor: 1,
       goalsAgainst: 1,
-      points: 1
+      points: 1,
+      punctuality: 1
     };
 
     expectedPlayer2 = {
@@ -110,11 +132,18 @@ describe("calculateScore()", () => {
       lose: 0,
       goalsFor: 1,
       goalsAgainst: 1,
-      points: 1
+      points: 1,
+      punctuality: 1
     };
 
     //2. ACT
-    let players = score.calculateScore(player1, player2, score1, score2);
+    let players = score.calculateScore(
+      player1,
+      player2,
+      score1,
+      score2,
+      dueDate
+    );
 
     //3. ASSERT
     expect(players.player1).to.eql(expectedPlayer1);

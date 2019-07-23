@@ -190,8 +190,9 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
   };
 
   //Check if fixture exist and score is still null (means fixture hasnt been played)
+  let fixture;
   try {
-    let fixture = await eight_nine_ball_fixtures
+    fixture = await eight_nine_ball_fixtures
       .query()
       .findOne(leagueAttributes);
 
@@ -236,7 +237,8 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
       player1,
       player2,
       req.body.score1,
-      req.body.score2
+      req.body.score2,
+      fixture.date
     );
     player1 = _.cloneDeep(players.player1);
     player2 = _.cloneDeep(players.player2);
