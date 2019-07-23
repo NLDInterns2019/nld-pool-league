@@ -5,6 +5,7 @@ const Joi = require("joi");
 const auth = require("../auth");
 
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
+const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures")
 
 /* 
   GET handler for /api/89ball_season
@@ -140,7 +141,14 @@ router.put("/close", auth.checkJwt, (req, res) => {
           res.status(404).send();
           return;
         }
-        res.json(result);
+        eight_nine_ball_fixtures.query()
+        .where({score1: null, score2: null})
+        .patch({score1: 1, score2: 1})
+        .then((result) => {
+          res.json(result)
+        }, e=> {
+          res.status(400).json(e)
+        })
       },
       e => {
         res.status(400).json(e);
