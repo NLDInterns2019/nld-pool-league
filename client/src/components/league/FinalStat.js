@@ -1,5 +1,5 @@
 import React from "react";
-import { find, maxBy, minBy } from "lodash";
+import { find, maxBy, minBy, filter } from "lodash";
 
 const itemsToBeDisplayed = props => {
   const undefeated = find(props.players, player => player.lose === 0);
@@ -7,7 +7,10 @@ const itemsToBeDisplayed = props => {
   const firstTimer = maxBy(props.players, "goalsAgainst");
   const zero = find(props.players, player => player.win === 0);
   const onTime = maxBy(props.players, "punctuality");
-  const late = minBy(props.players, "punctuality");
+  const late = minBy(
+    filter(props.players, player => player.punctuality < 0),
+    "punctuality"
+  );
 
   return (
     <tbody>
@@ -59,7 +62,7 @@ const itemsToBeDisplayed = props => {
       <tr>
         <td>
           <span role="img" aria-label="snail">
-          🐌
+            🐌
           </span>
         </td>
         <td>Mr Snail</td>
