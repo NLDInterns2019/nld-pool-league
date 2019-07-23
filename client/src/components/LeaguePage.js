@@ -269,7 +269,7 @@ class App extends React.Component {
 
   showSubmitResult = () => {
     return (
-      <div>
+      <div style={{"marginTop": "4rem"}}>
         <SubmitScoreForm
           type={this.state.type}
           changeFixtureScore={this.changeFixtureScore}

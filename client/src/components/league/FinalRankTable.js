@@ -39,9 +39,21 @@ const itemsToBeDisplayed = props => {
 const FinalRankTable = props => {
   return (
     <div>
-      <h3>{"Season " + props.activeSeason} Winners</h3>
+      <h3>
+        <span role="img" aria-label="trophy">
+          🏆
+        </span>
+        {"Season " + props.activeSeason} Winners
+        <span role="img" aria-label="trophy">
+          🏆
+        </span>
+      </h3>
       <div className="leagueTableContainer">
-        <table className="leagueTable" style={{"width": "500px"}} cellSpacing="0">
+        <table
+          className="leagueTable"
+          style={{ width: "500px" }}
+          cellSpacing="0"
+        >
           <thead>
             <tr>
               <th>Rank</th>

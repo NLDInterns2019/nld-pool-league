@@ -56,7 +56,7 @@ const itemsToBeDisplayed = props => {
             ⌚
           </span>
         </td>
-        <td>Mr. on time</td>
+        <td>Mr. Punctual</td>
         <td>{onTime ? onTime.staffName : "-"}</td>
       </tr>
       <tr>
@@ -65,7 +65,7 @@ const itemsToBeDisplayed = props => {
             🐌
           </span>
         </td>
-        <td>Mr Snail</td>
+        <td>Mr. Overdue</td>
         <td>{late ? late.staffName : "-"}</td>
       </tr>
     </tbody>
@@ -75,7 +75,15 @@ const itemsToBeDisplayed = props => {
 const FinalStat = props => {
   return (
     <div>
-      <h3>Honorable Mentions</h3>
+      <h3>
+        <span role="img" aria-label="crossed-swords">
+          ⚔️
+        </span>
+        Honorable Mentions
+        <span role="img" aria-label="crossed-swords">
+          ⚔️
+        </span>
+      </h3>
       <div className="leagueTableContainer">
         <table
           className="leagueTable"
