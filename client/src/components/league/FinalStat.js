@@ -1,17 +1,22 @@
 import React from "react";
-import {find, maxBy} from "lodash";
+import { find, maxBy } from "lodash";
 
 const itemsToBeDisplayed = props => {
+  const undefeated = find(props.players, player => player.lose === 0);
+  const draw = maxBy(props.players, "draw");
+  const firstTimer = maxBy(props.players, "goalsAgainst");
+  const zero = find(props.players, player => player.win === 0);
+
   return (
     <tbody>
       <tr>
         <td>
           <span role="img" aria-label="boxing-glove">
-          🥊
+            🥊
           </span>
         </td>
         <td>Undefeated</td>
-        <td>{find(props.players, player => player.lose === 0).staffName}</td>
+        <td>{undefeated ? undefeated.staffName : "-"}</td>
       </tr>
       <tr>
         <td>
@@ -20,7 +25,7 @@ const itemsToBeDisplayed = props => {
           </span>
         </td>
         <td>Most draw</td>
-        <td>{maxBy(props.players, "draw").staffName}</td>
+        <td>{draw ? draw.staffName : "-"}</td>
       </tr>
       <tr>
         <td>
@@ -28,8 +33,17 @@ const itemsToBeDisplayed = props => {
             😵
           </span>
         </td>
-        <td>Loser</td>
-        <td>{maxBy(props.players, "goalsAgainst").staffName}</td>
+        <td>First timer</td>
+        <td>{firstTimer ? firstTimer.staffName : "-"}</td>
+      </tr>
+      <tr>
+        <td>
+          <span role="img" aria-label="zero">
+            0️⃣
+          </span>
+        </td>
+        <td>Zero win</td>
+        <td>{zero ? zero.staffName : "-"}</td>
       </tr>
     </tbody>
   );
@@ -40,11 +54,15 @@ const FinalStat = props => {
     <div>
       <h3>Honorable Mentions</h3>
       <div className="leagueTableContainer">
-        <table className="leagueTable" cellSpacing="0">
+        <table
+          className="leagueTable"
+          style={{ width: "500px" }}
+          cellSpacing="0"
+        >
           <thead>
             <tr>
               <th />
-              <th>Title</th>
+              <th>Achievement Title</th>
               <th>Name</th>
             </tr>
           </thead>

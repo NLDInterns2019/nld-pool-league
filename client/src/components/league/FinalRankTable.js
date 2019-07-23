@@ -41,7 +41,7 @@ const FinalRankTable = props => {
     <div>
       <h3>{"Season " + props.activeSeason} Winners</h3>
       <div className="leagueTableContainer">
-        <table className="leagueTable" cellSpacing="0">
+        <table className="leagueTable" style={{"width": "500px"}} cellSpacing="0">
           <thead>
             <tr>
               <th>Rank</th>
