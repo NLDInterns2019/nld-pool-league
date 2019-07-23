@@ -1,43 +1,58 @@
 import React from "react";
+import {find, maxBy} from "lodash";
 
 const itemsToBeDisplayed = props => {
   return (
     <tbody>
       <tr>
         <td>
-          <span role="img" aria-label="first">
-            🥇
+          <span role="img" aria-label="boxing-glove">
+          🥊
           </span>
         </td>
-        <td>{props.players[0].staffName}</td>
-        <td>{props.players[0].points}</td>
+        <td>Undefeated</td>
+        <td>{find(props.players, player => player.lose === 0).staffName}</td>
       </tr>
       <tr>
         <td>
-          <span role="img" aria-label="second">
-            🥈
+          <span role="img" aria-label="balance-scale">
+            ⚖️
           </span>
         </td>
-        <td>{props.players[1].staffName}</td>
-        <td>{props.players[1].points}</td>
+        <td>Most draw</td>
+        <td>{maxBy(props.players, "draw").staffName}</td>
       </tr>
-      {props.players.length >= 3 ? (
-        <tr>
-          <td>
-            <span role="img" aria-label="third">
-              🥉
-            </span>
-          </td>
-          <td>{props.players[2].staffName}</td>
-          <td>{props.players[2].points}</td>
-        </tr>
-      ) : null}
+      <tr>
+        <td>
+          <span role="img" aria-label="dizzy">
+            😵
+          </span>
+        </td>
+        <td>Loser</td>
+        <td>{maxBy(props.players, "goalsAgainst").staffName}</td>
+      </tr>
     </tbody>
   );
 };
 
 const FinalStat = props => {
-  return <div>Final Stat</div>;
+  return (
+    <div>
+      <h3>Honorable Mentions</h3>
+      <div className="leagueTableContainer">
+        <table className="leagueTable" cellSpacing="0">
+          <thead>
+            <tr>
+              <th />
+              <th>Title</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          {itemsToBeDisplayed(props)}
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default FinalStat;

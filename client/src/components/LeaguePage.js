@@ -3,13 +3,14 @@ import backend from "../api/backend";
 import auth0Client from "../Auth";
 import { ToastContainer, toast } from "react-toastify";
 
-import Header from "./nav/Header.js";
-import SubNavBar from "./nav//SubNavBar.js";
-import LeagueTable from "./league/LeagueTable.js";
+import Header from "./nav/Header";
+import SubNavBar from "./nav//SubNavBar";
+import LeagueTable from "./league/LeagueTable";
 import FixtureList from "./fixture/FixtureList";
-import SubmitScoreForm from "./fixture/SubmitScoreForm.js";
-import ViewYourFixtures from "./fixture/ViewYourFixtures.js";
+import SubmitScoreForm from "./fixture/SubmitScoreForm";
+import ViewYourFixtures from "./fixture/ViewYourFixtures";
 import FinalRankTable from "./league/FinalRankTable";
+import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
 
@@ -181,8 +182,15 @@ class App extends React.Component {
       .catch(e => {
         if (e.response.status === 401) {
           this.toastUnauthorised();
-        }else{
-          this.toastError(<p><span role="img" aria-label="forbidden">⛔</span> Something went wrong. Please try again</p>)
+        } else {
+          this.toastError(
+            <p>
+              <span role="img" aria-label="forbidden">
+                ⛔
+              </span>{" "}
+              Something went wrong. Please try again
+            </p>
+          );
         }
       });
   };
@@ -211,14 +219,22 @@ class App extends React.Component {
   };
 
   toastUnauthorised = () => {
-    toast.error(<p><span role="img" aria-label="forbidden">⛔</span> Unauthorised! Please login</p>, {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
+    toast.error(
+      <p>
+        <span role="img" aria-label="forbidden">
+          ⛔
+        </span>{" "}
+        Unauthorised! Please login
+      </p>,
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      }
+    );
   };
 
   toastError = message => {
@@ -278,8 +294,18 @@ class App extends React.Component {
   showSeasonClosed = () => {
     return (
       <div>
-        <h1><span role="img" aria-label="lock">🔐</span>Season is closed</h1>
-        <FinalRankTable activeSeason={this.state.activeSeason} players={this.state.players} />
+        <h1>
+          <span role="img" aria-label="lock">
+            🔐
+          </span>
+          Season is closed
+        </h1>
+
+        <FinalRankTable
+          activeSeason={this.state.activeSeason}
+          players={this.state.players}
+        />
+        <FinalStat players={this.state.players} />
       </div>
     );
   };
