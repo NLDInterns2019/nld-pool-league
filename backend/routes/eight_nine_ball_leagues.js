@@ -222,19 +222,124 @@ router.post("/add/players", auth.checkJwt, (req, res) => {
 });
 
 /* 
-  DELETE handler for /api/89_ball_league/delete/player
-  Function: To delete player from the league (NOTE YET IMPLEMENTED IN THE UI)
+  PATCH handler for /api/89_ball_league/recalculate
+  Function: To recalculate league values (called on fixture add/edit/delete)
 */
-router.delete("/delete/player", auth.checkJwt, (req, res) => {
-  let staffName = req.body.staffName;
+router.patch("/recalculate", auth.checkJwt, async (req, res) => {
   let type = req.body.type;
   let seasonId = req.body.seasonId;
-  var opponent, result, staffGoals, oppGoals;
+  let pVal1, pVal2;
 
   const schema = {
     type: Joi.number()
+    .integer()
+    .required(),
+    seasonId: Joi.number()
       .integer()
       .required(),
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let fixtures = await eight_nine_ball_fixtures.query().where({
+    type: type, 
+    seasonId: seasonId,
+  }) 
+  if (fixtures === 0 ) {
+    res.status(404).send();
+  }
+  let leagues = await eight_nine_ball_leagues.query().where({
+    type: type,
+    seasonId: seasonId,
+  })
+  if (leagues === 0 ) {
+    res.status(404).send();
+  }
+
+  //empty necessary values
+  for (let i = 0; i < leagues.length; i++) {
+    leagues[i].play = 0;
+    leagues[i].goalsAgainst = 0;
+    leagues[i].goalsFor = 0;
+    leagues[i].win = 0;
+    leagues[i].lose = 0;
+    leagues[i].draw = 0;
+    leagues[i].points = 0;
+  }
+
+  for (let i = 0; i < fixtures.length; i++) {
+    
+    //set pVal1 and pVal2 as the respective players locations within the league table
+     for (let j = 0; j < leagues.length; j++) {
+       if (leagues[j].staffName == fixtures[i].player1) {
+         pVal1 = j; 
+       } else if (leagues[j].staffName == fixtures[i].player2) {
+         pVal2 = j;
+       }
+     }
+
+    //const pVal1 = _.find(leagues, league => league.staffName === fixtures[i].player1)
+    //const pVal2= _.find(leagues, league => league.staffName === fixtures[i].player2)
+
+    if (fixtures[i].score1 == 2) { //p1 won
+      leagues[pVal1].win = leagues[pVal1].win + 1;
+      leagues[pVal2].lose = leagues[pVal2].lose + 1;
+    } else if (fixtures[i].score1 == 1) { //draw
+      leagues[pVal1].draw = leagues[pVal1].draw + 1;
+      leagues[pVal2].draw = leagues[pVal2].draw + 1;
+    } else if (fixtures[i].score1 == 0) { //p1 lost
+      leagues[pVal1].lose = leagues[pVal1].lose + 1;
+      leagues[pVal2].win = leagues[pVal2].win + 1;
+    } //nothing for null bc it hasn't been played
+
+
+    //set goalsfor, goalsagainst and points
+    leagues[pVal1].goalsAgainst = leagues[pVal1].goalsAgainst + fixtures[i].score2;
+    leagues[pVal2].goalsAgainst = leagues[pVal2].goalsAgainst + fixtures[i].score1;
+
+    leagues[pVal1].goalsFor = leagues[pVal1].goalsFor + fixtures[i].score1;
+    leagues[pVal2].goalsFor = leagues[pVal2].goalsFor + fixtures[i].score2;
+
+    leagues[pVal1].points = leagues[pVal1].draw + (leagues[pVal1].win * 3);
+    leagues[pVal2].points = leagues[pVal2].draw + (leagues[pVal2].win * 3);
+
+    //increase plays if score wasn't null
+    if (fixtures[i].score1 !== null) {
+      leagues[pVal1].play = leagues[pVal1].play + 1;
+      leagues[pVal2].play = leagues[pVal2].play + 1;
+    }
+    
+  }
+
+  //patch league db line by line
+  for (let i = 0; i < leagues.length; i++) { 
+    let newLeague = await eight_nine_ball_leagues.query()
+    .findOne({
+      type: type,
+      seasonId: seasonId,
+      staffName: leagues[i].staffName
+    })
+    .patch(leagues[i])
+    if (newLeague === 0) {
+      res.status(404).send()
+    }
+  }
+  res.json(leagues)
+});
+
+/* 
+  DELETE handler for /api/89_ball_league/delete/player
+  Function: To delete player from the league (NOT YET IMPLEMENTED IN THE UI)
+*/
+router.delete("/delete/player", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number()
+    .integer()
+    .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
@@ -247,83 +352,57 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
     return;
   }
 
-  //search fixtures
-  //where the name is detected, look at the scores
-  //deduct opponents league points as necessary
-  //delete fixture
-
-  eight_nine_ball_fixtures
-    .query()
-    .where({ 
-      type: type, 
-      seasonId: seasonId,
-      player1: staffName
-    }).orWhere({
-      type: type,
-      seasonId: seasonId,
-      player2: staffName
-    })
-    .then( //use players.length to get end of loop
-      players => {
-        if (!players.length) res.status(404).send();
-        else{ 
-          //from 0 to length-1
-          //take opponents name
-          //check if win etc
-          //deduct accordingly
-          for (let i = 0; i < players.length; i++) {
-            if (players[i].player1 == staffName) {
-              opponent = players[i].player2;
-              if (players[i].score1 > players[i].score2) {
-
-              }
-            } else {
-              opponent = players[i].player1;
-            }
-
-            if (player) {
-
-            }
-          }
-
-
-
-
-          console.log(players.length)
-          console.log(players[2].staffName + " mmmmm");
-          res.json(players)};
-      },
-      e => {
-        res.status(400).json(e);
-      }
-    );
-
-/*
   //delete from league
-  eight_nine_ball_leagues
-    .query()
-    .delete()
-    .where({
-      type: req.body.type,
-      seasonId: req.body.seasonId,
-      staffName: req.body.staffName
-    })
-    .then(
-      result => {
-        if (result === 0) {
-          //Nothing deleted
-          res.status(404).json();
-        } else {
-          //Something deleted
-          res.status(204).send();
-        }
-      },
-      e => {
-        //Internal error
-        res.status(500).send();
+  eight_nine_ball_leagues.query().delete()
+  .where({
+    type: req.body.type,
+    seasonId: req.body.seasonId,
+    staffName: req.body.staffName 
+  })
+  .then(
+    result => {
+      if (result === 0) {
+        //Nothing deleted
+        res.status(404).json();
+      } else {
+        //Something deleted
+        res.status(204).send();
       }
-    );
-    */
+    },
+    e => {
+      //Internal error
+      res.status(500).send();
+    }
+  );
+
+    //delete from fixtures
+  eight_nine_ball_fixtures.query().delete()
+  .where({
+    type: req.body.type,
+    seasonId: req.body.seasonId,
+    player1: req.body.staffName
+  })
+  .orWhere({
+    type: req.body.type,
+    seasonId: req.body.seasonId,
+    player2: req.body.staffName
+  })
+  .then(
+    result => {
+      if (result === 0) {
+        //Nothing deleted
+        res.status(404).json();
+      } else {
+        //Something deleted
+        res.status(204).send();
+      }
+    },
+    e => {
+      //Internal error
+      res.status(500).send();
+    }
+  );
+    
 });
 
 module.exports = router;
