@@ -286,14 +286,14 @@ router.patch("/recalculate", auth.checkJwt, async (req, res) => {
     //const pVal2= _.find(leagues, league => league.staffName === fixtures[i].player2)
 
     if (fixtures[i].score1 == 2) { //p1 won
-      leagues[pVal1].win = leagues[pVal1].win + 1;
-      leagues[pVal2].lose = leagues[pVal2].lose + 1;
+      leagues[pVal1].win++;
+      leagues[pVal2].lose++;
     } else if (fixtures[i].score1 == 1) { //draw
-      leagues[pVal1].draw = leagues[pVal1].draw + 1;
-      leagues[pVal2].draw = leagues[pVal2].draw + 1;
+      leagues[pVal1].draw++;
+      leagues[pVal2].draw++;
     } else if (fixtures[i].score1 == 0) { //p1 lost
-      leagues[pVal1].lose = leagues[pVal1].lose + 1;
-      leagues[pVal2].win = leagues[pVal2].win + 1;
+      leagues[pVal1].lose++;
+      leagues[pVal2].win++;
     } //nothing for null bc it hasn't been played
 
 
@@ -309,8 +309,8 @@ router.patch("/recalculate", auth.checkJwt, async (req, res) => {
 
     //increase plays if score wasn't null
     if (fixtures[i].score1 !== null) {
-      leagues[pVal1].play = leagues[pVal1].play + 1;
-      leagues[pVal2].play = leagues[pVal2].play + 1;
+      leagues[pVal1].play++;
+      leagues[pVal2]++;
     }
     
   }
