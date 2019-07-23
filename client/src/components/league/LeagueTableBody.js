@@ -3,7 +3,13 @@ import React from "react";
 const LeagueTableBody = props => {
   const itemsToBeDisplayed = props.players.map((player, index) => {
     return (
-      <tr key={player.seasonId + player.staffName}>
+      <tr
+        onClick={() => {
+          if (window.confirm(`Are you sure you want to delete ${player.staffName}?`))
+            props.deletePlayer(player.staffName);
+        }}
+        key={player.seasonId + player.staffName}
+      >
         <td align="center">{index + 1}</td>
         <td align="center" id="leagueTablePlayerName">
           {player.staffName}

@@ -8,7 +8,7 @@ const LeagueTable = props => {
       <h3>{"Season " + props.activeSeason}: League Table</h3>
       <table className="leagueTable" cellSpacing="0">
         <LeagueTableHeader />
-        <LeagueTableBody players={props.players} />
+        <LeagueTableBody deletePlayer={props.deletePlayer} players={props.players} />
       </table>
     </div>
   );

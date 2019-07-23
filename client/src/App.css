@@ -209,6 +209,13 @@ table td {
   margin-top: 0rem;
 }
 
+.leagueTable tr:hover td{
+  font-weight: bold;
+  background: #127E5C;
+  color: #ffffff;
+  cursor: pointer
+}
+
 #leagueTablePlayerName {
   max-width: 175px;
   overflow: hidden;

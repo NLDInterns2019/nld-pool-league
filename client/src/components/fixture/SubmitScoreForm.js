@@ -74,8 +74,11 @@ class SubmitScoreForm extends Component {
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
-    if (
-      this.state.activePlayer !== prevState.activePlayer &&
+    if(this.props.players !== prevProps.players){
+      this.getPlayers()
+    }
+
+    if ((this.state.activePlayer !== prevState.activePlayer) &&
       this.props.type !== undefined
     ) {;
       if (this.state.activeSeason !== undefined) {

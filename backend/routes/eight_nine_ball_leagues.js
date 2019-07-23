@@ -222,15 +222,10 @@ router.post("/add/players", auth.checkJwt, (req, res) => {
 });
 
 /* 
-  DELETE handler for /api/89_ball_league/delete/player
+  DELETE handler for /api/89ball_league/delete/player
   Function: To delete player from the league (NOTE YET IMPLEMENTED IN THE UI)
 */
 router.delete("/delete/player", auth.checkJwt, (req, res) => {
-  let staffName = req.body.staffName;
-  let type = req.body.type;
-  let seasonId = req.body.seasonId;
-  var opponent, result, staffGoals, oppGoals;
-
   const schema = {
     type: Joi.number()
       .integer()
@@ -247,83 +242,50 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
     return;
   }
 
-  //search fixtures
-  //where the name is detected, look at the scores
-  //deduct opponents league points as necessary
-  //delete fixture
-
+  //DUE TO MSSQL NOT SUPPORTING CYCLIC CONSTRAINT
   eight_nine_ball_fixtures
-    .query()
-    .where({ 
-      type: type, 
-      seasonId: seasonId,
-      player1: staffName
-    }).orWhere({
-      type: type,
-      seasonId: seasonId,
-      player2: staffName
-    })
-    .then( //use players.length to get end of loop
-      players => {
-        if (!players.length) res.status(404).send();
-        else{ 
-          //from 0 to length-1
-          //take opponents name
-          //check if win etc
-          //deduct accordingly
-          for (let i = 0; i < players.length; i++) {
-            if (players[i].player1 == staffName) {
-              opponent = players[i].player2;
-              if (players[i].score1 > players[i].score2) {
-
-              }
-            } else {
-              opponent = players[i].player1;
-            }
-
-            if (player) {
-
-            }
-          }
-
-
-
-
-          console.log(players.length)
-          console.log(players[2].staffName + " mmmmm");
-          res.json(players)};
-      },
-      e => {
-        res.status(400).json(e);
-      }
-    );
-
-/*
-  //delete from league
-  eight_nine_ball_leagues
     .query()
     .delete()
     .where({
       type: req.body.type,
       seasonId: req.body.seasonId,
-      staffName: req.body.staffName
+      player1: req.body.staffName
+    })
+    .orWhere({
+      type: req.body.type,
+      seasonId: req.body.seasonId,
+      player2: req.body.staffName
     })
     .then(
-      result => {
-        if (result === 0) {
-          //Nothing deleted
-          res.status(404).json();
-        } else {
-          //Something deleted
-          res.status(204).send();
-        }
+      () => {
+        eight_nine_ball_leagues
+          .query()
+          .delete()
+          .where({
+            type: req.body.type,
+            seasonId: req.body.seasonId,
+            staffName: req.body.staffName
+          })
+          .then(
+            result => {
+              if (result === 0) {
+                //Nothing deleted
+                res.status(404).json();
+              } else {
+                //Something deleted
+                res.status(204).send();
+              }
+            },
+            e => {
+              //Internal error
+              res.status(500).send(e);
+            }
+          );
       },
       e => {
-        //Internal error
-        res.status(500).send();
+        res.status(500).send(e);
       }
     );
-    */
 });
 
 module.exports = router;

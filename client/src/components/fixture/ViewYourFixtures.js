@@ -33,7 +33,8 @@ class ViewYourFixtures extends React.Component {
 
   componentDidUpdate = async (prevProps, prevState) => {
     if (
-      (this.state.activeSeason !== prevState.activeSeason ||
+      (this.props.players !== prevProps.players ||
+        this.state.activeSeason !== prevState.activeSeason ||
         this.props.type !== prevProps.type) &&
       this.props.type !== undefined
     ) {

@@ -195,6 +195,36 @@ class App extends React.Component {
       });
   };
 
+  deletePlayer = async staffName => {
+    await backend
+      .delete("/api/89ball_league/delete/player", {
+        data: {
+          type: parseInt(this.state.type),
+          seasonId: this.state.activeSeason,
+          staffName: staffName
+        },
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      })
+      .then(() => {
+        this.toastSucess(`🗑️${staffName} Deleted!`);
+        this.updateData();
+      })
+      .catch(e => {
+        if (e.response.status === 401) {
+          this.toastUnauthorised();
+        } else {
+          this.toastError(
+            <p>
+              <span role="img" aria-label="forbidden">
+                ⛔
+              </span>{" "}
+              Something went wrong. Please try again
+            </p>
+          );
+        }
+      });
+  };
+
   closeSeason = async () => {
     await backend
       .put(
@@ -269,8 +299,9 @@ class App extends React.Component {
 
   showSubmitResult = () => {
     return (
-      <div style={{"marginTop": "4rem"}}>
+      <div style={{ marginTop: "4rem" }}>
         <SubmitScoreForm
+          players={this.state.players} //Force update when player is deleted
           type={this.state.type}
           changeFixtureScore={this.changeFixtureScore}
           activeSeason={this.state.activeSeason}
@@ -324,6 +355,7 @@ class App extends React.Component {
             <LeagueTable
               activeSeason={this.state.activeSeason}
               players={this.state.players}
+              deletePlayer={this.deletePlayer}
             />
             {this.state.finished === null
               ? null
@@ -334,6 +366,7 @@ class App extends React.Component {
           <div className="contentRight">
             <div className="contentRight-top">
               <ViewYourFixtures
+                players={this.state.players} //Force update when player is deleted
                 type={this.state.type}
                 activeSeason={this.state.activeSeason}
                 applyFilter={this.applyViewFilter}
