@@ -105,7 +105,7 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
-  handleSubmit= async() => {
+  handleSubmit = async() => {
     if (!this.isValid()) {
       alert("Not a valid input");
     } else {
