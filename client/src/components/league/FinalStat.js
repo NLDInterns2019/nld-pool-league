@@ -1,11 +1,13 @@
 import React from "react";
-import { find, maxBy } from "lodash";
+import { find, maxBy, minBy } from "lodash";
 
 const itemsToBeDisplayed = props => {
   const undefeated = find(props.players, player => player.lose === 0);
   const draw = maxBy(props.players, "draw");
   const firstTimer = maxBy(props.players, "goalsAgainst");
   const zero = find(props.players, player => player.win === 0);
+  const onTime = maxBy(props.players, "punctuality");
+  const late = minBy(props.players, "punctuality");
 
   return (
     <tbody>
@@ -44,6 +46,24 @@ const itemsToBeDisplayed = props => {
         </td>
         <td>Zero win</td>
         <td>{zero ? zero.staffName : "-"}</td>
+      </tr>
+      <tr>
+        <td>
+          <span role="img" aria-label="watch">
+            ⌚
+          </span>
+        </td>
+        <td>Mr. on time</td>
+        <td>{onTime ? onTime.staffName : "-"}</td>
+      </tr>
+      <tr>
+        <td>
+          <span role="img" aria-label="snail">
+          🐌
+          </span>
+        </td>
+        <td>Mr Snail</td>
+        <td>{late ? late.staffName : "-"}</td>
       </tr>
     </tbody>
   );
