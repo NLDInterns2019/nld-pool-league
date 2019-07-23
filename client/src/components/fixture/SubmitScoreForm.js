@@ -77,11 +77,8 @@ class SubmitScoreForm extends Component {
     if (
       this.state.activePlayer !== prevState.activePlayer &&
       this.props.type !== undefined
-    ) {
-      console.log("update");
-      console.log(this.state);
+    ) {;
       if (this.state.activeSeason !== undefined) {
-        this.getPlayers();
         this.getFixtures();
       }
     }
@@ -108,12 +105,12 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
-  handleSubmit() {
+  handleSubmit= async() => {
     if (!this.isValid()) {
       alert("Not a valid input");
     } else {
       /* submit score */
-      this.props.changeFixtureScore(this.prepareSubmitState());
+      await this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState({
         activePlayer: " ",
         score1: "",
