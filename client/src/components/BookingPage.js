@@ -114,6 +114,14 @@ class FixturesPage extends Component {
         " at " +
         time
     });
+    //DOESNT WORK, NEED PROPER SCOPE
+    // await this.web.chat.postMessage({
+    //   channel: this.channel,
+    //   /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
+    //   text:
+    //   // `/remind #${this.channel} "Match between ${player1} and ${player2}" on ${date} at ${time}`
+    //   `/remind #${this.channel} "Match between ${player1} and ${player2}" in 30 seconds`,
+    // });
   };
 
   makeBooking = async (player1, player2) => {
