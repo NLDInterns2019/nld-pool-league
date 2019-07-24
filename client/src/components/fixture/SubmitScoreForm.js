@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import backend from "../../api/backend";
 import axios from "axios";
+import auth0Client from "../../Auth";
+import {some} from "lodash"
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
@@ -69,8 +71,11 @@ class SubmitScoreForm extends Component {
   componentDidMount = async () => {
     await this.setState({ type: this.props.type });
     await this.setState({ activeSeason: this.props.activeSeason });
-    this.getPlayers();
-    this.getFixtures();
+    await this.getPlayers();
+    if(auth0Client.isAuthenticated() && some(this.state.allPlayers, {staffName: auth0Client.getProfile().name})){
+      this.setState({activePlayer: auth0Client.getProfile().name, initialLoad: false})
+    }
+    await this.getFixtures();
   };
 
   componentDidUpdate = async (prevProps, prevState) => {

@@ -1,6 +1,8 @@
 import React from "react";
 import backend from "../../api/backend";
 import axios from 'axios'
+import auth0Client from "../../Auth";
+import {some} from "lodash"
 
 class ViewYourFixtures extends React.Component {
   state = {
@@ -8,7 +10,8 @@ class ViewYourFixtures extends React.Component {
     players: [],
     activeSeason: "",
     activePlayer: " ",
-    hidePlayed: true
+    hidePlayed: true,
+    initialLoad: true,
   };
 
   signal = axios.CancelToken.source();
@@ -40,8 +43,17 @@ class ViewYourFixtures extends React.Component {
     ) {
       await this.setState({ type: this.props.type });
       await this.setState({ activeSeason: this.props.activeSeason });
-      if (this.state.activeSeason !== undefined) this.getPlayers();
+      if (this.state.activeSeason !== undefined){
+        this.getPlayers();
+      } 
     }
+
+    if(this.state.initialLoad && this.state.activeSeason !== undefined && this.state.players.length){
+      if(auth0Client.isAuthenticated() && some(this.state.players, {staffName: auth0Client.getProfile().name})){
+        this.setState({activePlayer: auth0Client.getProfile().name, initialLoad: false})
+      }
+    }
+
     if (
       this.state.activePlayer !== prevState.activePlayer ||
       this.state.hidePlayed !== prevState.hidePlayed
