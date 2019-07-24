@@ -8,6 +8,7 @@ backend/node_modules
 
 # testing
 /coverage
+.nyc_output
 
 # production
 client/build
