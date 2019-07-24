@@ -3,7 +3,7 @@ import { find, maxBy, minBy, filter } from "lodash";
 
 const itemsToBeDisplayed = props => {
   const undefeated = find(props.players, player => player.lose === 0);
-  const draw = maxBy(props.players, "draw");
+  const draw = maxBy(filter(props.players, player => player.draw > 0), "draw");
   const firstTimer = maxBy(props.players, "goalsAgainst");
   const zero = find(props.players, player => player.win === 0);
   const onTime = maxBy(props.players, "punctuality");
