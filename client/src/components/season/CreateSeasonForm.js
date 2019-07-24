@@ -39,19 +39,14 @@ class CreateSeasonForm extends Component {
         this.state.seasonName +
         "' created"
     });
-
-    console.log("Season message posted!");
   };
 
   handleKeyDown(e, index) {
     if (e.key === "Enter") {
-      console.log("enter pressed");
       this.addPlayer();
     } else if (e.key === "ArrowUp" && index > 1) {
-      console.log("up arrow pressed");
       this.refs["inputPlayer" + (index - 1)].focus();
     } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
-      console.log("down arrow pressed");
       this.refs["inputPlayer" + (index + 1)].focus();
     } else if (e.key === "Backspace" && e.target.value === "" && index > 1) {
       this.removePlayer(index - 1);

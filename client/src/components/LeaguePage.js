@@ -143,8 +143,6 @@ class App extends React.Component {
         "  " +
         players.split(" ")[1]
     });
-
-    console.log("Score message posted!");
   };
 
   changeFixtureScore = async state => {

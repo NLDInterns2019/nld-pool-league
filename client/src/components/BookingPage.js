@@ -114,8 +114,6 @@ class FixturesPage extends Component {
         " at " +
         time
     });
-
-    console.log("Booking message posted!");
   };
 
   makeBooking = async (player1, player2) => {

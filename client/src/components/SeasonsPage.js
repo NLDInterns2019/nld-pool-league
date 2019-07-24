@@ -84,8 +84,6 @@ class SeasonsPage extends Component {
         seasonName +
         "' created"
     });
-
-    console.log("Season message posted!");
   };
 
   createSeason = async state => {
@@ -175,7 +173,6 @@ class SeasonsPage extends Component {
   };
 
   render() {
-    //console.log(this.state)
     return (
       <div id="seasons">
         <ToastContainer />
