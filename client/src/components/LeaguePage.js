@@ -246,19 +246,9 @@ class App extends React.Component {
   };
 
   closeSeason = async () => {
-    await backend.put(
-      "/api/89ball_season/close",
-      {
-        type: parseInt(this.state.type),
-        seasonId: this.state.activeSeason
-      },
-      {
-        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-      }
-    );
-    await backend
-      .put(
-        "/api/89ball_league/recalculate",
+    try{
+      await backend.put(
+        "/api/89ball_season/close",
         {
           type: parseInt(this.state.type),
           seasonId: this.state.activeSeason
@@ -266,16 +256,28 @@ class App extends React.Component {
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
-      )
-      .then(() => {
-        this.toastSucess("🔐Season closed");
-        this.updateData();
-      })
-      .catch(e => {
+      );
+      await backend
+        .put(
+          "/api/89ball_league/recalculate",
+          {
+            type: parseInt(this.state.type),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        )
+        .then(() => {
+          this.toastSucess("🔐Season closed");
+          this.updateData();
+        })
+    }
+      catch(e) {
         if (e.response.status === 401) {
           this.toastUnauthorised();
         }
-      });
+      };
   };
 
   toastUnauthorised = () => {

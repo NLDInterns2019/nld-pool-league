@@ -10,6 +10,7 @@ const LeagueTable = props => {
         <LeagueTableHeader />
         <LeagueTableBody deletePlayer={props.deletePlayer} players={props.players} />
       </table>
+      <p style={{textAlign: "left", color: "red"}}>Click player name to delete</p>
     </div>
   );
 };
