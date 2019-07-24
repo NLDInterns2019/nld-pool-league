@@ -313,23 +313,28 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
     //increase plays if score wasn't null
     if (fixtures[i].score1 !== null) {
       leagues[pVal1].play++;
-      leagues[pVal2]++;
+      leagues[pVal2].play++;
     }
   }
 
   //patch league db line by line
   for (let i = 0; i < leagues.length; i++) {
-    let newLeague = await eight_nine_ball_leagues
+     await eight_nine_ball_leagues
       .query()
       .findOne({
         type: type,
         seasonId: seasonId,
         staffName: leagues[i].staffName
       })
-      .patch(leagues[i]);
-    if (newLeague === 0) {
-      res.status(404).send();
-    }
+      .patch(leagues[i])
+      .then((newLeague) => {
+        if (newLeague === 0) {
+          res.status(404).send();
+        }
+      }, e=> {
+        res.status(400).send("patch error");
+        return;
+      });
   }
   res.json(leagues);
 });
