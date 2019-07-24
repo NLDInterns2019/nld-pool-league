@@ -196,15 +196,25 @@ class App extends React.Component {
   };
 
   deletePlayer = async staffName => {
+    await backend.delete("/api/89ball_league/delete/player", {
+      data: {
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason,
+        staffName: staffName
+      },
+      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+    });
     await backend
-      .delete("/api/89ball_league/delete/player", {
-        data: {
+      .put(
+        "/api/89ball_league/recalculate",
+        {
           type: parseInt(this.state.type),
-          seasonId: this.state.activeSeason,
-          staffName: staffName
+          seasonId: this.state.activeSeason
         },
-        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-      })
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
       .then(() => {
         this.toastSucess(`🗑️${staffName} Deleted!`);
         this.updateData();
@@ -226,9 +236,19 @@ class App extends React.Component {
   };
 
   closeSeason = async () => {
+    await backend.put(
+      "/api/89ball_season/close",
+      {
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
     await backend
       .put(
-        "/api/89ball_season/close",
+        "/api/89ball_league/recalculate",
         {
           type: parseInt(this.state.type),
           seasonId: this.state.activeSeason

@@ -118,7 +118,7 @@ router.get("/:seasonId/asc", (req, res) => {
 });
 
 /* 
-  POST handler for /api/89_ball_league/add/player
+  POST handler for /api/89ball_league/add/player
   Function: To add player to the 8 ball league (FUTURE USE)
 */
 router.post("/add/player", auth.checkJwt, (req, res) => {
@@ -167,7 +167,7 @@ router.post("/add/player", auth.checkJwt, (req, res) => {
 });
 
 /* 
-  POST handler for /api/89_ball_league/add/players
+  POST handler for /api/89ball_league/add/players
   Function: To add players to the 8 ball league (BATCH INSERT)
 */
 router.post("/add/players", auth.checkJwt, (req, res) => {
@@ -222,7 +222,7 @@ router.post("/add/players", auth.checkJwt, (req, res) => {
 });
 
 /* 
-  PUT handler for /api/89_ball_league/recalculate
+  PUT handler for /api/89ball_league/recalculate
   Function: To recalculate league values (called on fixture add/edit/delete)
 */
 router.put("/recalculate", auth.checkJwt, async (req, res) => {
@@ -232,11 +232,11 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
 
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
-    seasonId: Joi.number()
       .integer()
       .required(),
+    seasonId: Joi.number()
+      .integer()
+      .required()
   };
 
   //Validation
@@ -246,17 +246,17 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
   }
 
   let fixtures = await eight_nine_ball_fixtures.query().where({
-    type: type, 
-    seasonId: seasonId,
-  }) 
-  if (fixtures === 0 ) {
+    type: type,
+    seasonId: seasonId
+  });
+  if (fixtures === 0) {
     res.status(404).send();
   }
   let leagues = await eight_nine_ball_leagues.query().where({
     type: type,
-    seasonId: seasonId,
-  })
-  if (leagues === 0 ) {
+    seasonId: seasonId
+  });
+  if (leagues === 0) {
     res.status(404).send();
   }
 
@@ -272,63 +272,66 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
   }
 
   for (let i = 0; i < fixtures.length; i++) {
-    
     //set pVal1 and pVal2 as the respective players locations within the league table
-     for (let j = 0; j < leagues.length; j++) {
-       if (leagues[j].staffName == fixtures[i].player1) {
-         pVal1 = j; 
-       } else if (leagues[j].staffName == fixtures[i].player2) {
-         pVal2 = j;
-       }
-     }
+    for (let j = 0; j < leagues.length; j++) {
+      if (leagues[j].staffName == fixtures[i].player1) {
+        pVal1 = j;
+      } else if (leagues[j].staffName == fixtures[i].player2) {
+        pVal2 = j;
+      }
+    }
 
     //const pVal1 = _.find(leagues, league => league.staffName === fixtures[i].player1)
     //const pVal2= _.find(leagues, league => league.staffName === fixtures[i].player2)
 
-    if (fixtures[i].score1 == 2) { //p1 won
+    if (fixtures[i].score1 == 2) {
+      //p1 won
       leagues[pVal1].win++;
       leagues[pVal2].lose++;
-    } else if (fixtures[i].score1 == 1) { //draw
+    } else if (fixtures[i].score1 == 1) {
+      //draw
       leagues[pVal1].draw++;
       leagues[pVal2].draw++;
-    } else if (fixtures[i].score1 == 0) { //p1 lost
+    } else if (fixtures[i].score1 == 0) {
+      //p1 lost
       leagues[pVal1].lose++;
       leagues[pVal2].win++;
     } //nothing for null bc it hasn't been played
 
-
     //set goalsfor, goalsagainst and points
-    leagues[pVal1].goalsAgainst = leagues[pVal1].goalsAgainst + fixtures[i].score2;
-    leagues[pVal2].goalsAgainst = leagues[pVal2].goalsAgainst + fixtures[i].score1;
+    leagues[pVal1].goalsAgainst =
+      leagues[pVal1].goalsAgainst + fixtures[i].score2;
+    leagues[pVal2].goalsAgainst =
+      leagues[pVal2].goalsAgainst + fixtures[i].score1;
 
     leagues[pVal1].goalsFor = leagues[pVal1].goalsFor + fixtures[i].score1;
     leagues[pVal2].goalsFor = leagues[pVal2].goalsFor + fixtures[i].score2;
 
-    leagues[pVal1].points = leagues[pVal1].draw + (leagues[pVal1].win * 3);
-    leagues[pVal2].points = leagues[pVal2].draw + (leagues[pVal2].win * 3);
+    leagues[pVal1].points = leagues[pVal1].draw + leagues[pVal1].win * 3;
+    leagues[pVal2].points = leagues[pVal2].draw + leagues[pVal2].win * 3;
 
     //increase plays if score wasn't null
     if (fixtures[i].score1 !== null) {
       leagues[pVal1].play++;
       leagues[pVal2]++;
     }
-    
   }
 
   //patch league db line by line
-  for (let i = 0; i < leagues.length; i++) { 
-    let newLeague = await eight_nine_ball_leagues.query()
-    .findOne({
-      type: type,
-      seasonId: seasonId,
-      staffName: leagues[i].staffName
-    })
-    .patch(leagues[i])
+  for (let i = 0; i < leagues.length; i++) {
+    let newLeague = await eight_nine_ball_leagues
+      .query()
+      .findOne({
+        type: type,
+        seasonId: seasonId,
+        staffName: leagues[i].staffName
+      })
+      .patch(leagues[i]);
     if (newLeague === 0) {
-      res.status(404).send()
+      res.status(404).send();
     }
   }
-  res.json(leagues)
+  res.json(leagues);
 });
 
 /* 
@@ -338,11 +341,12 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
 router.delete("/delete/player", auth.checkJwt, (req, res) => {
   const schema = {
     type: Joi.number()
-    .integer()
-    .required(),
+      .integer()
+      .required(),
     seasonId: Joi.number()
       .integer()
       .required(),
+    staffName: Joi.string().required()
   };
 
   //Validation
