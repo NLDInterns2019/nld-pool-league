@@ -75,6 +75,15 @@ const SubNavBar = props => {
                   Arrange Fixtures
                 </Link>
               </li>
+              <li>
+              <Link
+                to={`/${path}/hall_of_fame`}
+                style={currentSeasonCurrentStyle}
+                id="HoFLink"
+              >
+                Hall of Fame
+              </Link>
+            </li>
             </span>
           );
         } else {
@@ -98,6 +107,15 @@ const SubNavBar = props => {
                   Arrange Fixtures
                 </Link>
               </li>
+              <li>
+              <Link
+                to={`/${path}/hall_of_fame`}
+                style={currentSeasonCurrentStyle}
+                id="HoFLink"
+              >
+                Hall of Fame
+              </Link>
+            </li>
             </span>
           );
         }
@@ -120,6 +138,15 @@ const SubNavBar = props => {
                 id="fixturesLink"
               >
                 Arrange Fixtures
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`/${path}/hall_of_fame`}
+                style={currentSeasonCurrentStyle}
+                id="HoFLink"
+              >
+                Hall of Fame
               </Link>
             </li>
           </span>
