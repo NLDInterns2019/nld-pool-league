@@ -35,7 +35,7 @@ class Auth {
     this.auth0.authorize(({
       appState: {
         url: window.location.pathname
-      }
+      },
     }));
   }
 
@@ -60,6 +60,10 @@ class Auth {
     this.idToken = null;
     this.profile = null;
     this.expiresAt = null;
+    this.auth0.logout({
+      returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
+      client_id: '33YrQE03f8FWXKFzLl9RXvKj1XszVCab'
+    })   
   }
 }
 
