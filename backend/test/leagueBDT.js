@@ -346,75 +346,75 @@ describe("League", () => {
     });
   });
 
-  // describe("DELETE /api/89ball_league/delete/player", () => {
-  //   it("should delete a player from the 8 ball league", done => {
-  //     chai
-  //       .request(server)
-  //       .delete("/api/89ball_league/delete/player")
-  //       .set("authorization", `Bearer ${bearerToken}`)
-  //       .send({
-  //         type: 8,
-  //         seasonId: 2019,
-  //         staffName: "Michael"
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(204);
-  //         chai
-  //           .request(server)
-  //           .get("/api/89ball_league?type=8")
-  //           .end((err, res) => {
-  //             res.should.have.status(200);
-  //             res.body.should.be.a("array");
-  //             res.body.should.not.include.something.like({
-  //               type: 8,
-  //               seasonId: 2019,
-  //               staffName: "Michael"
-  //             });
-  //             done();
-  //           });
-  //       });
-  //   });
-  //   it("should delete a player from the 9 ball league", done => {
-  //     chai
-  //       .request(server)
-  //       .delete("/api/89ball_league/delete/player")
-  //       .set("authorization", `Bearer ${bearerToken}`)
-  //       .send({
-  //         type: 9,
-  //         seasonId: 2019,
-  //         staffName: "Michael"
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(204);
-  //         chai
-  //           .request(server)
-  //           .get("/api/89ball_league?type=9")
-  //           .end((err, res) => {
-  //             res.should.have.status(200);
-  //             res.body.should.be.a("array");
-  //             res.body.should.not.include.something.like({
-  //               type: 9,
-  //               seasonId: 2019,
-  //               staffName: "Michael"
-  //             });
-  //             done();
-  //           });
-  //       });
-  //   });
-  //   it("should not delete a non-existing player from the league", done => {
-  //     chai
-  //       .request(server)
-  //       .delete("/api/89ball_league/delete/player")
-  //       .set("authorization", `Bearer ${bearerToken}`)
-  //       .send({
-  //         type: 8,
-  //         seasonId: 2077,
-  //         staffName: "Michael"
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(404);
-  //         done();
-  //       });
-  //   });
-  // });
+  describe("DELETE /api/89ball_league/delete/player", () => {
+    it("should delete a player from the 8 ball league", done => {
+      chai
+        .request(server)
+        .delete("/api/89ball_league/delete/player")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2019,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(204);
+          chai
+            .request(server)
+            .get("/api/89ball_league?type=8")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.not.include.something.like({
+                type: 8,
+                seasonId: 2019,
+                staffName: "Michael"
+              });
+              done();
+            });
+        });
+    });
+    it("should delete a player from the 9 ball league", done => {
+      chai
+        .request(server)
+        .delete("/api/89ball_league/delete/player")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 9,
+          seasonId: 2019,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(204);
+          chai
+            .request(server)
+            .get("/api/89ball_league?type=9")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.should.not.include.something.like({
+                type: 9,
+                seasonId: 2019,
+                staffName: "Michael"
+              });
+              done();
+            });
+        });
+    });
+    it("should not delete a non-existing player from the league", done => {
+      chai
+        .request(server)
+        .delete("/api/89ball_league/delete/player")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2077,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
 });
