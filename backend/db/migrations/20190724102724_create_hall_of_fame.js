@@ -13,5 +13,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-     return knex.schema.dropTable("bookings");
+     return knex.schema.dropTable("hall_of_fame");
 };
