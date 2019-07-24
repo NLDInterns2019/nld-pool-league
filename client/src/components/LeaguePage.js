@@ -195,44 +195,54 @@ class App extends React.Component {
       });
   };
 
-  deletePlayer = async staffName => {
-    await backend.delete("/api/89ball_league/delete/player", {
-      data: {
-        type: parseInt(this.state.type),
-        seasonId: this.state.activeSeason,
-        staffName: staffName
-      },
-      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-    });
-    await backend
-      .put(
-        "/api/89ball_league/recalculate",
-        {
-          type: parseInt(this.state.type),
-          seasonId: this.state.activeSeason
-        },
-        {
+  deletePlayer = staffName => {
+    if (this.state.finished === null) {
+      this.toastError("Please try again later");
+    } else if (!this.state.finished && this.state.players.length > 2) {
+      backend
+        .delete("/api/89ball_league/delete/player", {
+          data: {
+            type: parseInt(this.state.type),
+            seasonId: this.state.activeSeason,
+            staffName: staffName
+          },
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-        }
-      )
-      .then(() => {
-        this.toastSucess(`🗑️${staffName} Deleted!`);
-        this.updateData();
-      })
-      .catch(e => {
-        if (e.response.status === 401) {
-          this.toastUnauthorised();
-        } else {
-          this.toastError(
-            <p>
-              <span role="img" aria-label="forbidden">
-                ⛔
-              </span>{" "}
-              Something went wrong. Please try again
-            </p>
+        })
+        .then(() => {
+          backend.put(
+            "/api/89ball_league/recalculate",
+            {
+              type: parseInt(this.state.type),
+              seasonId: this.state.activeSeason
+            },
+            {
+              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            }
           );
-        }
-      });
+        })
+        .then(() => {
+          this.toastSucess(`🗑️${staffName} Deleted!`);
+          this.updateData();
+        })
+        .catch(e => {
+          if (e.response.status === 401) {
+            this.toastUnauthorised();
+          } else {
+            this.toastError(
+              <p>
+                <span role="img" aria-label="forbidden">
+                  ⛔
+                </span>{" "}
+                Something went wrong. Please try again
+              </p>
+            );
+          }
+        });
+    } else if (this.state.finished) {
+      this.toastError("Season closed, unable to delete player.");
+    } else {
+      this.toastError("Bad request! Minimum of 2 players are needed.");
+    }
   };
 
   closeSeason = async () => {
