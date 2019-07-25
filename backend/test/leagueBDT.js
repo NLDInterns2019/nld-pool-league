@@ -417,4 +417,38 @@ describe("League", () => {
         });
     });
   });
+
+  describe("PUT /api/89ball_league/recalculate", () => {
+    it("should recalculate correctly, score should not change", done => {
+      chai
+        .request(server)
+        .put("/api/89ball_league/recalculate")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2019
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(3);
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2019,
+            staffName: "Michael"
+          });
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2019,
+            staffName: "Matthew"
+          });
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2019,
+            staffName: "Natalie"
+          });
+          done();
+        });
+    });
+  });
 });
