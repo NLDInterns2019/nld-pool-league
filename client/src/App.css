@@ -587,8 +587,6 @@ select:hover {
 
 @media only screen and (min-width: 1351px) {
   .contentRight-bottom {
-    overflow: auto;
-    max-height: 100vh;
     align-self: stretch;
     flex-shrink: 10;
     margin-bottom: 10px;
