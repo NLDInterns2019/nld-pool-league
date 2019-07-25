@@ -5,7 +5,9 @@ const FixtureList = props => {
   const count = props.groupCount.count;
   let tableArray = [];
 
-  for (let i = 0; i < count; i++) {
+  console.log(props)
+
+  for (let i = 0; i <= count; i++) {
     const fixtures = props.fixtures.filter(fixture => fixture.group === i);
     tableArray.push(
       <div key={i}>

@@ -125,6 +125,8 @@ class SeasonsPage extends Component {
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
+      }      if (e.response.status === 400) {
+        this.toastError("Something went wrong. Please try again");
       }
     }
   };
@@ -152,6 +154,17 @@ class SeasonsPage extends Component {
 
   toastUnauthorised = () => {
     toast.error("⛔ Unauthorised! Please login", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastError = message => {
+    toast.error(message, {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,

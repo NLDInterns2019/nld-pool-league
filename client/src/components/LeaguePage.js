@@ -33,7 +33,6 @@ class App extends React.Component {
   state = {
     type: "",
     players: [],
-    unplayedFixtures: [],
     fixtures: [],
     activeSeason: 0,
     activeViewPlayer: " ",
@@ -68,22 +67,8 @@ class App extends React.Component {
           }
         }
       );
-
+      
       this.setState({ fixtures: fixtures.data });
-
-      const unplayedFixtures = await backend.get(
-        "/api/89ball_fixture/" + this.state.activeSeason,
-        {
-          cancelToken: this.signal.token,
-          params: {
-            type: this.state.type,
-            staffName: this.state.activeViewPlayer,
-            hidePlayed: true
-          }
-        }
-      );
-
-      this.setState({ unplayedFixtures: unplayedFixtures.data });
 
       const count = await backend.get(
         "/api/89ball_fixture/group/" + this.state.activeSeason,

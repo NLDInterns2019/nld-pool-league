@@ -38,7 +38,8 @@ router.get("/group/:seasonId", (req, res) => {
   eight_nine_ball_fixtures
     .query()
     .where({ type: req.query.type, seasonId: seasonId })
-    .countDistinct("group as count")
+    //.countDistinct("group as count") Source of ERROR
+    .max("group as count")
     .then(
       count => {
         res.json(count);
