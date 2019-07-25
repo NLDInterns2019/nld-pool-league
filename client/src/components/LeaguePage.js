@@ -316,7 +316,7 @@ class App extends React.Component {
     return (
       <div style={{ marginTop: "4rem" }}>
         <SubmitScoreForm
-          players={this.state.players} //Force update when player is deleted
+          players={this.state.players}
           type={this.state.type}
           changeFixtureScore={this.changeFixtureScore}
           activeSeason={this.state.activeSeason}

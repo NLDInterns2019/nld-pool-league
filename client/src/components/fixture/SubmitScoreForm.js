@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import backend from "../../api/backend";
 import axios from "axios";
 import auth0Client from "../../Auth";
-import {some} from "lodash"
+import {some, orderBy} from "lodash"
 const { WebClient } = require("@slack/web-api");
 
 class SubmitScoreForm extends Component {
@@ -32,23 +32,6 @@ class SubmitScoreForm extends Component {
 
   signal = axios.CancelToken.source();
 
-  getPlayers = async () => {
-    try {
-      const response = await backend.get(
-        "/api/89ball_league/" + this.state.activeSeason +"/asc",
-        {
-          cancelToken: this.signal.token,
-          params: {
-            type: this.state.type
-          }
-        }
-      );
-      this.setState({ allPlayers: response.data });
-    } catch (err) {
-      //API CALL BEING CANCELED
-    }
-  };
-
   getFixtures = async () => {
     try {
       const response = await backend.get(
@@ -71,7 +54,7 @@ class SubmitScoreForm extends Component {
   componentDidMount = async () => {
     await this.setState({ type: this.props.type });
     await this.setState({ activeSeason: this.props.activeSeason });
-    await this.getPlayers();
+    await this.setState({allPlayers: orderBy(this.props.players, ['staffName'], ['asc'])})
     if(auth0Client.isAuthenticated() && some(this.state.allPlayers, {staffName: auth0Client.getProfile().name})){
       this.setState({activePlayer: auth0Client.getProfile().name, initialLoad: false})
     }
@@ -80,16 +63,22 @@ class SubmitScoreForm extends Component {
 
   componentDidUpdate = async (prevProps, prevState) => {
     if(this.props.players !== prevProps.players){
-      this.getPlayers()
+      await this.setState({allPlayers: orderBy(this.props.players, ['staffName'], ['asc'])})
+    }
+
+    //Handle deletion
+    if(this.state.activePlayer !== " " && !some(this.state.allPlayers, {staffName: this.state.activePlayer})){
+      this.setState({activePlayer: " "})
     }
 
     if ((this.state.activePlayer !== prevState.activePlayer) &&
       this.props.type !== undefined
-    ) {;
+    ) {
       if (this.state.activeSeason !== undefined) {
         this.getFixtures();
       }
     }
+
   };
 
   componentWillUnmount() {
@@ -120,12 +109,10 @@ class SubmitScoreForm extends Component {
       /* submit score */
       await this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState({
-        activePlayer: " ",
         score1: "",
         score2: "",
         players: ""
       }, () => {
-        this.getPlayers();
         this.getFixtures();
         this.clearRadioButtons();
       })
