@@ -8,6 +8,7 @@ exports.up = function(knex) {
     table.integer("plays").defaultTo(0);
     table.integer("percentage").defaultTo(0);
     table.integer("punctuality").defaultTo(0);
+    table.integer("punctRate").defaultTo(0);
     table.integer("goalsAgainstTop").defaultTo(0);
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
