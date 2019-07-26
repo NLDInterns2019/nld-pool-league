@@ -13,6 +13,7 @@ exports.up = function(knex) {
     table.integer("highestGF").defaultTo(0);
     table.integer("drawRate").defaultTo(0);
     table.integer("scrappy").defaultTo(0);
+    table.integer("streak").defaultTo(0);
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
