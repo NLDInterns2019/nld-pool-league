@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,157 +7,111 @@ import backend from "../api/backend";
 import SubNavBar from "./nav/SubNavBar.js";
 import Header from "./nav/Header.js";
 import "../App.css";
-import { Link } from "react-router-dom";
-
-import CreateSeasonForm from "./season/CreateSeasonForm.js";
-import SeasonsList from "./season/SeasonsList.js";
-
-const { WebClient } = require("@slack/web-api");
-
+import HoFTable from "./halloffame/HoFTable";
 
 class HoFPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          type: "",
-          seasons: [],
-          latestSeason: null
-        };
-    
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: "",
+      seasons: [],
+      latestSeason: null,
+      players: []
+    };
+  }
+
+  componentDidMount = async () => {
+    // when component mounted, start a GET request
+    // to specified URL
+    const result = await backend.get("/api/hall_of_fame", {
+      params: {
+        type: 8
       }
-    
-    
-      getSeasonsList = async () => {
-        const response = await backend.get("/api/89ball_season", {
-          params: {
-            type: this.state.type
-          }
-        });
-        this.setState({ seasons: response.data });
+    });
+
+    this.setState({ players: result.data });
+    console.log(result.data);
+  };
+
+  createHoF = async state => {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth0Client.getIdToken()}`
       };
-    
-      componentDidMount = async () => {
-        await this.setState({ type: this.props.match.params.type });
-        this.getSeasonsList();
-      };
-    
-      componentDidUpdate = async (prevProps, prevState) => {
-        if (this.props.match.params.type !== prevProps.match.params.type) {
-          await this.setState({ type: this.props.match.params.type });
-          this.getSeasonsList();
+
+      await backend.post(
+        "/api/hall_of_fame/calculate",
+        {
+          type: parseInt(this.state.type)
+        },
+        {
+          headers: headers
         }
-      };
-    
-      createSeason = async state => {
-        try {
-          const headers = {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth0Client.getIdToken()}`
-          };
-    
-          await backend.post(
-            "/api/89ball_league/add/players",
-            {
-              type: parseInt(this.state.type),
-              seasonId: parseInt(state.seasonName),
-              staffs: state.players
-            },
-            {
-              headers: headers
-            }
-          );
-    
-          await backend
-            .post(
-              "/api/89ball_fixture/generate/",
-              {
-                type: parseInt(this.state.type),
-                seasonId: parseInt(state.seasonName)
-              },
-              {
-                headers: headers
-              }
-            )
-            .then(() => {
-              this.toastSuccess("Season Created");
-              this.getSeasonsList();
-              this.getLatestSeason();
-              this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
-            });
-        } catch (e) {
-          if (e.response.status === 401) {
-            this.toastUnauthorised();
-          }
-        }
-      };
-    
-      deleteSeason = async id => {
-        await backend
-          .delete("/api/89ball_season/delete/", {
-            data: {
-              type: parseInt(this.state.type),
-              seasonId: parseInt(id)
-            },
-            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-          })
-          .then(() => {
-            this.toastSuccess("Deleted");
-            this.getSeasonsList();
-            this.getLatestSeason();
-          })
-          .catch(e => {
-            if (e.response.status === 401) {
-              this.toastUnauthorised();
-            }
-          });
-      };
-    
-      toastUnauthorised = () => {
-        toast.error("⛔ Unauthorised! Please login", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-      };
-    
-      toastSuccess = message => {
-        toast.success(`✅ ${message}!`, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-      };
-    
-      render() {
-        return (
-          <div id="seasons">
-            <ToastContainer />
-            <Header />
-            <SubNavBar
-              latestSeason={this.state.latestSeason}
-              type={this.state.type}
-            />
-            <div className="content">
-              <div id="seasonsListContainer">
-                <SeasonsList
-                  type={this.state.type}
-                  seasons={this.state.seasons}
-                  deleteSeason={this.deleteSeason}
-                />
-                <br />
-                
-              </div>
-              
+      );
+    } catch (e) {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
+    }
+  };
+
+  toastSuccess = message => {
+    toast.success(`✅ ${message}!`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  render() {
+    return (
+      <div id="seasons">
+        <ToastContainer />
+        <Header />
+        <SubNavBar
+          latestSeason={this.state.latestSeason}
+          type={this.state.type}
+        />
+        <div className="content">
+          <div className="HoFLeagueContainer">
+            <div className="HoFTitleContainer">
+              <h3>Hall of Fame</h3>
+              <br />
+            </div>
+            <div className="hof8Ball">
+              <h3>
+                <span role="img" aria-label="8-ball">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  🎱
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;8-Ball&nbsp;&nbsp;&nbsp;&nbsp;
+                <span role="img" aria-label="8-ball">
+                  🎱
+                </span>
+              </h3>
+              <HoFTable players={this.state.players} />
+            </div>
+            <div className="hof9Ball">
+              <h3>
+                <span role="img" aria-label="8-ball">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🎱
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;9-Ball&nbsp;&nbsp;&nbsp;&nbsp;
+                <span role="img" aria-label="8-ball">
+                  🎱
+                </span>
+              </h3>
+              <HoFTable HoF9={this.state.HoF9} />
             </div>
           </div>
-        );
-      }
+        </div>
+      </div>
+    );
+  }
 }
 
 export default withRouter(HoFPage);

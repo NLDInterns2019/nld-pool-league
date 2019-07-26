@@ -11,11 +11,11 @@ const hall_of_fame = require("../models/hall_of_fame")
 //delete player?
 
 /* 
-  GET handler for /api/89ball_league/halloffame MAYBE
+  GET handler for /api/89ball_league/hall_of_fame MAYBE
   Function: To get the hall of fame
 */
 router.get("/", async (req, res) => {
-  type = req.body.type;
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -23,14 +23,16 @@ router.get("/", async (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
 
   hall_of_fame
     .query()
-    .where({ type: type })
+    .where({ type: req.query.type})
+   // .where('percentage', '!=', null)
+    .orderBy("percentage", "desc")
     .then(
       players => {
         res.json(players);
@@ -43,7 +45,7 @@ router.get("/", async (req, res) => {
 
 
 /* 
-  POST handler for /api/89ball_league/halloffame/calculate
+  POST handler for /api/89ball_league/hall_of_fame/calculate
   Function: To calculate win percentages
 */
 router.post("/calculate", async (req, res) => { //post or patch? it does both - should it?
@@ -61,7 +63,8 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
-
+  
+  
   let leagues = await eight_nine_ball_leagues.query().where({
     type: type,
   });
