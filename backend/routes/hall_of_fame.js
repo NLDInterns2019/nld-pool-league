@@ -5,6 +5,7 @@ const Joi = require("joi");
 const auth = require("../auth");
 const knex = require("../db/knex");
 
+const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const hall_of_fame = require("../models/hall_of_fame")
 
@@ -116,6 +117,18 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     hof.percentage = Math.trunc((hof.wins * 100) /hof.plays);
     hof.drawRate = Math.trunc((hof.draws * 100) /hof.plays);
     hof.punctRate = Math.trunc((hof.punctRate * 100) /hof.plays);
+
+    //check fixtures for scrappy and streaks
+    let fixtures = await eight_nine_ball_fixtures.query().where({
+      type: type,
+    });
+    if (fixtures === 0) {
+      res.status(404).send();
+     }
+
+    for (let x = 0; x < fixtures.length; x++) {
+      
+    }
 
     //patch
     let hof3 = await hall_of_fame.query().findOne({

@@ -11,6 +11,7 @@ const itemsToBeDisplayed = props => {
   const bestGame = maxBy(props.players, "maxGoals");
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
+  const improved = maxBy(props.players, "improvement");
 
   return (
     <tbody>
@@ -105,7 +106,16 @@ const itemsToBeDisplayed = props => {
         <td>{scrappy ? scrappy.staffName : "-"}</td>
         <td>{scrappy ? scrappy.scrappyRate : "-"}% wins against {topPlayer ? topPlayer.staffName : "-"}!</td>
       </tr>
-      
+      <tr>
+        <td>
+          <span role="img" aria-label="boxing-gloves">
+          🥊
+          </span>
+        </td>
+        <td>Most improved</td>
+        <td>{improved ? improved.staffName : "-"}</td>
+        <td>{improved ? improved.improvemnet : "-"}% improvement</td>
+      </tr>
     </tbody>
   );
 };
