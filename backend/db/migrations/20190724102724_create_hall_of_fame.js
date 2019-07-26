@@ -10,6 +10,7 @@ exports.up = function(knex) {
     table.integer("punctuality").defaultTo(0);
     table.integer("punctRate").defaultTo(0);
     table.integer("goalsAgainstTop").defaultTo(0);
+    table.integer("highestGF").defaultTo(0);
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
