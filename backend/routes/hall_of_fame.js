@@ -79,6 +79,7 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     hof2[i].plays = 0;
     hof2[i].draws = 0;
     hof2[i].goalsFor = 0;
+    hof2[i].punctuality = 0;
   }
 
   //go through all league rows relevant
@@ -113,6 +114,8 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     hof.draws = hof.draws + leagues[i].draw;
     hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) /hof.plays);
+    hof.drawRate = Math.trunc((hof.draws * 100) /hof.plays);
+    hof.punctRate = Math.trunc((hof.punctRate * 100) /hof.plays);
 
     //patch
     let hof3 = await hall_of_fame.query().findOne({
