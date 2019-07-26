@@ -2,36 +2,38 @@ import React from "react";
 import { find, maxBy, minBy, filter } from "lodash";
 
 const itemsToBeDisplayed = props => {
-  const topPlayer = maxBy(filter(props.players, player => player.percentage > 0), "draw");
-  const bottomPlayer = minBy(filter(props.players, player => player.percentage > 0), "draw");
-  const draw = maxBy(filter(props.players, player => player.draw > 0), "draw");
-  const onTime = minBy(props.players, "punctuality");
-  const late = maxBy(
-    filter(props.players, player => player.punctuality < 0),
-    "punctuality"
-  );
+  //const topPlayer = maxBy(filter(props.players, player => player.percentage > 0), "draw");
+  const topPlayer = maxBy(props.players, "percentage");
+  const ohno = minBy(props.players, "percentage");
+  const draw = maxBy(props.players, "draws");
+  const dedicated = maxBy(props.players, "plays");
+  const onTime = minBy(props.players, "punctRate");
+  const slacker = maxBy(props.players, "punctRate");
+  const bestGame = maxBy(props.players, "maxGoals");
+  const streak = maxBy(props.players, "streak");
+  const scrappy = maxBy(props.players, "scrappyRate");
 
   return (
     <tbody>
       <tr>
         <td>
-          <span role="img" aria-label="boxing-glove">
+          <span role="img" aria-label="trophy">
           🏆
           </span>
         </td>
         <td>Top Player</td>
         <td>{topPlayer ? topPlayer.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.wins : "-"}% of games won</td>
+        <td>{topPlayer ? topPlayer.percentage : "-"}% of games won</td>
       </tr>
       <tr>
         <td>
-          <span role="img" aria-label="snail">
+          <span role="img" aria-label="saxophone">
           🎷
           </span>
         </td>
         <td>Best Game</td>
-        <td>{late ? late.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.staffName : "-"} points in one match</td>
+        <td>{bestGame ? bestGame.staffName : "-"}</td>
+        <td>{bestGame ? bestGame.maxGoals : "-"} points in one match</td>
       </tr>
       <tr>
         <td>
@@ -41,7 +43,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td>Most average</td>
         <td>{draw ? draw.staffName : "-"}</td>
-        <td>{topPlayer ? draw.staffName : "-"}% of games drawn</td>
+        <td>{draw ? draw.drawRate : "-"}% of games drawn</td>
       </tr>
       <tr>
         <td>
@@ -50,18 +52,18 @@ const itemsToBeDisplayed = props => {
           </span>
         </td>
         <td>oh no</td>
-        <td>{bottomPlayer ? bottomPlayer.staffName : "-"}</td>
-        <td>{topPlayer ? bottomPlayer.staffName : "-"}% of games won :(</td>
+        <td>{ohno ? ohno.staffName : "-"}</td>
+        <td>{ohno ? ohno.percentage : "-"}% of games won :(</td>
       </tr>
       <tr>
         <td>
-          <span role="img" aria-label="watch">
+          <span role="img" aria-label="weights">
           🏋️
           </span>
         </td>
         <td>Dedicated</td>
-        <td>{onTime ? onTime.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.staffName : "-"} games played</td>
+        <td>{dedicated ? dedicated.staffName : "-"}</td>
+        <td>{dedicated ? dedicated.plays : "-"} games played</td>
       </tr>
       <tr></tr>
       <tr>
@@ -81,28 +83,28 @@ const itemsToBeDisplayed = props => {
           </span>
         </td>
         <td>Slacker</td>
-        <td>{late ? late.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.staffName : "-"}% games late</td>
+        <td>{slacker ? slacker.staffName : "-"}</td>
+        <td>{slacker ? slacker.punctRate : "-"}% games late</td> 
       </tr>
       <tr>
         <td>
-          <span role="img" aria-label="snail">
+          <span role="img" aria-label="runner">
           🏃
           </span>
         </td>
         <td>Longest streak</td>
-        <td>{late ? late.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.staffName : "-"} game streak!</td>
+        <td>{streak ? streak.staffName : "-"}</td>
+        <td>{streak ? streak.streak : "-"} game streak!</td>
       </tr>
       <tr>
         <td>
-          <span role="img" aria-label="snail">
+          <span role="img" aria-label="boxing-gloves">
           🥊
           </span>
         </td>
         <td>Scrappy</td>
-        <td>{late ? late.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.staffName : "-"}% wins against {topPlayer ? topPlayer.wins : "-"}!</td>
+        <td>{scrappy ? scrappy.staffName : "-"}</td>
+        <td>{scrappy ? scrappy.scrappyRate : "-"}% wins against {topPlayer ? topPlayer.staffName : "-"}!</td>
       </tr>
       
     </tbody>
