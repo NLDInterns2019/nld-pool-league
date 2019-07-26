@@ -65,7 +65,7 @@ class FixturesPage extends Component {
     this.openPopUp();
   };
 
-  handleEventClick = async e => {
+  handleDoubleClick = async e => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       await backend
         .delete("/api/booking/delete/", {
@@ -177,20 +177,31 @@ class FixturesPage extends Component {
   };
 
   toastUnauthorised = () => {
-    toast.error(<p><span role="img" aria-label="forbidden">⛔</span>Unauthorised! Please login</p>, {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
+    toast.error(
+      <p>
+        <span role="img" aria-label="forbidden">
+          ⛔
+        </span>
+        Unauthorised! Please login
+      </p>,
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      }
+    );
   };
 
   toastInvalid = () => {
     toast.error(
       <p>
-        <span role="img" aria-label="forbidden">⛔</span> Invalid booking! <br /> Choose another timeslot
+        <span role="img" aria-label="forbidden">
+          ⛔
+        </span>{" "}
+        Invalid booking! <br /> Choose another timeslot
       </p>,
       {
         position: "top-center",
@@ -215,7 +226,7 @@ class FixturesPage extends Component {
         <div id="calendarContainer">
           <h3>Arrange Fixtures</h3>
           <h4>Click an empty slot to create a booking</h4>
-          <h4>Click an event to delete a booking</h4>
+          <h4>Double click an event to delete a booking</h4>
           <Calendar
             selectable
             localizer={localizer}
@@ -225,7 +236,7 @@ class FixturesPage extends Component {
             min={new Date(2017, 10, 0, 8, 0, 0)}
             max={new Date(2017, 10, 0, 18, 0, 0)}
             events={this.state.events}
-            onSelectEvent={this.handleEventClick}
+            onDoubleClickEvent={this.handleDoubleClick}
             onSelectSlot={this.handleSelect}
           />
         </div>

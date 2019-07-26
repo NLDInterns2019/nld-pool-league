@@ -209,11 +209,18 @@ table td {
   margin-top: 0rem;
 }
 
-.leagueTable tr:hover td{
+.leagueTable tr:hover td {
   font-weight: bold;
-  background: #127E5C;
+  background: #127e5c;
   color: #ffffff;
-  cursor: pointer
+}
+
+.leagueTable tr span.delete {
+  opacity: 0;
+}
+
+.leagueTable tr:hover span.delete {
+  opacity: 1;
 }
 
 #leagueTablePlayerName {
@@ -616,8 +623,6 @@ select:hover {
 
 @media only screen and (min-width: 1351px) {
   .contentRight-bottom {
-    overflow: auto;
-    max-height: 100vh;
     align-self: stretch;
     flex-shrink: 10;
     margin-bottom: 10px;

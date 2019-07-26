@@ -1,8 +1,7 @@
 import React from "react";
-import backend from "../../api/backend";
-import axios from 'axios'
+import axios from "axios";
 import auth0Client from "../../Auth";
-import {some} from "lodash"
+import { some, orderBy } from "lodash";
 
 class ViewYourFixtures extends React.Component {
   state = {
@@ -11,28 +10,10 @@ class ViewYourFixtures extends React.Component {
     activeSeason: "",
     activePlayer: " ",
     hidePlayed: true,
-    initialLoad: true,
+    initialLoad: true
   };
 
   signal = axios.CancelToken.source();
-
-  getPlayers = async () => {
-    try{
-      const response = await backend.get(
-        "/api/89ball_league/" + this.state.activeSeason + "/asc",
-        {
-          cancelToken: this.signal.token,
-          params: {
-            type: this.state.type
-          }
-        }
-      );
-      this.setState({ players: response.data });
-    }
-    catch(err) {
-      //API BEING CALLED
-    }    
-  };
 
   componentDidUpdate = async (prevProps, prevState) => {
     if (
@@ -41,17 +22,34 @@ class ViewYourFixtures extends React.Component {
         this.props.type !== prevProps.type) &&
       this.props.type !== undefined
     ) {
+      await this.setState({
+        players: orderBy(this.props.players, ["staffName"], ["asc"])
+      });
       await this.setState({ type: this.props.type });
       await this.setState({ activeSeason: this.props.activeSeason });
-      if (this.state.activeSeason !== undefined){
-        this.getPlayers();
-      } 
     }
 
-    if(this.state.initialLoad && this.state.activeSeason !== undefined && this.state.players.length){
-      if(auth0Client.isAuthenticated() && some(this.state.players, {staffName: auth0Client.getProfile().name})){
-        this.setState({activePlayer: auth0Client.getProfile().name, initialLoad: false})
+    if (
+      this.state.initialLoad &&
+      this.state.activeSeason !== undefined &&
+      this.state.players.length
+    ) {
+      if (
+        auth0Client.isAuthenticated() &&
+        some(this.state.players, { staffName: auth0Client.getProfile().name })
+      ) {
+        this.setState({
+          activePlayer: auth0Client.getProfile().name,
+          initialLoad: false
+        });
       }
+    }
+    //Handle deletion
+    if (
+      this.state.activePlayer !== " " &&
+      !some(this.state.players, { staffName: this.state.activePlayer })
+    ) {
+      this.setState({ activePlayer: " " });
     }
 
     if (
@@ -63,7 +61,7 @@ class ViewYourFixtures extends React.Component {
   };
 
   componentWillUnmount() {
-    this.signal.cancel("")
+    this.signal.cancel("");
   }
 
   clear = async () => {

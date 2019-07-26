@@ -1,5 +1,6 @@
 import React from "react";
 import backend from "../../api/backend";
+import { orderBy } from "lodash";
 
 class CreateBooking extends React.Component {
   constructor(props) {
@@ -19,14 +20,14 @@ class CreateBooking extends React.Component {
 
   getPlayers = async () => {
     const response = await backend.get(
-      "/api/89ball_league/" + this.state.activeSeason +"/asc",
+      "/api/89ball_league/" + this.state.activeSeason,
       {
         params: {
           type: this.state.type
         }
       }
     );
-    this.setState({ players: response.data });
+    this.setState({ players: orderBy(response.data, ["staffName"], ["asc"]) });
   };
 
   getUnplayedFixtures = async () => {
