@@ -77,6 +77,8 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
   for (let i = 0; i < hof2.length; i++) {
     hof2[i].wins = 0;
     hof2[i].plays = 0;
+    hof2[i].draws = 0;
+    hof2[i].goalsFor = 0;
   }
 
   //go through all league rows relevant
@@ -100,9 +102,15 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
       )
     }
     
+    //look for best game
+    if (leagues[i].goalsFor > hof.goalsFor) {
+      hof.goalsFor = leagues[i].goalsFor;
+    }
+
     //calculations
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
+    hof.draws = hof.draws + leagues[i].draw;
     hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) /hof.plays);
 
