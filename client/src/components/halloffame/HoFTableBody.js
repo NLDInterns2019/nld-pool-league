@@ -2,7 +2,6 @@ import React from "react";
 import { find, maxBy, minBy, filter } from "lodash";
 
 const itemsToBeDisplayed = props => {
-  //const topPlayer = maxBy(filter(props.players, player => player.percentage > 0), "draw");
   const topPlayer = maxBy(props.players, "percentage");
   const ohno = minBy(props.players, "percentage");
   const draw = maxBy(props.players, "draws");

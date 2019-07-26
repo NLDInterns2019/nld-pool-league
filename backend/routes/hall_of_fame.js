@@ -31,8 +31,6 @@ router.get("/", async (req, res) => {
   hall_of_fame
     .query()
     .where({ type: req.query.type})
-   // .where('percentage', '!=', null)
-    .orderBy("percentage", "desc")
     .then(
       players => {
         res.json(players);
@@ -105,6 +103,7 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     //calculations
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
+    hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) /hof.plays);
 
     //patch

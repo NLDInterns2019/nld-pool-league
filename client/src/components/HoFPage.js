@@ -30,7 +30,14 @@ class HoFPage extends React.Component {
     });
 
     this.setState({ players: result.data });
-    console.log(result.data);
+
+    const HoF9 = await backend.get("/api/hall_of_fame", {
+      params: {
+        type: 8
+      }
+    });
+
+    this.setState({ HoF9: HoF9.data });
   };
 
   createHoF = async state => {
@@ -49,6 +56,7 @@ class HoFPage extends React.Component {
           headers: headers
         }
       );
+      
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
