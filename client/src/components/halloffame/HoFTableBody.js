@@ -5,8 +5,8 @@ const itemsToBeDisplayed = props => {
   const topPlayer = maxBy(filter(props.players, player => player.percentage > 0), "draw");
   const bottomPlayer = minBy(filter(props.players, player => player.percentage > 0), "draw");
   const draw = maxBy(filter(props.players, player => player.draw > 0), "draw");
-  const onTime = maxBy(props.players, "punctuality");
-  const late = minBy(
+  const onTime = minBy(props.players, "punctuality");
+  const late = maxBy(
     filter(props.players, player => player.punctuality < 0),
     "punctuality"
   );
