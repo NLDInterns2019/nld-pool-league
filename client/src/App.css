@@ -211,8 +211,10 @@ table td {
 
 .leagueTable tr:hover td {
   font-weight: bold;
-  background-color: #127e5c;
-  color: #ffffff;
+  /* background-color: #127e5c; */
+  background-color: #f2f2f2;
+  /* color: #ffffff; */
+  cursor: default;
 }
 
 .leagueTable tr .delete-icon {
@@ -469,10 +471,17 @@ select:hover {
   align-content: center;
   text-align: center;
 }
+
+.hofCell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .hof8Ball {
   float: left;
   padding-top: 0px;
   padding: 2rem;
+  text-align: center;
 }
 
 .hof9Ball {
@@ -480,6 +489,7 @@ select:hover {
   padding-top: 0px;
   padding: 2rem;
   padding-left: 80px;
+  text-align: center;
 }
 
 #calendarContainer {

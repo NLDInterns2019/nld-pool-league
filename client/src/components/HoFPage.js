@@ -34,7 +34,7 @@ class HoFPage extends React.Component {
 
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
-    await this.getLatestSeason()
+    await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
     const result = await backend.get("/api/hall_of_fame", {
@@ -70,7 +70,6 @@ class HoFPage extends React.Component {
           headers: headers
         }
       );
-      
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
@@ -107,7 +106,6 @@ class HoFPage extends React.Component {
             <div className="hof8Ball">
               <h3>
                 <span role="img" aria-label="8-ball">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   🎱
                 </span>
                 &nbsp;&nbsp;&nbsp;&nbsp;8-Ball&nbsp;&nbsp;&nbsp;&nbsp;
@@ -120,7 +118,7 @@ class HoFPage extends React.Component {
             <div className="hof9Ball">
               <h3>
                 <span role="img" aria-label="8-ball">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🎱
+                  🎱
                 </span>
                 &nbsp;&nbsp;&nbsp;&nbsp;9-Ball&nbsp;&nbsp;&nbsp;&nbsp;
                 <span role="img" aria-label="8-ball">
