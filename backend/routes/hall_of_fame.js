@@ -107,6 +107,10 @@ router.post("/calculate", async (req, res) => {
     hof.plays = 0;
     hof.draws = 0;
     hof.punctuality = 0;
+    hof.goalsAgainstTop = 0;
+    hof.highestGF = 0;
+    hof.scrappy = 0;
+    hof.streak = 0;
     start = false;
     }
 
@@ -178,7 +182,6 @@ router.post("/calculate", async (req, res) => {
       if (hofAll[player2].scrappyRate > hofAll[player2].streak) {
         hofAll[player2].streak = hofAll[player2].scrappyRate;
       }
-      console.log(player1)
       hofAll[player1].scrappyRate = 0;
     }
 
