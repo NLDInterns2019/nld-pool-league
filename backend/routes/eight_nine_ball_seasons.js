@@ -4,6 +4,7 @@ const _ = require("lodash");
 const Joi = require("joi");
 const auth = require("../auth");
 var token = require("../test/function/token");
+var axios = require("axios")
 
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures")
@@ -72,13 +73,22 @@ router.get("/latest", (req, res) => {
 });
 
 /* 
-  POST handler for /api/89ball_season/token
-  Function: To get all the latest season
+  GET handler for /api/89ball_season/playersdb
+  Function: To get players from auth0 db
 */
-router.post("/token", auth.checkJwt, (req, res) => {
+router.get("/playersdb", auth.checkJwt, (req, res) => {
   token()
   .then(result=> {
-    res.json(result)
+    axios
+        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+          params: {
+            search_engine: "v3"
+          },
+          headers: { Authorization: `Bearer ${result}` }
+        })
+        .then(players => {
+          res.json(players.data)
+        });
   }, e=> {
     res.status(400).send()
   })

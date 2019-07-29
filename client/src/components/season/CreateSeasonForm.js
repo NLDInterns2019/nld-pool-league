@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { orderBy, uniq } from "lodash";
 import auth0Client from "../../Auth";
 import backend from "../../api/backend";
-import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -20,28 +20,13 @@ class CreateSeasonForm extends Component {
 
   getPlayers = async () => {
     try {
-      let token;
       await backend
-        .post(
-          "/api/89ball_season/token",
-          {},
-          {
-            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-          }
-        )
-        .then(res => {
-          token = res;
-        });
-
-      await axios
-        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
-          params: {
-            search_engine: "v3"
-          },
-          headers: { Authorization: `Bearer ${token.data}` }
+        .get("/api/89ball_season/playersdb", {
+          params: {},
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
         .then(res => {
-          this.setState({ auth0Players: res.data });
+          this.setState({ auth0Players: orderBy(res.data, ["username"], ["asc"]) });
         });
     } catch (e) {
       if (e.response.status === 401) {
@@ -53,11 +38,9 @@ class CreateSeasonForm extends Component {
     }
   };
 
-
-  componentDidMount(){
-    if(auth0Client.isAuthenticated()){
-      console.log("players fetched")
-      this.getPlayers()
+  componentDidMount() {
+    if (auth0Client.isAuthenticated()) {
+      this.getPlayers();
     }
   }
 
@@ -69,7 +52,7 @@ class CreateSeasonForm extends Component {
     this.setState({
       playersName: this.state.playersName.map((player, index) => {
         if (index === indexToChange) {
-          return e.target.value.toUpperCase();
+          return e.target.value;
         }
         return player;
       })
@@ -89,46 +72,9 @@ class CreateSeasonForm extends Component {
     });
   };
 
-  handleKeyDown(e, index) {
-    if (e.key === "Enter") {
-      this.addPlayer();
-    } else if (e.key === "ArrowUp" && index > 1) {
-      this.refs["inputPlayer" + (index - 1)].focus();
-    } else if (e.key === "ArrowDown" && index < this.state.playersName.length) {
-      this.refs["inputPlayer" + (index + 1)].focus();
-    } else if (e.key === "Backspace" && e.target.value === "" && index > 1) {
-      this.removePlayer(index - 1);
-      this.refs["inputPlayer" + (index - 1)].focus();
-    }
-  }
-
   removePlayer(index) {
     this.state.playersName.splice(index, 1);
     this.setState({ playersName: this.state.playersName });
-  }
-
-  setSeasonName(e) {
-    this.setState({ seasonName: e.target.value });
-  }
-
-  isValidPlayersNumber() {
-    /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
-    if (this.state.playersName.length < 2) {
-      return false;
-    }
-
-    return true;
-  }
-
-  isValidPlayersName() {
-    var regex = /^[A-Z]+$/; // matches 1 or more capital letters
-    /* check if the player text inputs match the regular expression */
-    for (var i = 0; i < this.state.playersName.length; i++) {
-      if (!regex.test(this.state.playersName[i])) {
-        return false;
-      }
-    }
-    return true;
   }
 
   createSeason = () => {
@@ -137,7 +83,7 @@ class CreateSeasonForm extends Component {
       this.props.createSeason(this.state);
       //this.postCreateSeasonSlackMessage();
       this.props.closePopUp();
-      this.setState(this.initialState);
+      this.setState(this.initialState, ()=>{this.getPlayers()});
     });
   };
 
@@ -171,12 +117,29 @@ class CreateSeasonForm extends Component {
     return false;
   }
 
+  isValidPlayersNumber() {
+    /* check if the season name text input matches the regular expression, otherwise, check if there are less than 2 players inputted */
+    if (this.state.playersName.length < 2) {
+      return false;
+    }
+
+    return true;
+  }
+
+  isValidPlayers(){
+    //No duplicate
+    if(uniq(this.state.playersName).length === this.state.playersName.length){
+      return true
+    }
+    return false
+  }
+
   /* displays button if inputs are valid, otherwise, hides it */
   createSeasonBtnStyle() {
     if (
       this.isValidSeason() &&
-      this.isValidPlayersName() &&
-      this.isValidPlayersNumber()
+      this.isValidPlayersNumber() &&
+      this.isValidPlayers()
     ) {
       return {
         display: "inline-block"
@@ -196,11 +159,11 @@ class CreateSeasonForm extends Component {
     }
   }
 
-  checkPlayersNameError() {
-    if (this.isValidPlayersName()) {
+  checkPlayersError(){
+    if(this.isValidPlayers()){
       return null;
-    } else {
-      return <div className="error">Invalid player name(s)</div>;
+    }else {
+      return <div className="error">Invalid player(s)</div>
     }
   }
 
@@ -247,8 +210,7 @@ class CreateSeasonForm extends Component {
             value={this.state.seasonName}
             id="inputSeasonNo"
             ref="inputSeasonNo"
-            onChange={e => this.setSeasonName(e)}
-            onKeyPress={e => this.handleKeyDown(e)}
+            onChange={e => this.setState({seasonName: e.target.value})}
           />
           {this.checkSeasonError()}
           <div className="inputPlayers">
@@ -256,17 +218,21 @@ class CreateSeasonForm extends Component {
             {this.state.playersName.map((player, index) => {
               return (
                 <div key={index} className="form-row">
-                  {/* player name text input */}
-                  <input
-                    autoFocus
-                    placeholder={"Player " + (index + 1)}
-                    className="inputPlayerName"
-                    id={"inputPlayer" + (index + 1)}
-                    ref={"inputPlayer" + (index + 1)}
+                  {/* Dropdown */}
+                  <select
+                    value={this.state.playersName[index]}
                     onChange={e => this.handleChange(e, index)}
-                    value={player}
-                    onKeyDown={e => this.handleKeyDown(e, index + 1)}
-                  />
+                  >
+                    {/* Dropdown selection */}
+                    <option value=" ">Choose a player</option>
+                    {this.state.auth0Players.map(player => {
+                      return (
+                        <option key={player.username} value={player.username}>
+                          {player.username}
+                        </option>
+                      );
+                    })}
+                  </select>
                   <div
                     id={"button" + (index + 1)}
                     className="delete-icon"
@@ -277,8 +243,7 @@ class CreateSeasonForm extends Component {
               );
             })}
             {this.checkPlayersNumberError()}
-            {this.checkPlayersNameError()}
-
+            {this.checkPlayersError()}
             {/* button for adding a player */}
             <button
               type="button"
