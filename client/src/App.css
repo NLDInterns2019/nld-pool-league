@@ -445,12 +445,41 @@ select:hover {
 .viewYourFixtures,
 #submitScoreForm,
 .app #createSeasonForm,
-.form-popup {
+.form-popup{
   background-color: white;
   width: 600px;
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
+}
+
+.HoFLeagueContainer {
+  align-content: center;
+  padding: 1rem;
+  border-radius: 15px;
+  float: left;
+}
+.hofContainer {
+  align-content: center; 
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.HoFTitleContainer {
+  align-content: center; 
+  text-align: center;
+}
+.hof8Ball {
+  float: left;
+  padding-top: 0px;
+  padding: 2rem;
+}
+
+.hof9Ball {
+  float: right;
+  padding-top: 0px;
+  padding: 2rem;
+  padding-left: 80px;
 }
 
 #calendarContainer {

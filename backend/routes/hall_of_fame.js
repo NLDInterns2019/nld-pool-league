@@ -5,17 +5,18 @@ const Joi = require("joi");
 const auth = require("../auth");
 const knex = require("../db/knex");
 
+const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const hall_of_fame = require("../models/hall_of_fame")
 
 //delete player?
 
 /* 
-  GET handler for /api/89ball_league/halloffame MAYBE
+  GET handler for /api/89ball_league/hall_of_fame MAYBE
   Function: To get the hall of fame
 */
 router.get("/", async (req, res) => {
-  type = req.body.type;
+  req.query.type = parseInt(req.query.type, 10);
   const schema = {
     type: Joi.number()
       .integer()
@@ -23,14 +24,14 @@ router.get("/", async (req, res) => {
   };
 
   //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
 
   hall_of_fame
     .query()
-    .where({ type: type })
+    .where({ type: req.query.type})
     .then(
       players => {
         res.json(players);
@@ -43,7 +44,7 @@ router.get("/", async (req, res) => {
 
 
 /* 
-  POST handler for /api/89ball_league/halloffame/calculate
+  POST handler for /api/89ball_league/hall_of_fame/calculate
   Function: To calculate win percentages
 */
 router.post("/calculate", async (req, res) => { //post or patch? it does both - should it?
@@ -61,7 +62,8 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     res.status(400).json({ status: "error", error: "Invalid data" });
     return;
   }
-
+  
+  
   let leagues = await eight_nine_ball_leagues.query().where({
     type: type,
   });
@@ -76,6 +78,9 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
   for (let i = 0; i < hof2.length; i++) {
     hof2[i].wins = 0;
     hof2[i].plays = 0;
+    hof2[i].draws = 0;
+    hof2[i].goalsFor = 0;
+    hof2[i].punctuality = 0;
   }
 
   //go through all league rows relevant
@@ -99,10 +104,31 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
       )
     }
     
+    //look for best game
+    if (leagues[i].goalsFor > hof.goalsFor) {
+      hof.goalsFor = leagues[i].goalsFor;
+    }
+
     //calculations
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
+    hof.draws = hof.draws + leagues[i].draw;
+    hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) /hof.plays);
+    hof.drawRate = Math.trunc((hof.draws * 100) /hof.plays);
+    hof.punctRate = Math.trunc((hof.punctRate * 100) /hof.plays);
+
+    //check fixtures for scrappy and streaks
+    let fixtures = await eight_nine_ball_fixtures.query().where({
+      type: type,
+    });
+    if (fixtures === 0) {
+      res.status(404).send();
+     }
+
+    for (let x = 0; x < fixtures.length; x++) {
+      
+    }
 
     //patch
     let hof3 = await hall_of_fame.query().findOne({
