@@ -1,9 +1,12 @@
+import {maxBy} from "lodash";
+
 var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
 const auth = require("../auth");
 const knex = require("../db/knex");
+
 
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
@@ -164,9 +167,26 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
       hofAll[player1].curStreak = 0; 
     }
 
-    //if a player is the top player, increment other players goalsAgainstTop by their goalsFor
+    //calculate scrappy. counts points against whoever top player is. could prob hardcode this to mal and noone would notice
+    let topPlayer = maxBy(hofAll, "percentage"); //get top player. this might just not work
+    //check if top player played in the fixture
+    if (fixtures[i].name1 == topPlayer) {  //if so, increment suitably
+      hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2;
+    } else if (fixtures[i].name2 == topPlayer) {
+      hofAll[player1].scrappy = hofAll[player1].scrappy + fixtures[i].score1;
+    }
   }
-  res.json(hof)
+
+  //have to go through hof AGAIN to calculate scrappy average
+  for (let i = 0; i < hofAll.length; i++) {
+    hofAll[i].scrappyRate = hofAll[i].scrappy/hofAll[i].plays;
+  }
+  let hof4 = await hall_of_fame.query().findOne({
+    type: type,
+    staffName: leagues[i].staffName
+  }).patch(hofAll);
+
+  res.json(hofAll)
 });
 
 module.exports = router;
