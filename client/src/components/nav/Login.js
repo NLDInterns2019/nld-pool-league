@@ -13,7 +13,7 @@ const Login = props => {
         )}
         {auth0Client.isAuthenticated() && (
           <div>
-            {auth0Client.getProfile().name}
+            {auth0Client.getProfile().nickname}
             <button
               id="signout"
               className="btn btn-dark"

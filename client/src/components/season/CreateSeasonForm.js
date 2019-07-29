@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { orderBy, uniq } from "lodash";
+import { orderBy, uniq, filter } from "lodash";
 import auth0Client from "../../Auth";
 import backend from "../../api/backend";
 
@@ -128,7 +128,7 @@ class CreateSeasonForm extends Component {
 
   isValidPlayers(){
     //No duplicate
-    if(uniq(this.state.playersName).length === this.state.playersName.length){
+    if(uniq(this.state.playersName).length === this.state.playersName.length && !this.state.playersName.includes("")){
       return true
     }
     return false
@@ -224,8 +224,9 @@ class CreateSeasonForm extends Component {
                     onChange={e => this.handleChange(e, index)}
                   >
                     {/* Dropdown selection */}
-                    <option value=" ">Choose a player</option>
-                    {this.state.auth0Players.map(player => {
+                    <option value="">Choose a player</option>
+                    {this.state.playersName[index] !== "" ? <option value={this.state.playersName[index]}>{this.state.playersName[index]}</option> : null}
+                    {filter(this.state.auth0Players, p => !this.state.playersName.includes(p.username)).map(player => {
                       return (
                         <option key={player.username} value={player.username}>
                           {player.username}

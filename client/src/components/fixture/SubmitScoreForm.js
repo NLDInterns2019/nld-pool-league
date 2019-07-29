@@ -55,8 +55,8 @@ class SubmitScoreForm extends Component {
     await this.setState({ type: this.props.type });
     await this.setState({ activeSeason: this.props.activeSeason });
     await this.setState({allPlayers: orderBy(this.props.players, ['staffName'], ['asc'])})
-    if(auth0Client.isAuthenticated() && some(this.state.allPlayers, {staffName: auth0Client.getProfile().name})){
-      this.setState({activePlayer: auth0Client.getProfile().name, initialLoad: false})
+    if(auth0Client.isAuthenticated() && some(this.state.allPlayers, {staffName: auth0Client.getProfile().nickname})){
+      this.setState({activePlayer: auth0Client.getProfile().nickname, initialLoad: false})
     }
     await this.getFixtures();
   };
