@@ -98,41 +98,22 @@ class HoFPage extends React.Component {
           type={this.state.type}
         />
         <div className="content">
-          {/* <div className="HoFLeagueContainer"> */}
-          {/* <div className="HoFTitleContainer">
-              <h3>Hall of Fame</h3>
-            </div> */}
-
           <div className="contentLeft">
-            {/* <div className="hof8Ball"> */}
-            <h3>
-              <span role="img" aria-label="8-ball">
-                🎱
-              </span>
-              &nbsp;&nbsp;&nbsp;&nbsp;8-Ball&nbsp;&nbsp;&nbsp;&nbsp;
-              <span role="img" aria-label="8-ball">
-                🎱
-              </span>
-            </h3>
+            <div className="hallOfFameTitleContainer">
+              <span className="eight-ball-icon" alt="eight ball" />
+              <h3>8-Ball</h3>
+              <span className="eight-ball-icon" alt="eight ball" />
+            </div>
             <HoFTable players={this.state.players} />
-            {/* </div> */}
           </div>
           <div className="contentRight">
-            {/* <div className="hof9Ball"> */}
-            <h3>
-              <span role="img" aria-label="8-ball">
-                🎱
-              </span>
-              &nbsp;&nbsp;&nbsp;&nbsp;9-Ball&nbsp;&nbsp;&nbsp;&nbsp;
-              <span role="img" aria-label="8-ball">
-                🎱
-              </span>
-            </h3>
+            <div className="hallOfFameTitleContainer">
+              <span className="nine-ball-icon" alt="nine ball" />
+              <h3>9-Ball</h3>
+              <span className="nine-ball-icon" alt="nine ball" />
+            </div>
             <HoFTable HoF9={this.state.HoF9} />
-            {/* </div> */}
           </div>
-
-          {/* </div> */}
         </div>
       </div>
     );
