@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #dbe9e2;
-  min-width: 950px;
+  min-width: 1050px;
 }
 
 /* ==== Headings ==== */
@@ -211,15 +211,17 @@ table td {
 
 .leagueTable tr:hover td {
   font-weight: bold;
-  background: #127e5c;
-  color: #ffffff;
+  /* background-color: #127e5c; */
+  background-color: #f2f2f2;
+  /* color: #ffffff; */
+  cursor: default;
 }
 
-.leagueTable tr span.delete {
+.leagueTable tr .delete-icon {
   opacity: 0;
 }
 
-.leagueTable tr:hover span.delete {
+.leagueTable tr:hover .delete-icon {
   opacity: 1;
 }
 
@@ -445,7 +447,7 @@ select:hover {
 .viewYourFixtures,
 #submitScoreForm,
 .app #createSeasonForm,
-.form-popup{
+.form-popup {
   background-color: white;
   width: 600px;
   margin: auto;
@@ -453,33 +455,47 @@ select:hover {
   border-radius: 15px;
 }
 
-.HoFLeagueContainer {
+/* .HoFLeagueContainer {
   align-content: center;
   padding: 1rem;
   border-radius: 15px;
   float: left;
-}
+} */
+
 .hofContainer {
-  align-content: center; 
+  align-content: center;
   border-radius: 15px;
   padding: 1rem;
 }
 
+#hofTablesContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+  width: 100%;
+}
+
 .HoFTitleContainer {
-  align-content: center; 
   text-align: center;
 }
+
+.hofCell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .hof8Ball {
-  float: left;
-  padding-top: 0px;
+  order: 1;
   padding: 2rem;
+  margin: auto;
+  text-align: center;
 }
 
 .hof9Ball {
-  float: right;
-  padding-top: 0px;
+  order: 2;
   padding: 2rem;
-  padding-left: 80px;
+  text-align: center;
 }
 
 #calendarContainer {
@@ -596,7 +612,7 @@ select:hover {
 }
 
 /* ==== Responsive Styling ==== */
-@media only screen and (max-width: 1350px) {
+@media only screen and (max-width: 1380px) {
   .content {
     display: flex;
     flex-direction: column;
@@ -621,7 +637,7 @@ select:hover {
   }
 }
 
-@media only screen and (min-width: 1351px) {
+@media only screen and (min-width: 1381px) {
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;

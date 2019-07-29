@@ -6,17 +6,20 @@ const SubNavBar = props => {
   var currentPath = window.location.pathname;
 
   /* set the title of the nav bar depending on the URL path */
-  var title = matchPath(currentPath, { path: "/8-ball/seasons", exact: false }) || matchPath(currentPath, { path: "/8-ball/hall_of_fame", exact: false })
-    ? "8-Ball"
-    : matchPath(currentPath, { path: "/8-ball/overview" }) ||
-      matchPath(currentPath, { path: "/8-ball/fixtures" })
-    ? "8-Ball Season " + props.activeSeason
-    : matchPath(currentPath, { path: "/9-ball/seasons", exact: false }) || matchPath(currentPath, { path: "/9-ball/hall_of_fame", exact: false })
-    ? "9-Ball"
-    : matchPath(currentPath, { path: "/9-ball/overview" }) ||
-      matchPath(currentPath, { path: "/9-ball/fixtures" })
-    ? "9-Ball Season " + props.activeSeason
-    : "Billiards";
+  var title =
+    matchPath(currentPath, { path: "/8-ball/seasons", exact: false }) ||
+    matchPath(currentPath, { path: "/8-ball/hall_of_fame", exact: false })
+      ? "8-Ball"
+      : matchPath(currentPath, { path: "/8-ball/overview" }) ||
+        matchPath(currentPath, { path: "/8-ball/fixtures" })
+      ? "8-Ball Season " + props.activeSeason
+      : matchPath(currentPath, { path: "/9-ball/seasons", exact: false }) ||
+        matchPath(currentPath, { path: "/9-ball/hall_of_fame", exact: false })
+      ? "9-Ball"
+      : matchPath(currentPath, { path: "/9-ball/overview" }) ||
+        matchPath(currentPath, { path: "/9-ball/fixtures" })
+      ? "9-Ball Season " + props.activeSeason
+      : "Billiards";
 
   /* makes 'All Seasons' link bold */
   var seasonsCurrentStyle = matchPath(currentPath, {
@@ -48,8 +51,8 @@ const SubNavBar = props => {
       }
     : {};
 
-    /* makes 'current season' link bold */
-  var hallOfFameStyle = matchPath(currentPath, {
+  /* makes 'current season' link bold */
+  var hallOfFameCurrentStyle = matchPath(currentPath, {
     path: "*/hall_of_fame",
     exact: false
   })
@@ -86,14 +89,14 @@ const SubNavBar = props => {
                 </Link>
               </li>
               <li>
-              <Link
-                to={`/${path}/hall_of_fame`}
-                style={hallOfFameStyle}
-                id="HoFLink"
-              >
-                Hall of Fame
-              </Link>
-            </li>
+                <Link
+                  to={`/${path}/hall_of_fame`}
+                  style={hallOfFameCurrentStyle}
+                  id="HoFLink"
+                >
+                  Hall of Fame
+                </Link>
+              </li>
             </span>
           );
         } else {
@@ -118,14 +121,14 @@ const SubNavBar = props => {
                 </Link>
               </li>
               <li>
-              <Link
-                to={`/${path}/hall_of_fame`}
-                style={currentSeasonCurrentStyle}
-                id="HoFLink"
-              >
-                Hall of Fame
-              </Link>
-            </li>
+                <Link
+                  to={`/${path}/hall_of_fame`}
+                  style={hallOfFameCurrentStyle}
+                  id="HoFLink"
+                >
+                  Hall of Fame
+                </Link>
+              </li>
             </span>
           );
         }
@@ -153,7 +156,7 @@ const SubNavBar = props => {
             <li>
               <Link
                 to={`/${path}/hall_of_fame`}
-                style={currentSeasonCurrentStyle}
+                style={hallOfFameCurrentStyle}
                 id="HoFLink"
               >
                 Hall of Fame

@@ -16,105 +16,122 @@ const itemsToBeDisplayed = props => {
   return (
     <tbody>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="trophy">
-          🏆
+            🏆
           </span>
         </td>
-        <td>Top Player</td>
-        <td>{topPlayer ? topPlayer.staffName : "-"}</td>
-        <td>{topPlayer ? topPlayer.percentage : "-"}% of games won</td>
+        <td className="hofCell">Top Player</td>
+        <td className="hofCell">{topPlayer ? topPlayer.staffName : "-"}</td>
+        <td className="hofCell">
+          {topPlayer ? topPlayer.percentage : "-"}% of games won
+        </td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="saxophone">
-          🎷
+            🎷
           </span>
         </td>
-        <td>Best Game</td>
-        <td>{bestGame ? bestGame.staffName : "-"}</td>
-        <td>{bestGame ? bestGame.maxGoals : "-"} points in one match</td>
+        <td className="hofCell">Best Game</td>
+        <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
+        <td className="hofCell">
+          {bestGame ? bestGame.maxGoals : "-"} points in one match
+        </td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="balance-scale">
             ⚖️
           </span>
         </td>
-        <td>Most average</td>
-        <td>{draw ? draw.staffName : "-"}</td>
-        <td>{draw ? draw.drawRate : "-"}% of games drawn</td>
+        <td className="hofCell">Most average</td>
+        <td className="hofCell">{draw ? draw.staffName : "-"}</td>
+        <td className="hofCell">
+          {draw ? draw.drawRate : "-"}% of games drawn
+        </td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="dizzy">
             😵
           </span>
         </td>
-        <td>oh no</td>
-        <td>{ohno ? ohno.staffName : "-"}</td>
-        <td>{ohno ? ohno.percentage : "-"}% of games won :(</td>
+        <td className="hofCell">oh no</td>
+        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
+        <td className="hofCell">
+          {ohno ? ohno.percentage : "-"}% of games won :(
+        </td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="weights">
-          🏋️
+            🏋️
           </span>
         </td>
-        <td>Dedicated</td>
-        <td>{dedicated ? dedicated.staffName : "-"}</td>
-        <td>{dedicated ? dedicated.plays : "-"} games played</td>
+        <td className="hofCell">Dedicated</td>
+        <td className="hofCell">{dedicated ? dedicated.staffName : "-"}</td>
+        <td className="hofCell">
+          {dedicated ? dedicated.plays : "-"} games played
+        </td>
       </tr>
-      <tr></tr>
+      <tr />
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="watch">
             ⌚
           </span>
         </td>
-        <td>Mr. Punctual</td>
-        <td>{onTime ? onTime.staffName : "-"}</td>
-        <td>Fewest lates</td>
+        <td className="hofCell">Mr. Punctual</td>
+        <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
+        <td className="hofCell">Fewest lates</td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="snail">
             🐌
           </span>
         </td>
-        <td>Slacker</td>
-        <td>{slacker ? slacker.staffName : "-"}</td>
-        <td>{slacker ? slacker.punctRate : "-"}% games late</td> 
+        <td className="hofCell">Slacker</td>
+        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCell">
+          {slacker ? slacker.punctRate : "-"}% games late
+        </td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="runner">
-          🏃
+            🏃
           </span>
         </td>
-        <td>Longest streak</td>
-        <td>{streak ? streak.staffName : "-"}</td>
-        <td>{streak ? streak.streak : "-"} game streak!</td>
+        <td className="hofCell">Longest streak</td>
+        <td className="hofCell">{streak ? streak.staffName : "-"}</td>
+        <td className="hofCell">{streak ? streak.streak : "-"} game streak!</td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="boxing-gloves">
-          🥊
+            🥊
           </span>
         </td>
-        <td>Scrappy</td>
-        <td>{scrappy ? scrappy.staffName : "-"}</td>
-        <td>{scrappy ? scrappy.scrappyRate : "-"}% wins against {topPlayer ? topPlayer.staffName : "-"}!</td>
+        <td className="hofCell">Scrappy</td>
+        <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
+        <td className="hofCell">
+          {scrappy ? scrappy.scrappyRate : "-"}% wins against{" "}
+          {topPlayer ? topPlayer.staffName : "-"}!
+        </td>
       </tr>
       <tr>
-        <td>
+        <td className="hofCell">
           <span role="img" aria-label="boxing-gloves">
-          🥊
+            🥊
           </span>
         </td>
-        <td>Most improved</td>
-        <td>{improved ? improved.staffName : "-"}</td>
-        <td>{improved ? improved.improvemnet : "-"}% improvement</td>
+        <td className="hofCell">Most improved</td>
+        <td className="hofCell">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCell">
+          {improved ? improved.improvemnet : "-"}% improvement
+        </td>
       </tr>
     </tbody>
   );
@@ -132,9 +149,11 @@ const HoFTable = props => {
           <thead>
             <tr>
               <th />
-              <th>Achievement</th>
+              <th>&nbsp;&nbsp;&nbsp;&nbsp;Achievement&nbsp;&nbsp;&nbsp;&nbsp;</th>
               <th>Name</th>
-              <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </th>
             </tr>
           </thead>
           {itemsToBeDisplayed(props)}
