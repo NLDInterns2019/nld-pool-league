@@ -50,7 +50,8 @@ router.post("/calculate", async (req, res) => {
   //post or patch? it does both - should it?
   type = req.body.type;
   let hof;
-
+  let start = true;
+  let names = ["",""];
   const schema = {
     type: Joi.number()
       .integer()
@@ -69,20 +70,7 @@ router.post("/calculate", async (req, res) => {
   if (leagues === 0) {
     res.status(404).send();
   }
-
-  //set values to 0
-  let hof2 = await hall_of_fame.query().where({
-    //pretty bad solution
-    type: type
-  });
-  for (let i = 0; i < hof2.length; i++) {
-    hof2[i].wins = 0;
-    hof2[i].plays = 0;
-    hof2[i].draws = 0;
-    hof2[i].goalsFor = 0;
-    hof2[i].punctuality = 0;
-  }
-
+  
   //go through all league rows relevant
   for (let i = 0; i < leagues.length; i++) {
     hof = await hall_of_fame.query().findOne({
@@ -96,7 +84,6 @@ router.post("/calculate", async (req, res) => {
         .insert({
           staffName: leagues[i].staffName,
           type: 8,
-          wins: 800
         })
         .then(
           (hof = await hall_of_fame.query().findOne({
@@ -107,12 +94,30 @@ router.post("/calculate", async (req, res) => {
         );
     }
 
+    //wipes values without need for extra db call loop
+    if (names.includes(leagues[i].staffName)) {
+      console.log(leagues[i].staffName + " is in array")
+      start = false;
+    } else {
+      console.log(leagues[i].staffName + " is not in array")
+      start = true;
+      names.push(leagues[i].staffName)
+    }
+    if (start == true) {
+    hof.wins = 0;
+    hof.plays = 0;
+    hof.draws = 0;
+    hof.punctuality = 0;
+    start = false;
+    }
+
     /*//look for best game
     if (leagues[i].goalsFor > hof.goalsFor) {
       hof.goalsFor = leagues[i].goalsFor;
     }*/
 
     //calculations
+    console.log("this is the hof rn " + hof.staffName)
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
     hof.draws = hof.draws + leagues[i].draw;
