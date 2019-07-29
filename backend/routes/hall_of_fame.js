@@ -118,23 +118,53 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     hof.drawRate = Math.trunc((hof.draws * 100) /hof.plays);
     hof.punctRate = Math.trunc((hof.punctRate * 100) /hof.plays);
 
-    //check fixtures for scrappy and streaks
-    let fixtures = await eight_nine_ball_fixtures.query().where({
-      type: type,
-    });
-    if (fixtures === 0) {
-      res.status(404).send();
-     }
-
-    for (let x = 0; x < fixtures.length; x++) {
-      
-    }
-
     //patch
     let hof3 = await hall_of_fame.query().findOne({
         type: type,
         staffName: leagues[i].staffName
       }).patch(hof);
+  }
+
+  let fixtures = await eight_nine_ball_fixtures.query().where({ //must go through fixtures to calculate streak. handle scrappy through here too
+    type: type,
+  });
+  if (fixtures === 0) {
+    res.status(404).send();
+   }
+   let hofAll = await hall_of_fame.query().where({ //must go through fixtures to calculate streak. handle scrappy through here too
+    type: type,
+  });
+  if (fixtures === 0) {
+    res.status(404).send();
+   }
+
+  let player1, player2 = 0;
+  for (let i = 0; i < fixtures.length; i++) { //TODO i should be fired for writing code this bad
+
+    for (let j = 0; j < hofAll.length; j++) { //find them in the hof table. locations stored and accessed through hofAll[player1].param
+      if (hofAll[j].staffName == fixtures[i].name1) {
+        player1 = j;
+      } else if (hofAll[j].staffName == fixtures[i].name2) {
+        player2 = j;
+      } //TODO can't break because that gives a sexy little error
+    }
+
+    //update streak or reset as necessary. might need to store curStreak elsewhere if it kicks off about this
+    if (fixtures[i].score1 > fixtures[i].score2) { //if player1 won
+      hofAll[player1].curStreak++; //if this gives an error then you can't do this
+      if (hofAll[player1].curStreak > hofAll[player1].streak) {
+        hofAll[player1].streak = hofAll[player1].curStreak; //update streak
+      }
+      hofAll[player2].curStreak = 0; //no need to update this one. reset
+    } else if (fixtures[i].score2 > fixtures[i].score1) { //not gonna do anything for draws. can keep streak but no increment.
+      hofAll[player2].curStreak++;
+      if (hofAll[player2].curStreak > hofAll[player2].streak) {
+        hofAll[player2].streak = hofAll[player2].curStreak;
+      }
+      hofAll[player1].curStreak = 0; 
+    }
+
+    //if a player is the top player, increment other players goalsAgainstTop by their goalsFor
   }
   res.json(hof)
 });
