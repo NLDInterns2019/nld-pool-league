@@ -17,9 +17,7 @@ const itemsToBeDisplayed = props => {
     <tbody>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="trophy">
-            🏆
-          </span>
+          <div className="trophy-icon" alt="trophy" />
         </td>
         <td className="hofCell">Top Player</td>
         <td className="hofCell">{topPlayer ? topPlayer.staffName : "-"}</td>
@@ -29,9 +27,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="saxophone">
-            🎷
-          </span>
+          <div className="thumbs-up-icon" alt="thumbs up" />
         </td>
         <td className="hofCell">Best Game</td>
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
@@ -41,9 +37,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="balance-scale">
-            ⚖️
-          </span>
+          <div className="scales-icon" alt="scales" />
         </td>
         <td className="hofCell">Most average</td>
         <td className="hofCell">{draw ? draw.staffName : "-"}</td>
@@ -53,9 +47,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="dizzy">
-            😵
-          </span>
+          <div className="angry-icon" alt="angry" />
         </td>
         <td className="hofCell">oh no</td>
         <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
@@ -65,9 +57,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="weights">
-            🏋️
-          </span>
+          <div className="weightlifting-icon" alt="weightlifting" />
         </td>
         <td className="hofCell">Dedicated</td>
         <td className="hofCell">{dedicated ? dedicated.staffName : "-"}</td>
@@ -78,9 +68,7 @@ const itemsToBeDisplayed = props => {
       <tr />
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="watch">
-            ⌚
-          </span>
+          <div className="clock-icon" alt="clock" />
         </td>
         <td className="hofCell">Mr. Punctual</td>
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
@@ -88,9 +76,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="snail">
-            🐌
-          </span>
+          <div className="snail-icon" alt="snail" />
         </td>
         <td className="hofCell">Slacker</td>
         <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
@@ -100,9 +86,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="runner">
-            🏃
-          </span>
+          <div className="train-icon" alt="train" />
         </td>
         <td className="hofCell">Longest streak</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
@@ -110,9 +94,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="boxing-gloves">
-            🥊
-          </span>
+          <div className="boxing-icon" alt="boxing" />
         </td>
         <td className="hofCell">Scrappy</td>
         <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
@@ -123,9 +105,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <span role="img" aria-label="boxing-gloves">
-            🥊
-          </span>
+          <div className="graph-icon" alt="graph" />
         </td>
         <td className="hofCell">Most improved</td>
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
@@ -143,17 +123,15 @@ const HoFTable = props => {
       <div className="leagueTableContainer">
         <table
           className="leagueTable"
-          style={{ width: "500px" }}
+          style={{ width: "650px" }}
           cellSpacing="0"
         >
           <thead>
             <tr>
               <th />
-              <th>&nbsp;&nbsp;&nbsp;&nbsp;Achievement&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th>Achievement</th>
               <th>Name</th>
-              <th>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </th>
+              <th>Details</th>
             </tr>
           </thead>
           {itemsToBeDisplayed(props)}
