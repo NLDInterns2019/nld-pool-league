@@ -39,7 +39,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="scales-icon" alt="scales" />
         </td>
-        <td className="hofCell">Most average</td>
+        <td className="hofCell">Most Average</td>
         <td className="hofCell">{draw ? draw.staffName : "-"}</td>
         <td className="hofCell">
           {draw ? draw.drawRate : "-"}% of games drawn
@@ -49,7 +49,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="angry-icon" alt="angry" />
         </td>
-        <td className="hofCell">oh no</td>
+        <td className="hofCell">Oh No!</td>
         <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
         <td className="hofCell">
           {ohno ? ohno.percentage : "-"}% of games won :(
@@ -88,7 +88,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="train-icon" alt="train" />
         </td>
-        <td className="hofCell">Longest streak</td>
+        <td className="hofCell">Longest Streak</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
         <td className="hofCell">{streak ? streak.streak : "-"} game streak!</td>
       </tr>
@@ -107,7 +107,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="graph-icon" alt="graph" />
         </td>
-        <td className="hofCell">Most improved</td>
+        <td className="hofCell">Most Improved</td>
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
           {improved ? improved.improvemnet : "-"}% improvement
@@ -120,16 +120,15 @@ const itemsToBeDisplayed = props => {
 const HoFTable = props => {
   return (
     <div>
-      <div className="leagueTableContainer">
+      <div className="achievementTableContainer">
         <table
-          className="leagueTable"
+          className="achievementTable"
           style={{ width: "650px" }}
           cellSpacing="0"
         >
           <thead>
             <tr>
-              <th />
-              <th>Achievement</th>
+              <th colSpan="2">Achievement</th>
               <th>Name</th>
               <th>Details</th>
             </tr>
