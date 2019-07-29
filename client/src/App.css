@@ -455,29 +455,11 @@ select:hover {
   border-radius: 15px;
 }
 
-/* .HoFLeagueContainer {
-  align-content: center;
-  padding: 1rem;
-  border-radius: 15px;
-  float: left;
-} */
-
+/* ==== Hall Of Fame ==== */
 .hofContainer {
   align-content: center;
   border-radius: 15px;
   padding: 1rem;
-}
-
-#hofTablesContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: stretch;
-  width: 100%;
-}
-
-.HoFTitleContainer {
-  text-align: center;
 }
 
 .hofCell {
@@ -485,17 +467,29 @@ select:hover {
   padding-right: 10px;
 }
 
-.hof8Ball {
-  order: 1;
-  padding: 2rem;
-  margin: auto;
-  text-align: center;
+.eight-ball-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/eight-ball-vector.svg");
 }
 
-.hof9Ball {
-  order: 2;
-  padding: 2rem;
-  text-align: center;
+.nine-ball-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/nine-ball-vector.svg");
+}
+
+.hallOfFameTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.hallOfFameTitleContainer h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 #calendarContainer {
