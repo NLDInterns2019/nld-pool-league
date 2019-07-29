@@ -116,7 +116,7 @@ ul {
 
 .subnav ul {
   display: inline-block;
-  padding-left: 5rem;
+  padding-left: 1rem;
 }
 .subnav li {
   padding-right: 2.5rem;
