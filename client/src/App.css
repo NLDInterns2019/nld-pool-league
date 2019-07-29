@@ -455,20 +455,28 @@ select:hover {
   border-radius: 15px;
 }
 
-.HoFLeagueContainer {
+/* .HoFLeagueContainer {
   align-content: center;
   padding: 1rem;
   border-radius: 15px;
   float: left;
-}
+} */
+
 .hofContainer {
   align-content: center;
   border-radius: 15px;
   padding: 1rem;
 }
 
+#hofTablesContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+  width: 100%;
+}
+
 .HoFTitleContainer {
-  align-content: center;
   text-align: center;
 }
 
@@ -478,17 +486,15 @@ select:hover {
 }
 
 .hof8Ball {
-  float: left;
-  padding-top: 0px;
+  order: 1;
   padding: 2rem;
+  margin: auto;
   text-align: center;
 }
 
 .hof9Ball {
-  float: right;
-  padding-top: 0px;
+  order: 2;
   padding: 2rem;
-  padding-left: 80px;
   text-align: center;
 }
 

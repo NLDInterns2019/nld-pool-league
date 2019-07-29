@@ -98,11 +98,12 @@ class HoFPage extends React.Component {
           type={this.state.type}
         />
         <div className="content">
-          <div className="HoFLeagueContainer">
-            <div className="HoFTitleContainer">
+          {/* <div className="HoFLeagueContainer"> */}
+          {/* <div className="HoFTitleContainer">
               <h3>Hall of Fame</h3>
-              <br />
-            </div>
+            </div> */}
+
+          <div className="contentLeft">
             <div className="hof8Ball">
               <h3>
                 <span role="img" aria-label="8-ball">
@@ -115,6 +116,8 @@ class HoFPage extends React.Component {
               </h3>
               <HoFTable players={this.state.players} />
             </div>
+          </div>
+          <div className="contentRight">
             <div className="hof9Ball">
               <h3>
                 <span role="img" aria-label="8-ball">
@@ -128,6 +131,8 @@ class HoFPage extends React.Component {
               <HoFTable HoF9={this.state.HoF9} />
             </div>
           </div>
+
+          {/* </div> */}
         </div>
       </div>
     );
