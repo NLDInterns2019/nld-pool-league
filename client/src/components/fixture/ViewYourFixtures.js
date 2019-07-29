@@ -36,10 +36,10 @@ class ViewYourFixtures extends React.Component {
     ) {
       if (
         auth0Client.isAuthenticated() &&
-        some(this.state.players, { staffName: auth0Client.getProfile().name })
+        some(this.state.players, { staffName: auth0Client.getProfile().nickname })
       ) {
         this.setState({
-          activePlayer: auth0Client.getProfile().name,
+          activePlayer: auth0Client.getProfile().nickname,
           initialLoad: false
         });
       }
