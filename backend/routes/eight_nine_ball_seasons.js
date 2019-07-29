@@ -3,6 +3,7 @@ var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
 const auth = require("../auth");
+var token = require("../test/function/token");
 
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures")
@@ -68,6 +69,19 @@ router.get("/latest", (req, res) => {
         res.status(400).json(e);
       }
     );
+});
+
+/* 
+  POST handler for /api/89ball_season/token
+  Function: To get all the latest season
+*/
+router.post("/token", auth.checkJwt, (req, res) => {
+  token()
+  .then(result=> {
+    res.json(result)
+  }, e=> {
+    res.status(400).send()
+  })
 });
 
 /* 

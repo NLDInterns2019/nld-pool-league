@@ -65,12 +65,12 @@ class SeasonsPage extends Component {
     }
   };
 
-  openPopUp() {
+  openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
   }
 
-  closePopUp() {
+  closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
   }
@@ -125,7 +125,8 @@ class SeasonsPage extends Component {
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
-      }      if (e.response.status === 400) {
+      }
+      if (e.response.status === 400) {
         this.toastError("Something went wrong. Please try again");
       }
     }
@@ -205,7 +206,14 @@ class SeasonsPage extends Component {
             <button
               type="button"
               id="addSeasonBtn"
-              onClick={this.openPopUp.bind(this)}
+              onClick={() => {
+                if(auth0Client.isAuthenticated()){
+                  this.openPopUp()
+                }else{
+                  this.toastUnauthorised()
+                }
+              }
+              }
             >
               + Add new season
             </button>
@@ -216,12 +224,12 @@ class SeasonsPage extends Component {
                 seasons={this.state.seasons}
                 type={this.state.type}
                 createSeason={this.createSeason}
-                closePopUp={this.closePopUp.bind(this)}
+                closePopUp={()=>this.closePopUp()}
               />
               <button
                 type="button"
                 id="cancelbtn"
-                onClick={this.closePopUp.bind(this)}
+                onClick={()=>this.closePopUp()}
               >
                 Cancel
               </button>

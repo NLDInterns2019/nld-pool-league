@@ -1,16 +1,64 @@
 import React, { Component } from "react";
+import auth0Client from "../../Auth";
+import backend from "../../api/backend";
+import axios from "axios";
+
+import { ToastContainer, toast } from "react-toastify";
 
 class CreateSeasonForm extends Component {
   constructor(props) {
     super(props);
 
     this.initialState = {
+      auth0Players: [],
       playersName: ["", ""],
-      seasonName: "",
-      players: []
+      seasonName: ""
     };
 
     this.state = this.initialState;
+  }
+
+  getPlayers = async () => {
+    try {
+      let token;
+      await backend
+        .post(
+          "/api/89ball_season/token",
+          {},
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        )
+        .then(res => {
+          token = res;
+        });
+
+      await axios
+        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+          params: {
+            search_engine: "v3"
+          },
+          headers: { Authorization: `Bearer ${token.data}` }
+        })
+        .then(res => {
+          this.setState({ auth0Players: res.data });
+        });
+    } catch (e) {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
+      if (e.response.status === 400) {
+        this.toastError("Something went wrong. Please try again");
+      }
+    }
+  };
+
+
+  componentDidMount(){
+    if(auth0Client.isAuthenticated()){
+      console.log("players fetched")
+      this.getPlayers()
+    }
   }
 
   addPlayer() {
@@ -164,9 +212,32 @@ class CreateSeasonForm extends Component {
     }
   }
 
+  toastUnauthorised = () => {
+    toast.error("⛔ Unauthorised! Please login", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
+  toastError = message => {
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  };
+
   render() {
     return (
       <div id="createSeasonForm">
+        <ToastContainer />
         <h3>Create a Season</h3>
         <form>
           <label>Season number:</label>
