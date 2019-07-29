@@ -195,18 +195,21 @@ router.post("/calculate", async (req, res) => {
     }
   }
 
-  //have to go through hof AGAIN to calculate scrappy average
-  /*for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].scrappyRate = hofAll[i].scrappy / hofAll[i].plays;
-
+  //have to go through hof again to calc scrappy average
+  for (let i = 0; i < hofAll.length; i++) {
+    hofAll[i].scrappyRate = Math.trunc((hofAll[i].scrappy * 100) / hofAll[i].plays);
+    let hofAll2 = await hall_of_fame.query().findOne({
+      type: type,
+      staffName: hofAll[i].staffName
+    });
     let hof4 = await hall_of_fame
       .query()
       .findOne({
         type: type,
-        staffName: leagues[i].staffName
+        staffName: hofAll[i].staffName
       })
-      .patch(hofAll);
-  }*/
+      .patch(hofAll2);
+  }
   res.json(hofAll);
 });
 
