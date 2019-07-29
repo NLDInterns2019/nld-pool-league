@@ -149,7 +149,7 @@ const HoFTable = props => {
           <thead>
             <tr>
               <th />
-              <th>Achievement</th>
+              <th>&nbsp;&nbsp;&nbsp;&nbsp;Achievement&nbsp;&nbsp;&nbsp;&nbsp;</th>
               <th>Name</th>
               <th>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
