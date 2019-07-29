@@ -50,7 +50,8 @@ router.post("/calculate", async (req, res) => {
   //post or patch? it does both - should it?
   type = req.body.type;
   let hof;
-
+  let start = true;
+  let names = ["",""];
   const schema = {
     type: Joi.number()
       .integer()
@@ -69,20 +70,7 @@ router.post("/calculate", async (req, res) => {
   if (leagues === 0) {
     res.status(404).send();
   }
-
-  //set values to 0
-  let hof2 = await hall_of_fame.query().where({
-    //pretty bad solution
-    type: type
-  });
-  for (let i = 0; i < hof2.length; i++) {
-    hof2[i].wins = 0;
-    hof2[i].plays = 0;
-    hof2[i].draws = 0;
-    hof2[i].goalsFor = 0;
-    hof2[i].punctuality = 0;
-  }
-
+  
   //go through all league rows relevant
   for (let i = 0; i < leagues.length; i++) {
     hof = await hall_of_fame.query().findOne({
@@ -96,7 +84,6 @@ router.post("/calculate", async (req, res) => {
         .insert({
           staffName: leagues[i].staffName,
           type: 8,
-          wins: 800
         })
         .then(
           (hof = await hall_of_fame.query().findOne({
@@ -107,15 +94,36 @@ router.post("/calculate", async (req, res) => {
         );
     }
 
-    /*//look for best game
+    //wipes values without need for extra db call loop
+    if (names.includes(leagues[i].staffName)) {
+      start = false;
+    } else {
+      start = true;
+      names.push(leagues[i].staffName)
+    }
+
+    if (start == true) {
+    hof.wins = 0;
+    hof.plays = 0;
+    hof.draws = 0;
+    hof.punctuality = 0;
+    hof.goalsAgainstTop = 0;
+    hof.highestGF = 0;
+    hof.scrappy = 0;
+    hof.streak = 0;
+    start = false;
+    }
+
+    //look for best game
     if (leagues[i].goalsFor > hof.goalsFor) {
-      hof.goalsFor = leagues[i].goalsFor;
-    }*/
+      hof.highestGF = leagues[i].goalsFor;
+    }
 
     //calculations
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
     hof.draws = hof.draws + leagues[i].draw;
+     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) / hof.plays);
     hof.drawRate = Math.trunc((hof.draws * 100) / hof.plays);
@@ -153,52 +161,55 @@ router.post("/calculate", async (req, res) => {
 
     for (let j = 0; j < hofAll.length; j++) {
       //find them in the hof table. locations stored and accessed through hofAll[player1].param
-      if (hofAll[j].staffName == fixtures[i].name1) {
+      if (hofAll[j].staffName == fixtures[i].player1) {
         player1 = j;
-      } else if (hofAll[j].staffName == fixtures[i].name2) {
+      } else if (hofAll[j].staffName == fixtures[i].player2) {
         player2 = j;
       } //TODO can't break because that gives a sexy little error
     }
-
-    //update streak or reset as necessary. might need to store curStreak elsewhere if it kicks off about this
+    
+    //update streak or reset as necessary. remember scrappyRate is NOT a permanent place for this value and issues may arise from it later
     if (fixtures[i].score1 > fixtures[i].score2) {
       //if player1 won
-      hofAll[player1].curStreak++; //if this gives an error then you can't do this
-      if (hofAll[player1].curStreak > hofAll[player1].streak) {
-        hofAll[player1].streak = hofAll[player1].curStreak; //update streak
+      hofAll[player1].scrappyRate++; //if this gives an error then you can't do this
+      if (hofAll[player1].scrappyRate > hofAll[player1].streak) {
+        hofAll[player1].streak = hofAll[player1].scrappyRate; //update streak
       }
-      hofAll[player2].curStreak = 0; //no need to update this one. reset
+      hofAll[player2].scrappyRate = 0; //no need to update this one. reset
     } else if (fixtures[i].score2 > fixtures[i].score1) {
       //not gonna do anything for draws. can keep streak but no increment.
-      hofAll[player2].curStreak++;
-      if (hofAll[player2].curStreak > hofAll[player2].streak) {
-        hofAll[player2].streak = hofAll[player2].curStreak;
+      hofAll[player2].scrappyRate++;
+      if (hofAll[player2].scrappyRate > hofAll[player2].streak) {
+        hofAll[player2].streak = hofAll[player2].scrappyRate;
       }
-      hofAll[player1].curStreak = 0;
+      hofAll[player1].scrappyRate = 0;
     }
 
-    //calculate scrappy. counts points against whoever top player is. could prob hardcode this to mal and noone would notice
-    /*let topPlayer = maxBy(hofAll, "percentage"); //get top player. this might just not work
-    //check if top player played in the fixture
-    if (fixtures[i].name1 == topPlayer) {  //if so, increment suitably
-      hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2;
+    //calculate scrappy. counts points against whoever top player is.
+    let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
+ 
+    if (fixtures[i].name1 == topPlayer) { //check if top player played in the fixture
+      hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2; //if so, increment suitably
     } else if (fixtures[i].name2 == topPlayer) {
       hofAll[player1].scrappy = hofAll[player1].scrappy + fixtures[i].score1;
-    }*/
+    }
   }
 
-  //have to go through hof AGAIN to calculate scrappy average
-  /*for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].scrappyRate = hofAll[i].scrappy / hofAll[i].plays;
-
+  //have to go through hof again to calc scrappy average
+  for (let i = 0; i < hofAll.length; i++) {
+    hofAll[i].scrappyRate = Math.trunc((hofAll[i].scrappy * 100) / hofAll[i].plays);
+    let hofAll2 = await hall_of_fame.query().findOne({
+      type: type,
+      staffName: hofAll[i].staffName
+    });
     let hof4 = await hall_of_fame
       .query()
       .findOne({
         type: type,
-        staffName: leagues[i].staffName
+        staffName: hofAll[i].staffName
       })
-      .patch(hofAll);
-  }*/
+      .patch(hofAll2);
+  }
   res.json(hofAll);
 });
 

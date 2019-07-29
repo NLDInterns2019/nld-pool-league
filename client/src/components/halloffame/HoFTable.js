@@ -32,7 +32,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">Best Game</td>
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
-          {bestGame ? bestGame.maxGoals : "-"} points in one match
+          {bestGame ? bestGame.maxGoals : "-"} points in one season
         </td>
       </tr>
       <tr>
@@ -52,7 +52,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">Oh No!</td>
         <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
         <td className="hofCell">
-          {ohno ? ohno.percentage : "-"}% of games won :(
+          {ohno ? ohno.percentage : "-"}% of games won
         </td>
       </tr>
       <tr>
@@ -90,7 +90,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">Longest Streak</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
-        <td className="hofCell">{streak ? streak.streak : "-"} game streak!</td>
+        <td className="hofCell">{streak ? streak.streak : "-"} game streak</td>
       </tr>
       <tr>
         <td className="hofCell">
@@ -100,7 +100,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
         <td className="hofCell">
           {scrappy ? scrappy.scrappyRate : "-"}% wins against{" "}
-          {topPlayer ? topPlayer.staffName : "-"}!
+          {topPlayer ? topPlayer.staffName : "-"}
         </td>
       </tr>
       <tr>
