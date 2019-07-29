@@ -51,7 +51,7 @@ router.post("/calculate", async (req, res) => {
   //post or patch? it does both - should it?
   type = req.body.type;
   let hof;
-  let start = true;
+  let start, imp = true;
   let names = ["",""];
   const schema = {
     type: Joi.number()
@@ -112,6 +112,7 @@ router.post("/calculate", async (req, res) => {
     hof.highestGF = 0;
     hof.scrappy = 0;
     hof.streak = 0;
+    hof.improvement = 0;
     start = false;
     }
 
@@ -120,20 +121,23 @@ router.post("/calculate", async (req, res) => {
       hof.highestGF = leagues[i].goalsFor;
     }
 
-    let s1 = await eight_nine_ball_seasons
+    let seasons = await eight_nine_ball_seasons
       .query()
       .where({
         type: type,
       })
-      console.log(s1.length)
-    //store wins and recent wins in different places
-    if (leagues.length > 3) { //will only come into place with 4 or more leagues
-      if (i > leagues.length - 2) {
 
+    //store wins and recent wins in different places
+    if (seasons.length > 3) { //will only come into place with 4 or more seasons
+      if (i > seasons.length - 2) {
+        hof.improvement = hof.improvement + leagues[i].win;
+      } else {
+        hof.wins = hof.wins + leagues[i].win;
       }
+    } else {
+      hof.wins = hof.wins + leagues[i].win;
     }
     //calculations
-    hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
     hof.draws = hof.draws + leagues[i].draw;
      //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
@@ -208,9 +212,19 @@ router.post("/calculate", async (req, res) => {
     }
   }
 
-  //have to go through hof again to calc scrappy average
+  //have to go through hof again to calc some averages
   for (let i = 0; i < hofAll.length; i++) {
     hofAll[i].scrappyRate = Math.trunc((hofAll[i].scrappy * 100) / hofAll[i].plays);
+    hofAll[i].improvement = Math.trunc((hofAll[i].improvement * 100) / 2);
+
+    //calculate wins as suitable
+    if (hofAll[i].wins == hofAll.plays) {
+      hofAll[i].wins = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    } else {
+      hofAll[i].wins = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays-2);
+    }
+
+    //put into the DB
     let hofAll2 = await hall_of_fame.query().findOne({
       type: type,
       staffName: hofAll[i].staffName
