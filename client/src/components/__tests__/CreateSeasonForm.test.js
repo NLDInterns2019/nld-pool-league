@@ -85,14 +85,6 @@ describe("Remove Player button click", () => {
 /* ================================================================================================== */
 
 describe("Typing a season number", () => {
-  it("should run setSeasonName()", () => {
-    var spy = sinon.spy(CreateSeasonForm.prototype, "setSeasonName");
-    const event = { target: { value: "1" } };
-    inputSeasonNo.simulate("change", event);
-
-    spy.called.should.be.true;
-  });
-
   it("should change the state", () => {
     const event = { target: { value: "1" } };
     inputSeasonNo.simulate("change", event);
@@ -110,12 +102,6 @@ describe("Validation", () => {
     });
   });
 
-  it("should return false when nothing is entered", () => {
-    wrapper.instance().isValidSeason().should.be.false;
-    wrapper.instance().isValidPlayersName().should.be.false;
-    wrapper.instance().isValidPlayersNumber().should.be.false;
-  });
-
   it("should return false when there is no season name entered", () => {
     wrapper.setState({
       playersName: ["STEVE", "DAVE"],
@@ -123,24 +109,6 @@ describe("Validation", () => {
     });
 
     wrapper.instance().isValidSeason().should.be.false;
-  });
-
-  it("should return false when no player names are entered", () => {
-    wrapper.setState({
-      playersName: ["", ""],
-      seasonName: "3"
-    });
-
-    wrapper.instance().isValidPlayersName().should.be.false;
-  });
-
-  it("should return false when only 1 player name is entered", () => {
-    wrapper.setState({
-      playersName: ["STEVE", ""],
-      seasonName: "3"
-    });
-
-    wrapper.instance().isValidPlayersName().should.be.false;
   });
 
   it("should return false if a letter is entered into season name", () => {
@@ -152,15 +120,6 @@ describe("Validation", () => {
     wrapper.instance().isValidSeason().should.be.false;
   });
 
-  it("should return false if a lowercase letter is entered into players", () => {
-    wrapper.setState({
-      playersName: ["Steve", "Dave"],
-      seasonName: "3"
-    });
-
-    wrapper.instance().isValidPlayersName().should.be.false;
-  });
-
   it("should return true if all inputs are correct", () => {
     wrapper.setState({
       playersName: ["STEVE", "DAVE"],
@@ -169,7 +128,6 @@ describe("Validation", () => {
 
     wrapper.instance().isValidSeason().should.be.true;
     wrapper.instance().isValidPlayersNumber().should.be.true;
-    wrapper.instance().isValidPlayersName().should.be.true;
   });
 
   it("should return true if there are more than 2 players", () => {
