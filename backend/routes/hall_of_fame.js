@@ -10,10 +10,8 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
-//delete player?
-
 /* 
-  GET handler for /api/89ball_league/hall_of_fame MAYBE
+  GET handler for /api/89ball_league/hall_of_fame 
   Function: To get the hall of fame
 */
 router.get("/", async (req, res) => {
@@ -51,8 +49,8 @@ router.post("/calculate", async (req, res) => {
   //post or patch? it does both - should it?
   type = req.body.type;
   let hof;
-  let start, imp = true;
-  let names = ["",""];
+  let start = true;
+  let names = ["", ""];
   const schema = {
     type: Joi.number()
       .integer()
@@ -71,7 +69,7 @@ router.post("/calculate", async (req, res) => {
   if (leagues === 0) {
     res.status(404).send();
   }
-  
+
   //go through all league rows relevant
   for (let i = 0; i < leagues.length; i++) {
     hof = await hall_of_fame.query().findOne({
@@ -80,11 +78,11 @@ router.post("/calculate", async (req, res) => {
     });
 
     //if the name isn't in the hall of fame, add it
-    if (typeof hof === "undefined") {
+    if (typeof hof === "undefined") { //TODO: this bit is buggy! will only add one user, then throw an error. why?
       knex("hall_of_fame")
         .insert({
           staffName: leagues[i].staffName,
-          type: 8,
+          type: 8
         })
         .then(
           (hof = await hall_of_fame.query().findOne({
@@ -96,39 +94,39 @@ router.post("/calculate", async (req, res) => {
     }
 
     //wipes values without need for extra db call loop
-    if (names.includes(leagues[i].staffName)) {
+    //check if name has been called
+    if (names.includes(leagues[i].staffName)) { 
       start = false;
     } else {
       start = true;
-      names.push(leagues[i].staffName)
+      names.push(leagues[i].staffName);
     }
-
+    //if not, add it to the list and set its values to zero
     if (start == true) {
-    hof.wins = 0;
-    hof.plays = 0;
-    hof.draws = 0;
-    hof.punctuality = 0;
-    hof.goalsAgainstTop = 0;
-    hof.highestGF = 0;
-    hof.scrappy = 0;
-    hof.streak = 0;
-    hof.improvement = 0;
-    start = false;
+      hof.wins = 0;
+      hof.plays = 0;
+      hof.draws = 0;
+      hof.punctuality = 0;
+      hof.goalsAgainstTop = 0;
+      hof.highestGF = 0;
+      hof.scrappy = 0;
+      hof.streak = 0;
+      hof.improvement = 0;
+      start = false;
     }
 
     //look for best game
-    if (leagues[i].goalsFor > hof.goalsFor) {
+    if (leagues[i].goalsFor > hof.highestGF) {
       hof.highestGF = leagues[i].goalsFor;
     }
 
-    let seasons = await eight_nine_ball_seasons
-      .query()
-      .where({
-        type: type,
-      })
+    let seasons = await eight_nine_ball_seasons.query().where({
+      type: type
+    });
 
     //store wins and recent wins in different places
-    if (seasons.length > 3) { //will only come into place with 4 or more seasons
+    if (seasons.length > 3) {
+      //will only come into place with 4 or more seasons
       if (i > seasons.length - 2) {
         hof.improvement = hof.improvement + leagues[i].win;
       } else {
@@ -140,7 +138,7 @@ router.post("/calculate", async (req, res) => {
     //calculations
     hof.plays = hof.plays + leagues[i].play;
     hof.draws = hof.draws + leagues[i].draw;
-     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
+    //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) / hof.plays);
     hof.drawRate = Math.trunc((hof.draws * 100) / hof.plays);
@@ -184,7 +182,7 @@ router.post("/calculate", async (req, res) => {
         player2 = j;
       } //TODO can't break because that gives a sexy little error
     }
-    
+
     //update streak or reset as necessary. remember scrappyRate is NOT a permanent place for this value and issues may arise from it later
     if (fixtures[i].score1 > fixtures[i].score2) {
       //if player1 won
@@ -204,8 +202,9 @@ router.post("/calculate", async (req, res) => {
 
     //calculate scrappy. counts points against whoever top player is.
     let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
- 
-    if (fixtures[i].name1 == topPlayer) { //check if top player played in the fixture
+
+    if (fixtures[i].name1 == topPlayer) {
+      //check if top player played in the fixture
       hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2; //if so, increment suitably
     } else if (fixtures[i].name2 == topPlayer) {
       hofAll[player1].scrappy = hofAll[player1].scrappy + fixtures[i].score1;
@@ -214,20 +213,24 @@ router.post("/calculate", async (req, res) => {
 
   //have to go through hof again to calc some averages
   for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].scrappyRate = Math.trunc((hofAll[i].scrappy * 100) / hofAll[i].plays);
+    hofAll[i].scrappyRate = Math.trunc(
+      (hofAll[i].scrappy * 100) / hofAll[i].plays
+    );
     hofAll[i].improvement = Math.trunc((hofAll[i].improvement * 100) / 2);
 
-    let seasons = await eight_nine_ball_seasons
-      .query()
-      .where({
-        type: type,
-      })
+    let seasons = await eight_nine_ball_seasons.query().where({
+      type: type
+    });
     //calculate wins as suitable
     if (seasons.length > 3) {
-      hofAll[i].percentage = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays-2);
+      hofAll[i].percentage = Math.trunc(
+        (hofAll[i].wins * 100) / hofAll[i].plays - 2
+      );
     } else {
-      console.log(hofAll[i].wins + " * 100 / " )
-      hofAll[i].percentage = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+      console.log(hofAll[i].wins + " * 100 / ");
+      hofAll[i].percentage = Math.trunc(
+        (hofAll[i].wins * 100) / hofAll[i].plays
+      );
     }
 
     //put into the DB
