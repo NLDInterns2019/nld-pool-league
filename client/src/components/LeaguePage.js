@@ -201,7 +201,7 @@ class App extends React.Component {
           {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
-        )
+        );
         this.toastSucess(`🗑️${staffName} Deleted!`);
         this.updateData();
       } else if (this.state.finished) {
@@ -336,13 +336,11 @@ class App extends React.Component {
   showSeasonClosed = () => {
     return (
       <div>
-        <h1>
-          <span role="img" aria-label="lock">
-            🔐
-          </span>
-          Season is closed
-        </h1>
-
+        <div className="seasonClosed">
+          <div className="lock-icon" alt="lock" />
+          <h1> Season is closed</h1>
+          <div className="lock-icon" alt="lock" />
+        </div>
         <FinalRankTable
           activeSeason={this.state.activeSeason}
           players={this.state.players}

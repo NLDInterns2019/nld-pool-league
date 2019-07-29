@@ -7,6 +7,7 @@ const knex = require("../db/knex");
 
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
+const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
 //delete player?
@@ -119,6 +120,18 @@ router.post("/calculate", async (req, res) => {
       hof.highestGF = leagues[i].goalsFor;
     }
 
+    let s1 = await eight_nine_ball_seasons
+      .query()
+      .where({
+        type: type,
+      })
+      console.log(s1.length)
+    //store wins and recent wins in different places
+    if (leagues.length > 3) { //will only come into place with 4 or more leagues
+      if (i > leagues.length - 2) {
+
+      }
+    }
     //calculations
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
