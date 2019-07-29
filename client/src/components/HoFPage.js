@@ -104,32 +104,32 @@ class HoFPage extends React.Component {
             </div> */}
 
           <div className="contentLeft">
-            <div className="hof8Ball">
-              <h3>
-                <span role="img" aria-label="8-ball">
-                  🎱
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;8-Ball&nbsp;&nbsp;&nbsp;&nbsp;
-                <span role="img" aria-label="8-ball">
-                  🎱
-                </span>
-              </h3>
-              <HoFTable players={this.state.players} />
-            </div>
+            {/* <div className="hof8Ball"> */}
+            <h3>
+              <span role="img" aria-label="8-ball">
+                🎱
+              </span>
+              &nbsp;&nbsp;&nbsp;&nbsp;8-Ball&nbsp;&nbsp;&nbsp;&nbsp;
+              <span role="img" aria-label="8-ball">
+                🎱
+              </span>
+            </h3>
+            <HoFTable players={this.state.players} />
+            {/* </div> */}
           </div>
           <div className="contentRight">
-            <div className="hof9Ball">
-              <h3>
-                <span role="img" aria-label="8-ball">
-                  🎱
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;9-Ball&nbsp;&nbsp;&nbsp;&nbsp;
-                <span role="img" aria-label="8-ball">
-                  🎱
-                </span>
-              </h3>
-              <HoFTable HoF9={this.state.HoF9} />
-            </div>
+            {/* <div className="hof9Ball"> */}
+            <h3>
+              <span role="img" aria-label="8-ball">
+                🎱
+              </span>
+              &nbsp;&nbsp;&nbsp;&nbsp;9-Ball&nbsp;&nbsp;&nbsp;&nbsp;
+              <span role="img" aria-label="8-ball">
+                🎱
+              </span>
+            </h3>
+            <HoFTable HoF9={this.state.HoF9} />
+            {/* </div> */}
           </div>
 
           {/* </div> */}
