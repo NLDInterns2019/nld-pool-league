@@ -118,7 +118,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
         <td className="hofCell">
           {scrappy ? scrappy.scrappyRate : "-"}% wins against{" "}
-          {topPlayer ? topPlayer.staffName : "-"}!
+          {topPlayer ? topPlayer.staffName : "-"}
         </td>
       </tr>
       <tr>

@@ -96,13 +96,12 @@ router.post("/calculate", async (req, res) => {
 
     //wipes values without need for extra db call loop
     if (names.includes(leagues[i].staffName)) {
-      console.log(leagues[i].staffName + " is in array")
       start = false;
     } else {
-      console.log(leagues[i].staffName + " is not in array")
       start = true;
       names.push(leagues[i].staffName)
     }
+
     if (start == true) {
     hof.wins = 0;
     hof.plays = 0;
@@ -111,10 +110,10 @@ router.post("/calculate", async (req, res) => {
     start = false;
     }
 
-    /*//look for best game
+    //look for best game ISSUE with 'cannot set property wins of undefined' at router.post
     if (leagues[i].goalsFor > hof.goalsFor) {
-      hof.goalsFor = leagues[i].goalsFor;
-    }*/
+      hof.highestGF = leagues[i].goalsFor;
+    }
 
     //calculations
     console.log("this is the hof rn " + hof.staffName)
