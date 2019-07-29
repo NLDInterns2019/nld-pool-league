@@ -110,7 +110,7 @@ router.post("/calculate", async (req, res) => {
     start = false;
     }
 
-    //look for best game ISSUE with 'cannot set property wins of undefined' at router.post
+    //look for best game
     if (leagues[i].goalsFor > hof.goalsFor) {
       hof.highestGF = leagues[i].goalsFor;
     }
@@ -157,28 +157,29 @@ router.post("/calculate", async (req, res) => {
 
     for (let j = 0; j < hofAll.length; j++) {
       //find them in the hof table. locations stored and accessed through hofAll[player1].param
-      if (hofAll[j].staffName == fixtures[i].name1) {
+      if (hofAll[j].staffName == fixtures[i].player1) {
         player1 = j;
-      } else if (hofAll[j].staffName == fixtures[i].name2) {
+      } else if (hofAll[j].staffName == fixtures[i].player2) {
         player2 = j;
       } //TODO can't break because that gives a sexy little error
     }
-
-    //update streak or reset as necessary. might need to store curStreak elsewhere if it kicks off about this
+    
+    //update streak or reset as necessary. remember scrappyRate is NOT a permanent place for this value and issues may arise from it later
     if (fixtures[i].score1 > fixtures[i].score2) {
       //if player1 won
-      hofAll[player1].curStreak++; //if this gives an error then you can't do this
-      if (hofAll[player1].curStreak > hofAll[player1].streak) {
-        hofAll[player1].streak = hofAll[player1].curStreak; //update streak
+      hofAll[player1].scrappyRate++; //if this gives an error then you can't do this
+      if (hofAll[player1].scrappyRate > hofAll[player1].streak) {
+        hofAll[player1].streak = hofAll[player1].scrappyRate; //update streak
       }
-      hofAll[player2].curStreak = 0; //no need to update this one. reset
+      hofAll[player2].scrappyRate = 0; //no need to update this one. reset
     } else if (fixtures[i].score2 > fixtures[i].score1) {
       //not gonna do anything for draws. can keep streak but no increment.
-      hofAll[player2].curStreak++;
-      if (hofAll[player2].curStreak > hofAll[player2].streak) {
-        hofAll[player2].streak = hofAll[player2].curStreak;
+      hofAll[player2].scrappyRate++;
+      if (hofAll[player2].scrappyRate > hofAll[player2].streak) {
+        hofAll[player2].streak = hofAll[player2].scrappyRate;
       }
-      hofAll[player1].curStreak = 0;
+      console.log(player1)
+      hofAll[player1].scrappyRate = 0;
     }
 
     //calculate scrappy. counts points against whoever top player is. could prob hardcode this to mal and noone would notice
