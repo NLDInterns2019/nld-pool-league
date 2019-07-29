@@ -120,10 +120,10 @@ router.post("/calculate", async (req, res) => {
     }
 
     //calculations
-    console.log("this is the hof rn " + hof.staffName)
     hof.wins = hof.wins + leagues[i].win;
     hof.plays = hof.plays + leagues[i].play;
     hof.draws = hof.draws + leagues[i].draw;
+     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hof.punctuality = hof.punctuality + leagues[i].punctuality;
     hof.percentage = Math.trunc((hof.wins * 100) / hof.plays);
     hof.drawRate = Math.trunc((hof.draws * 100) / hof.plays);
@@ -185,14 +185,14 @@ router.post("/calculate", async (req, res) => {
       hofAll[player1].scrappyRate = 0;
     }
 
-    //calculate scrappy. counts points against whoever top player is. could prob hardcode this to mal and noone would notice
-    /*let topPlayer = maxBy(hofAll, "percentage"); //get top player. this might just not work
-    //check if top player played in the fixture
-    if (fixtures[i].name1 == topPlayer) {  //if so, increment suitably
-      hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2;
+    //calculate scrappy. counts points against whoever top player is.
+    let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
+ 
+    if (fixtures[i].name1 == topPlayer) { //check if top player played in the fixture
+      hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2; //if so, increment suitably
     } else if (fixtures[i].name2 == topPlayer) {
       hofAll[player1].scrappy = hofAll[player1].scrappy + fixtures[i].score1;
-    }*/
+    }
   }
 
   //have to go through hof AGAIN to calculate scrappy average
