@@ -198,7 +198,6 @@ class CreateSeasonForm extends Component {
   };
 
   render() {
-    console.log(this.state.playersName)
     return (
       <div id="createSeasonForm">
         <ToastContainer />
