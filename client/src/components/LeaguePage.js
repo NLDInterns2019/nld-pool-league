@@ -249,7 +249,7 @@ class App extends React.Component {
           }
         )
         .then(() => {
-          this.toastSucess("🔐Season closed");
+          this.toastSucess("🔐 Season closed");
           this.updateData();
         });
     } catch (e) {
