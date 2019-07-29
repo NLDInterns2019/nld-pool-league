@@ -1,5 +1,3 @@
-import {maxBy} from "lodash";
-
 var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
@@ -168,7 +166,7 @@ router.post("/calculate", async (req, res) => { //post or patch? it does both - 
     }
 
     //calculate scrappy. counts points against whoever top player is. could prob hardcode this to mal and noone would notice
-    let topPlayer = maxBy(hofAll, "percentage"); //get top player. this might just not work
+    let topPlayer = _.maxBy(hofAll, "percentage"); //get top player. this might just not work
     //check if top player played in the fixture
     if (fixtures[i].name1 == topPlayer) {  //if so, increment suitably
       hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2;
