@@ -15,8 +15,8 @@ const LeagueTableBody = props => {
         <td align="center">{player.goalsFor}</td>
         <td align="center">{player.goalsAgainst}</td>
         <td align="center">{player.points}</td>
-        <td style={{"backgroundColor": "#DBE9E2"}}>
-        <span
+        <td style={{ backgroundColor: "#DBE9E2" }}>
+          {/* <span
           style={{ cursor: "pointer" }}
           className="delete"
           role="img"
@@ -31,7 +31,19 @@ const LeagueTableBody = props => {
           }}
         >
           ❌
-        </span>
+        </span> */}
+          <span
+            className="delete-icon"
+            onClick={() => {
+              if (
+                window.confirm(
+                  `Are you sure you want to delete ${player.staffName}?`
+                )
+              )
+                props.deletePlayer(player.staffName);
+            }}
+            alt="remove player"
+          />
         </td>
       </tr>
     );

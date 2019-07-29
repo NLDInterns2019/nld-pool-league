@@ -211,15 +211,15 @@ table td {
 
 .leagueTable tr:hover td {
   font-weight: bold;
-  background: #127e5c;
+  background-color: #127e5c;
   color: #ffffff;
 }
 
-.leagueTable tr span.delete {
+.leagueTable tr .delete-icon {
   opacity: 0;
 }
 
-.leagueTable tr:hover span.delete {
+.leagueTable tr:hover .delete-icon {
   opacity: 1;
 }
 
@@ -445,7 +445,7 @@ select:hover {
 .viewYourFixtures,
 #submitScoreForm,
 .app #createSeasonForm,
-.form-popup{
+.form-popup {
   background-color: white;
   width: 600px;
   margin: auto;
@@ -460,13 +460,13 @@ select:hover {
   float: left;
 }
 .hofContainer {
-  align-content: center; 
+  align-content: center;
   border-radius: 15px;
   padding: 1rem;
 }
 
 .HoFTitleContainer {
-  align-content: center; 
+  align-content: center;
   text-align: center;
 }
 .hof8Ball {
