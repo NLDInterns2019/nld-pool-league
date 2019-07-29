@@ -6,12 +6,12 @@ const SubNavBar = props => {
   var currentPath = window.location.pathname;
 
   /* set the title of the nav bar depending on the URL path */
-  var title = matchPath(currentPath, { path: "/8-ball/seasons", exact: false })
+  var title = matchPath(currentPath, { path: "/8-ball/seasons", exact: false }) || matchPath(currentPath, { path: "/8-ball/hall_of_fame", exact: false })
     ? "8-Ball"
     : matchPath(currentPath, { path: "/8-ball/overview" }) ||
       matchPath(currentPath, { path: "/8-ball/fixtures" })
     ? "8-Ball Season " + props.activeSeason
-    : matchPath(currentPath, { path: "/9-ball/seasons", exact: false })
+    : matchPath(currentPath, { path: "/9-ball/seasons", exact: false }) || matchPath(currentPath, { path: "/9-ball/hall_of_fame", exact: false })
     ? "9-Ball"
     : matchPath(currentPath, { path: "/9-ball/overview" }) ||
       matchPath(currentPath, { path: "/9-ball/fixtures" })
@@ -41,6 +41,16 @@ const SubNavBar = props => {
   /* makes 'current season' link bold */
   var currentSeasonCurrentStyle = matchPath(currentPath, {
     path: "*/overview",
+    exact: false
+  })
+    ? {
+        fontWeight: "bold"
+      }
+    : {};
+
+    /* makes 'current season' link bold */
+  var hallOfFameStyle = matchPath(currentPath, {
+    path: "*/hall_of_fame",
     exact: false
   })
     ? {
@@ -78,7 +88,7 @@ const SubNavBar = props => {
               <li>
               <Link
                 to={`/${path}/hall_of_fame`}
-                style={currentSeasonCurrentStyle}
+                style={hallOfFameStyle}
                 id="HoFLink"
               >
                 Hall of Fame

@@ -20,7 +20,21 @@ class HoFPage extends React.Component {
     };
   }
 
+  getLatestSeason = async () => {
+    const latest = await backend.get("/api/89ball_season/latest", {
+      params: {
+        type: this.state.type
+      }
+    });
+
+    this.setState({
+      latestSeason: latest.data[0].seasonId
+    });
+  };
+
   componentDidMount = async () => {
+    await this.setState({ type: this.props.match.params.type });
+    await this.getLatestSeason()
     // when component mounted, start a GET request
     // to specified URL
     const result = await backend.get("/api/hall_of_fame", {
