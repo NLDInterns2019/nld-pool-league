@@ -147,7 +147,7 @@ router.post("/calculate", async (req, res) => {
     hof.punctRate = Math.trunc((hof.punctRate * 100) / hof.plays);
 
     //patch
-    let hof3 = await hall_of_fame
+    await hall_of_fame
       .query()
       .findOne({
         type: type,
@@ -217,11 +217,17 @@ router.post("/calculate", async (req, res) => {
     hofAll[i].scrappyRate = Math.trunc((hofAll[i].scrappy * 100) / hofAll[i].plays);
     hofAll[i].improvement = Math.trunc((hofAll[i].improvement * 100) / 2);
 
+    let seasons = await eight_nine_ball_seasons
+      .query()
+      .where({
+        type: type,
+      })
     //calculate wins as suitable
-    if (hofAll[i].wins == hofAll.plays) {
-      hofAll[i].wins = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    if (seasons.length > 3) {
+      hofAll[i].percentage = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays-2);
     } else {
-      hofAll[i].wins = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays-2);
+      console.log(hofAll[i].wins + " * 100 / " )
+      hofAll[i].percentage = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
     }
 
     //put into the DB
