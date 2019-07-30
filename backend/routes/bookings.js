@@ -12,14 +12,27 @@ const bookings = require("../models/bookings");
   Function: To get all the bookings
 */
 router.get("/", (req, res) => {
-  bookings.query().then(
-    bookings => {
-      res.json(bookings);
-    },
-    e => {
-      res.status(400).json(e);
-    }
-  );
+  let where1 = {};
+  let where2 = {};
+
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
+    where1.player1 = req.query.staffName;
+    where2.player2 = req.query.staffName;
+  }
+
+  bookings
+    .query()
+    .where(where1)
+    .orWhere(where2)
+    .orderBy("start")
+    .then(
+      bookings => {
+        res.json(bookings);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
 });
 
 /* 

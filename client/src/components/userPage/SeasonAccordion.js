@@ -11,7 +11,6 @@ import { uniqBy } from "lodash";
 import backend from "../../api/backend";
 
 import SeasonItemPanel from "./SeasonItemPanel";
-import FixtureList from "../fixture/FixtureList";
 
 import "../../accordion.css";
 
@@ -51,13 +50,12 @@ class SeasonAccordion extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
-      <div style={{ width: "650px" }}>
+      <div style={{ width: "650px"}}>
         <Accordion allowZeroExpanded={true}>
           {this.state.unplayedSeasons.map(season => {
             return (
-              <AccordionItem>
+              <AccordionItem key={season.seasonId}>
                 <AccordionItemHeading>
                   <AccordionItemButton>
                     Season {season.seasonId}
