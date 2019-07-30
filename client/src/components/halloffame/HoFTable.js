@@ -12,6 +12,7 @@ const itemsToBeDisplayed = props => {
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
   const improved = maxBy(props.players, "improvement");
+  const retire = minBy(props.players, "improvement");
 
   return (
     <tbody>
@@ -47,16 +48,6 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="angry-icon" alt="angry" />
-        </td>
-        <td className="hofCell">Oh No!</td>
-        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
-        <td className="hofCell">
-        {ohno ? 100 - ohno.percentage : "-"}% of games lost
-        </td>
-      </tr>
-      <tr>
-        <td className="hofCell">
           <div className="weightlifting-icon" alt="weightlifting" />
         </td>
         <td className="hofCell">Dedicated</td>
@@ -74,16 +65,6 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
         <td className="hofCell">
         {slacker ? 100 -onTime.punctRate : "-"}% punctuality</td>
-      </tr>
-      <tr>
-        <td className="hofCell">
-          <div className="snail-icon" alt="snail" />
-        </td>
-        <td className="hofCell">Slacker</td>
-        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
-        <td className="hofCell">
-          {slacker ? slacker.punctRate : "-"}% games late
-        </td>
       </tr>
       <tr>
         <td className="hofCell">
@@ -112,6 +93,36 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
           {improved ? improved.improvemnet : "-"}% improvement
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCellBorder">
+          <div className="angry-icon" alt="angry" />
+        </td>
+        <td className="hofCellBorder">Casual</td>
+        <td className="hofCellBorder">{ohno ? ohno.staffName : "-"}</td>
+        <td className="hofCellBorder">
+        {ohno ? 100 - ohno.percentage : "-"}% of games lost
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCellBad">
+          <div className="snail-icon" alt="snail" />
+        </td>
+        <td className="hofCellBad">Slacker</td>
+        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad">
+          {slacker ? slacker.punctRate : "-"}% games late
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCellBad">
+          <div className="graph-icon" alt="graph" />
+        </td>
+        <td className="hofCellBad">Time to Retire</td>
+        <td className="hofCellBad">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCellBad">
+          {retire ? retire.improvemnet : "-"}% improvement
         </td>
       </tr>
     </tbody>

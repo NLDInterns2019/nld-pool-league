@@ -115,27 +115,29 @@ class App extends React.Component {
         ) : (
           //Logged In
           <div style={{ textAlign: "center" }}>
-            <h3 id="welcomeBack">
-              Welcome back <strong>{this.state.player.toUpperCase()}</strong>
-            </h3>
+            <div style={{marginBottom: "4rem"}}>
+              <h3>
+                Welcome back <strong>{this.state.player.toUpperCase()}</strong>
+              </h3>
+              <p>
+                You have played <b>99</b> matches
+              </p>
+              <p>
+                Your winning rate is <b>50%</b>
+              </p>
+            </div>
             <div className="content">
               <div className="contentLeft">
-                <div className="unplayedTitle">
-                  <span className="eight-ball-icon" alt="eight ball" />
-                  <h3>Unplayed 8-Ball Fixtures</h3>
-                  <span className="eight-ball-icon" alt="eight ball" />
-                </div>
                 <SeasonAccordion type="8" staffName={this.state.player} />
                 <br />
-                <div className="unplayedTitle">
-                  <span className="nine-ball-icon" alt="nine ball" />
-                  <h3>Unplayed 9-Ball Fixtures</h3>
-                  <span className="nine-ball-icon" alt="nine ball" />
-                </div>
                 <SeasonAccordion type="9" staffName={this.state.player} />
               </div>
               <div className="contentRight">
-                <UpcomingMatch bookings={this.state.bookings} />
+                {this.state.bookings.length ? (
+                  <UpcomingMatch bookings={this.state.bookings} />
+                ) : (
+                  <h3>You have no upcoming matches</h3>
+                )}
               </div>
             </div>
           </div>

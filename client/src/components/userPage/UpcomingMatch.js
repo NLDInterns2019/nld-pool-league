@@ -18,7 +18,7 @@ const UpcomingMatch = props => {
     <div className="upcomingMatchesTableContainer">
       <h3>Upcoming Matches</h3>
       <table
-        style={{ width: "700px" }}
+        style={{ width: "40rem" }}
         className="upcomingMatchesTable"
         cellSpacing="0"
       >
