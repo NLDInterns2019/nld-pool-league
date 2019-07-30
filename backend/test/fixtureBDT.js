@@ -81,9 +81,7 @@ describe("Fixture", () => {
         res.body.length.should.be.eql(0);
         done();
       });
-  });
-
-  
+  });  
   });
 
   describe("GET /api/89ball_fixture/:seasonId/?staffName", () => {
