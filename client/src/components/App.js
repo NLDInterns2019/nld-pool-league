@@ -9,6 +9,7 @@ import LeaguePage from "./LeaguePage";
 import SeasonsPage from "./SeasonsPage.js";
 import BookingPage from "./BookingPage";
 import HoFPage from "./HoFPage";
+import UserPage from "./UserPage"
 import NotFound from "./NotFound";
 
 import Callback from "../Callback";
@@ -30,6 +31,8 @@ const App = () => {
         <Route path="/:type(billiards)/seasons" component={SeasonsPage} />
         <Route path="/:type(8|9)-ball/hall_of_fame" component={HoFPage} />
         <Route path="/:type(billiards)/hall_of_fame" component={HoFPage} />
+        <Route path="/:type(8|9)-ball/dashboard" component={UserPage} />
+        <Route path="/:type(billiards)/dashboard" component={UserPage} />
         <Route path="/:type(8|9)-ball/fixtures/:seasonId" component={BookingPage} />
         <Route path="/:type(billiards)/fixtures/:seasonId" component={BookingPage} />
         <Route path="/callback" component={Callback} />

@@ -116,7 +116,7 @@ ul {
 
 .subnav ul {
   display: inline-block;
-  padding-left: 5rem;
+  padding-left: 1rem;
 }
 .subnav li {
   padding-right: 2.5rem;
@@ -139,6 +139,7 @@ ul {
 .contentLeft {
   order: 1;
   text-align: center;
+
 }
 
 .contentRight {
@@ -146,6 +147,7 @@ ul {
   text-align: center;
   display: flex;
   flex-direction: column;
+
 }
 
 #seasonsListContainer {

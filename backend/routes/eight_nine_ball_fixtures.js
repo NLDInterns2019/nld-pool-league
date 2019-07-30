@@ -4,8 +4,9 @@ const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
-const moment = require("moment")
+const moment = require("moment");
 
+const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 
@@ -16,7 +17,7 @@ const dayVal = require("../functions/dayVal");
 const timeInMillis = require("../functions/timeInMillis");
 
 /* 
-  GET handler for /api/89_ball_fixture/group/:seasonId
+  GET handler for /api/89ball_fixture/group/:seasonId
   Function: To get the number of distinct group
 */
 router.get("/group/:seasonId", (req, res) => {
@@ -51,7 +52,7 @@ router.get("/group/:seasonId", (req, res) => {
 });
 
 /* 
-  GET handler for /api/89_ball_fixture/due/:staffName
+  GET handler for /api/89ball_fixture/due/:staffName
   Function: To get all the fixtures unplayed by a user. Caps sensitive.
   TODO: FUNCTIONALITY NOT FINISHED
 */
@@ -90,7 +91,64 @@ router.get("/due/:staffName", (req, res) => {
 });
 
 /* 
-  GET handler for /api/89_ball_fixture/:seasonId
+  GET handler for /api/89ball_fixture/all/?type
+  Function: To get the all fixtures with specified params (specific type)
+*/
+router.get("/all", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    staffName: Joi.string(),
+    hidePlayed: Joi.string()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  //Build the filter
+  let where1 = {
+    type: req.query.type,
+  };
+  let where2 = {
+    type: req.query.type,
+  };
+
+  //Params handling
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
+    where1.player1 = req.query.staffName;
+    where2.player2 = req.query.staffName;
+  }
+  if (
+    req.query.hasOwnProperty("hidePlayed") &&
+    req.query.hidePlayed === "true"
+  ) {
+    where1.score1 = null;
+    where1.score2 = null;
+    where2.score1 = null;
+    where2.score2 = null;
+  }
+
+  eight_nine_ball_fixtures
+    .query()
+    .where(where1)
+    .orWhere(where2)
+    .then(
+      fixture => {
+        res.send(fixture);
+      },
+      e => {
+        res.status(500).json(e);
+      }
+    );
+});
+
+/* 
+  GET handler for /api/89ball_fixture/:seasonId
   Function: To get the fixtures in the specified seasons with specified params
 */
 router.get("/:seasonId", (req, res) => {
@@ -124,7 +182,10 @@ router.get("/:seasonId", (req, res) => {
     where1.player1 = req.query.staffName;
     where2.player2 = req.query.staffName;
   }
-  if (req.query.hasOwnProperty("hidePlayed") && req.query.hidePlayed === "true") {
+  if (
+    req.query.hasOwnProperty("hidePlayed") &&
+    req.query.hidePlayed === "true"
+  ) {
     where1.score1 = null;
     where1.score2 = null;
     where2.score1 = null;
@@ -193,9 +254,7 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
   //Check if fixture exist and score is still null (means fixture hasnt been played)
   let fixture;
   try {
-    fixture = await eight_nine_ball_fixtures
-      .query()
-      .findOne(leagueAttributes);
+    fixture = await eight_nine_ball_fixtures.query().findOne(leagueAttributes);
 
     if (!fixture) {
       res.status(404).send();
@@ -301,12 +360,12 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
 });
 
 /* 
-  POST handler for /api/89_ball_fixture/generate/. 
+  POST handler for /api/89ball_fixture/generate/. 
   Function: Handles fixture generation and fixture splitting
 */
 router.post("/generate", auth.checkJwt, async (req, res) => {
   var group = 0;
-  aesDate = moment().add(1, 'week')
+  aesDate = moment().add(1, "week");
   let seasonId = req.body.seasonId;
   let type = req.body.type;
 
@@ -365,7 +424,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       }
     );
     group++;
-    aesDate = aesDate.add(1, 'week')
+    aesDate = aesDate.add(1, "week");
 
     players = fixture_split.polygonShuffle(players); //rotate players for next fixture
   }

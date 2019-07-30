@@ -10,6 +10,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "^16.8.6",
+    "react-accessible-accordion": "^3.0.0",
     "react-addons-update": "^15.6.2",
     "react-big-calendar": "^0.22.0",
     "react-dom": "^16.8.6",

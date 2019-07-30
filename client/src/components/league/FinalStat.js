@@ -25,7 +25,7 @@ const itemsToBeDisplayed = props => {
         <td align="center">
           <div className="scales-icon" alt="scales" />
         </td>
-        <td>Most draw</td>
+        <td>Most drawn</td>
         <td>{draw ? draw.staffName : "-"}</td>
       </tr>
       <tr>

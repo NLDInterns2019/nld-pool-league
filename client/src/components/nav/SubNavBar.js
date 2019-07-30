@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, matchPath } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import auth0Client from "../../Auth";
 
 const SubNavBar = props => {
   var currentPath = window.location.pathname;
@@ -8,13 +9,18 @@ const SubNavBar = props => {
   /* set the title of the nav bar depending on the URL path */
   var title =
     matchPath(currentPath, { path: "/8-ball/seasons", exact: false }) ||
-    matchPath(currentPath, { path: "/8-ball/hall_of_fame", exact: false })
+    matchPath(currentPath, { path: "/8-ball/hall_of_fame", exact: false }) ||
+    matchPath(currentPath, { path: "/8-ball/dashboard", exact: false })
       ? "8-Ball"
       : matchPath(currentPath, { path: "/8-ball/overview" }) ||
         matchPath(currentPath, { path: "/8-ball/fixtures" })
       ? "8-Ball Season " + props.activeSeason
       : matchPath(currentPath, { path: "/9-ball/seasons", exact: false }) ||
-        matchPath(currentPath, { path: "/9-ball/hall_of_fame", exact: false })
+        matchPath(currentPath, {
+          path: "/9-ball/hall_of_fame",
+          exact: false
+        }) ||
+        matchPath(currentPath, { path: "/9-ball/dashboard", exact: false })
       ? "9-Ball"
       : matchPath(currentPath, { path: "/9-ball/overview" }) ||
         matchPath(currentPath, { path: "/9-ball/fixtures" })
@@ -51,9 +57,19 @@ const SubNavBar = props => {
       }
     : {};
 
-  /* makes 'current season' link bold */
+  /* makes 'hall of fame' link bold */
   var hallOfFameCurrentStyle = matchPath(currentPath, {
     path: "*/hall_of_fame",
+    exact: false
+  })
+    ? {
+        fontWeight: "bold"
+      }
+    : {};
+
+  /* makes 'dashboard' link bold */
+  var dashboardCurrentStyle = matchPath(currentPath, {
+    path: "*/dashboard",
     exact: false
   })
     ? {
@@ -172,7 +188,7 @@ const SubNavBar = props => {
     <div className="subnav">
       <ToastContainer />
       <div className="nav">
-        <h2>{title}</h2>
+        <h2 style={{ width: "250px" }}>{title}</h2>
         <ul>
           <li>
             {props.type !== "Billiards" ? (
@@ -196,6 +212,26 @@ const SubNavBar = props => {
           {props.type !== "Billiards"
             ? seasonFixtureLink(`${props.type}-ball`)
             : seasonFixtureLink(`Billiards`)}
+          <li>
+            {!auth0Client.isAuthenticated() ? null : props.type !==
+              "Billiards" ? (
+              <Link
+                to={`/${props.type}-ball/dashboard`}
+                style={dashboardCurrentStyle}
+                id="seasonsLink"
+              >
+                My Dashboard
+              </Link>
+            ) : (
+              <Link
+                to={`/${props.type}/dashboard`}
+                style={dashboardCurrentStyle}
+                id="seasonsLink"
+              >
+                My Dashboard
+              </Link>
+            )}
+          </li>
         </ul>
       </div>
     </div>
