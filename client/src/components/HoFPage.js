@@ -47,7 +47,7 @@ class HoFPage extends React.Component {
 
     const HoF9 = await backend.get("/api/hall_of_fame", {
       params: {
-        type: 8
+        type: 9
       }
     });
 
