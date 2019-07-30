@@ -78,10 +78,10 @@ router.post("/calculate", async (req, res) => {
 
     //if the name isn't in the hall of fame, add it
     if (typeof hofRow === "undefined") { //TODO: this bit is buggy! will only add one user, then throw an error. why?
-      knex("hall_of_fame")
+      await hall_of_fame.query()
         .insert({
           staffName: leagues[i].staffName,
-          type: 8
+          type: type
         })
         .then(
           (hofRow = await hall_of_fame.query().findOne({
