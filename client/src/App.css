@@ -152,7 +152,7 @@ ul {
 /* ==== Content ==== */
 .content {
   display: flex;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
@@ -164,11 +164,11 @@ ul {
 }
 
 .contentLeft {
-  height: auto;
+  height: 700px;
   order: 1;
   text-align: center;
   position: sticky;
-  top: 3%
+  top: 3%;
 }
 
 .contentRight {
@@ -950,7 +950,7 @@ select:hover {
     order: 2;
     margin-bottom: 8rem;
     position: static;
-    height: auto
+    height: auto;
   }
 
   .contentRight {
