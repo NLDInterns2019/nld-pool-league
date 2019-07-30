@@ -115,21 +115,33 @@ class App extends React.Component {
         ) : (
           //Logged In
           <div>
-            <div className="content">
+            <div
+              style={{ width: "24rem", textAlign: "center", margin: "auto", marginBottom: "5rem" }}
+            >
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
+              <div style={{ fontSize: "1.2em", textAlign: "left" }}>
+                <p>
+                  You have played <b>99</b> matches
+                </p>
+                <p>
+                  Your winning rate is <b>50%</b>
+                </p>
+              </div>
             </div>
             <div className="content">
               <div className="contentLeft">
-                <h3>Unplayed 8-Ball Fixtures</h3>
                 <SeasonAccordion type="8" staffName={this.state.player} />
                 <br />
-                <h3>Unplayed 9-Ball Fixtures</h3>
                 <SeasonAccordion type="9" staffName={this.state.player} />
               </div>
               <div className="contentRight">
-                <UpcomingMatch bookings={this.state.bookings} />
+                {this.state.bookings.length ? (
+                  <UpcomingMatch bookings={this.state.bookings} />
+                ) : (
+                  <h3>You have no upcoming matches</h3>
+                )}
               </div>
             </div>
           </div>

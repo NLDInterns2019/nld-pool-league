@@ -360,18 +360,34 @@ class App extends React.Component {
           activeSeason={this.state.activeSeason}
         />
         <div className="content">
-          <div className="contentLeft">
-            <LeagueTable
-              activeSeason={this.state.activeSeason}
-              players={this.state.players}
-              deletePlayer={this.deletePlayer}
-            />
-            {this.state.finished === null
-              ? null
-              : this.state.finished
-              ? this.showSeasonClosed()
-              : this.showSubmitResult()}
-          </div>
+          {this.state.finished ? (
+            <div className="contentLeft">
+              <LeagueTable
+                activeSeason={this.state.activeSeason}
+                players={this.state.players}
+                deletePlayer={this.deletePlayer}
+              />
+              {this.state.finished === null
+                ? null
+                : this.state.finished
+                ? this.showSeasonClosed()
+                : this.showSubmitResult()}
+            </div>
+          ) : (
+            //Make it sticky
+            <div className="contentLeft" style={{position:"sticky", top:"3%"}}>
+              <LeagueTable
+                activeSeason={this.state.activeSeason}
+                players={this.state.players}
+                deletePlayer={this.deletePlayer}
+              />
+              {this.state.finished === null
+                ? null
+                : this.state.finished
+                ? this.showSeasonClosed()
+                : this.showSubmitResult()}
+            </div>
+          )}
           <div className="contentRight">
             <div className="contentRight-top">
               <ViewYourFixtures

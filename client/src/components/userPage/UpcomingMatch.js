@@ -15,7 +15,7 @@ const UpcomingMatch = props => {
   return (
     <div className="leagueTableContainer">
       <h3>Upcoming Matches</h3>
-      <table style={{"width":"700px"}} className="leagueTable" cellSpacing="0">
+      <table style={{"width":"40rem"}} className="leagueTable" cellSpacing="0">
         <thead>
           <tr>
             <th>Date</th>

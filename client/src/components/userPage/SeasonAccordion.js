@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionItemHeading,
   AccordionItemButton,
-  AccordionItemPanel
 } from "react-accessible-accordion";
 import { uniqBy } from "lodash";
 
@@ -50,8 +49,12 @@ class SeasonAccordion extends React.Component {
   };
 
   render() {
+    if(!this.state.unplayedSeasons.length){
+      return <h3>You have no unplayed fixture for <b>{this.state.type}-ball</b></h3>
+    }
     return (
       <div style={{ width: "650px"}}>
+        <h3>Unplayed <b>{this.state.type}-Ball</b> Fixtures</h3>
         <Accordion allowZeroExpanded={true}>
           {this.state.unplayedSeasons.map(season => {
             return (
