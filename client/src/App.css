@@ -782,6 +782,13 @@ tr td:last-child{
   background: url("./assets/falling-man.svg");
 }
 
+.calendar-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/calendar.svg");
+}
+
 /* ==== Arrange Fixture ==== */
 #arrangeFixture {
   text-align: center;
@@ -923,6 +930,18 @@ tr td:last-child{
   opacity: 1;
 }
 
+/* ==== Upcoming Matches ==== */
+.upcomingMatchesTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.upcomingMatchesTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .upcomingMatchesTableContainer {
   display: inline-block;
   margin-bottom: 1rem;
@@ -933,6 +952,7 @@ tr td:last-child{
   margin: auto;
 }
 
+/* ==== Unplayed Fixtures ==== */
 .unplayedTitle {
   display: flex;
   flex-direction: row;
@@ -943,6 +963,7 @@ tr td:last-child{
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
 /* ==== Responsive Styling ==== */
 @media only screen and (max-width: 1380px) {
   .content {

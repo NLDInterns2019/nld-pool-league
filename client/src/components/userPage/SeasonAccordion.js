@@ -52,7 +52,7 @@ class SeasonAccordion extends React.Component {
     if (!this.state.unplayedSeasons.length) {
       return (
         <h3>
-          You have no unplayed fixture for <b>{this.state.type}-ball</b>
+          You have no unplayed fixtures for <b>{this.state.type}-ball</b>
         </h3>
       );
     }

@@ -16,7 +16,11 @@ const UpcomingMatch = props => {
 
   return (
     <div className="upcomingMatchesTableContainer">
-      <h3>Upcoming Matches</h3>
+      <div className="upcomingMatchesTitle">
+        <div className="calendar-icon" alt="calendar" />
+        <h3>Upcoming Matches</h3>
+        <div className="calendar-icon" alt="calendar" />
+      </div>
       <table
         style={{ width: "40rem" }}
         className="upcomingMatchesTable"
