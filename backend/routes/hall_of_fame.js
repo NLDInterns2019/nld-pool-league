@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
-const knex = require("../db/knex");
 
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
@@ -45,7 +44,6 @@ router.get("/", async (req, res) => {
   Function: To calculate win percentages
 */
 router.post("/calculate", async (req, res) => {
-  //post or patch? it does both - should it?
   type = req.body.type;
   let staffInHoF = true;
   let start = true;
@@ -102,6 +100,7 @@ router.post("/calculate", async (req, res) => {
       start = true;
       names.push(leagues[i].staffName);
     }
+
     //if not, add it to the list and set its values to zero
     if (start == true) {
       hofRow.wins = 0;
@@ -116,11 +115,13 @@ router.post("/calculate", async (req, res) => {
       start = false;
     }
 
+    /////////////////////////////////////////////////////////////////////////   BEST GAME
     //check if this season is the players best yet
     if (leagues[i].goalsFor > hofRow.highestGF) {
       hofRow.highestGF = leagues[i].goalsFor;
     }
 
+    /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
     //check if improvement should be calculated
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
@@ -154,7 +155,7 @@ router.post("/calculate", async (req, res) => {
       .patch(hofRow);
   }
 
-  //must go through fixtures to calculate streak. handle scrappy through here too
+  //must go through fixtures to calculate streak
   let fixtures = await eight_nine_ball_fixtures.query().where({
     type: type
   });
@@ -174,7 +175,6 @@ router.post("/calculate", async (req, res) => {
 
   //now go through fixtures: needed for scrappy and streak calculations
   for (let i = 0; i < fixtures.length; i++) {
-    //TODO i should be fired for writing code this bad
 
     //get the locations of the players from the main HoF table
     for (let j = 0; j < hofAll.length; j++) {
@@ -185,7 +185,9 @@ router.post("/calculate", async (req, res) => {
       } //TODO can't break because that gives a sexy little error
     }
 
-    //update streak or reset as necessary. issues WILL arise if the scrappyRate calc is moved to the main loop
+    /////////////////////////////////////////////////////////////////////////   LONGEST STREAK
+    //update streak or reset as necessary. scrappyRate serves as dummy loc
+    //draws do not break streak, but also do not add to it
     if (fixtures[i].score1 > fixtures[i].score2) { //check which player won
       hofAll[player1].scrappyRate++;
       if (hofAll[player1].scrappyRate > hofAll[player1].streak) { //check if current streak is their best
@@ -193,7 +195,6 @@ router.post("/calculate", async (req, res) => {
       }
       hofAll[player2].scrappyRate = 0; //reset opponents
     } else if (fixtures[i].score2 > fixtures[i].score1) {
-      //no action for draws = do not affect current streak
       hofAll[player2].scrappyRate++;
       if (hofAll[player2].scrappyRate > hofAll[player2].streak) {
         hofAll[player2].streak = hofAll[player2].scrappyRate;
@@ -201,6 +202,8 @@ router.post("/calculate", async (req, res) => {
       hofAll[player1].scrappyRate = 0;
     }
 
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
     //calculate scrappy: counts points against whoever top player is.
     let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
 
@@ -222,6 +225,7 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
+
     //calculate wins as suitable regarding improvement HoF
     if (seasons.length > 3) {
       hofAll[i].percentage = Math.trunc(
