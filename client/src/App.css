@@ -152,9 +152,9 @@ ul {
 /* ==== Content ==== */
 .content {
   display: flex;
+  align-items: flex-start;
   flex-direction: row;
   justify-content: space-around;
-  align-items: stretch;
   width: 100%;
 }
 
@@ -164,8 +164,11 @@ ul {
 }
 
 .contentLeft {
+  height: auto;
   order: 1;
   text-align: center;
+  position: sticky;
+  top: 3%
 }
 
 .contentRight {
@@ -502,6 +505,18 @@ select:hover {
 .hofCell {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.hofCellBorder {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top: 1px solid rgb(182, 182, 182);
+  background-color: #faf2f4;
+}
+.hofCellBad {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #faf2f4;
 }
 
 .hallOfFameTitleContainer {
@@ -915,11 +930,6 @@ select:hover {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-
-#welcomeBack {
-  margin-bottom: 4rem;
-}
-
 /* ==== Responsive Styling ==== */
 @media only screen and (max-width: 1380px) {
   .content {
@@ -939,6 +949,8 @@ select:hover {
   .contentLeft {
     order: 2;
     margin-bottom: 8rem;
+    position: static;
+    height: auto
   }
 
   .contentRight {
