@@ -117,7 +117,10 @@ class FixturesPage extends Component {
   };
 
   scheduleSlackReminder = async (type, player1, player2, start) => {
+    /* gets the date of the fixture e.g. 15-Aug-2019 */
     var date = moment(start).format("DD-MMM-YYYY");
+
+    /* gets the time of the fixture e.g. 13:30 */
     var time = moment(start).format("HH:mm");
 
     var fifteenMinsBefore = moment(start)
