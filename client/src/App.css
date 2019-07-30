@@ -203,6 +203,7 @@ table td {
 /* ==== League Table ==== */
 .leagueTable {
   font-size: 18pt;
+  margin: auto
 }
 
 .leagueTableContainer h2 {
