@@ -20,7 +20,7 @@ const SubNavBar = props => {
           path: "/9-ball/hall_of_fame",
           exact: false
         }) ||
-        matchPath(currentPath, { path: "/8-ball/dashboard", exact: false })
+        matchPath(currentPath, { path: "/9-ball/dashboard", exact: false })
       ? "9-Ball"
       : matchPath(currentPath, { path: "/9-ball/overview" }) ||
         matchPath(currentPath, { path: "/9-ball/fixtures" })

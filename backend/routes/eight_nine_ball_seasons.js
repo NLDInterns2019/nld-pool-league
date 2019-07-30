@@ -41,6 +41,37 @@ router.get("/", (req, res) => {
 });
 
 /* 
+  GET handler for /api/89ball_season/unplayed
+  Function: To get all the 8/9 ball seasons
+*/
+router.get("/unplayed", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  eight_nine_ball_seasons
+    .query()
+    .where({ type: req.query.type, finished: false })
+    .then(
+      seasons => {
+        res.json(seasons);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
+
+/* 
   GET handler for /api/89ball_season/latest
   Function: To get all the latest season
 */

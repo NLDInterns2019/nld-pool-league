@@ -139,6 +139,7 @@ ul {
 .contentLeft {
   order: 1;
   text-align: center;
+
 }
 
 .contentRight {
@@ -146,6 +147,7 @@ ul {
   text-align: center;
   display: flex;
   flex-direction: column;
+
 }
 
 #seasonsListContainer {

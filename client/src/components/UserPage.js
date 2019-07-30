@@ -5,22 +5,19 @@ import { ToastContainer, toast } from "react-toastify";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
-import LeagueTable from "./league/LeagueTable";
 import FixtureList from "./fixture/FixtureList";
-import SubmitScoreForm from "./fixture/SubmitScoreForm";
-import ViewYourFixtures from "./fixture/ViewYourFixtures";
-import FinalRankTable from "./league/FinalRankTable";
-import FinalStat from "./league/FinalStat";
+import SeasonAccordion from "./userPage/SeasonAccordion";
 
 import Axios from "axios";
-
-const { WebClient } = require("@slack/web-api");
 
 class App extends React.Component {
   signal = Axios.CancelToken.source();
   state = {
+    player: " ",
+    fixtures: [],
     latestSeason: "",
-    type: ""
+    type: "",
+    groupCount: 0
   };
 
   getLatestSeason = async () => {
@@ -38,6 +35,9 @@ class App extends React.Component {
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
+    if (auth0Client.isAuthenticated()) {
+      await this.setState({ player: auth0Client.getProfile().nickname });
+    }
   };
 
   componentWillUnmount() {
@@ -94,10 +94,33 @@ class App extends React.Component {
           latestSeason={this.state.latestSeason}
           type={this.state.type}
         />
-        <div className="content">
-          <div className="contentLeft">Content Left</div>
-          <div className="contentRight">Content Right</div>
-        </div>
+        {!auth0Client.isAuthenticated() ? (
+          //If not logged in
+          <h3 className="error" style={{ textAlign: "center" }}>
+            You are not logged in
+          </h3>
+        ) : (
+          //Logged In
+          <div>
+            <div className="content">
+              <h3>
+                Welcome back <strong>{this.state.player.toUpperCase()}</strong>
+              </h3>
+            </div>
+            <div className="content">
+              <div className="contentLeft">
+                <h3>Unplayed 8-Ball Fixtures</h3>
+                <SeasonAccordion type="8" staffName={this.state.player} />
+                <br />
+                <h3>Unplayed 9-Ball Fixtures</h3>
+                <SeasonAccordion type="9" staffName={this.state.player} />
+              </div>
+              <div className="contentRight">
+                <h3>Upcoming Matches</h3>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
