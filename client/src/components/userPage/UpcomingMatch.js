@@ -5,7 +5,9 @@ const UpcomingMatch = props => {
   const body = props.bookings.map(booking => {
     return (
       <tr key={booking.id}>
-        <td align="center">{moment(booking.start).format("ddd DD MMM YYYY")}</td>
+        <td align="center">
+          {moment(booking.start).format("ddd DD MMM YYYY")}
+        </td>
         <td align="center">{moment(booking.start).format("HH:mm")}</td>
         <td align="center">{booking.title}</td>
       </tr>
@@ -13,9 +15,13 @@ const UpcomingMatch = props => {
   });
 
   return (
-    <div className="leagueTableContainer">
+    <div className="upcomingMatchesTableContainer">
       <h3>Upcoming Matches</h3>
-      <table style={{"width":"700px"}} className="leagueTable" cellSpacing="0">
+      <table
+        style={{ width: "700px" }}
+        className="upcomingMatchesTable"
+        cellSpacing="0"
+      >
         <thead>
           <tr>
             <th>Date</th>

@@ -114,18 +114,24 @@ class App extends React.Component {
           </h3>
         ) : (
           //Logged In
-          <div>
-            <div className="content">
-              <h3>
-                Welcome back <strong>{this.state.player.toUpperCase()}</strong>
-              </h3>
-            </div>
+          <div style={{ textAlign: "center" }}>
+            <h3 id="welcomeBack">
+              Welcome back <strong>{this.state.player.toUpperCase()}</strong>
+            </h3>
             <div className="content">
               <div className="contentLeft">
-                <h3>Unplayed 8-Ball Fixtures</h3>
+                <div className="unplayedTitle">
+                  <span className="eight-ball-icon" alt="eight ball" />
+                  <h3>Unplayed 8-Ball Fixtures</h3>
+                  <span className="eight-ball-icon" alt="eight ball" />
+                </div>
                 <SeasonAccordion type="8" staffName={this.state.player} />
                 <br />
-                <h3>Unplayed 9-Ball Fixtures</h3>
+                <div className="unplayedTitle">
+                  <span className="nine-ball-icon" alt="nine ball" />
+                  <h3>Unplayed 9-Ball Fixtures</h3>
+                  <span className="nine-ball-icon" alt="nine ball" />
+                </div>
                 <SeasonAccordion type="9" staffName={this.state.player} />
               </div>
               <div className="contentRight">

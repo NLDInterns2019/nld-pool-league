@@ -203,7 +203,7 @@ table td {
 /* ==== League Table ==== */
 .leagueTable {
   font-size: 18pt;
-  margin: auto
+  margin: auto;
 }
 
 .leagueTableContainer h2 {
@@ -858,6 +858,31 @@ select:hover {
 .achievementTitle:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.upcomingMatchesTableContainer {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.upcomingMatchesTable {
+  font-size: 18pt;
+  margin: auto;
+}
+
+.unplayedTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.unplayedTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+#welcomeBack {
+  margin-bottom: 4rem;
 }
 
 /* ==== Responsive Styling ==== */

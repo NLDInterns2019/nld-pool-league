@@ -51,7 +51,7 @@ class SeasonAccordion extends React.Component {
 
   render() {
     return (
-      <div style={{ width: "650px"}}>
+      <div style={{ width: "650px", margin: "auto" }}>
         <Accordion allowZeroExpanded={true}>
           {this.state.unplayedSeasons.map(season => {
             return (
