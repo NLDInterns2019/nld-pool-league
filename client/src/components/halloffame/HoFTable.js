@@ -8,7 +8,7 @@ const itemsToBeDisplayed = props => {
   const dedicated = maxBy(props.players, "plays");
   const onTime = minBy(props.players, "punctRate");
   const slacker = maxBy(props.players, "punctRate");
-  const bestGame = maxBy(props.players, "maxGoals");
+  const bestGame = maxBy(props.players, "highestGF");
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
   const improved = maxBy(props.players, "improvement");
@@ -32,7 +32,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">Best Game</td>
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
-          {bestGame ? bestGame.maxGoals : "-"} points in one season
+          {bestGame ? bestGame.highestGF : "-"} points in one season
         </td>
       </tr>
       <tr>
@@ -68,11 +68,12 @@ const itemsToBeDisplayed = props => {
       <tr />
       <tr>
         <td className="hofCell">
-          <div className="clock-icon" alt="clock" />
+          <div className="clock-icn" alt="clock" />
         </td>
         <td className="hofCell">Mr. Punctual</td>
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
-        <td className="hofCell">Fewest lates</td>
+        <td className="hofCell">
+        {slacker ? 100 -onTime.punctRate : "-"}% punctuality</td>
       </tr>
       <tr>
         <td className="hofCell">
