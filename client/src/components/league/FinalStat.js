@@ -15,55 +15,43 @@ const itemsToBeDisplayed = props => {
   return (
     <tbody>
       <tr>
-        <td>
-          <span role="img" aria-label="boxing-glove">
-            🥊
-          </span>
+        <td align="center">
+          <div className="shield-icon" alt="shield" />
         </td>
         <td>Undefeated</td>
         <td>{undefeated ? undefeated.staffName : "-"}</td>
       </tr>
       <tr>
-        <td>
-          <span role="img" aria-label="balance-scale">
-            ⚖️
-          </span>
+        <td align="center">
+          <div className="scales-icon" alt="scales" />
         </td>
-        <td>Most draw</td>
+        <td>Most drawn</td>
         <td>{draw ? draw.staffName : "-"}</td>
       </tr>
       <tr>
-        <td>
-          <span role="img" aria-label="dizzy">
-            😵
-          </span>
+        <td align="center">
+          <div className="one-icon" alt="one" />
         </td>
         <td>First timer</td>
         <td>{firstTimer ? firstTimer.staffName : "-"}</td>
       </tr>
       <tr>
-        <td>
-          <span role="img" aria-label="zero">
-            0️⃣
-          </span>
+        <td align="center">
+          <div className="zero-icon" alt="zero" />
         </td>
         <td>Zero win</td>
         <td>{zero ? zero.staffName : "-"}</td>
       </tr>
       <tr>
-        <td>
-          <span role="img" aria-label="watch">
-            ⌚
-          </span>
+        <td align="center">
+          <div className="clock-icon" alt="clock" />
         </td>
         <td>Mr. Punctual</td>
         <td>{onTime ? onTime.staffName : "-"}</td>
       </tr>
       <tr>
-        <td>
-          <span role="img" aria-label="snail">
-            🐌
-          </span>
+        <td align="center">
+          <div className="snail-icon" alt="snail" />
         </td>
         <td>Mr. Overdue</td>
         <td>{late ? late.staffName : "-"}</td>
@@ -75,25 +63,20 @@ const itemsToBeDisplayed = props => {
 const FinalStat = props => {
   return (
     <div>
-      <h3>
-        <span role="img" aria-label="crossed-swords">
-          ⚔️
-        </span>
-        Honorable Mentions
-        <span role="img" aria-label="crossed-swords">
-          ⚔️
-        </span>
-      </h3>
-      <div className="leagueTableContainer">
+      <div className="finalStatsTitleContainer">
+        <div className="swords-icon" alt="swords" />
+        <h3>Honorable Mentions </h3>
+        <div className="swords-icon" alt="swords" />
+      </div>
+      <div className="finalStatsTableContainer">
         <table
-          className="leagueTable"
+          className="finalStatsTable"
           style={{ width: "500px" }}
           cellSpacing="0"
         >
           <thead>
             <tr>
-              <th />
-              <th>Achievement Title</th>
+              <th colSpan="2">Achievement</th>
               <th>Name</th>
             </tr>
           </thead>

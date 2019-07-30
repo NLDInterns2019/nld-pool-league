@@ -114,6 +114,7 @@ class FixturesPage extends Component {
         " at " +
         time
     });
+
     //DOESNT WORK, NEED PROPER SCOPE
     // await this.web.chat.postMessage({
     //   channel: this.channel,
@@ -122,6 +123,22 @@ class FixturesPage extends Component {
     //   // `/remind #${this.channel} "Match between ${player1} and ${player2}" on ${date} at ${time}`
     //   `/remind #${this.channel} "Match between ${player1} and ${player2}" in 30 seconds`,
     // });
+  };
+
+  createSlackReminder = async (type, player1, player2, start) => {
+    var time = moment(start).format("HH:mm");
+    await this.web.chat.scheduleMessage({
+      channel: this.channel,
+      text:
+        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+        " Reminder: \n" +
+        player1 +
+        "  vs  " +
+        player2 +
+        " at " +
+        time,
+      time: 10
+    });
   };
 
   makeBooking = async (player1, player2) => {
@@ -154,6 +171,12 @@ class FixturesPage extends Component {
           player2,
           this.state.start
         );
+        // this.createSlackReminder(
+        //   this.state.type,
+        //   player1,
+        //   player2,
+        //   this.state.start
+        // );
       })
       .catch(e => {
         if (e.response.status === 401) {

@@ -464,23 +464,18 @@ select:hover {
   padding: 1rem;
 }
 
+.achievementTableContainer {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.achievementTable {
+  font-size: 18pt;
+}
+
 .hofCell {
   padding-left: 10px;
   padding-right: 10px;
-}
-
-.eight-ball-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
-  background: url("./assets/eight-ball-vector.svg");
-}
-
-.nine-ball-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
-  background: url("./assets/nine-ball-vector.svg");
 }
 
 .hallOfFameTitleContainer {
@@ -509,6 +504,213 @@ select:hover {
   align-self: flex-start;
   padding: 1rem;
   border-radius: 15px;
+}
+
+/* ==== Season Winners Table ==== */
+.seasonWinnersTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.seasonWinnersTitleContainer h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.seasonWinnersTableContainer {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.seasonWinnersTable {
+  font-size: 18pt;
+}
+
+/* ==== Final Stats Table ==== */
+.finalStatsTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.finalStatsTitleContainer h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.finalStatsTableContainer {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.finalStatsTable {
+  font-size: 18pt;
+}
+
+.finalStatsTable td:first-child {
+  width: 70px;
+}
+
+.seasonClosed {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.seasonClosed h1 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* ==== Icons ==== */
+.eight-ball-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/eight-ball-vector.svg");
+}
+
+.nine-ball-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/nine-ball-vector.svg");
+}
+
+.trophy-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/trophy.svg");
+}
+
+.trophy-icon-large {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/trophy-large.svg");
+}
+
+.clock-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/clock.svg");
+}
+
+.snail-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/snail.svg");
+}
+
+.graph-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/upwards-graph.svg");
+}
+
+.weightlifting-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/weightlifting.svg");
+}
+
+.boxing-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/boxing.svg");
+}
+
+.train-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/train.svg");
+}
+
+.angry-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/angry.svg");
+}
+
+.thumbs-up-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/thumbsup.svg");
+}
+
+.scales-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/scales.svg");
+}
+
+.gold-medal-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/gold-medal.svg");
+}
+
+.silver-medal-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/silver-medal.svg");
+}
+
+.bronze-medal-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/bronze-medal.svg");
+}
+
+.shield-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/shield.svg");
+}
+
+.zero-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/zero.svg");
+}
+
+.one-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/one.svg");
+}
+
+.swords-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/swords.svg");
+}
+
+.lock-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/lock.svg");
 }
 
 /* ==== Arrange Fixture ==== */

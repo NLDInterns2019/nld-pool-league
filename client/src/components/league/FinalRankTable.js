@@ -4,29 +4,23 @@ const itemsToBeDisplayed = props => {
   return (
     <tbody>
       <tr>
-        <td>
-          <span role="img" aria-label="first">
-            🥇
-          </span>
+        <td align="center">
+          <div className="gold-medal-icon" alt="first place" />
         </td>
         <td>{props.players[0].staffName}</td>
         <td>{props.players[0].points}</td>
       </tr>
       <tr>
-        <td>
-          <span role="img" aria-label="second">
-            🥈
-          </span>
+        <td align="center">
+          <div className="silver-medal-icon" alt="second place" />
         </td>
         <td>{props.players[1].staffName}</td>
         <td>{props.players[1].points}</td>
       </tr>
       {props.players.length >= 3 ? (
         <tr>
-          <td>
-            <span role="img" aria-label="third">
-              🥉
-            </span>
+          <td align="center">
+            <div className="bronze-medal-icon" alt="third place" />
           </td>
           <td>{props.players[2].staffName}</td>
           <td>{props.players[2].points}</td>
@@ -39,18 +33,14 @@ const itemsToBeDisplayed = props => {
 const FinalRankTable = props => {
   return (
     <div>
-      <h3>
-        <span role="img" aria-label="trophy">
-          🏆
-        </span>
-        {"Season " + props.activeSeason} Winners
-        <span role="img" aria-label="trophy">
-          🏆
-        </span>
-      </h3>
-      <div className="leagueTableContainer">
+      <div className="seasonWinnersTitleContainer">
+        <span className="trophy-icon-large" alt="trophy" />
+        <h3>{"Season " + props.activeSeason} Winners</h3>
+        <span className="trophy-icon-large" alt="trophy" />
+      </div>
+      <div className="seasonWinnersTableContainer">
         <table
-          className="leagueTable"
+          className="seasonWinnersTable"
           style={{ width: "500px" }}
           cellSpacing="0"
         >
