@@ -488,6 +488,10 @@ select:hover {
   padding: 1rem;
 }
 
+tr td:last-child{
+  width:1%;
+  white-space:nowrap;
+}
 .achievementTableContainer {
   display: inline-block;
   margin-bottom: 1rem;
