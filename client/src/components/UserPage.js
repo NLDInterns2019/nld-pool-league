@@ -115,7 +115,7 @@ class App extends React.Component {
         ) : (
           //Logged In
           <div style={{ textAlign: "center" }}>
-            <div style={{marginBottom: "4rem"}}>
+            <div style={{ marginBottom: "4rem" }}>
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
@@ -136,7 +136,7 @@ class App extends React.Component {
                 {this.state.bookings.length ? (
                   <UpcomingMatch bookings={this.state.bookings} />
                 ) : (
-                  <h3>You have no upcoming matches</h3>
+                  <h3>You have no arranged fixtures</h3>
                 )}
               </div>
             </div>

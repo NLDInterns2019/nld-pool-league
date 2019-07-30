@@ -778,6 +778,13 @@ select:hover {
   background: url("./assets/falling-man.svg");
 }
 
+.calendar-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/calendar.svg");
+}
+
 /* ==== Arrange Fixture ==== */
 #arrangeFixture {
   text-align: center;
@@ -919,6 +926,18 @@ select:hover {
   opacity: 1;
 }
 
+/* ==== Upcoming Matches ==== */
+.upcomingMatchesTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.upcomingMatchesTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .upcomingMatchesTableContainer {
   display: inline-block;
   margin-bottom: 1rem;
@@ -929,6 +948,7 @@ select:hover {
   margin: auto;
 }
 
+/* ==== Unplayed Fixtures ==== */
 .unplayedTitle {
   display: flex;
   flex-direction: row;
@@ -939,6 +959,7 @@ select:hover {
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
 /* ==== Responsive Styling ==== */
 @media only screen and (max-width: 1380px) {
   .content {
