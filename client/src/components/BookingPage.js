@@ -96,7 +96,7 @@ class FixturesPage extends Component {
     this.refs.container.style.display = "none";
   };
 
-  /* posts a message to a slack channel with the bookin that has been created */
+  /* posts a message to a slack channel with the booking that has been created */
   postBookingUpdateSlackMessage = async (type, player1, player2, start) => {
     var date = moment(start).format("DD-MMM-YYYY");
     var time = moment(start).format("HH:mm");
@@ -116,6 +116,9 @@ class FixturesPage extends Component {
     });
   };
 
+  postLeagueTableUpdateSlackMessage() {}
+
+  /* schedules a message to be posted in a slack channel at 9am on the day of a fixture and 15 mins before the fixture */
   scheduleSlackReminder = async (type, player1, player2, start) => {
     /* gets the date of the fixture e.g. 15-Aug-2019 */
     var date = moment(start).format("DD-MMM-YYYY");
