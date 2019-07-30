@@ -191,8 +191,7 @@ const SubNavBar = props => {
       <div className="nav">
         <h2
           style={{
-            maxWidth: "250px",
-            minWidth: "75px",
+            width: "250px",
             marginRight: "1.5rem"
           }}
         >
