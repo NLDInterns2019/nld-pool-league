@@ -601,6 +601,181 @@ select:hover {
   padding-right: 2rem;
 }
 
+/* ==== Arrange Fixture ==== */
+#arrangeFixture {
+  text-align: center;
+}
+#arrangeFixture label {
+  padding-right: 0.5rem;
+}
+
+#arrangeFixture form {
+  text-align: right;
+  width: 50%;
+  margin: auto;
+}
+
+#arrangeFixture select {
+  margin-bottom: 1rem;
+}
+
+#arrangeFixtureBtn {
+  text-align: center;
+}
+
+/* ==== View Your Fixtures ==== */
+.viewYourFixtures form {
+  text-align: center;
+  width: 50%;
+  margin: auto;
+}
+
+.viewYourFixtures {
+  margin-bottom: 4rem;
+}
+
+.viewYourFixtures label {
+  padding-right: 0.5rem;
+}
+
+.viewYourFixtures select {
+  margin-bottom: 1rem;
+}
+
+.viewYourFixtures input {
+  margin-bottom: 1rem;
+  vertical-align: top;
+}
+
+.viewYourFixtures .hide:hover {
+  cursor: pointer;
+}
+
+#viewFixtureBtns {
+  text-align: center;
+}
+
+/* ==== Landing Page ==== */
+.landingPage .content {
+  text-align: center;
+}
+.landingPage .content .menu {
+  display: inline-block;
+}
+
+.landingPage .content ul {
+  list-style-type: none;
+}
+
+.landingPage .content li {
+  display: inline-block;
+  padding: 1rem;
+}
+
+.landingPage .content a {
+  text-decoration: none;
+  background-color: #127e5c;
+  color: white;
+  display: inline-block;
+  padding: 5px 15px 5px 15px;
+  border-radius: 100px;
+  font-size: 24pt;
+  width: 150px;
+}
+
+.landingPage .content a:hover {
+  font-weight: bold;
+}
+
+.landingPage .content h1 {
+  margin-top: 8rem;
+  font-size: 45pt;
+}
+
+.landingPage .content h2 {
+  margin-top: 8rem;
+  font-size: 24pt;
+}
+
+/* ==== Tooltips ==== */
+.achievementTitle {
+  position: relative;
+}
+/* Tooltip text */
+.achievementTitle .tooltiptext {
+  visibility: hidden;
+  max-width: 600px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  font-size: 10pt;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 95%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.achievementTitle .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.achievementTitle:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* ==== Upcoming Matches ==== */
+.upcomingMatchesTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.upcomingMatchesTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.upcomingMatchesTableContainer {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.upcomingMatchesTable {
+  font-size: 18pt;
+  margin: auto;
+}
+
+/* ==== Unplayed Fixtures ==== */
+.unplayedTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.unplayedTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 /* ==== Icons ==== */
 .eight-ball-icon {
   vertical-align: middle;
@@ -783,181 +958,6 @@ select:hover {
   width: 40px;
   height: 40px;
   background: url("./assets/calendar.svg");
-}
-
-/* ==== Arrange Fixture ==== */
-#arrangeFixture {
-  text-align: center;
-}
-#arrangeFixture label {
-  padding-right: 0.5rem;
-}
-
-#arrangeFixture form {
-  text-align: right;
-  width: 50%;
-  margin: auto;
-}
-
-#arrangeFixture select {
-  margin-bottom: 1rem;
-}
-
-#arrangeFixtureBtn {
-  text-align: center;
-}
-
-/* ==== View Your Fixtures ==== */
-.viewYourFixtures form {
-  text-align: center;
-  width: 50%;
-  margin: auto;
-}
-
-.viewYourFixtures {
-  margin-bottom: 4rem;
-}
-
-.viewYourFixtures label {
-  padding-right: 0.5rem;
-}
-
-.viewYourFixtures select {
-  margin-bottom: 1rem;
-}
-
-.viewYourFixtures input {
-  margin-bottom: 1rem;
-  vertical-align: top;
-}
-
-.viewYourFixtures .hide:hover {
-  cursor: pointer;
-}
-
-#viewFixtureBtns {
-  text-align: center;
-}
-
-/* ==== Landing Page ==== */
-.landingPage .content {
-  text-align: center;
-}
-.landingPage .content .menu {
-  display: inline-block;
-}
-
-.landingPage .content ul {
-  list-style-type: none;
-}
-
-.landingPage .content li {
-  display: inline-block;
-  padding: 1rem;
-}
-
-.landingPage .content a {
-  text-decoration: none;
-  background-color: #127e5c;
-  color: white;
-  display: inline-block;
-  padding: 5px 15px 5px 15px;
-  border-radius: 100px;
-  font-size: 24pt;
-  width: 150px;
-}
-
-.landingPage .content a:hover {
-  font-weight: bold;
-}
-
-.landingPage .content h1 {
-  margin-top: 8rem;
-  font-size: 45pt;
-}
-
-.landingPage .content h2 {
-  margin-top: 8rem;
-  font-size: 24pt;
-}
-
-/* ==== Tooltips ==== */
-.achievementTitle {
-  position: relative;
-}
-/* Tooltip text */
-.achievementTitle .tooltiptext {
-  visibility: hidden;
-  max-width: 600px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  padding: 5px;
-  border-radius: 6px;
-  font-size: 10pt;
-
-  /* Position the tooltip text */
-  position: absolute;
-  z-index: 1;
-  bottom: 95%;
-  left: 50%;
-  margin-left: -60px;
-
-  /* Fade in tooltip */
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Tooltip arrow */
-.achievementTitle .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.achievementTitle:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* ==== Upcoming Matches ==== */
-.upcomingMatchesTitle {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.upcomingMatchesTitle h3 {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.upcomingMatchesTableContainer {
-  display: inline-block;
-  margin-bottom: 1rem;
-}
-
-.upcomingMatchesTable {
-  font-size: 18pt;
-  margin: auto;
-}
-
-/* ==== Unplayed Fixtures ==== */
-.unplayedTitle {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.unplayedTitle h3 {
-  padding-left: 2rem;
-  padding-right: 2rem;
 }
 
 /* ==== Responsive Styling ==== */
