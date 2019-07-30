@@ -9,6 +9,7 @@ const itemsToBeDisplayed = props => {
   const onTime = minBy(props.players, "punctRate");
   const slacker = maxBy(props.players, "punctRate");
   const bestGame = maxBy(props.players, "highestGF");
+  const losingStreak = maxBy(props.players, "losingStreak");
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
   const improved = maxBy(props.players, "improvement");
@@ -123,7 +124,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCellBad">In a Slump</td>
         <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
         <td className="hofCellBad">
-          {slacker ? slacker.punctRate : "-"} game streak
+          {losingStreak ? losingStreak.losingStreak : "-"} game streak
         </td>
       </tr>
       <tr>
