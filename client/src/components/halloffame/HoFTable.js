@@ -12,6 +12,7 @@ const itemsToBeDisplayed = props => {
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
   const improved = maxBy(props.players, "improvement");
+  const retire = minBy(props.players, "improvement");
 
   return (
     <tbody>
@@ -109,6 +110,16 @@ const itemsToBeDisplayed = props => {
           <div className="graph-icon" alt="graph" />
         </td>
         <td className="hofCell">Most Improved</td>
+        <td className="hofCell">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCell">
+          {improved ? improved.improvemnet : "-"}% improvement
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="graph-icon" alt="graph" />
+        </td>
+        <td className="hofCell">Time to Retire</td>
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
           {improved ? improved.improvemnet : "-"}% improvement
