@@ -5,7 +5,7 @@ import {
   AccordionItemHeading,
   AccordionItemButton
 } from "react-accessible-accordion";
-import { uniqBy } from "lodash";
+import { uniqBy, orderBy } from "lodash";
 
 import backend from "../../api/backend";
 
@@ -33,7 +33,7 @@ class SeasonAccordion extends React.Component {
         hidePlayed: true
       }
     });
-    this.setState({ unplayedSeasons: uniqBy(result.data, "seasonId") });
+    this.setState({ unplayedSeasons: orderBy(uniqBy(result.data, "seasonId"), ["seasonId"], ["desc"]) });
   };
 
   componentDidMount = async () => {
