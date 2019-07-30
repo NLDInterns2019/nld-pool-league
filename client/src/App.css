@@ -138,7 +138,11 @@ ul {
   width: 50px;
 }
 
-.subnav ul {
+.subnav .collapsible {
+  display: none;
+}
+
+.subnav .main-items {
   display: inline-block;
   padding-left: 1rem;
 }
@@ -957,8 +961,32 @@ select:hover {
     order: 3;
   }
 
-  .subnav ul {
+  .subnav .main-items {
     display: none;
+  }
+
+  .collapsible {
+    position: absolute;
+    background-color: #1f7058;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+    right: 0;
+    font-size: 18pt;
+    color: white;
+  }
+  .collapsible li {
+    margin-top: 1rem;
+  }
+
+  .collapsible a {
+    padding-left: 1rem;
+    text-decoration: none;
+    color: white;
+  }
+
+  .collapsible a:hover {
+    font-weight: bold;
   }
 
   .menu-icon {

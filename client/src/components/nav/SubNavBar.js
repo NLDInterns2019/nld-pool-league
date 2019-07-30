@@ -198,7 +198,7 @@ const SubNavBar = props => {
         >
           {title}
         </h2>
-        <ul>
+        <ul className="main-items">
           <li>
             {props.type !== "Billiards" ? (
               <Link
@@ -243,10 +243,12 @@ const SubNavBar = props => {
           </li>
         </ul>
       </div>
-      <div className="itemMenu">
-        <div className="menu-icon" alt="menu" />
-        {/* <Collapsible /> */}
-      </div>
+      <Collapsible
+        type={props.type}
+        seasonFixtureLink={seasonFixtureLink}
+        seasonsCurrentStyle={seasonsCurrentStyle}
+        dashboardCurrentStyle={dashboardCurrentStyle}
+      />
     </div>
   );
 };
