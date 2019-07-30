@@ -18,42 +18,60 @@ const itemsToBeDisplayed = props => {
         <td align="center">
           <div className="shield-icon" alt="shield" />
         </td>
-        <td>Undefeated</td>
+        <td className="achievementTitle">
+          Undefeated
+          <span className="tooltiptext">Player with no losses</span>
+        </td>
         <td>{undefeated ? undefeated.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
           <div className="scales-icon" alt="scales" />
         </td>
-        <td>Most drawn</td>
+        <td className="achievementTitle">
+          Most drawn
+          <span className="tooltiptext">Player with most draws</span>
+        </td>
         <td>{draw ? draw.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
-          <div className="one-icon" alt="one" />
+          <div className="thumbs-down-icon" alt="thumbs down" />
         </td>
-        <td>First timer</td>
+        <td className="achievementTitle">
+          Liability
+          <span className="tooltiptext">Player with most points against</span>
+        </td>
         <td>{firstTimer ? firstTimer.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
           <div className="zero-icon" alt="zero" />
         </td>
-        <td>Zero win</td>
+        <td className="achievementTitle">
+          Zero win
+          <span className="tooltiptext">Player with zero wins</span>
+        </td>
         <td>{zero ? zero.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
           <div className="clock-icon" alt="clock" />
         </td>
-        <td>Mr. Punctual</td>
+        <td className="achievementTitle">
+          Mr. Punctual
+          <span className="tooltiptext">Player with fewest lates</span>
+        </td>
         <td>{onTime ? onTime.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
           <div className="snail-icon" alt="snail" />
         </td>
-        <td>Mr. Overdue</td>
+        <td className="achievementTitle">
+          Mr. Overdue
+          <span className="tooltiptext">Player with most lates</span>
+        </td>
         <td>{late ? late.staffName : "-"}</td>
       </tr>
     </tbody>
@@ -65,7 +83,7 @@ const FinalStat = props => {
     <div>
       <div className="finalStatsTitleContainer">
         <div className="swords-icon" alt="swords" />
-        <h3>Honorable Mentions </h3>
+        <h3>Honourable Mentions </h3>
         <div className="swords-icon" alt="swords" />
       </div>
       <div className="finalStatsTableContainer">

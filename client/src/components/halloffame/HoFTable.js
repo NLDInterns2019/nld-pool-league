@@ -52,7 +52,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">Oh No!</td>
         <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
         <td className="hofCell">
-          {ohno ? ohno.percentage : "-"}% of games won
+        {ohno ? 100 - ohno.percentage : "-"}% of games lost
         </td>
       </tr>
       <tr>

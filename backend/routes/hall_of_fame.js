@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
 router.post("/calculate", async (req, res) => {
   //post or patch? it does both - should it?
   type = req.body.type;
-  let hof;
+  let staffInHoF = true;
   let start = true;
   let names = ["", ""];
   const schema = {
@@ -77,19 +77,21 @@ router.post("/calculate", async (req, res) => {
     });
 
     //if the name isn't in the hall of fame, add it
-    if (typeof hofRow === "undefined") { //TODO: this bit is buggy! will only add one user, then throw an error. why?
-      knex("hall_of_fame")
+    if (typeof hofRow === "undefined") { 
+      staffInHoF = false;
+      await hall_of_fame.query()
         .insert({
           staffName: leagues[i].staffName,
-          type: 8
+          type: type
         })
-        .then(
-          (hofRow = await hall_of_fame.query().findOne({
-            //or length
-            type: type,
-            staffName: leagues[i].staffName
-          }))
-        );
+    }
+
+    //then set the row again
+    if (staffInHoF == false) {
+      hofRow = await hall_of_fame.query().findOne({
+        type: type,
+        staffName: leagues[i].staffName
+      })
     }
 
     //wipes values without need for extra db call loop
