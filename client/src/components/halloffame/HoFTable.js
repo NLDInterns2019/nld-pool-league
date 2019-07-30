@@ -68,7 +68,7 @@ const itemsToBeDisplayed = props => {
       <tr />
       <tr>
         <td className="hofCell">
-          <div className="clock-icon" alt="clock" />
+          <div className="clock-icn" alt="clock" />
         </td>
         <td className="hofCell">Mr. Punctual</td>
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
