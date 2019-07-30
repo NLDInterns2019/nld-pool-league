@@ -50,7 +50,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="angry-icon" alt="angry" />
         </td>
-        <td className="hofCell">Oh No!</td>
+        <td className="hofCell">Casual</td>
         <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
         <td className="hofCell">
         {ohno ? 100 - ohno.percentage : "-"}% of games lost
