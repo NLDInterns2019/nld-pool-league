@@ -125,9 +125,9 @@ ul {
 /* ==== Content ==== */
 .content {
   display: flex;
+  align-items: flex-start;
   flex-direction: row;
   justify-content: space-around;
-  align-items: stretch;
   width: 100%;
 }
 
@@ -137,9 +137,11 @@ ul {
 }
 
 .contentLeft {
+  height: auto;
   order: 1;
   text-align: center;
-  height: 500px;
+  position: sticky;
+  top: 3%
 }
 
 .contentRight {
@@ -881,11 +883,6 @@ select:hover {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-
-#welcomeBack {
-  margin-bottom: 4rem;
-}
-
 /* ==== Responsive Styling ==== */
 @media only screen and (max-width: 1380px) {
   .content {
@@ -905,6 +902,8 @@ select:hover {
   .contentLeft {
     order: 2;
     margin-bottom: 8rem;
+    position: static;
+    height: auto
   }
 
   .contentRight {
