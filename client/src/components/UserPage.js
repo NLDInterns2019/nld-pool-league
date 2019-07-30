@@ -5,8 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
-import FixtureList from "./fixture/FixtureList";
 import SeasonAccordion from "./userPage/SeasonAccordion";
+import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
 
@@ -17,7 +17,8 @@ class App extends React.Component {
     fixtures: [],
     latestSeason: "",
     type: "",
-    groupCount: 0
+    groupCount: 0,
+    bookings: []
   };
 
   getLatestSeason = async () => {
@@ -32,11 +33,23 @@ class App extends React.Component {
     });
   };
 
+  getBookings = async () => {
+    const bookings = await backend.get("/api/booking", {
+      params: {
+        staffName: this.state.player
+      }
+    });
+
+    this.setState({ bookings: bookings.data });
+  };
+
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
     if (auth0Client.isAuthenticated()) {
-      await this.setState({ player: auth0Client.getProfile().nickname });
+      this.setState({ player: auth0Client.getProfile().nickname }, () => {
+        this.getBookings();
+      });
     }
   };
 
@@ -116,7 +129,7 @@ class App extends React.Component {
                 <SeasonAccordion type="9" staffName={this.state.player} />
               </div>
               <div className="contentRight">
-                <h3>Upcoming Matches</h3>
+                <UpcomingMatch bookings={this.state.bookings} />
               </div>
             </div>
           </div>
