@@ -48,16 +48,6 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="angry-icon" alt="angry" />
-        </td>
-        <td className="hofCell">Casual</td>
-        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
-        <td className="hofCell">
-        {ohno ? 100 - ohno.percentage : "-"}% of games lost
-        </td>
-      </tr>
-      <tr>
-        <td className="hofCell">
           <div className="weightlifting-icon" alt="weightlifting" />
         </td>
         <td className="hofCell">Dedicated</td>
@@ -75,16 +65,6 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
         <td className="hofCell">
         {slacker ? 100 -onTime.punctRate : "-"}% punctuality</td>
-      </tr>
-      <tr>
-        <td className="hofCell">
-          <div className="snail-icon" alt="snail" />
-        </td>
-        <td className="hofCell">Slacker</td>
-        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
-        <td className="hofCell">
-          {slacker ? slacker.punctRate : "-"}% games late
-        </td>
       </tr>
       <tr>
         <td className="hofCell">
@@ -113,6 +93,26 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
           {improved ? improved.improvemnet : "-"}% improvement
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="angry-icon" alt="angry" />
+        </td>
+        <td className="hofCell">Casual</td>
+        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
+        <td className="hofCell">
+        {ohno ? 100 - ohno.percentage : "-"}% of games lost
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="snail-icon" alt="snail" />
+        </td>
+        <td className="hofCell">Slacker</td>
+        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCell">
+          {slacker ? slacker.punctRate : "-"}% games late
         </td>
       </tr>
       <tr>
