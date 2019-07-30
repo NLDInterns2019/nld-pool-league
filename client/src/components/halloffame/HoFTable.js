@@ -74,7 +74,9 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">Longest Streak</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
-        <td className="hofCell">{streak ? streak.streak : "-"} game streak</td>
+        <td className="hofCell">
+          {streak ? streak.streak : "-"} winning streak
+        </td>
       </tr>
       <tr>
         <td className="hofCell">
@@ -120,17 +122,17 @@ const itemsToBeDisplayed = props => {
 
       <tr>
         <td className="hofCellBad">
-          <div className="snail-icon" alt="snail" />
+          <div className="falling-man-icon" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
         <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
         <td className="hofCellBad">
-          {losingStreak ? losingStreak.losingStreak : "-"} game streak
+          {losingStreak ? losingStreak.losingStreak : "-"} losing streak
         </td>
       </tr>
       <tr>
         <td className="hofCellBad">
-          <div className="graph-icon" alt="graph" />
+          <div className="downward-graph-icon" alt="downward-graph" />
         </td>
         <td className="hofCellBad">Time to Retire</td>
         <td className="hofCellBad">{improved ? improved.staffName : "-"}</td>
