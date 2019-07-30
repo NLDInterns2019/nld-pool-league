@@ -96,32 +96,32 @@ const itemsToBeDisplayed = props => {
         </td>
       </tr>
       <tr>
-        <td className="hofCell">
+        <td className="hofCellBorder">
           <div className="angry-icon" alt="angry" />
         </td>
-        <td className="hofCell">Casual</td>
-        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
-        <td className="hofCell">
+        <td className="hofCellBorder">Casual</td>
+        <td className="hofCellBorder">{ohno ? ohno.staffName : "-"}</td>
+        <td className="hofCellBorder">
         {ohno ? 100 - ohno.percentage : "-"}% of games lost
         </td>
       </tr>
       <tr>
-        <td className="hofCell">
+        <td className="hofCellBad">
           <div className="snail-icon" alt="snail" />
         </td>
-        <td className="hofCell">Slacker</td>
-        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
-        <td className="hofCell">
+        <td className="hofCellBad">Slacker</td>
+        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad">
           {slacker ? slacker.punctRate : "-"}% games late
         </td>
       </tr>
       <tr>
-        <td className="hofCell">
+        <td className="hofCellBad">
           <div className="graph-icon" alt="graph" />
         </td>
-        <td className="hofCell">Time to Retire</td>
-        <td className="hofCell">{improved ? improved.staffName : "-"}</td>
-        <td className="hofCell">
+        <td className="hofCellBad">Time to Retire</td>
+        <td className="hofCellBad">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCellBad">
           {retire ? retire.improvemnet : "-"}% improvement
         </td>
       </tr>
