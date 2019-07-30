@@ -118,15 +118,6 @@ ul {
   margin-bottom: 2.5rem;
 }
 
-/* .subnav {
-  padding-left: 2.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  background-color: #1f7058;
-  box-shadow: 0px 8px 10px -6px;
-  margin-bottom: 2.5rem;
-} */
-
 .subnav .nav {
   order: 1;
   width: auto;
@@ -771,6 +762,20 @@ select:hover {
   height: 32px;
   background: url("./assets/menu.svg");
   visibility: hidden;
+}
+
+.downward-graph-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/downward-graph-red.svg");
+}
+
+.falling-man-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/falling-man.svg");
 }
 
 /* ==== Arrange Fixture ==== */
