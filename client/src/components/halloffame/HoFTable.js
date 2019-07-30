@@ -78,7 +78,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="train-icon" alt="train" />
         </td>
-        <td className="hofCell">The Train</td>
+        <td className="hofCell">{streak ? streak.staffName + " the Tank Engine": "The Train"}</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
         <td className="hofCell">
           {streak ? streak.streak + " win streak" : "Longest win streak"}
@@ -92,7 +92,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
         <td className="hofCell">
           {scrappy
-            ? scrappy.scrappyRate + "% wins against " + topPlayer.percentage
+            ? scrappy.scrappyRate + "% wins against " + topPlayer.staffName
             : "Best win% against #1"}
         </td>
       </tr>
