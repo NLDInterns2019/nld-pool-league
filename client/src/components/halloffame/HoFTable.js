@@ -100,7 +100,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCellBorder">
           <div className="angry-icon" alt="angry" />
         </td>
-        <td className="hofCellBorder">Casual</td>
+        <td className="hofCellBorder">Filthy Casual</td>
         <td className="hofCellBorder">{ohno ? ohno.staffName : "-"}</td>
         <td className="hofCellBorder">
         {ohno ? 100 - ohno.percentage + "% of games lost": "Highest loss rate"}
