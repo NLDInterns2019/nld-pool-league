@@ -1005,4 +1005,8 @@ select:hover {
     flex-shrink: 10;
     margin-bottom: 10px;
   }
+
+  .itemMenu {
+    display: none;
+  }
 }

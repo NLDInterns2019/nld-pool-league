@@ -60,12 +60,13 @@ const itemsToBeDisplayed = props => {
       <tr />
       <tr>
         <td className="hofCell">
-          <div className="clock-icn" alt="clock" />
+          <div className="clock-icon" alt="clock" />
         </td>
         <td className="hofCell">Mr. Punctual</td>
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
         <td className="hofCell">
-        {slacker ? 100 -onTime.punctRate : "-"}% punctuality</td>
+          {slacker ? 100 - onTime.punctRate : "-"}% punctuality
+        </td>
       </tr>
       <tr>
         <td className="hofCell">
@@ -103,7 +104,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCellBorder">Casual</td>
         <td className="hofCellBorder">{ohno ? ohno.staffName : "-"}</td>
         <td className="hofCellBorder">
-        {ohno ? 100 - ohno.percentage : "-"}% of games lost
+          {ohno ? 100 - ohno.percentage : "-"}% of games lost
         </td>
       </tr>
       <tr>
@@ -116,7 +117,7 @@ const itemsToBeDisplayed = props => {
           {slacker ? slacker.punctRate : "-"}% games late
         </td>
       </tr>
-      
+
       <tr>
         <td className="hofCellBad">
           <div className="snail-icon" alt="snail" />
