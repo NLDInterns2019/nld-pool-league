@@ -51,8 +51,9 @@ router.get("/upcoming", (req, res) => {
   bookings
     .query()
     .where(where1)
+    .andWhereBetween('start', [moment().toDate().toISOString(), moment().add(1, 'week').toDate().toISOString()]) //Only fetch the upcoming one week
     .orWhere(where2)
-    .whereBetween('start', [moment().toDate().toISOString(), moment().add(1, 'week').toDate().toISOString()]) //Only fetch the upcoming one week
+    .andWhereBetween('start', [moment().toDate().toISOString(), moment().add(1, 'week').toDate().toISOString()]) //Only fetch the upcoming one week
     .orderBy("start")
     .then(
       bookings => {
