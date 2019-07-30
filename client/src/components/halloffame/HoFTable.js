@@ -78,7 +78,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="train-icon" alt="train" />
         </td>
-        <td className="hofCell">{streak ? streak.staffName + " the Tank Engine": "The Train"}</td>
+        <td className="hofCell">The Train</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
         <td className="hofCell">
           {streak ? streak.streak + " win streak" : "Longest win streak"}
