@@ -36,6 +36,35 @@ router.get("/", (req, res) => {
 });
 
 /* 
+  GET handler for /api/booking/upcoming
+  Function: To get all the upcoming bookings
+*/
+router.get("/upcoming", (req, res) => {
+  let where1 = {};
+  let where2 = {};
+
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
+    where1.player1 = req.query.staffName;
+    where2.player2 = req.query.staffName;
+  }
+
+  bookings
+    .query()
+    .where(where1)
+    .orWhere(where2)
+    .whereBetween('start', [moment().toDate().toISOString(), moment().add(1, 'week').toDate().toISOString()]) //Only fetch the upcoming one week
+    .orderBy("start")
+    .then(
+      bookings => {
+        res.json(bookings);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
+
+/* 
   POST handler for /api/booking/add
   Function: To add booking
 */

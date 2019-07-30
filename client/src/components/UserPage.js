@@ -34,7 +34,7 @@ class App extends React.Component {
   };
 
   getBookings = async () => {
-    const bookings = await backend.get("/api/booking", {
+    const bookings = await backend.get("/api/booking/upcoming", {
       params: {
         staffName: this.state.player
       }

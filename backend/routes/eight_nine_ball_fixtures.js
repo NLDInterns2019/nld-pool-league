@@ -13,8 +13,6 @@ const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const score = require("../functions/score");
 const fixture_split = require("../functions/polygonshuffle");
 const fixturegen = require("../functions/fixturegen");
-const dayVal = require("../functions/dayVal");
-const timeInMillis = require("../functions/timeInMillis");
 
 /* 
   GET handler for /api/89ball_fixture/group/:seasonId
@@ -430,99 +428,4 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
   }
 });
 
-/* 
-  POST handler for /api/89ball_fixture/overdue/. 
-  Function: Displays list of overdue fixtures.
-*/
-router.get("/overdue", (req, res) => {
-  let currentDate = new Date();
-  currentDate = parseInt(currentDate);
-  eight_nine_ball_fixtures
-    .query()
-    .where("date", "!=", currentDate)
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
-});
-
-/* 
-  POST handler for /api/89ball_fixture/book/. 
-  Function: Books a fixture for a particular date.
-*/
-router.put("/book", async (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  let name = req.body.name;
-  let opponent = req.body.opponent;
-  let day = req.body.day;
-  let time = req.body.time;
-
-  //find the fixture
-  const fixt = await eight_nine_ball_fixtures.query().findOne({
-    player1: name,
-    player2: opponent
-  });
-
-  //set the time from the db value to 00:00
-  let convDate = new Date(fixt.date);
-  console.log("Maximum date: " + convDate.toString());
-  let oldDay = convDate
-    .toString()
-    .split(" ")
-    .slice(0, 1)
-    .join(" "); //stores day from db
-  let oldTime = convDate
-    .toString()
-    .split(" ")
-    .slice(4, 5)
-    .join(" "); //stores time from db
-
-  let timeDeduct = timeInMillis.getMillis(oldTime);
-  let booked = fixt.date - timeDeduct; //date is now 00:00
-
-  //go back a suitable number of days
-  let oPlace = 0;
-  oPlace = dayVal.dayValue(oldDay);
-  nPlace = dayVal.dayValue(day);
-
-  let multiplier = parseInt(oPlace) - parseInt(nPlace);
-  if (multiplier < 0) {
-    multiplier = Math.abs(multiplier);
-  }
-  if (multiplier > 0) {
-    multiplier = 7 - multiplier;
-  }
-  booked = parseInt(booked) - parseInt(86400000) * parseInt(multiplier);
-
-  //add the extra time back on
-  let timeAdd = timeInMillis.getMillis(time);
-  booked = booked + timeAdd; //this one is stored in the db
-  console.log("Matched date: " + new Date(booked).toString()); //this is what it would look like parsed. do NOT store this one
-
-  //add it to the db
-  /* const result = await eight_nine_ball_fixtures.query().findOne({
-    player1: name,
-    player2: opponent
-  }).patch(fixt)*/
-});
-
-/* 
-  POST handler for /api/89ball_fixture/book/edit. 
-  Function: Edit a fixture's booking.
-*/
-router.get("/book/edit", (req, res) => {});
-
-/* 
-  POST handler for /api/89ball_fixture/book/. 
-  Function: Remove a fixture booking.
-*/
-router.get("/book/delete", (req, res) => {});
 module.exports = router;
