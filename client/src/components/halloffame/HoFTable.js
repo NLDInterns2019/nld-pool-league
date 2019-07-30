@@ -122,7 +122,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">Time to Retire</td>
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
-          {improved ? improved.improvemnet : "-"}% improvement
+          {retire ? retire.improvemnet : "-"}% improvement
         </td>
       </tr>
     </tbody>
