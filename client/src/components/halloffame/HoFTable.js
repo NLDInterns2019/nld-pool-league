@@ -115,6 +115,17 @@ const itemsToBeDisplayed = props => {
           {slacker ? slacker.punctRate : "-"}% games late
         </td>
       </tr>
+      
+      <tr>
+        <td className="hofCellBad">
+          <div className="snail-icon" alt="snail" />
+        </td>
+        <td className="hofCellBad">In a Slump</td>
+        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad">
+          {slacker ? slacker.punctRate : "-"} game streak
+        </td>
+      </tr>
       <tr>
         <td className="hofCellBad">
           <div className="graph-icon" alt="graph" />
