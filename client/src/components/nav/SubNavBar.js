@@ -188,7 +188,15 @@ const SubNavBar = props => {
     <div className="subnav">
       <ToastContainer />
       <div className="nav">
-        <h2 style={{ width: "250px" }}>{title}</h2>
+        <h2
+          style={{
+            maxWidth: "250px",
+            minWidth: "75px",
+            marginRight: "1.5rem"
+          }}
+        >
+          {title}
+        </h2>
         <ul>
           <li>
             {props.type !== "Billiards" ? (

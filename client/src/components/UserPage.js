@@ -114,21 +114,17 @@ class App extends React.Component {
           </h3>
         ) : (
           //Logged In
-          <div>
-            <div
-              style={{ width: "24rem", textAlign: "center", margin: "auto", marginBottom: "5rem" }}
-            >
+          <div style={{ textAlign: "center" }}>
+            <div style={{marginBottom: "4rem"}}>
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
-              <div style={{ fontSize: "1.2em", textAlign: "left" }}>
-                <p>
-                  You have played <b>99</b> matches
-                </p>
-                <p>
-                  Your winning rate is <b>50%</b>
-                </p>
-              </div>
+              <p>
+                You have played <b>99</b> matches
+              </p>
+              <p>
+                Your winning rate is <b>50%</b>
+              </p>
             </div>
             <div className="content">
               <div className="contentLeft">

@@ -8,10 +8,11 @@ const itemsToBeDisplayed = props => {
   const dedicated = maxBy(props.players, "plays");
   const onTime = minBy(props.players, "punctRate");
   const slacker = maxBy(props.players, "punctRate");
-  const bestGame = maxBy(props.players, "maxGoals");
+  const bestGame = maxBy(props.players, "highestGF");
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
   const improved = maxBy(props.players, "improvement");
+  const retire = minBy(props.players, "improvement");
 
   return (
     <tbody>
@@ -32,7 +33,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">Best Game</td>
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
-          {bestGame ? bestGame.maxGoals : "-"} points in one season
+          {bestGame ? bestGame.highestGF : "-"} points in one season
         </td>
       </tr>
       <tr>
@@ -43,16 +44,6 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{draw ? draw.staffName : "-"}</td>
         <td className="hofCell">
           {draw ? draw.drawRate : "-"}% of games drawn
-        </td>
-      </tr>
-      <tr>
-        <td className="hofCell">
-          <div className="angry-icon" alt="angry" />
-        </td>
-        <td className="hofCell">Oh No!</td>
-        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
-        <td className="hofCell">
-        {ohno ? 100 - ohno.percentage : "-"}% of games lost
         </td>
       </tr>
       <tr>
@@ -68,21 +59,12 @@ const itemsToBeDisplayed = props => {
       <tr />
       <tr>
         <td className="hofCell">
-          <div className="clock-icon" alt="clock" />
+          <div className="clock-icn" alt="clock" />
         </td>
         <td className="hofCell">Mr. Punctual</td>
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
-        <td className="hofCell">Fewest lates</td>
-      </tr>
-      <tr>
         <td className="hofCell">
-          <div className="snail-icon" alt="snail" />
-        </td>
-        <td className="hofCell">Slacker</td>
-        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
-        <td className="hofCell">
-          {slacker ? slacker.punctRate : "-"}% games late
-        </td>
+        {slacker ? 100 -onTime.punctRate : "-"}% punctuality</td>
       </tr>
       <tr>
         <td className="hofCell">
@@ -111,6 +93,36 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
           {improved ? improved.improvemnet : "-"}% improvement
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="angry-icon" alt="angry" />
+        </td>
+        <td className="hofCell">Casual</td>
+        <td className="hofCell">{ohno ? ohno.staffName : "-"}</td>
+        <td className="hofCell">
+        {ohno ? 100 - ohno.percentage : "-"}% of games lost
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="snail-icon" alt="snail" />
+        </td>
+        <td className="hofCell">Slacker</td>
+        <td className="hofCell">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCell">
+          {slacker ? slacker.punctRate : "-"}% games late
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="graph-icon" alt="graph" />
+        </td>
+        <td className="hofCell">Time to Retire</td>
+        <td className="hofCell">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCell">
+          {retire ? retire.improvemnet : "-"}% improvement
         </td>
       </tr>
     </tbody>

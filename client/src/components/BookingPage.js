@@ -96,7 +96,7 @@ class FixturesPage extends Component {
     this.refs.container.style.display = "none";
   };
 
-  /* posts a message to a slack channel with the bookin that has been created */
+  /* posts a message to a slack channel with the booking that has been created */
   postBookingUpdateSlackMessage = async (type, player1, player2, start) => {
     var date = moment(start).format("DD-MMM-YYYY");
     var time = moment(start).format("HH:mm");
@@ -114,19 +114,16 @@ class FixturesPage extends Component {
         " at " +
         time
     });
-
-    //DOESNT WORK, NEED PROPER SCOPE
-    // await this.web.chat.postMessage({
-    //   channel: this.channel,
-    //   /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
-    //   text:
-    //   // `/remind #${this.channel} "Match between ${player1} and ${player2}" on ${date} at ${time}`
-    //   `/remind #${this.channel} "Match between ${player1} and ${player2}" in 30 seconds`,
-    // });
   };
 
+  postLeagueTableUpdateSlackMessage() {}
+
+  /* schedules a message to be posted in a slack channel at 9am on the day of a fixture and 15 mins before the fixture */
   scheduleSlackReminder = async (type, player1, player2, start) => {
+    /* gets the date of the fixture e.g. 15-Aug-2019 */
     var date = moment(start).format("DD-MMM-YYYY");
+
+    /* gets the time of the fixture e.g. 13:30 */
     var time = moment(start).format("HH:mm");
 
     var fifteenMinsBefore = moment(start)
