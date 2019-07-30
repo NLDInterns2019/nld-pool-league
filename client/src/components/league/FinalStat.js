@@ -83,7 +83,7 @@ const FinalStat = props => {
     <div>
       <div className="finalStatsTitleContainer">
         <div className="swords-icon" alt="swords" />
-        <h3>Honorable Mentions </h3>
+        <h3>Honourable Mentions </h3>
         <div className="swords-icon" alt="swords" />
       </div>
       <div className="finalStatsTableContainer">
