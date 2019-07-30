@@ -125,8 +125,19 @@ class FixturesPage extends Component {
     // });
   };
 
-  createSlackReminder = async (type, player1, player2, start) => {
+  scheduleSlackReminder = async (type, player1, player2, start) => {
+    var date = moment(start).format("DD-MMM-YYYY");
     var time = moment(start).format("HH:mm");
+
+    var fifteenMinsBefore = moment(start)
+      .subtract(15, "minutes")
+      .unix();
+
+    var startOfDay = moment(date)
+      .add(9, "hours")
+      .unix();
+
+    /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
     await this.web.chat.scheduleMessage({
       channel: this.channel,
       text:
@@ -137,7 +148,22 @@ class FixturesPage extends Component {
         player2 +
         " at " +
         time,
-      time: 10
+      post_at: fifteenMinsBefore
+    });
+
+    /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
+    await this.web.chat.scheduleMessage({
+      channel: this.channel,
+      text:
+        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+        " Reminder: \n" +
+        player1 +
+        "  vs  " +
+        player2 +
+        " at " +
+        time +
+        " today",
+      post_at: startOfDay
     });
   };
 
@@ -171,12 +197,12 @@ class FixturesPage extends Component {
           player2,
           this.state.start
         );
-        // this.createSlackReminder(
-        //   this.state.type,
-        //   player1,
-        //   player2,
-        //   this.state.start
-        // );
+        this.scheduleSlackReminder(
+          this.state.type,
+          player1,
+          player2,
+          this.state.start
+        );
       })
       .catch(e => {
         if (e.response.status === 401) {
