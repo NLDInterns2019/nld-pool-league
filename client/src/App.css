@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #dbe9e2;
-  min-width: 1145px;
+  min-width: 800px;
 }
 
 /* ==== Headings ==== */
@@ -106,6 +106,10 @@ ul {
 
 /* ==== Sub Navigation ==== */
 .subnav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   padding-left: 2.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -114,12 +118,35 @@ ul {
   margin-bottom: 2.5rem;
 }
 
+/* .subnav {
+  padding-left: 2.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #1f7058;
+  box-shadow: 0px 8px 10px -6px;
+  margin-bottom: 2.5rem;
+} */
+
+.subnav .nav {
+  order: 1;
+  width: auto;
+}
+
+.subnav .itemMenu {
+  order: 2;
+  margin-left: auto;
+  width: 50px;
+}
+
 .subnav ul {
   display: inline-block;
   padding-left: 1rem;
 }
+
 .subnav li {
   padding-right: 2.5rem;
+  vertical-align: middle;
+  margin-bottom: 0.5rem;
 }
 
 /* ==== Content ==== */
@@ -719,6 +746,14 @@ select:hover {
   background: url("./assets/thumbs-down.svg");
 }
 
+.menu-icon {
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  background: url("./assets/menu.svg");
+  visibility: hidden;
+}
+
 /* ==== Arrange Fixture ==== */
 #arrangeFixture {
   text-align: center;
@@ -908,6 +943,18 @@ select:hover {
 
   .contentRight {
     order: 3;
+  }
+
+  .subnav ul {
+    display: none;
+  }
+
+  .menu-icon {
+    visibility: visible;
+  }
+
+  .menu-icon:hover {
+    cursor: pointer;
   }
 }
 
