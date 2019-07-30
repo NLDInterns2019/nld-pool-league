@@ -901,6 +901,7 @@ select:hover {
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: stretch;
     justify-content: flex-start;
     height: 100%;
   }
@@ -914,8 +915,8 @@ select:hover {
   .contentLeft {
     order: 2;
     margin-bottom: 8rem;
-    position: static;
-    height: auto
+    height: auto;
+    position: static
   }
 
   .contentRight {

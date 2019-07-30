@@ -310,7 +310,7 @@ class App extends React.Component {
 
   showSubmitResult = () => {
     return (
-      <div style={{ marginTop: "4rem" }}>
+      <div style={{ marginTop: "4rem", marginBot: "4rem" }}>
         <SubmitScoreForm
           players={this.state.players}
           type={this.state.type}
