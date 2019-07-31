@@ -60,8 +60,8 @@ class FixturesPage extends Component {
   handleSelect = async ({ start, end }) => {
     if (moment() < moment(start)) {
       await this.setState({
-        start: moment(start).toISOString(),
-        end: moment(end).toISOString()
+        start: moment(start).toDate().toISOString(),
+        end: moment(end).toDate().toISOString()
       });
       this.openPopUp();
     }
@@ -69,6 +69,7 @@ class FixturesPage extends Component {
 
   handleDoubleClick = async e => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
+      console.log(e.messageId)
       await backend
         .delete("/api/booking/delete/", {
           data: {
@@ -133,26 +134,31 @@ class FixturesPage extends Component {
       .subtract(15, "minutes")
       .unix();
 
-    var startOfDay = moment(dateOfFixture)
+    var startOfDay = moment(start)
       .add(9, "hours")
       .unix();
 
     if (moment() < moment(start)) {
       /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
-      const res = await this.web.chat.scheduleMessage({
-        channel: this.channel,
-        text:
-          (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-          " Reminder: \n" +
-          player1 +
-          "  vs  " +
-          player2 +
-          " at " +
-          time,
-        post_at: fifteenMinsBefore
+       return new Promise((resolve, reject) => {
+        resolve(this.web.chat.scheduleMessage({
+          channel: this.channel,
+          text:
+            (type === "8"
+              ? ":8ball:"
+              : type === "9"
+              ? ":9ball:"
+              : "TYPE ERROR") +
+            " Reminder: \n" +
+            player1 +
+            "  vs  " +
+            player2 +
+            " at " +
+            time,
+          post_at: fifteenMinsBefore
+        }))
       });
     }
-
     // if (currentDate.isBefore(dateOfFixture)) {
     //   /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
     //   await this.web.chat.scheduleMessage({
@@ -191,10 +197,9 @@ class FixturesPage extends Component {
           headers: headers
         }
       )
-      .then(() => {
+      .then((id) => {
         this.toastSuccess("Booking Success!");
         this.closePopUp();
-        this.getBookings();
         this.postBookingUpdateSlackMessage(
           this.state.type,
           player1,
@@ -206,7 +211,20 @@ class FixturesPage extends Component {
           player1,
           player2,
           this.state.start
-        );
+        )
+        .then((result) => {
+          //Add message id to db
+          backend.put("/api/booking/add/message_id", {
+            id: id.data[0],
+            messageId: result.scheduled_message_id
+          },
+          {
+            headers: headers
+          }
+          )
+          //Update bookings
+          this.getBookings();
+        })
       })
       .catch(e => {
         if (e.response.status === 401) {

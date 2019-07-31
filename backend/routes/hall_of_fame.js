@@ -245,10 +245,10 @@ router.post("/calculate", async (req, res) => {
         (hofAll[i].wins * 100) / hofAll[i].plays
       );
     }
-
-    //patch db
     
   }
+
+  //patch db
   for (let v = 0; v < hofAll.length; v++) {
     let hofAll2 = await hall_of_fame.query().findOne({
       type: type,
