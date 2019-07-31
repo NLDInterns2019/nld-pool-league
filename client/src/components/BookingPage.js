@@ -69,7 +69,6 @@ class FixturesPage extends Component {
 
   handleDoubleClick = async e => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
-      console.log(e.messageId)
       await backend
         .delete("/api/booking/delete/", {
           data: {
