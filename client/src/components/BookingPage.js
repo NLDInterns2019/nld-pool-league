@@ -58,11 +58,13 @@ class FixturesPage extends Component {
   };
 
   handleSelect = async ({ start, end }) => {
-    await this.setState({
-      start: moment(start).toISOString(),
-      end: moment(end).toISOString()
-    });
-    this.openPopUp();
+    if (moment() < start) {
+      await this.setState({
+        start: moment(start).toISOString(),
+        end: moment(end).toISOString()
+      });
+      this.openPopUp();
+    }
   };
 
   handleDoubleClick = async e => {
@@ -135,21 +137,24 @@ class FixturesPage extends Component {
       .add(9, "hours")
       .unix();
 
-    /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
-    await this.web.chat.scheduleMessage({
-      channel: this.channel,
-      text:
-        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " Reminder: \n" +
-        player1 +
-        "  vs  " +
-        player2 +
-        " at " +
-        time,
-      post_at: fifteenMinsBefore
-    });
+    if (moment() < start) {
+      /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
 
-    if (currentDate !== dateOfFixture) {
+      await this.web.chat.scheduleMessage({
+        channel: this.channel,
+        text:
+          (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+          " Reminder: \n" +
+          player1 +
+          "  vs  " +
+          player2 +
+          " at " +
+          time,
+        post_at: fifteenMinsBefore
+      });
+    }
+
+    if (currentDate < dateOfFixture) {
       /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
       await this.web.chat.scheduleMessage({
         channel: this.channel,
