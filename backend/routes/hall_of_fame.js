@@ -239,21 +239,14 @@ router.post("/calculate", async (req, res) => {
         player2 = j;
       } //TODO can't break because that gives a sexy little error
     }
-   console.log(fixtures[i].player1 + " played " + fixtures[i].player2 + ". Top player: " + topPlayer.staffName);
     if (fixtures[i].player1 == topPlayer.staffname) { //check if the top player played in the fixture
-      console.log(fixtures[i].player1 + " is eqdddddual to " + topPlayer.staffName);
       hofAll[player2].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
-      console.log("plays: " + hofAll[player2].scrappyPlays + hofAll[player2].staffName)
       if (fixtures[i].score2 > fixtures[i].score1) {
-        console.log(fixtures[i].score2 + " is bigger than " + fixtures[i].score1)
         hofAll[player2].scrappy++; //if so, increment suitably
       }
     } else if (fixtures[i].player2 == topPlayer.staffName)  {
-      console.log(fixtures[i].player2 + " is equal to " + topPlayer.staffName);
       hofAll[player1].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
-      console.log("plays: " + hofAll[player1].scrappyPlays + hofAll[player1].staffName)
       if (fixtures[i].score1 > fixtures[i].score2) {
-        console.log(fixtures[i].score1 + " is bigger than " + fixtures[i].score2)
         hofAll[player1].scrappy++; //if so, increment suitably
       }
     }
