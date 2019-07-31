@@ -121,7 +121,8 @@ class FixturesPage extends Component {
   /* schedules a message to be posted in a slack channel at 9am on the day of a fixture and 15 mins before the fixture */
   scheduleSlackReminder = async (type, player1, player2, start) => {
     /* gets the date of the fixture e.g. 15-Aug-2019 */
-    var date = moment(start).format("DD-MMM-YYYY");
+    var currentDate = moment().format("DD-MMM-YYYY");
+    var dateOfFixture = moment(start).format("DD-MMM-YYYY");
 
     /* gets the time of the fixture e.g. 13:30 */
     var time = moment(start).format("HH:mm");
@@ -130,7 +131,7 @@ class FixturesPage extends Component {
       .subtract(15, "minutes")
       .unix();
 
-    var startOfDay = moment(date)
+    var startOfDay = moment(dateOfFixture)
       .add(9, "hours")
       .unix();
 
@@ -148,20 +149,22 @@ class FixturesPage extends Component {
       post_at: fifteenMinsBefore
     });
 
-    /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
-    await this.web.chat.scheduleMessage({
-      channel: this.channel,
-      text:
-        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " Reminder: \n" +
-        player1 +
-        "  vs  " +
-        player2 +
-        " at " +
-        time +
-        " today",
-      post_at: startOfDay
-    });
+    if (currentDate !== dateOfFixture) {
+      /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
+      await this.web.chat.scheduleMessage({
+        channel: this.channel,
+        text:
+          (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+          " Reminder: \n" +
+          player1 +
+          "  vs  " +
+          player2 +
+          " at " +
+          time +
+          " today",
+        post_at: startOfDay
+      });
+    }
   };
 
   makeBooking = async (player1, player2) => {
