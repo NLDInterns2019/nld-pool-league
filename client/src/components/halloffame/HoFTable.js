@@ -70,7 +70,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
         <td className="hofCell">
           {slacker
-            ? 100 - onTime.punctRate + "% punctuality"
+            ? onTime.punctRate + "% punctuality"
             : "Fewest late fixtures"}
         </td>
       </tr>
