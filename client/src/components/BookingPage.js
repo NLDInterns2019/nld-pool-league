@@ -12,7 +12,6 @@ import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
 
 const { WebClient } = require("@slack/web-api");
-const schedule = require("node-schedule");
 
 const localizer = momentLocalizer(moment);
 
@@ -150,32 +149,33 @@ class FixturesPage extends Component {
     });
   };
 
-  scheduleDailyFixtureMessage = () => {
-    schedule.scheduleJob(
-      "0 7 * * *",
-      this.postTodaysFixturesSlackMessage(
-        this.prepareTodaysFixturesSlackMessage(this.getTodaysFixtures())
-      )
-    );
-  };
-
   /* posts a message to a slack channel with the booking that has been created */
   postBookingUpdateSlackMessage = async (type, player1, player2, start) => {
     var date = moment(start).format("DD-MMM-YYYY");
     var time = moment(start).format("HH:mm");
     await this.web.chat.postMessage({
       channel: this.channel,
-      /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
-      text:
-        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " Booking created:\n" +
-        player1 +
-        "  VS  " +
-        player2 +
-        "  on " +
-        date +
-        " at " +
-        time
+      attachments: [
+        {
+          /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
+          mrkdwn_in: ["text"],
+          color: "#36a64f",
+          pretext:
+            (type === "8"
+              ? ":8ball:"
+              : type === "9"
+              ? ":9ball:"
+              : "TYPE ERROR") + " Booking created:",
+          text:
+            // (type === "8"
+            //   ? ":8ball:"
+            //   : type === "9"
+            //   ? ":9ball:"
+            //   : "TYPE ERROR") +
+            // " Booking created:\n" +
+            player1 + " vs " + player2 + "  on " + date + " at " + time
+        }
+      ]
     });
   };
 
