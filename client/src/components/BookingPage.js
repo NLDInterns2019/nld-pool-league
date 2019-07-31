@@ -71,9 +71,16 @@ class FixturesPage extends Component {
     }
   };
 
+  deleteScheduledSlackMessage = messageId => {
+    this.web.chat.deleteScheduledMessage({
+      channel: this.channel,
+      scheduled_message_id: messageId
+    });
+  };
+
   handleDoubleClick = async e => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
-      console.log(e.messageId);
+      console.log(e.messageId + " deleted");
       await backend
         .delete("/api/booking/delete/", {
           data: {
@@ -84,6 +91,7 @@ class FixturesPage extends Component {
         .then(() => {
           this.toastSuccess("Booking Deleted!");
           this.getBookings();
+          this.deleteScheduledSlackMessage(e.messageId);
         })
         .catch(e => {
           if (e.response.status === 401) {
@@ -104,13 +112,6 @@ class FixturesPage extends Component {
     //     limit: 1
     //   }).scheduled_messages[0].id
     // });
-    // console.log(
-    //   this.web.chat.scheduledMessages.list({
-    //     latest: 1564646401,
-    //     oldest: 1564646400,
-    //     limit: 1
-    //   })
-    // );
   };
 
   closePopUp = () => {
