@@ -15,14 +15,14 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
 
-  if (improved!=undefined) {
-    if (improved.improvement == 0) {
+  if (improved!==undefined) {
+    if (improved.improvement === 0) {
       improved = null;
       retire = null;
     }
   }
-  if (dedicated!=undefined) {
-    if (dedicated == undedicated) {
+  if (dedicated!==undefined) {
+    if (dedicated === undedicated) {
       dedicated = null;
     }
   }
