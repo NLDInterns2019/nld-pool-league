@@ -14,6 +14,7 @@ const itemsToBeDisplayed = props => {
   const improved = maxBy(props.players, "improvement");
   const retire = minBy(props.players, "improvement");
 
+  
   console.log(bestGame)
   return (
     <tbody>
@@ -70,7 +71,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
         <td className="hofCell">
           {slacker
-            ? 100 - onTime.punctRate + "% punctuality"
+            ? onTime.punctRate + "% punctuality"
             : "Fewest late fixtures"}
         </td>
       </tr>
