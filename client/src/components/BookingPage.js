@@ -12,6 +12,7 @@ import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
 
 const { WebClient } = require("@slack/web-api");
+const schedule = require("node-schedule");
 
 const localizer = momentLocalizer(moment);
 
@@ -104,19 +105,59 @@ class FixturesPage extends Component {
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
-    // this.web.chat.deleteScheduledMessage({
-    //   channel: this.channel,
-    //   scheduled_message_id: this.web.chat.scheduledMessages.list({
-    //     latest: 1564646401,
-    //     oldest: 1564646400,
-    //     limit: 1
-    //   }).scheduled_messages[0].id
-    // });
   };
 
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
+  };
+
+  /* get all of the fixtures that are booked to be played today */
+  getTodaysFixtures = () => {
+    var todaysFixtures = [];
+    for (var i = 0; i < this.state.events.length; i++) {
+      if (
+        moment(this.state.events[i].start).dayOfYear() ===
+          moment().dayOfYear() &&
+        moment(this.state.events[i].start).year() === moment().year()
+      ) {
+        console.log("pushing");
+        todaysFixtures.push(this.state.events[i]);
+      }
+    }
+    console.log(todaysFixtures);
+    return todaysFixtures;
+  };
+
+  /* take the fixtures booked today and convert them into a message string */
+  prepareTodaysFixturesSlackMessage = todaysFixtures => {
+    var finalMessage = "";
+    for (var i = 0; i < todaysFixtures.length; i++) {
+      finalMessage = finalMessage.concat(
+        todaysFixtures[i].title.toLowerCase() +
+          " at " +
+          moment(todaysFixtures[i].start).format("HH:mm") +
+          "\n"
+      );
+    }
+    return finalMessage;
+  };
+
+  /* post the message to the correct slack channel */
+  postTodaysFixturesSlackMessage = async message => {
+    await this.web.chat.postMessage({
+      channel: this.channel,
+      text: "Fixtures Today:\n" + message
+    });
+  };
+
+  scheduleDailyFixtureMessage = () => {
+    schedule.scheduleJob(
+      "0 7 * * *",
+      this.postTodaysFixturesSlackMessage(
+        this.prepareTodaysFixturesSlackMessage(this.getTodaysFixtures())
+      )
+    );
   };
 
   /* posts a message to a slack channel with the booking that has been created */
@@ -139,26 +180,13 @@ class FixturesPage extends Component {
     });
   };
 
-  postLeagueTableUpdateSlackMessage() {}
-
   /* schedules a message to be posted in a slack channel at 9am on the day of a fixture and 15 mins before the fixture */
   scheduleSlackReminder = async (type, player1, player2, start) => {
-    /* gets the date of the fixture e.g. 15-Aug-2019 */
-    var currentDate = moment().format("DD-MMM-YYYY");
-    var dateOfFixture = moment(start).format("DD-MMM-YYYY");
-
     /* gets the time of the fixture e.g. 13:30 */
     var time = moment(start).format("HH:mm");
 
     var fifteenMinsBefore = moment(start)
       .subtract(15, "minutes")
-      .unix();
-
-    // var startOfDay = moment(dateOfFixture)
-    //   .add(9, "hours")
-    //   .unix();
-    var startOfDay = moment(start)
-      .add(9, "hours")
       .unix();
 
     if (moment() < moment(start)) {
@@ -184,22 +212,6 @@ class FixturesPage extends Component {
         );
       });
     }
-    // if (currentDate.isBefore(dateOfFixture)) {
-    //   /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
-    //   await this.web.chat.scheduleMessage({
-    //     channel: this.channel,
-    //     text:
-    //       (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-    //       " Reminder: \n" +
-    //       player1 +
-    //       "  vs  " +
-    //       player2 +
-    //       " at " +
-    //       time +
-    //       " today",
-    //     post_at: startOfDay
-    //   });
-    // }
   };
 
   makeBooking = async (player1, player2) => {
@@ -335,6 +347,7 @@ class FixturesPage extends Component {
             events={this.state.events}
             onDoubleClickEvent={this.handleDoubleClick}
             onSelectSlot={this.handleSelect}
+            onSelectEvent={this.handleSelectEvent}
           />
         </div>
         <div className="popup-container" id="container" ref="container">
