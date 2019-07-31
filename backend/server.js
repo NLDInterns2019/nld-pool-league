@@ -2,6 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
+const axios = require("axios");
+
+//Scheduler
+const schedule = require('node-schedule');
 
 //Define routes
 let eight_nine_ball_season = require("./routes/eight_nine_ball_seasons"),
@@ -27,6 +31,19 @@ app.use(express.static(path.join(__dirname, "..", "client", "build")));
 app.get("/*", function(req, res) {
   res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
 });
+
+// RUN EVERY DAY AT 9 AM
+schedule.scheduleJob("Slack daily remainder", {hour:9, minute:0, dayOfWeek:[1,2,3,4,5]}, () => {
+  axios.post("https://hooks.slack.com/services/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", {
+    "text": "This is a daily reminder"
+  })
+})
+
+schedule.scheduleJob("Slack daily remainder", {hour:16, minute:0, dayOfWeek:[1,2,3,4,5]}, () => {
+  axios.post("https://hooks.slack.com/services/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", {
+    "text": "This is a daily reminder"
+  })
+})
 
 app.listen(PORT, () => {
   console.log("Express is listening on port: " + PORT);
