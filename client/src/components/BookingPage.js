@@ -91,6 +91,21 @@ class FixturesPage extends Component {
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
+    // this.web.chat.deleteScheduledMessage({
+    //   channel: this.channel,
+    //   scheduled_message_id: this.web.chat.scheduledMessages.list({
+    //     latest: 1564646401,
+    //     oldest: 1564646400,
+    //     limit: 1
+    //   }).scheduled_messages[0].id
+    // });
+    // console.log(
+    //   this.web.chat.scheduledMessages.list({
+    //     latest: 1564646401,
+    //     oldest: 1564646400,
+    //     limit: 1
+    //   })
+    // );
   };
 
   closePopUp = () => {
@@ -133,9 +148,9 @@ class FixturesPage extends Component {
       .subtract(15, "minutes")
       .unix();
 
-    var startOfDay = moment(dateOfFixture)
-      .add(9, "hours")
-      .unix();
+    // var startOfDay = moment(dateOfFixture)
+    //   .add(9, "hours")
+    //   .unix();
 
     if (moment() < moment(start)) {
       /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
