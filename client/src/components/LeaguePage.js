@@ -310,7 +310,7 @@ class App extends React.Component {
 
   showSubmitResult = () => {
     return (
-      <div style={{ marginTop: "4rem", marginBot: "4rem" }}>
+      <div style={{ marginTop: "4rem", marginBot: "4rem" }} className="submitScoreDiv">
         <SubmitScoreForm
           players={this.state.players}
           type={this.state.type}
@@ -319,7 +319,6 @@ class App extends React.Component {
         />
         <br />
         <br />
-
         <button
           id="closeSeason"
           onClick={() => {

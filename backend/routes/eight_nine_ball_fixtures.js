@@ -50,45 +50,6 @@ router.get("/group/:seasonId", (req, res) => {
 });
 
 /* 
-  GET handler for /api/89ball_fixture/due/:staffName
-  Function: To get all the fixtures unplayed by a user. Caps sensitive.
-  TODO: FUNCTIONALITY NOT FINISHED
-*/
-router.get("/due/:staffName", (req, res) => {
-  req.query.type = parseInt(req.query.type, 10);
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
-
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
-
-  let staffName = req.params.staffName;
-  eight_nine_ball_fixtures
-    .query()
-    .where({ score1: null })
-    .where({ player1: staffName })
-    .orWhere({ player2: staffName })
-    .then(
-      fixture => {
-        if (!fixture.length) {
-          res.status(404).send();
-        } else {
-          res.send(fixture);
-        }
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
-});
-
-/* 
   GET handler for /api/89ball_fixture/all/?type
   Function: To get the all fixtures with specified params (specific type)
 */

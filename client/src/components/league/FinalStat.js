@@ -94,7 +94,8 @@ const FinalStat = props => {
         >
           <thead>
             <tr>
-              <th colSpan="2">Achievement</th>
+              <th />
+              <th>Achievement</th>
               <th>Name</th>
             </tr>
           </thead>

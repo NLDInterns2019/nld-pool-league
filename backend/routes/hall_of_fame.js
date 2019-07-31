@@ -110,8 +110,10 @@ router.post("/calculate", async (req, res) => {
       hofRow.goalsAgainstTop = 0;
       hofRow.highestGF = 0;
       hofRow.scrappy = 0;
+      hofRow.loss = 0;
       hofRow.streak = 0;
       hofRow.improvement = 0;
+      hofRow.percentage = 0;
       hofRow.losingStreak = 0;
       start = false;
     }
@@ -140,11 +142,13 @@ router.post("/calculate", async (req, res) => {
     //basic calculations to aid numerous features
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
+    hofRow.loss = hofRow.loss + leagues[i].lose;
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.percentage = Math.trunc((hofRow.wins * 100) / hofRow.plays);
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
+    hofRow.loss = Math.trunc((hofRow.loss * 100) / hofRow.plays);
 
     //update the table
     await hall_of_fame
@@ -216,10 +220,10 @@ router.post("/calculate", async (req, res) => {
     //calculate scrappy: counts points against whoever top player is.
     let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
 
-    if (fixtures[i].name1 == topPlayer) {
+    if ((fixtures[i].player1 == topPlayer.staffname) && (fixtures[i].score2 > fixtures[i].score1)) {
       //check if the top player played in the fixture
       hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2; //if so, increment suitably
-    } else if (fixtures[i].name2 == topPlayer) {
+    } else if ((fixtures[i].player2 == topPlayer.staffName) && (fixtures[i].score1 > fixtures[i].score2))  {
       hofAll[player1].scrappy = hofAll[player1].scrappy + fixtures[i].score1;
     }
   }

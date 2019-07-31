@@ -155,7 +155,7 @@ ul {
 /* ==== Content ==== */
 .content {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
@@ -167,11 +167,8 @@ ul {
 }
 
 .contentLeft {
-  height: auto;
   order: 1;
   text-align: center;
-  position: sticky;
-  top: 3%;
 }
 
 .contentRight {
@@ -487,6 +484,11 @@ select:hover {
   margin: auto;
   padding: 1rem;
   border-radius: 15px;
+}
+
+.submitScoreDiv {
+  position: sticky;
+  top: 30%;
 }
 
 /* ==== Hall Of Fame ==== */
