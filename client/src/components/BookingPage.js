@@ -58,7 +58,7 @@ class FixturesPage extends Component {
   };
 
   handleSelect = async ({ start, end }) => {
-    if (moment() < start) {
+    if (moment() < moment(start)) {
       await this.setState({
         start: moment(start).toISOString(),
         end: moment(end).toISOString()
@@ -137,10 +137,9 @@ class FixturesPage extends Component {
       .add(9, "hours")
       .unix();
 
-    if (moment() < start) {
+    if (moment() < moment(start)) {
       /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
-
-      await this.web.chat.scheduleMessage({
+      const res = await this.web.chat.scheduleMessage({
         channel: this.channel,
         text:
           (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
@@ -154,22 +153,22 @@ class FixturesPage extends Component {
       });
     }
 
-    if (currentDate < dateOfFixture) {
-      /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
-      await this.web.chat.scheduleMessage({
-        channel: this.channel,
-        text:
-          (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-          " Reminder: \n" +
-          player1 +
-          "  vs  " +
-          player2 +
-          " at " +
-          time +
-          " today",
-        post_at: startOfDay
-      });
-    }
+    // if (currentDate.isBefore(dateOfFixture)) {
+    //   /* schedules a message to be posted in the channel at 9am on the day of the scheduled fixture */
+    //   await this.web.chat.scheduleMessage({
+    //     channel: this.channel,
+    //     text:
+    //       (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+    //       " Reminder: \n" +
+    //       player1 +
+    //       "  vs  " +
+    //       player2 +
+    //       " at " +
+    //       time +
+    //       " today",
+    //     post_at: startOfDay
+    //   });
+    // }
   };
 
   makeBooking = async (player1, player2) => {
@@ -193,7 +192,7 @@ class FixturesPage extends Component {
         }
       )
       .then(() => {
-        this.toastSuccess("Booking Sucess!");
+        this.toastSuccess("Booking Success!");
         this.closePopUp();
         this.getBookings();
         this.postBookingUpdateSlackMessage(
