@@ -1,9 +1,8 @@
 import React from "react";
 import { maxBy, minBy } from "lodash";
-
 const itemsToBeDisplayed = props => {
   const topPlayer = maxBy(props.players, "percentage");
-  const ohno = minBy(props.players, "percentage");
+  const casual = minBy(props.players, "percentage");
   const draw = maxBy(props.players, "draws");
   const dedicated = maxBy(props.players, "plays");
   const onTime = minBy(props.players, "punctRate");
@@ -15,6 +14,7 @@ const itemsToBeDisplayed = props => {
   const improved = maxBy(props.players, "improvement");
   const retire = minBy(props.players, "improvement");
 
+  console.log(props.players)
   return (
     <tbody>
       <tr>
@@ -113,10 +113,10 @@ const itemsToBeDisplayed = props => {
           <div className="angry-icon" alt="angry" />
         </td>
         <td className="hofCellBorder">Filthy Casual</td>
-        <td className="hofCellBorder">{ohno ? ohno.staffName : "-"}</td>
+        <td className="hofCellBorder">{casual ? casual.staffName : "-"}</td>
         <td className="hofCellBorder">
-          {ohno
-            ? 100 - ohno.percentage + "% of games lost"
+          {casual
+            ? 100 - casual.percentage + "% of games lost"
             : "Highest loss rate"}
         </td>
       </tr>
