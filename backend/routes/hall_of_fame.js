@@ -110,6 +110,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.goalsAgainstTop = 0;
       hofRow.highestGF = 0;
       hofRow.scrappy = 0;
+      hofRow.loss = 0;
       hofRow.streak = 0;
       hofRow.improvement = 0;
       hofRow.losingStreak = 0;
@@ -140,6 +141,7 @@ router.post("/calculate", async (req, res) => {
     //basic calculations to aid numerous features
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
+    hofRow.loss = hofRow.loss + leagues[i].loss;
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.percentage = Math.trunc((hofRow.wins * 100) / hofRow.plays);

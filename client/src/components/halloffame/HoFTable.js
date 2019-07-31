@@ -2,19 +2,31 @@ import React from "react";
 import { maxBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
   const topPlayer = maxBy(props.players, "percentage");
-  const casual = minBy(props.players, "percentage");
+  const casual = minBy(props.players, "loss");
   const draw = maxBy(props.players, "draws");
-  const dedicated = maxBy(props.players, "plays");
+  let dedicated = maxBy(props.players, "plays");
+  let undedicated = minBy(props.players, "plays");
   const onTime = minBy(props.players, "punctRate");
   const slacker = maxBy(props.players, "punctRate");
   const bestGame = maxBy(props.players, "highestGF");
   const losingStreak = maxBy(props.players, "losingStreak");
   const streak = maxBy(props.players, "streak");
   const scrappy = maxBy(props.players, "scrappyRate");
-  const improved = maxBy(props.players, "improvement");
-  const retire = minBy(props.players, "improvement");
+  let improved = maxBy(props.players, "improvement");
+  let retire = minBy(props.players, "improvement");
 
-  
+  if (improved!=undefined) {
+    if (improved.improvement == 0) {
+      improved = null;
+      retire = null;
+    }
+  }
+  if (dedicated!=undefined) {
+    if (dedicated == undedicated) {
+      dedicated = null;
+    }
+  }
+
   console.log(bestGame)
   return (
     <tbody>
