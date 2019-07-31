@@ -37,7 +37,7 @@ app.get("/*", function(req, res) {
 // RUN EVERY DAY AT 9 AM
 schedule.scheduleJob(
   "Slack daily remainder",
-  { hour: 9, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
+  { hour: 7, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
   () => {
     let start = moment()
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
@@ -51,37 +51,19 @@ schedule.scheduleJob(
       .query()
       .whereBetween("start", [start, end])
       .then(bookings => {
-
+        let message = "";
+        bookings.map(booking => {
+          message = message.concat(
+            booking.title.toLowerCase() +
+              " at " +
+              moment(booking.start).format("HH:mm") +
+              "\n"
+          );
+        });
         axios.post(
           "https://hooks.slack.com/services/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",
           {
-            text: bookings.map(booking => `${booking.title} at ${moment(booking.start).format("HH:mm")}`)
-          }
-        );
-      });
-  }
-);
-
-schedule.scheduleJob(
-  "Slack daily remainder",
-  { hour: 16, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
-  () => {
-    let start = moment()
-      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-      .toDate()
-      .toISOString();
-    let end = moment(start)
-      .add(1, "day")
-      .toDate()
-      .toISOString();
-    bookingsDB
-      .query()
-      .whereBetween("start", [start, end])
-      .then(bookings => {
-        axios.post(
-          "https://hooks.slack.com/services/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",
-          {
-            text: bookings.map(booking => `${booking.title} at ${moment(booking.start).format("HH:mm")}`)
+            text: message
           }
         );
       });
