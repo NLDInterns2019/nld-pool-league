@@ -43,7 +43,7 @@ describe("League", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
-          res.body.length.should.be.eql(6);
+          res.body.length.should.be.eql(9);
           res.body.should.include.something.like({
             type: 8,
             seasonId: 2019,
@@ -71,7 +71,22 @@ describe("League", () => {
           });
           res.body.should.include.something.like({
             type: 8,
-            seasonId: 2020,
+            seasonId: 2021,
+            staffName: "Natalie"
+          });
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2021,
+            staffName: "Michael"
+          });
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2021,
+            staffName: "Matthew"
+          });
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2021,
             staffName: "Natalie"
           });
           done();

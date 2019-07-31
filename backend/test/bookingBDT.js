@@ -1,6 +1,6 @@
 process.env.NODE_ENV = "test";
 
-var moment = require("moment")
+var moment = require("moment");
 
 var chai = require("chai");
 var chaiHttp = require("chai-http");
@@ -90,8 +90,13 @@ describe("Bookings", () => {
   });
 
   describe("POST /api/booking/add", () => {
-    let start = moment().toDate().toISOString();
-    let end = moment().add(30, 'minutes').toDate().toISOString()
+    let start = moment()
+      .toDate()
+      .toISOString();
+    let end = moment()
+      .add(30, "minutes")
+      .toDate()
+      .toISOString();
     it("should add a booking", done => {
       chai
         .request(server)
@@ -116,6 +121,38 @@ describe("Bookings", () => {
               res.body.should.include.something.like({
                 start: start,
                 end: end,
+                player1: "Michael",
+                player2: "Matthew",
+                title: "Michael VS Matthew"
+              });
+              done();
+            });
+        });
+    });
+  });
+
+  describe("PUT /api/booking/add/message_id", () => {
+    it("should slack message id to the booking", done => {
+      chai
+        .request(server)
+        .put("/api/booking/add/message_id")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          id: 1,
+          messageId: "QWERTY"
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/booking")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.length.should.be.eql(3);
+              res.body.should.include.something.like({
+                id: 1,
+                messageId: "QWERTY",
                 player1: "Michael",
                 player2: "Matthew",
                 title: "Michael VS Matthew"
@@ -155,5 +192,4 @@ describe("Bookings", () => {
         });
     });
   });
-
 });
