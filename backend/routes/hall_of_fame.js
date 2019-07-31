@@ -113,6 +113,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.loss = 0;
       hofRow.streak = 0;
       hofRow.improvement = 0;
+      hofRow.percentage = 0;
       hofRow.losingStreak = 0;
       start = false;
     }

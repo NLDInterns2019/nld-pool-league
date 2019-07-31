@@ -27,7 +27,7 @@ const itemsToBeDisplayed = props => {
     }
   }
 
-  console.log(casual)
+  console.log(losingStreak)
   return (
     <tbody>
       <tr>
