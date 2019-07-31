@@ -197,7 +197,7 @@ router.put("/close", auth.checkJwt, (req, res) => {
           return;
         }
         eight_nine_ball_fixtures.query()
-        .where({score1: null, score2: null})
+        .where({type: req.body.type, seasonId: req.body.seasonId, score1: null, score2: null})
         .patch({score1: 1, score2: 1})
         .then((result) => {
           res.json(result)
