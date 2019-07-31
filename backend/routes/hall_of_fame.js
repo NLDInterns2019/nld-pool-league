@@ -220,10 +220,10 @@ router.post("/calculate", async (req, res) => {
     //calculate scrappy: counts points against whoever top player is.
     let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
 
-    if (fixtures[i].name1 == topPlayer) {
+    if ((fixtures[i].player1 == topPlayer.staffname) && (fixtures[i].score2 > fixtures[i].score1)) {
       //check if the top player played in the fixture
       hofAll[player2].scrappy = hofAll[player2].scrappy + fixtures[i].score2; //if so, increment suitably
-    } else if (fixtures[i].name2 == topPlayer) {
+    } else if ((fixtures[i].player2 == topPlayer.staffName) && (fixtures[i].score1 > fixtures[i].score2))  {
       hofAll[player1].scrappy = hofAll[player1].scrappy + fixtures[i].score1;
     }
   }
