@@ -105,6 +105,35 @@ router.post("/add", auth.checkJwt, (req, res) => {
 });
 
 /* 
+  PUT handler for /api/booking/add
+  Function: To add booking
+*/
+router.put("/add/message_id", auth.checkJwt, (req, res) => {
+  const schema = {
+    id: Joi.number().required(),
+    messageId: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  bookings.query()
+  .where({id: req.body.id})
+  .patch({messageId: req.body.messageId})
+  .then(result => {
+    if(res === 0) {
+      res.status(404).send();
+    }
+    res.json(result)
+  }, e=> {
+    res.status(400).send(e)
+  })
+});
+
+/* 
   DELETE handler for /api/booking/delete
   Function: To delete booking
 */
@@ -132,7 +161,7 @@ router.delete("/delete", auth.checkJwt, (req, res) => {
           res.status(404).json();
         } else {
           //Something deleted
-          res.status(204).send();
+          res.status(204).send()
         }
       },
       e => {

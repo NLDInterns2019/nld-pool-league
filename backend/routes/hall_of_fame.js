@@ -247,17 +247,20 @@ router.post("/calculate", async (req, res) => {
     }
 
     //patch db
+    
+  }
+  for (let v = 0; v < hofAll.length; v++) {
     let hofAll2 = await hall_of_fame.query().findOne({
       type: type,
-      staffName: hofAll[i].staffName
+      staffName: hofAll[v].staffName
     });
     await hall_of_fame
       .query()
       .findOne({
         type: type,
-        staffName: hofAll[i].staffName
+        staffName: hofAll[v].staffName
       })
-      .patch(hofAll2);
+      .patch(hofAll[v]);
   }
   res.json(hofAll);
 });
