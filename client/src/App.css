@@ -110,7 +110,7 @@ ul {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 2.5rem;
+  padding-left: 1.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   background-color: #1f7058;
@@ -118,13 +118,20 @@ ul {
   margin-bottom: 2.5rem;
 }
 
-.subnav .nav {
+.subnav .eight-ball-icon,
+.subnav .nine-ball-icon {
   order: 1;
+  margin-right: 1rem;
+}
+
+.subnav .nav {
+  order: 2;
   width: auto;
+  font-size: 11pt;
 }
 
 .subnav .itemMenu {
-  order: 2;
+  order: 3;
   margin-left: auto;
   width: 50px;
 }
@@ -136,6 +143,7 @@ ul {
 .subnav .main-items {
   display: inline-block;
   padding-left: 1rem;
+  font-size: 11pt;
 }
 
 .subnav li {
@@ -488,9 +496,9 @@ select:hover {
   padding: 1rem;
 }
 
-tr td:last-child{
-  width:1%;
-  white-space:nowrap;
+tr td:last-child {
+  width: 1%;
+  white-space: nowrap;
 }
 .achievementTableContainer {
   display: inline-block;

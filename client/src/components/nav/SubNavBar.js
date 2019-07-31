@@ -7,6 +7,14 @@ import auth0Client from "../../Auth";
 const SubNavBar = props => {
   var currentPath = window.location.pathname;
 
+  var icon = matchPath(currentPath, { path: "/8-ball", exact: false }) ? (
+    <div className="eight-ball-icon" alt="eight ball" />
+  ) : matchPath(currentPath, { path: "/9-ball", exact: false }) ? (
+    <div className="nine-ball-icon" alt="nine ball" />
+  ) : (
+    "TYPE ERROR"
+  );
+
   /* set the title of the nav bar depending on the URL path */
   var title =
     matchPath(currentPath, { path: "/8-ball/seasons", exact: false }) ||
@@ -188,6 +196,7 @@ const SubNavBar = props => {
   return (
     <div className="subnav">
       <ToastContainer />
+      {icon}
       <div className="nav">
         <h2
           style={{
