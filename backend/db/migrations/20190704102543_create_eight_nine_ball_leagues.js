@@ -12,7 +12,6 @@ exports.up = function(knex) {
     table.integer("goalsAgainst").defaultTo(0);
     table.integer("punctuality").defaultTo(0);
     table.integer("points").defaultTo(0);
-    table.integer("loss").defaultTo(0);
     table.boolean("paid").notNullable().defaultTo(false);
 
     table
