@@ -14,7 +14,7 @@ const itemsToBeDisplayed = props => {
   const improved = maxBy(props.players, "improvement");
   const retire = minBy(props.players, "improvement");
 
-  console.log(props.players + "DDD")
+  console.log(bestGame)
   return (
     <tbody>
       <tr>
