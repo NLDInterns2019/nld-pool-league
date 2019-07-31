@@ -37,7 +37,7 @@ app.get("/*", function(req, res) {
 // RUN EVERY DAY AT 9 AM
 schedule.scheduleJob(
   "Slack daily remainder",
-  { hour: 9, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
+  { hour: 7, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
   () => {
     let start = moment()
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
