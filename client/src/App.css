@@ -155,7 +155,7 @@ ul {
 /* ==== Content ==== */
 .content {
   display: flex;
-  /* align-items: flex-start; */
+  align-items: flex-start;
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
@@ -167,7 +167,7 @@ ul {
 }
 
 .contentLeft {
-  height: 700px;
+  height: auto;
   order: 1;
   text-align: center;
   position: sticky;
