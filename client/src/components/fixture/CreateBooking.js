@@ -2,6 +2,8 @@ import React from "react";
 import backend from "../../api/backend";
 import { orderBy } from "lodash";
 
+import Axios from "axios";
+
 class CreateBooking extends React.Component {
   constructor(props) {
     super(props);
@@ -18,31 +20,44 @@ class CreateBooking extends React.Component {
     this.state = this.initialState;
   }
 
+  signal = Axios.CancelToken.source();
+
   getPlayers = async () => {
-    const response = await backend.get(
-      "/api/89ball_league/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type
+    try {
+      const response = await backend.get(
+        "/api/89ball_league/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
         }
-      }
-    );
-    this.setState({ players: orderBy(response.data, ["staffName"], ["asc"]) });
+      );
+      this.setState({
+        players: orderBy(response.data, ["staffName"], ["asc"])
+      });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   getUnplayedFixtures = async () => {
-    const unplayedFixtures = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        params: {
-          type: this.state.type,
-          staffName: this.state.activePlayer,
-          hidePlayed: true
+    try {
+      const unplayedFixtures = await backend.get(
+        "/api/89ball_fixture/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type,
+            staffName: this.state.activePlayer,
+            hidePlayed: true
+          }
         }
-      }
-    );
-
-    this.setState({ unplayedFixtures: unplayedFixtures.data });
+      );
+      this.setState({ unplayedFixtures: unplayedFixtures.data });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -60,6 +75,10 @@ class CreateBooking extends React.Component {
       }
     }
   };
+
+  componentWillUnmount() {
+    this.signal.cancel("");
+  }
 
   playerDropDown = () => {
     return (
