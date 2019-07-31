@@ -229,8 +229,6 @@ router.post("/calculate", async (req, res) => {
   //this is broken and terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
 /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
-    console.log(player1)
-    console.log(player2)
     //get the locations of the players from the main HoF table
     for (let j = 0; j < hofAll.length; j++) {
       if (hofAll[j].staffName == fixtures[i].player1) {
