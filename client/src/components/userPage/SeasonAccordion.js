@@ -61,13 +61,13 @@ class SeasonAccordion extends React.Component {
         {this.state.type === "8" ? (
           <div className="unplayedTitle">
             <span className="eight-ball-icon" alt="eight ball" />
-            <h3>Unplayed 8-Ball Fixtures</h3>
+            <h3>Unplayed <strong>8-Ball</strong> Fixtures</h3>
             <span className="eight-ball-icon" alt="eight ball" />
           </div>
         ) : (
           <div className="unplayedTitle">
             <span className="nine-ball-icon" alt="nine ball" />
-            <h3>Unplayed 9-Ball Fixtures</h3>
+            <h3>Unplayed <strong>9-Ball</strong> Fixtures</h3>
             <span className="nine-ball-icon" alt="nine ball" />
           </div>
         )}
