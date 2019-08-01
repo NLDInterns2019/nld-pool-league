@@ -149,29 +149,6 @@ class FixturesPage extends Component {
     });
   };
 
-  /* posts a message to a slack channel with the booking that has been created */
-  postBookingUpdateSlackMessage = async (type, player1, player2, start) => {
-    var date = moment(start).format("DD-MMM-YYYY");
-    var time = moment(start).format("HH:mm");
-    await this.web.chat.postMessage({
-      channel: this.channel,
-      attachments: [
-        {
-          /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
-          mrkdwn_in: ["text"],
-          color: "#36a64f",
-          pretext:
-            (type === "8"
-              ? ":8ball:"
-              : type === "9"
-              ? ":9ball:"
-              : "TYPE ERROR") + " Booking created:",
-          text: player1 + " vs " + player2 + "  on " + date + " at " + time
-        }
-      ]
-    });
-  };
-
   /* schedules a message to be posted in a slack channel at 9am on the day of a fixture and 15 mins before the fixture */
   scheduleSlackReminder = async (type, player1, player2, start) => {
     /* gets the time of the fixture e.g. 13:30 */
@@ -227,14 +204,20 @@ class FixturesPage extends Component {
           headers: headers
         }
       )
-      .then(id => {
+      .then(async id => {
         this.toastSuccess("Booking Success!");
         this.closePopUp();
-        this.postBookingUpdateSlackMessage(
-          this.state.type,
-          player1,
-          player2,
-          this.state.start
+        await backend.post(
+          "/api/slack/booking",
+          {
+            type: parseInt(this.state.type, 10),
+            start: this.state.start,
+            player1: player1,
+            player2: player2
+          },
+          {
+            headers: headers
+          }
         );
         this.scheduleSlackReminder(
           this.state.type,
