@@ -455,6 +455,9 @@ select:hover {
 .form-popup button {
   margin-top: 0.5rem;
 }
+.form-popup {
+  margin-bottom: 150px;
+}
 
 #seasonsList .delete-icon {
   margin-left: 5.5rem;
@@ -481,7 +484,8 @@ select:hover {
 .form-popup {
   background-color: white;
   width: 600px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 1rem;
   border-radius: 15px;
 }
