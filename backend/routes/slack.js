@@ -11,12 +11,12 @@ const token = process.env.token;
 const channel = process.env.channel;
 const web = new WebClient(token);
 
-/*  Slack message colours: 
-    Bookings: #36a64f (green)
-    Results: #ff9c33 (orange)
-    Reminders: #e23e4b (red)
-    Seasons: #22d7e0 (blue)
-*/
+const colours = {
+  bookings: "#36a64f", // green
+  results: "#ff9c33", // orange
+  reminders: "#e23e4b", // red
+  seasons: "22d7e0" // blue
+};
 
 /* 
   POST handler for /api/slack/booking
@@ -46,7 +46,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
         {
           /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
           mrkdwn_in: ["text"],
-          color: "#36a64f",
+          color: colours.bookings,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
@@ -108,7 +108,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: "#e23e4b",
+          color: colours.reminders,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
@@ -181,7 +181,7 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: "#22d7e0",
+          color: colours.seasons,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
@@ -227,7 +227,7 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: "#ff9c33",
+          color: colours.results,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
