@@ -11,7 +11,7 @@ class CreateSeasonForm extends Component {
 
     this.initialState = {
       auth0Players: [],
-      playersName: ["", ""],
+      playersName: [],
       seasonName: ""
     };
 
@@ -26,7 +26,14 @@ class CreateSeasonForm extends Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
         .then(res => {
-          this.setState({ auth0Players: orderBy(res.data, ["username"], ["asc"]) });
+          this.setState({
+            auth0Players: orderBy(res.data, ["username"], ["asc"])
+          });
+          this.setState({
+            playersName: orderBy(res.data, ["username"], ["asc"]).map(
+              player => player.nickname
+            )
+          });
         });
     } catch (e) {
       if (e.response.status === 401) {
@@ -83,7 +90,9 @@ class CreateSeasonForm extends Component {
       this.props.createSeason(this.state);
       //this.postCreateSeasonSlackMessage();
       this.props.closePopUp();
-      this.setState(this.initialState, ()=>{this.getPlayers()});
+      this.setState(this.initialState, () => {
+        this.getPlayers();
+      });
     });
   };
 
@@ -126,12 +135,15 @@ class CreateSeasonForm extends Component {
     return true;
   }
 
-  isValidPlayers(){
+  isValidPlayers() {
     //No duplicate
-    if(uniq(this.state.playersName).length === this.state.playersName.length && !this.state.playersName.includes("")){
-      return true
+    if (
+      uniq(this.state.playersName).length === this.state.playersName.length &&
+      !this.state.playersName.includes("")
+    ) {
+      return true;
     }
-    return false
+    return false;
   }
 
   /* displays button if inputs are valid, otherwise, hides it */
@@ -159,11 +171,11 @@ class CreateSeasonForm extends Component {
     }
   }
 
-  checkPlayersError(){
-    if(this.isValidPlayers()){
+  checkPlayersError() {
+    if (this.isValidPlayers()) {
       return null;
-    }else {
-      return <div className="error">Invalid player(s)</div>
+    } else {
+      return <div className="error">Invalid player(s)</div>;
     }
   }
 
@@ -210,7 +222,7 @@ class CreateSeasonForm extends Component {
             value={this.state.seasonName}
             id="inputSeasonNo"
             ref="inputSeasonNo"
-            onChange={e => this.setState({seasonName: e.target.value})}
+            onChange={e => this.setState({ seasonName: e.target.value })}
           />
           {this.checkSeasonError()}
           <div className="inputPlayers">
@@ -225,8 +237,15 @@ class CreateSeasonForm extends Component {
                   >
                     {/* Dropdown selection */}
                     <option value="">Choose a player</option>
-                    {this.state.playersName[index] !== "" ? <option value={this.state.playersName[index]}>{this.state.playersName[index]}</option> : null}
-                    {filter(this.state.auth0Players, p => !this.state.playersName.includes(p.username)).map(player => {
+                    {this.state.playersName[index] !== "" ? (
+                      <option value={this.state.playersName[index]}>
+                        {this.state.playersName[index]}
+                      </option>
+                    ) : null}
+                    {filter(
+                      this.state.auth0Players,
+                      p => !this.state.playersName.includes(p.username)
+                    ).map(player => {
                       return (
                         <option key={player.username} value={player.username}>
                           {player.username}
