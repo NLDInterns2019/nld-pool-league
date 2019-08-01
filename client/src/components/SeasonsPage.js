@@ -116,7 +116,12 @@ class SeasonsPage extends Component {
         this.toastUnauthorised();
       }
       if (e.response.status === 400) {
-        this.toastError("Something went wrong. Please try again");
+        this.toastError(
+          <div className="toast">
+            <div className="no-entry-icon" alt="no entry" />
+            <p>Something went wrong. Please try again</p>
+          </div>
+        );
       }
     }
   };
@@ -143,14 +148,20 @@ class SeasonsPage extends Component {
   };
 
   toastUnauthorised = () => {
-    toast.error("⛔ Unauthorised! Please login", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
+    toast.error(
+      <div className="toast">
+        <div className="no-entry-icon" alt="no entry" />
+        <p>Unauthorised! Please log in</p>
+      </div>,
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      }
+    );
   };
 
   toastError = message => {

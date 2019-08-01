@@ -220,7 +220,6 @@ class App extends React.Component {
           }
         )
         .then(() => {
-          // this.toastSuccess("🔐 Season closed");
           this.toastSuccess(
             <div className="toast">
               <div className="lock-icon-small" alt="lock" />

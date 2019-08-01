@@ -1,7 +1,7 @@
 import React from "react";
 import Collapsible from "./Collapsible.js";
 import { Link, matchPath } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import auth0Client from "../../Auth";
 
 const SubNavBar = props => {
