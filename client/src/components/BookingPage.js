@@ -191,7 +191,7 @@ class FixturesPage extends Component {
             attachments: [
               {
                 mrkdwn_in: ["text"],
-                color: "#36a64f",
+                color: "#e23e4b",
                 pretext:
                   (type === "8"
                     ? ":8ball:"

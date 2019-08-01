@@ -4,14 +4,14 @@ const itemsToBeDisplayed = props => {
   return (
     <tbody>
       <tr>
-        <td align="center">
+        <td align="center" className="rank">
           <div className="gold-medal-icon" alt="first place" />
         </td>
         <td>{props.players[0].staffName}</td>
         <td>{props.players[0].points}</td>
       </tr>
       <tr>
-        <td align="center">
+        <td align="center" className="rank">
           <div className="silver-medal-icon" alt="second place" />
         </td>
         <td>{props.players[1].staffName}</td>
@@ -19,7 +19,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       {props.players.length >= 3 ? (
         <tr>
-          <td align="center">
+          <td align="center" className="rank">
             <div className="bronze-medal-icon" alt="third place" />
           </td>
           <td>{props.players[2].staffName}</td>
@@ -46,7 +46,7 @@ const FinalRankTable = props => {
         >
           <thead>
             <tr>
-              <th>Rank</th>
+              <th className="rank">Rank</th>
               <th>Name</th>
               <th>Pts</th>
             </tr>

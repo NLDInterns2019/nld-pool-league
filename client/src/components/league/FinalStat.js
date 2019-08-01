@@ -22,7 +22,7 @@ const itemsToBeDisplayed = props => {
           Undefeated
           <span className="tooltiptext">Player with no losses</span>
         </td>
-        <td>{undefeated ? undefeated.staffName : "-"}</td>
+        <td className="name">{undefeated ? undefeated.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
@@ -32,7 +32,7 @@ const itemsToBeDisplayed = props => {
           Most drawn
           <span className="tooltiptext">Player with most draws</span>
         </td>
-        <td>{draw ? draw.staffName : "-"}</td>
+        <td className="name">{draw ? draw.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
@@ -42,7 +42,7 @@ const itemsToBeDisplayed = props => {
           Liability
           <span className="tooltiptext">Player with most points against</span>
         </td>
-        <td>{firstTimer ? firstTimer.staffName : "-"}</td>
+        <td className="name">{firstTimer ? firstTimer.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
@@ -52,7 +52,7 @@ const itemsToBeDisplayed = props => {
           Zero win
           <span className="tooltiptext">Player with zero wins</span>
         </td>
-        <td>{zero ? zero.staffName : "-"}</td>
+        <td className="name">{zero ? zero.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
@@ -62,7 +62,7 @@ const itemsToBeDisplayed = props => {
           Mr. Punctual
           <span className="tooltiptext">Player with fewest lates</span>
         </td>
-        <td>{onTime ? onTime.staffName : "-"}</td>
+        <td className="name">{onTime ? onTime.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
@@ -72,7 +72,7 @@ const itemsToBeDisplayed = props => {
           Mr. Overdue
           <span className="tooltiptext">Player with most lates</span>
         </td>
-        <td>{late ? late.staffName : "-"}</td>
+        <td className="name">{late ? late.staffName : "-"}</td>
       </tr>
     </tbody>
   );
@@ -96,7 +96,7 @@ const FinalStat = props => {
             <tr>
               <th />
               <th>Achievement</th>
-              <th>Name</th>
+              <th className="name">Name</th>
             </tr>
           </thead>
           {itemsToBeDisplayed(props)}
