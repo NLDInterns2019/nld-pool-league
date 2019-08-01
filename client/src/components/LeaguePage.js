@@ -116,7 +116,7 @@ class App extends React.Component {
         }
       )
       .then(async () => {
-        this.toastSucess(
+        this.toastSuccess(
           <p>
             Result Submitted!
             <br />
@@ -124,7 +124,7 @@ class App extends React.Component {
           </p>
         );
         this.updateData();
-        await backend.post(
+        backend.post(
           "/api/slack/resultSubmitted",
           {
             type: parseInt(this.state.type, 10),

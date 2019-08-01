@@ -71,26 +71,26 @@ class FixturesPage extends Component {
     }
   };
 
-  deleteScheduledSlackMessage = messageId => {
-    this.web.chat.deleteScheduledMessage({
-      channel: this.channel,
-      scheduled_message_id: messageId
-    });
-  };
-
-  handleDoubleClick = async e => {
+  handleDoubleClick = async event => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       await backend
         .delete("/api/booking/delete/", {
           data: {
-            id: e.id
+            id: event.id
           },
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
-        .then(() => {
+        .then(async () => {
+          if(event.messageId){
+            await backend.delete("api/slack/booking/reminder", {
+              data: {
+                messageId: event.messageId
+              },
+              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            });
+          }
           this.toastSuccess("Booking Deleted!");
           this.getBookings();
-          this.deleteScheduledSlackMessage(e.messageId);
         })
         .catch(e => {
           if (e.response.status === 401) {
@@ -191,10 +191,10 @@ class FixturesPage extends Component {
               headers: headers
             }
           )
-          .then(result => {
+          .then(async result => {
             if (result.status === 200) {
               //Add message id to db
-              backend.put(
+              await backend.put(
                 "/api/booking/add/message_id",
                 {
                   id: id.data[0],
@@ -204,9 +204,11 @@ class FixturesPage extends Component {
                   headers: headers
                 }
               );
+              this.getBookings();
+            } else {
+              //Update bookings
+              this.getBookings();
             }
-            //Update bookings
-            this.getBookings();
           });
       })
       .catch(e => {
