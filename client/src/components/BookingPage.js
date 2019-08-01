@@ -166,14 +166,7 @@ class FixturesPage extends Component {
               : type === "9"
               ? ":9ball:"
               : "TYPE ERROR") + " Booking created:",
-          text:
-            // (type === "8"
-            //   ? ":8ball:"
-            //   : type === "9"
-            //   ? ":9ball:"
-            //   : "TYPE ERROR") +
-            // " Booking created:\n" +
-            player1 + " vs " + player2 + "  on " + date + " at " + time
+          text: player1 + " vs " + player2 + "  on " + date + " at " + time
         }
       ]
     });
