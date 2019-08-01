@@ -1025,6 +1025,13 @@ tr td:last-child {
   background: url("./assets/loss.svg");
 }
 
+.no-entry-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/no-entry.svg");
+}
+
 /* ==== Responsive Styling ==== */
 @media only screen and (max-width: 1380px) {
   .content {

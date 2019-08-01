@@ -143,9 +143,10 @@ class App extends React.Component {
         } else {
           this.toastError(
             <p>
-              <span role="img" aria-label="forbidden">
+              {/* <span role="img" aria-label="forbidden">
                 ⛔
-              </span>{" "}
+              </span>{" "} */}
+              <span className="no-entry-icon" alt="no entry" />
               Something went wrong. Please try again
             </p>
           );
