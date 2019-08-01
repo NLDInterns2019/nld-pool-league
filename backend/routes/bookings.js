@@ -51,9 +51,25 @@ router.get("/upcoming", (req, res) => {
   bookings
     .query()
     .where(where1)
-    .andWhereBetween('start', [moment().toDate().toISOString(), moment().add(1, 'week').toDate().toISOString()]) //Only fetch the upcoming one week
+    .andWhereBetween("start", [
+      moment()
+        .toDate()
+        .toISOString(),
+      moment()
+        .add(1, "week")
+        .toDate()
+        .toISOString()
+    ]) //Only fetch the upcoming one week
     .orWhere(where2)
-    .andWhereBetween('start', [moment().toDate().toISOString(), moment().add(1, 'week').toDate().toISOString()]) //Only fetch the upcoming one week
+    .andWhereBetween("start", [
+      moment()
+        .toDate()
+        .toISOString(),
+      moment()
+        .add(1, "week")
+        .toDate()
+        .toISOString()
+    ]) //Only fetch the upcoming one week
     .orderBy("start")
     .then(
       bookings => {
@@ -87,6 +103,7 @@ router.post("/add", auth.checkJwt, (req, res) => {
   }
 
   knex("bookings")
+    .returning("id")
     .insert({
       start: req.body.start,
       end: req.body.end,
@@ -120,17 +137,21 @@ router.put("/add/message_id", auth.checkJwt, (req, res) => {
     return;
   }
 
-  bookings.query()
-  .where({id: req.body.id})
-  .patch({messageId: req.body.messageId})
-  .then(result => {
-    if(res === 0) {
-      res.status(404).send();
-    }
-    res.json(result)
-  }, e=> {
-    res.status(400).send(e)
-  })
+  bookings
+    .query()
+    .where({ id: req.body.id })
+    .patch({ messageId: req.body.messageId })
+    .then(
+      result => {
+        if (res === 0) {
+          res.status(404).send();
+        }
+        res.json(result);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
 });
 
 /* 
@@ -161,7 +182,7 @@ router.delete("/delete", auth.checkJwt, (req, res) => {
           res.status(404).json();
         } else {
           //Something deleted
-          res.status(204).send()
+          res.status(204).send();
         }
       },
       e => {

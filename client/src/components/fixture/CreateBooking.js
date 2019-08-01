@@ -1,7 +1,7 @@
 import React from "react";
 import backend from "../../api/backend";
-import { orderBy } from "lodash";
-
+import { orderBy, some } from "lodash";
+import auth0Client from "../../Auth";
 import Axios from "axios";
 
 class CreateBooking extends React.Component {
@@ -14,7 +14,8 @@ class CreateBooking extends React.Component {
       activeSeason: 0,
       activePlayer: " ",
       activeOpponent: " ",
-      unplayedFixtures: []
+      unplayedFixtures: [],
+      initialLoad: true
     };
 
     this.state = this.initialState;
@@ -72,6 +73,21 @@ class CreateBooking extends React.Component {
       if (this.state.activeSeason !== undefined) {
         this.getPlayers();
         this.getUnplayedFixtures();
+        this.setState({activeOpponent: " "})
+      }
+    }
+
+    if (this.state.initialLoad && this.state.players.length) {
+      if (
+        auth0Client.isAuthenticated() &&
+        some(this.state.players, {
+          staffName: auth0Client.getProfile().nickname
+        })
+      ) {
+        this.setState({
+          activePlayer: auth0Client.getProfile().nickname,
+          initialLoad: false
+        });
       }
     }
   };

@@ -86,33 +86,12 @@ const SubNavBar = props => {
       }
     : {};
 
-  const toastSeasonNotFound = () => {
-    toast.error("⛔ Season not found! Try again or create a new season", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
-  };
-
   const seasonFixtureLink = path => {
     if (props.type !== "Billiards") {
       if (props.activeSeason === undefined) {
         if (props.latestSeason === null) {
           return (
             <span>
-              <li>
-                <Link onClick={() => toastSeasonNotFound()}>
-                  Current Season
-                </Link>
-              </li>
-              <li>
-                <Link onClick={() => toastSeasonNotFound()}>
-                  Arrange Fixtures
-                </Link>
-              </li>
               <li>
                 <Link
                   to={`/${path}/hall_of_fame`}
