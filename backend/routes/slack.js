@@ -150,7 +150,7 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
             ? ":8ball:"
             : req.body.type === 9
             ? ":9ball:"
-            : "TYPE ERROR") + " Season created",
+            : "TYPE ERROR") + " Season created:",
         text: "Season " + req.body.seasonName
       }
     ]
