@@ -117,16 +117,26 @@ class App extends React.Component {
     await this.web.chat.postMessage({
       channel: this.channel,
       /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
-      text:
-        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " Result:\n" +
-        players.split(" ")[0] +
-        "  " +
-        score1 +
-        "  -  " +
-        score2 +
-        "  " +
-        players.split(" ")[1]
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: "#ff9c33",
+          pretext:
+            (type === "8"
+              ? ":8ball:"
+              : type === "9"
+              ? ":9ball:"
+              : "TYPE ERROR") + " Result:",
+          text:
+            players.split(" ")[0] +
+            "  " +
+            score1 +
+            "  -  " +
+            score2 +
+            "  " +
+            players.split(" ")[1]
+        }
+      ]
     });
   };
 
@@ -310,7 +320,10 @@ class App extends React.Component {
 
   showSubmitResult = () => {
     return (
-      <div style={{ marginTop: "4rem", marginBot: "4rem" }} className="submitScoreDiv">
+      <div
+        style={{ marginTop: "4rem", marginBot: "4rem" }}
+        className="submitScoreDiv"
+      >
         <SubmitScoreForm
           players={this.state.players}
           type={this.state.type}

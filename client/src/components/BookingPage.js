@@ -166,14 +166,7 @@ class FixturesPage extends Component {
               : type === "9"
               ? ":9ball:"
               : "TYPE ERROR") + " Booking created:",
-          text:
-            // (type === "8"
-            //   ? ":8ball:"
-            //   : type === "9"
-            //   ? ":9ball:"
-            //   : "TYPE ERROR") +
-            // " Booking created:\n" +
-            player1 + " vs " + player2 + "  on " + date + " at " + time
+          text: player1 + " vs " + player2 + "  on " + date + " at " + time
         }
       ]
     });
@@ -194,19 +187,20 @@ class FixturesPage extends Component {
         resolve(
           this.web.chat.scheduleMessage({
             channel: this.channel,
-            text:
-              (type === "8"
-                ? ":8ball:"
-                : type === "9"
-                ? ":9ball:"
-                : "TYPE ERROR") +
-              " Reminder: \n" +
-              player1 +
-              "  vs  " +
-              player2 +
-              " at " +
-              time,
-            post_at: fifteenMinsBefore
+            post_at: fifteenMinsBefore,
+            attachments: [
+              {
+                mrkdwn_in: ["text"],
+                color: "#e23e4b",
+                pretext:
+                  (type === "8"
+                    ? ":8ball:"
+                    : type === "9"
+                    ? ":9ball:"
+                    : "TYPE ERROR") + " Reminder: \n",
+                text: player1 + " vs " + player2 + " at " + time
+              }
+            ]
           })
         );
       });

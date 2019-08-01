@@ -578,6 +578,10 @@ tr td:last-child {
   font-size: 18pt;
 }
 
+.seasonWinnersTable .rank {
+  width: 60px;
+}
+
 /* ==== Final Stats Table ==== */
 .finalStatsTitleContainer {
   display: flex;
@@ -601,6 +605,10 @@ tr td:last-child {
 
 .finalStatsTable td:first-child {
   width: 70px;
+}
+
+.finalStatsTable .name {
+  min-width: 200px;
 }
 
 .seasonClosed {
