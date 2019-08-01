@@ -67,4 +67,46 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
   }
 });
 
+/* 
+  POST handler for /api/slack/newSeason
+  Function: To send new season message
+*/
+router.post("/newSeason", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonName: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat.postMessage({
+    channel: channel,
+    attachments: [
+      {
+        mrkdwn_in: ["text"],
+        color: "#22d7e0",
+        pretext:
+          (req.body.type === 8
+            ? ":8ball:"
+            : req.body.type === 9
+            ? ":9ball:"
+            : "TYPE ERROR") + " Season created",
+        text: "Season " + req.body.seasonName
+      }
+    ]
+  });
+
+  console.log(response);
+
+  if (response) {
+    res.json(response);
+  } else {
+    res.status(400).send;
+  }
+});
+
 module.exports = router;
