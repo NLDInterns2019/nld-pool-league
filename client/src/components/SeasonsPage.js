@@ -11,8 +11,6 @@ import "../App.css";
 import CreateSeasonForm from "./season/CreateSeasonForm.js";
 import SeasonsList from "./season/SeasonsList.js";
 
-const { WebClient } = require("@slack/web-api");
-
 class SeasonsPage extends Component {
   constructor(props) {
     super(props);
@@ -21,13 +19,6 @@ class SeasonsPage extends Component {
       seasons: [],
       latestSeason: null
     };
-
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
   }
 
   getLatestSeason = async () => {

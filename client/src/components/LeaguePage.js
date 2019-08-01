@@ -15,10 +15,6 @@ import FinalStat from "./league/FinalStat";
 import Axios from "axios";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   signal = Axios.CancelToken.source();
 
   state = {
