@@ -11,6 +11,13 @@ const token = process.env.token;
 const channel = process.env.channel;
 const web = new WebClient(token);
 
+/*  Slack message colours: 
+    Booking Created: #36a64f (green)
+    Result Submitted: #ff9c33 (orange)
+    Reminder: #e23e4b (red)
+    Season Created: #22d7e0 (blue)
+*/
+
 /* 
   POST handler for /api/slack/booking
   Function: To send new booking message

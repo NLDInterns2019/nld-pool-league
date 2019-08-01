@@ -142,13 +142,10 @@ class App extends React.Component {
           this.toastUnauthorised();
         } else {
           this.toastError(
-            <p>
-              {/* <span role="img" aria-label="forbidden">
-                ⛔
-              </span>{" "} */}
-              <span className="no-entry-icon" alt="no entry" />
-              Something went wrong. Please try again
-            </p>
+            <div className="toast">
+              <div className="no-entry-icon" alt="no entry" />
+              <p>Something went wrong. Please try again</p>
+            </div>
           );
         }
       });
@@ -190,12 +187,10 @@ class App extends React.Component {
         this.toastUnauthorised();
       } else {
         this.toastError(
-          <p>
-            <span role="img" aria-label="forbidden">
-              ⛔
-            </span>{" "}
-            Something went wrong. Please try again
-          </p>
+          <div className="toast">
+            <div className="no-entry-icon" alt="no entry" />
+            <p>Something went wrong. Please try again</p>
+          </div>
         );
       }
     }
@@ -225,7 +220,13 @@ class App extends React.Component {
           }
         )
         .then(() => {
-          this.toastSucess("🔐 Season closed");
+          // this.toastSuccess("🔐 Season closed");
+          this.toastSuccess(
+            <div className="toast">
+              <div className="lock-icon-small" alt="lock" />
+              <p>Season closed</p>
+            </div>
+          );
           this.updateData();
         });
     } catch (e) {
@@ -237,12 +238,10 @@ class App extends React.Component {
 
   toastUnauthorised = () => {
     toast.error(
-      <p>
-        <span role="img" aria-label="forbidden">
-          ⛔
-        </span>{" "}
-        Unauthorised! Please login
-      </p>,
+      <div className="toast">
+        <div className="no-entry-icon" alt="no entry" />
+        <p>Unauthorised! Please log in</p>
+      </div>,
       {
         position: "top-center",
         autoClose: 2000,
@@ -265,7 +264,7 @@ class App extends React.Component {
     });
   };
 
-  toastSucess = message => {
+  toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
       autoClose: 3000,

@@ -968,6 +968,13 @@ tr td:last-child {
   background: url("./assets/lock.svg");
 }
 
+.lock-icon-small {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/lock-small.svg");
+}
+
 .thumbs-down-icon {
   vertical-align: middle;
   width: 24px;
@@ -1030,6 +1037,18 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/no-entry.svg");
+}
+
+/* ==== Toast ==== */
+.toast {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.toast p {
+  margin-left: 10px;
 }
 
 /* ==== Responsive Styling ==== */
