@@ -141,49 +141,6 @@ class FixturesPage extends Component {
     return finalMessage;
   };
 
-  /* post the message to the correct slack channel */
-  postTodaysFixturesSlackMessage = async message => {
-    await this.web.chat.postMessage({
-      channel: this.channel,
-      text: "Fixtures Today:\n" + message
-    });
-  };
-
-  /* schedules a message to be posted in a slack channel at 9am on the day of a fixture and 15 mins before the fixture */
-  scheduleSlackReminder = async (type, player1, player2, start) => {
-    /* gets the time of the fixture e.g. 13:30 */
-    var time = moment(start).format("HH:mm");
-
-    var fifteenMinsBefore = moment(start)
-      .subtract(15, "minutes")
-      .unix();
-
-    if (moment() < moment(start)) {
-      /* schedules a message to be posted in the channel 15 mins before the scheduled fixture */
-      return new Promise((resolve, reject) => {
-        resolve(
-          this.web.chat.scheduleMessage({
-            channel: this.channel,
-            post_at: fifteenMinsBefore,
-            attachments: [
-              {
-                mrkdwn_in: ["text"],
-                color: "#e23e4b",
-                pretext:
-                  (type === "8"
-                    ? ":8ball:"
-                    : type === "9"
-                    ? ":9ball:"
-                    : "TYPE ERROR") + " Reminder: \n",
-                text: player1 + " vs " + player2 + " at " + time
-              }
-            ]
-          })
-        );
-      });
-    }
-  };
-
   makeBooking = async (player1, player2) => {
     const headers = {
       "Content-Type": "application/json",
@@ -207,7 +164,8 @@ class FixturesPage extends Component {
       .then(async id => {
         this.toastSuccess("Booking Success!");
         this.closePopUp();
-        await backend.post(
+        //POST that new booking have been made
+        backend.post(
           "/api/slack/booking",
           {
             type: parseInt(this.state.type, 10),
@@ -219,26 +177,37 @@ class FixturesPage extends Component {
             headers: headers
           }
         );
-        this.scheduleSlackReminder(
-          this.state.type,
-          player1,
-          player2,
-          this.state.start
-        ).then(result => {
-          //Add message id to db
-          backend.put(
-            "/api/booking/add/message_id",
+        //CREATE reminder
+        backend
+          .post(
+            "/api/slack/booking/reminder",
             {
-              id: id.data[0],
-              messageId: result.scheduled_message_id
+              type: parseInt(this.state.type, 10),
+              start: this.state.start,
+              player1: player1,
+              player2: player2
             },
             {
               headers: headers
             }
-          );
-          //Update bookings
-          this.getBookings();
-        });
+          )
+          .then(result => {
+            if (result.status === 200) {
+              //Add message id to db
+              backend.put(
+                "/api/booking/add/message_id",
+                {
+                  id: id.data[0],
+                  messageId: result.data.scheduled_message_id
+                },
+                {
+                  headers: headers
+                }
+              );
+            }
+            //Update bookings
+            this.getBookings();
+          });
       })
       .catch(e => {
         if (e.response.status === 401) {
