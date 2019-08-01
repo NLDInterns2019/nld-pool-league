@@ -175,7 +175,7 @@ class App extends React.Component {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
         );
-        this.toastSucess(`🗑️ ${staffName} Deleted!`);
+        this.toastSuccess(`✅ ${staffName} Deleted!`);
         this.updateData();
       } else if (this.state.finished) {
         this.toastError("Season closed, unable to delete player.");

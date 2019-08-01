@@ -11,12 +11,12 @@ const token = process.env.token;
 const channel = process.env.channel;
 const web = new WebClient(token);
 
-/*  Slack message colours: 
-    Booking Created: #36a64f (green)
-    Result Submitted: #ff9c33 (orange)
-    Reminder: #e23e4b (red)
-    Season Created: #22d7e0 (blue)
-*/
+const colours = {
+  bookings: "#36a64f", // green
+  results: "#ff9c33", // orange
+  reminders: "#e23e4b", // red
+  seasons: "#1fbfb7" // blue
+};
 
 /* 
   POST handler for /api/slack/booking
@@ -46,13 +46,13 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
         {
           /* post a message saying 'new emoji booking: PLAYER1 X - X PLAYER2 on DD/MM/YYYY at hh:mm' */
           mrkdwn_in: ["text"],
-          color: "#36a64f",
+          color: colours.bookings,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Booking created:",
+              : "TYPE ERROR") + " *Booking created:*",
           text:
             req.body.player1 +
             " vs " +
@@ -108,13 +108,13 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: "#e23e4b",
+          color: colours.reminders,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Reminder: \n",
+              : "TYPE ERROR") + " *Reminder:*",
           text: req.body.player1 + " vs " + req.body.player2 + " at " + time
         }
       ]
@@ -181,13 +181,13 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: "#22d7e0",
+          color: colours.seasons,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Season created:",
+              : "TYPE ERROR") + " *Season created:*",
           text: "Season " + req.body.seasonName
         }
       ]
@@ -227,13 +227,13 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: "#ff9c33",
+          color: colours.results,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Result:",
+              : "TYPE ERROR") + " *Result:*",
           text:
             req.body.players.split(" ")[0] +
             "  " +

@@ -36,7 +36,7 @@ app.get("/*", function(req, res) {
   res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
 });
 
-// RUN EVERY DAY AT 9 AM
+// RUN EVERY DAY AT 7 AM
 schedule.scheduleJob(
   "Slack daily remainder",
   { hour: 7, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
@@ -65,7 +65,14 @@ schedule.scheduleJob(
         axios.post(
           "https://hooks.slack.com/services/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",
           {
-            text: message
+            attachments: [
+              {
+                mrkdwn_in: ["text"],
+                color: "#e23e4b",
+                pretext: "*Today's Fixtures:*",
+                text: message
+              }
+            ]
           }
         );
       });

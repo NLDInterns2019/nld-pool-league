@@ -36,7 +36,12 @@ class LandingPage extends React.Component {
             <ul>
               {this.state.eightLatestSeason === null ? (
                 <li>
-                  <Link to={`/8-ball/seasons`} id="eightBallLink">
+                  <Link
+                    to={`/8-ball/seasons`}
+                    id="eightBallLink"
+                    className="landingPageLink"
+                  >
+                    <div className="eight-ball-icon" alt="eight ball" />
                     8-Ball
                   </Link>
                 </li>
@@ -45,14 +50,21 @@ class LandingPage extends React.Component {
                   <Link
                     to={`/8-ball/overview/${this.state.eightLatestSeason}`}
                     id="eightBallLink"
+                    className="landingPageLink"
                   >
+                    <div className="eight-ball-icon" alt="eight ball" />
                     8-Ball
                   </Link>
                 </li>
               )}
               {this.state.nineLatestSeason === null ? (
                 <li>
-                  <Link to={`/9-ball/seasons`} id="nineBallLink">
+                  <Link
+                    to={`/9-ball/seasons`}
+                    id="nineBallLink"
+                    className="landingPageLink"
+                  >
+                    <div className="nine-ball-icon" alt="nine ball" />
                     9-Ball
                   </Link>
                 </li>
@@ -61,7 +73,9 @@ class LandingPage extends React.Component {
                   <Link
                     to={`/9-ball/overview/${this.state.nineLatestSeason}`}
                     id="nineBallLink"
+                    className="landingPageLink"
                   >
+                    <div className="nine-ball-icon" alt="nine ball" />
                     9-Ball
                   </Link>
                 </li>

@@ -716,7 +716,7 @@ tr td:last-child {
   padding: 1rem;
 }
 
-.landingPage .content a {
+/* .landingPage .content a {
   text-decoration: none;
   background-color: #127e5c;
   color: white;
@@ -725,10 +725,29 @@ tr td:last-child {
   border-radius: 100px;
   font-size: 24pt;
   width: 150px;
+} */
+
+.landingPageLink .eight-ball-icon,
+.landingPageLink .nine-ball-icon {
+  margin-right: 10px;
 }
 
-.landingPage .content a:hover {
+.landingPageLink {
+  background-color: #127e5c;
+  padding: 10px 20px 10px 20px;
+  border-radius: 100px;
+  font-size: 24pt;
+  width: 150px;
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.landingPageLink:hover {
   font-weight: bold;
+  cursor: pointer;
 }
 
 .landingPage .content h1 {
