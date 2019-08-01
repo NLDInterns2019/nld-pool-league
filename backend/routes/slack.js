@@ -52,7 +52,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Booking created:",
+              : "TYPE ERROR") + " *Booking created:*",
           text:
             req.body.player1 +
             " vs " +
@@ -114,7 +114,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Reminder: \n",
+              : "TYPE ERROR") + " *Reminder:*",
           text: req.body.player1 + " vs " + req.body.player2 + " at " + time
         }
       ]
@@ -187,7 +187,7 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Season created:",
+              : "TYPE ERROR") + " *Season created:*",
           text: "Season " + req.body.seasonName
         }
       ]
@@ -233,7 +233,7 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
-              : "TYPE ERROR") + " Result:",
+              : "TYPE ERROR") + " *Result:*",
           text:
             req.body.players.split(" ")[0] +
             "  " +
