@@ -15,7 +15,7 @@ const colours = {
   bookings: "#36a64f", // green
   results: "#ff9c33", // orange
   reminders: "#e23e4b", // red
-  seasons: "22d7e0" // blue
+  seasons: "#1fbfb7" // blue
 };
 
 /* 
