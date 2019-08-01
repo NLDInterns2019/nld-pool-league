@@ -14,18 +14,9 @@ import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
 
-const { WebClient } = require("@slack/web-api");
-
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
   }
 
   signal = Axios.CancelToken.source();
