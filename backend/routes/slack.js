@@ -12,10 +12,10 @@ const channel = process.env.channel;
 const web = new WebClient(token);
 
 /*  Slack message colours: 
-    Booking Created: #36a64f (green)
-    Result Submitted: #ff9c33 (orange)
-    Reminder: #e23e4b (red)
-    Season Created: #22d7e0 (blue)
+    Bookings: #36a64f (green)
+    Results: #ff9c33 (orange)
+    Reminders: #e23e4b (red)
+    Seasons: #22d7e0 (blue)
 */
 
 /* 
