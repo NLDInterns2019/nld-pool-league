@@ -14,6 +14,23 @@ const LeagueTableBody = props => {
         <td align="center">{player.lose}</td>
         <td align="center">{player.goalsFor}</td>
         <td align="center">{player.goalsAgainst}</td>
+        {/* <td align="center" className="leagueTableForm">
+          <div className="leagueTableFormItem">
+            <div className="win-icon" />
+          </div>
+          <div className="leagueTableFormItem">
+            <div className="draw-icon" />
+          </div>
+          <div className="leagueTableFormItem">
+            <div className="win-icon" />
+          </div>
+          <div className="leagueTableFormItem">
+            <div className="loss-icon" />
+          </div>
+          <div className="leagueTableFormItem">
+            <div className="loss-icon" />
+          </div>
+        </td> */}
         <td align="center">{player.points}</td>
         <td style={{ backgroundColor: "#DBE9E2" }}>
           <span

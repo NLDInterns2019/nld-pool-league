@@ -231,9 +231,14 @@ table td {
 }
 
 /* ==== League Table ==== */
+
 .leagueTable {
   font-size: 18pt;
   margin: auto;
+}
+
+.leagueTable tr {
+  height: 35px;
 }
 
 .leagueTableContainer h2 {
@@ -260,6 +265,18 @@ table td {
   max-width: 175px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.leagueTableForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+}
+.leagueTableFormItem {
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 /* ==== Fixture and League Table positioning ==== */
@@ -985,6 +1002,27 @@ tr td:last-child {
   width: 40px;
   height: 40px;
   background: url("./assets/calendar.svg");
+}
+
+.win-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/win.svg");
+}
+
+.draw-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/draw.svg");
+}
+
+.loss-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url("./assets/loss.svg");
 }
 
 /* ==== Responsive Styling ==== */

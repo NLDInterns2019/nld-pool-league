@@ -99,14 +99,12 @@ schedule.scheduleJob(
         axios.post(
           "https://hooks.slack.com/services/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",
           {
-            text: "11AM" + message
+            text: "11AM " + message
           }
         );
       });
   }
 );
-
-
 
 app.listen(PORT, () => {
   console.log("Express is listening on port: " + PORT);
