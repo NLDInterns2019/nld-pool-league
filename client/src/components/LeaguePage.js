@@ -14,20 +14,7 @@ import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
 
-const { WebClient } = require("@slack/web-api");
-
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
-  }
-
   signal = Axios.CancelToken.source();
 
   state = {
@@ -112,34 +99,6 @@ class App extends React.Component {
     this.signal.cancel("");
   }
 
-  /* posts a message to a slack channel with the submitted score */
-  postScoreUpdateSlackMessage = async (type, players, score1, score2) => {
-    await this.web.chat.postMessage({
-      channel: this.channel,
-      /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
-      attachments: [
-        {
-          mrkdwn_in: ["text"],
-          color: "#ff9c33",
-          pretext:
-            (type === "8"
-              ? ":8ball:"
-              : type === "9"
-              ? ":9ball:"
-              : "TYPE ERROR") + " Result:",
-          text:
-            players.split(" ")[0] +
-            "  " +
-            score1 +
-            "  -  " +
-            score2 +
-            "  " +
-            players.split(" ")[1]
-        }
-      ]
-    });
-  };
-
   changeFixtureScore = async state => {
     await backend
       .put(
@@ -156,7 +115,7 @@ class App extends React.Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       )
-      .then(() => {
+      .then(async () => {
         this.toastSucess(
           <p>
             Result Submitted!
@@ -165,11 +124,17 @@ class App extends React.Component {
           </p>
         );
         this.updateData();
-        this.postScoreUpdateSlackMessage(
-          this.state.type,
-          state.players,
-          state.score1,
-          state.score2
+        await backend.post(
+          "/api/slack/resultSubmitted",
+          {
+            type: parseInt(this.state.type, 10),
+            players: state.players,
+            score1: state.score1,
+            score2: state.score2
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
         );
       })
       .catch(e => {
@@ -177,12 +142,10 @@ class App extends React.Component {
           this.toastUnauthorised();
         } else {
           this.toastError(
-            <p>
-              <span role="img" aria-label="forbidden">
-                ⛔
-              </span>{" "}
-              Something went wrong. Please try again
-            </p>
+            <div className="toast">
+              <div className="no-entry-icon" alt="no entry" />
+              <p>Something went wrong. Please try again</p>
+            </div>
           );
         }
       });
@@ -224,12 +187,10 @@ class App extends React.Component {
         this.toastUnauthorised();
       } else {
         this.toastError(
-          <p>
-            <span role="img" aria-label="forbidden">
-              ⛔
-            </span>{" "}
-            Something went wrong. Please try again
-          </p>
+          <div className="toast">
+            <div className="no-entry-icon" alt="no entry" />
+            <p>Something went wrong. Please try again</p>
+          </div>
         );
       }
     }
@@ -259,7 +220,12 @@ class App extends React.Component {
           }
         )
         .then(() => {
-          this.toastSucess("🔐 Season closed");
+          this.toastSuccess(
+            <div className="toast">
+              <div className="lock-icon-small" alt="lock" />
+              <p>Season closed</p>
+            </div>
+          );
           this.updateData();
         });
     } catch (e) {
@@ -271,12 +237,10 @@ class App extends React.Component {
 
   toastUnauthorised = () => {
     toast.error(
-      <p>
-        <span role="img" aria-label="forbidden">
-          ⛔
-        </span>{" "}
-        Unauthorised! Please login
-      </p>,
+      <div className="toast">
+        <div className="no-entry-icon" alt="no entry" />
+        <p>Unauthorised! Please log in</p>
+      </div>,
       {
         position: "top-center",
         autoClose: 2000,
@@ -299,7 +263,7 @@ class App extends React.Component {
     });
   };
 
-  toastSucess = message => {
+  toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
       autoClose: 3000,

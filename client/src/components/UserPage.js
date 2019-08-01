@@ -59,12 +59,10 @@ class App extends React.Component {
 
   toastUnauthorised = () => {
     toast.error(
-      <p>
-        <span role="img" aria-label="forbidden">
-          ⛔
-        </span>{" "}
-        Unauthorised! Please login
-      </p>,
+      <div className="toast">
+        <div className="no-entry-icon" alt="no entry" />
+        <p>Unauthorised! Please log in</p>
+      </div>,
       {
         position: "top-center",
         autoClose: 2000,

@@ -11,8 +11,6 @@ import "../App.css";
 import CreateSeasonForm from "./season/CreateSeasonForm.js";
 import SeasonsList from "./season/SeasonsList.js";
 
-const { WebClient } = require("@slack/web-api");
-
 class SeasonsPage extends Component {
   constructor(props) {
     super(props);
@@ -21,13 +19,6 @@ class SeasonsPage extends Component {
       seasons: [],
       latestSeason: null
     };
-
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
   }
 
   getLatestSeason = async () => {
@@ -68,22 +59,11 @@ class SeasonsPage extends Component {
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
-  }
+  };
 
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
-  }
-
-  postCreateSeasonSlackMessage = async (type, seasonName) => {
-    await this.web.chat.postMessage({
-      channel: this.channel,
-      text:
-        (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        " Season called 'Season " +
-        seasonName +
-        "' created"
-    });
   };
 
   createSeason = async state => {
@@ -116,18 +96,32 @@ class SeasonsPage extends Component {
             headers: headers
           }
         )
-        .then(() => {
+        .then(async () => {
           this.toastSuccess("Season Created");
           this.getSeasonsList();
           this.getLatestSeason();
-          this.postCreateSeasonSlackMessage(this.state.type, state.seasonName);
+          await backend.post(
+            "/api/slack/newSeason",
+            {
+              type: parseInt(this.state.type, 10),
+              seasonName: state.seasonName
+            },
+            {
+              headers: headers
+            }
+          );
         });
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
       }
       if (e.response.status === 400) {
-        this.toastError("Something went wrong. Please try again");
+        this.toastError(
+          <div className="toast">
+            <div className="no-entry-icon" alt="no entry" />
+            <p>Something went wrong. Please try again</p>
+          </div>
+        );
       }
     }
   };
@@ -154,14 +148,20 @@ class SeasonsPage extends Component {
   };
 
   toastUnauthorised = () => {
-    toast.error("⛔ Unauthorised! Please login", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
+    toast.error(
+      <div className="toast">
+        <div className="no-entry-icon" alt="no entry" />
+        <p>Unauthorised! Please log in</p>
+      </div>,
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      }
+    );
   };
 
   toastError = message => {
@@ -207,13 +207,12 @@ class SeasonsPage extends Component {
               type="button"
               id="addSeasonBtn"
               onClick={() => {
-                if(auth0Client.isAuthenticated()){
-                  this.openPopUp()
-                }else{
-                  this.toastUnauthorised()
+                if (auth0Client.isAuthenticated()) {
+                  this.openPopUp();
+                } else {
+                  this.toastUnauthorised();
                 }
-              }
-              }
+              }}
             >
               + Add new season
             </button>
@@ -224,12 +223,12 @@ class SeasonsPage extends Component {
                 seasons={this.state.seasons}
                 type={this.state.type}
                 createSeason={this.createSeason}
-                closePopUp={()=>this.closePopUp()}
+                closePopUp={() => this.closePopUp()}
               />
               <button
                 type="button"
                 id="cancelbtn"
-                onClick={()=>this.closePopUp()}
+                onClick={() => this.closePopUp()}
               >
                 Cancel
               </button>
