@@ -208,6 +208,7 @@ const SubNavBar = props => {
           {props.type !== "Billiards"
             ? seasonFixtureLink(`${props.type}-ball`)
             : seasonFixtureLink(`Billiards`)}
+
           <li>
             {!auth0Client.isAuthenticated() ? null : props.type !==
               "Billiards" ? (

@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  Route,
-  Switch,
-  withRouter
-} from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import LandingPage from "./LandingPage.js";
 import LeaguePage from "./LeaguePage";
 import SeasonsPage from "./SeasonsPage.js";
 import BookingPage from "./BookingPage";
 import HoFPage from "./HoFPage";
-import UserPage from "./UserPage"
+import UserPage from "./UserPage";
 import NotFound from "./NotFound";
 
 import Callback from "../Callback";
@@ -33,8 +29,14 @@ const App = () => {
         <Route path="/:type(billiards)/hall_of_fame" component={HoFPage} />
         <Route path="/:type(8|9)-ball/dashboard" component={UserPage} />
         <Route path="/:type(billiards)/dashboard" component={UserPage} />
-        <Route path="/:type(8|9)-ball/fixtures/:seasonId" component={BookingPage} />
-        <Route path="/:type(billiards)/fixtures/:seasonId" component={BookingPage} />
+        <Route
+          path="/:type(8|9)-ball/fixtures/:seasonId"
+          component={BookingPage}
+        />
+        <Route
+          path="/:type(billiards)/fixtures/:seasonId"
+          component={BookingPage}
+        />
         <Route path="/callback" component={Callback} />
         <Route component={NotFound} />
       </Switch>
