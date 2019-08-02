@@ -88,20 +88,50 @@ describe("Validation", () => {
   });
 });
 
-/*describe("Clicking a radio button", () => {
-  it("should set the score correctly", () => {
+describe("Clicking a radio button", () => {
+  beforeEach(() => {
+    wrapper.setState({
+      score1: "",
+      score2: ""
+    });
+  });
+
+  it("should set the score correctly when player 1 wins", () => {
     wrapper.instance().refs = {
-      player1won: { checked: false },
-      draw: { checked: false },
+      player1won: { checked: true },
       player2won: { checked: false }
     };
 
-    player1RadioBtn.simulate("click");
+    wrapper.instance().handleRadioClick();
 
     wrapper.state().score1.should.equal(2);
     wrapper.state().score2.should.equal(0);
   });
-});*/
+
+  it("should set the score correctly when player 2 wins", () => {
+    wrapper.instance().refs = {
+      player1won: { checked: false },
+      player2won: { checked: true }
+    };
+
+    wrapper.instance().handleRadioClick();
+
+    wrapper.state().score1.should.equal(0);
+    wrapper.state().score2.should.equal(2);
+  });
+
+  it("should set the score correctly when it's a draw", () => {
+    wrapper.instance().refs = {
+      player1won: { checked: false },
+      player2won: { checked: false }
+    };
+
+    wrapper.instance().handleRadioClick();
+
+    wrapper.state().score1.should.equal(1);
+    wrapper.state().score2.should.equal(1);
+  });
+});
 
 //TODO FIX THIS TEST
 
@@ -109,7 +139,12 @@ describe("Validation", () => {
 //   it("should run handleSubmit()", () => {
 //     const wrapper = shallow(<SubmitScoreForm unplayedFixtures={[""]} />);
 //     const submitScoreBtn = wrapper.find("#submitScoreBtn");
-//     var spy = sinon.spy(SubmitScoreForm.prototype, "handleSubmit");
+//     wrapper.setState({
+//       players: "matthew michael"
+//     });
+
+//     player1RadioBtn.simulate("click");
+
 //     window.alert = () => {};
 //     var confirm = sinon.stub(global, "confirm");
 //     confirm.returns(true);
@@ -117,7 +152,9 @@ describe("Validation", () => {
 //     submitScoreBtn.simulate("click");
 
 //     confirm.calledOnce.should.be.true;
-//     spy.calledOnce.should.be.true;
+//     wrapper.state().players.should.equal("");
+//     wrapper.state().score1.should.equal("");
+//     wrapper.state().score2.should.equal("");
 
 //     confirm.restore();
 //   });

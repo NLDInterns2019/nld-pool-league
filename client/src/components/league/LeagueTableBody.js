@@ -17,6 +17,7 @@ const results = [
   "W"
 ];
 
+/* takes an array of results and returns icons for the last five */
 const getForm = results => {
   var formToDisplay = [];
   /* if the player hasn't played any games */
