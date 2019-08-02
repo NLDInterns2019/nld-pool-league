@@ -150,3 +150,53 @@ describe("Clearing radio buttons", () => {
     wrapper.instance().refs.player2won.checked.should.be.false;
   });
 });
+
+describe("Radio buttons", () => {
+  it("should appear when a fixture is selected", () => {
+    wrapper.setState({
+      players: "matthew michael"
+    });
+
+    wrapper
+      .instance()
+      .resultStyle()
+      .display.should.equal("block");
+  });
+
+  it("should disappear when a fixture isn't selected", () => {
+    wrapper.setState({
+      players: ""
+    });
+
+    wrapper
+      .instance()
+      .resultStyle()
+      .display.should.equal("none");
+  });
+});
+
+describe("setting scores", () => {
+  beforeEach(() => {
+    wrapper.setState({
+      score1: "",
+      score2: ""
+    });
+  });
+
+  describe("setScore1()", () => {
+    it("should change the state so that score1 is correct", () => {
+      wrapper.instance().setScore1(2);
+
+      wrapper.state().score1.should.equal(2);
+      wrapper.state().score2.should.equal("");
+    });
+  });
+  describe("setScore2()", () => {
+    it("should change the state so that score2 is correct", () => {
+      wrapper.instance().setScore2(2);
+
+      wrapper.state().score1.should.equal("");
+      wrapper.state().score2.should.equal(2);
+    });
+  });
+});
