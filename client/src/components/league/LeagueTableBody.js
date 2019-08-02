@@ -18,7 +18,7 @@ const results = [
 ];
 
 /* takes an array of results and returns icons for the last five */
-const getForm = results => {
+const getPlayerForm = results => {
   var formToDisplay = [];
   /* if the player hasn't played any games */
   if (results.length === 0) {
@@ -103,9 +103,9 @@ const LeagueTableBody = props => {
         <td align="center">{player.goalsAgainst}</td>
         {/* <td align="center" className="leagueTableForm"> */}
         {/* store all the players results in an array and call it like this? */}
-        {/* {getForm(player.results)} */}
+        {/* {getPlayerForm(player.results)} */}
         {/* placeholder array being sent for now */}
-        {/* {getForm(results)} */}
+        {/* {getPlayerForm(results)} */}
         {/* </td> */}
         <td align="center">{player.points}</td>
         <td style={{ backgroundColor: "#DBE9E2" }}>
