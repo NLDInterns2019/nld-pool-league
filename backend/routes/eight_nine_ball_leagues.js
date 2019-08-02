@@ -81,7 +81,6 @@ router.get("/:seasonId", (req, res) => {
     );
 });
 
-
 /* 
   POST handler for /api/89ball_league/add/player
   Function: To add player to the 8 ball league (FUTURE USE)
@@ -284,7 +283,7 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
 
   //patch league db line by line
   for (let i = 0; i < leagues.length; i++) {
-     await eight_nine_ball_leagues
+    await eight_nine_ball_leagues
       .query()
       .findOne({
         type: type,
@@ -292,14 +291,17 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
         staffName: leagues[i].staffName
       })
       .patch(leagues[i])
-      .then((newLeague) => {
-        if (newLeague === 0) {
-          res.status(404).send();
+      .then(
+        newLeague => {
+          if (newLeague === 0) {
+            res.status(404).send();
+          }
+        },
+        e => {
+          res.status(400).send("patch error");
+          return;
         }
-      }, e=> {
-        res.status(400).send("patch error");
-        return;
-      });
+      );
   }
   res.json(leagues);
 });

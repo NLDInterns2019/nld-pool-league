@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import backend from "../../api/backend";
 import axios from "axios";
 import auth0Client from "../../Auth";
-import {some, orderBy} from "lodash"
-const { WebClient } = require("@slack/web-api");
+import { some, orderBy } from "lodash";
 
 class SubmitScoreForm extends Component {
   constructor(props) {
@@ -21,13 +20,6 @@ class SubmitScoreForm extends Component {
     };
 
     this.state = this.initialState;
-
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
   }
 
   signal = axios.CancelToken.source();
@@ -54,31 +46,46 @@ class SubmitScoreForm extends Component {
   componentDidMount = async () => {
     await this.setState({ type: this.props.type });
     await this.setState({ activeSeason: this.props.activeSeason });
-    await this.setState({allPlayers: orderBy(this.props.players, ['staffName'], ['asc'])})
-    if(auth0Client.isAuthenticated() && some(this.state.allPlayers, {staffName: auth0Client.getProfile().nickname})){
-      this.setState({activePlayer: auth0Client.getProfile().nickname, initialLoad: false})
+    await this.setState({
+      allPlayers: orderBy(this.props.players, ["staffName"], ["asc"])
+    });
+    if (
+      auth0Client.isAuthenticated() &&
+      some(this.state.allPlayers, {
+        staffName: auth0Client.getProfile().nickname
+      })
+    ) {
+      this.setState({
+        activePlayer: auth0Client.getProfile().nickname,
+        initialLoad: false
+      });
     }
     await this.getFixtures();
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
-    if(this.props.players !== prevProps.players){
-      await this.setState({allPlayers: orderBy(this.props.players, ['staffName'], ['asc'])})
+    if (this.props.players !== prevProps.players) {
+      await this.setState({
+        allPlayers: orderBy(this.props.players, ["staffName"], ["asc"])
+      });
     }
 
     //Handle deletion
-    if(this.state.activePlayer !== " " && !some(this.state.allPlayers, {staffName: this.state.activePlayer})){
-      this.setState({activePlayer: " "})
+    if (
+      this.state.activePlayer !== " " &&
+      !some(this.state.allPlayers, { staffName: this.state.activePlayer })
+    ) {
+      this.setState({ activePlayer: " " });
     }
 
-    if ((this.state.activePlayer !== prevState.activePlayer) &&
+    if (
+      this.state.activePlayer !== prevState.activePlayer &&
       this.props.type !== undefined
     ) {
       if (this.state.activeSeason !== undefined) {
         this.getFixtures();
       }
     }
-
   };
 
   componentWillUnmount() {
@@ -102,22 +109,25 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
-  handleSubmit = async() => {
+  handleSubmit = async () => {
     if (!this.isValid()) {
       alert("Not a valid input");
     } else {
       /* submit score */
       await this.props.changeFixtureScore(this.prepareSubmitState());
-      this.setState({
-        score1: "",
-        score2: "",
-        players: ""
-      }, () => {
-        this.getFixtures();
-        this.clearRadioButtons();
-      })
+      this.setState(
+        {
+          score1: "",
+          score2: "",
+          players: ""
+        },
+        () => {
+          this.getFixtures();
+          this.clearRadioButtons();
+        }
+      );
     }
-  }
+  };
 
   prepareSubmitState() {
     let submitableState = this.state;

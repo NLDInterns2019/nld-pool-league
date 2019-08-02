@@ -22,8 +22,7 @@ class App extends React.Component {
     players: [],
     fixtures: [],
     activeSeason: 0,
-    activeViewPlayer: " ",
-    activeSubmitPlayer: " ",
+    activePlayer: " ",
     groupCount: 0,
     hidePlayed: true,
     finished: null
@@ -49,7 +48,7 @@ class App extends React.Component {
           cancelToken: this.signal.token,
           params: {
             type: this.state.type,
-            staffName: this.state.activeViewPlayer,
+            staffName: this.state.activePlayer,
             hidePlayed: this.state.hidePlayed
           }
         }
@@ -276,7 +275,7 @@ class App extends React.Component {
 
   applyViewFilter = async (staffName, hidePlayed) => {
     await this.setState({
-      activeViewPlayer: staffName,
+      activePlayer: staffName,
       hidePlayed: hidePlayed
     });
     this.updateData();

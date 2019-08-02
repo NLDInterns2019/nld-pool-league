@@ -247,9 +247,7 @@ table td {
 
 .leagueTable tr:hover td {
   font-weight: bold;
-  /* background-color: #127e5c; */
   background-color: #f2f2f2;
-  /* color: #ffffff; */
   cursor: default;
 }
 
