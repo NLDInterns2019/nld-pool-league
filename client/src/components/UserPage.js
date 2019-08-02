@@ -85,7 +85,7 @@ class App extends React.Component {
     });
   };
 
-  toastSucess = message => {
+  toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
       autoClose: 3000,

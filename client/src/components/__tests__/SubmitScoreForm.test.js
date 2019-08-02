@@ -4,7 +4,6 @@ import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import SubmitScoreForm from "../fixture/SubmitScoreForm";
-import sinon from "sinon";
 chai.should();
 
 configure({ adapter: new Adapter() });
