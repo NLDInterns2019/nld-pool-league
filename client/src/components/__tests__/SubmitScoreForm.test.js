@@ -99,6 +99,7 @@ describe("Clicking a radio button", () => {
   it("should set the score correctly when player 1 wins", () => {
     wrapper.instance().refs = {
       player1won: { checked: true },
+      draw: { checked: false },
       player2won: { checked: false }
     };
 
@@ -111,6 +112,7 @@ describe("Clicking a radio button", () => {
   it("should set the score correctly when player 2 wins", () => {
     wrapper.instance().refs = {
       player1won: { checked: false },
+      draw: { checked: false },
       player2won: { checked: true }
     };
 
@@ -123,6 +125,7 @@ describe("Clicking a radio button", () => {
   it("should set the score correctly when it's a draw", () => {
     wrapper.instance().refs = {
       player1won: { checked: false },
+      draw: { checked: true },
       player2won: { checked: false }
     };
 
@@ -133,29 +136,18 @@ describe("Clicking a radio button", () => {
   });
 });
 
-//TODO FIX THIS TEST
+describe("Clearing radio buttons", () => {
+  it("should clear radio buttons when clearRadioButtons() is called", () => {
+    wrapper.instance().refs = {
+      player1won: { checked: false },
+      draw: { checked: true },
+      player2won: { checked: false }
+    };
 
-// describe("Clicking Submit", () => {
-//   it("should run handleSubmit()", () => {
-//     const wrapper = shallow(<SubmitScoreForm unplayedFixtures={[""]} />);
-//     const submitScoreBtn = wrapper.find("#submitScoreBtn");
-//     wrapper.setState({
-//       players: "matthew michael"
-//     });
+    wrapper.instance().clearRadioButtons();
 
-//     player1RadioBtn.simulate("click");
-
-//     window.alert = () => {};
-//     var confirm = sinon.stub(global, "confirm");
-//     confirm.returns(true);
-
-//     submitScoreBtn.simulate("click");
-
-//     confirm.calledOnce.should.be.true;
-//     wrapper.state().players.should.equal("");
-//     wrapper.state().score1.should.equal("");
-//     wrapper.state().score2.should.equal("");
-
-//     confirm.restore();
-//   });
-// });
+    wrapper.instance().refs.player1won.checked.should.be.false;
+    wrapper.instance().refs.draw.checked.should.be.false;
+    wrapper.instance().refs.player2won.checked.should.be.false;
+  });
+});
