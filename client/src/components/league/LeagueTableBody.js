@@ -19,54 +19,65 @@ const results = [
 
 const getForm = results => {
   var formToDisplay = [];
+  /* if the player hasn't played any games */
   if (results.length === 0) {
     formToDisplay = " - ";
+    /* if the player has played less than 5 games */
   } else if (results.length < 5) {
     /* go from the most recent game to the oldest */
     for (var i = results.length - 1; i >= 0; i--) {
+      /* if the player won, add a win icon */
       if (results[i] === "W") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="win-icon" alt="win" />
           </div>
         );
+        /* if the player drew, add a draw icon */
       } else if (results[i] === "D") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="draw-icon" alt="draw" />
           </div>
         );
+        /* if the player lost, add a loss icon */
       } else if (results[i] === "L") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="loss-icon" alt="loss" />
           </div>
         );
+        /* otherwise, display an error */
       } else {
         formToDisplay = formToDisplay.concat("ERROR");
       }
     }
+    /* if the player has played 5 or more games */
   } else {
     /* go from the most recent game to the 5th most recent */
     for (var i = results.length - 1; i > results.length - 6; i--) {
+      /* if the player won, add a win icon */
       if (results[i] === "W") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="win-icon" alt="win" />
           </div>
         );
+        /* if the player drew, add a draw icon */
       } else if (results[i] === "D") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="draw-icon" alt="draw" />
           </div>
         );
+        /* if the player lost, add a loss icon */
       } else if (results[i] === "L") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="loss-icon" alt="loss" />
           </div>
         );
+        /* otherwise, display an error */
       } else {
         formToDisplay = formToDisplay.concat("ERROR");
       }
