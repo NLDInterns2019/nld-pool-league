@@ -73,7 +73,7 @@ router.post("/calculate", async (req, res) => {
       type: type,
       staffName: leagues[i].staffName
     });
-console.log(hofRow)
+    
     //if the name isn't in the hall of fame, add it
     if (typeof hofRow === "undefined") { 
       staffInHoF = false;
@@ -118,7 +118,6 @@ console.log(hofRow)
       hofRow.losingStreak = 0;
       start = false;
     }
-    console.log(hofRow.loss)
 
     /////////////////////////////////////////////////////////////////////////   BEST GAME
     //check if this season is the players best yet
@@ -142,7 +141,6 @@ console.log(hofRow)
     }
 
     //basic calculations to aid numerous features
-    console.log(hofRow.loss + " hof row, " + leagues[i].lose + " league")
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
     hofRow.loss = hofRow.loss + leagues[i].lose;
@@ -152,12 +150,7 @@ console.log(hofRow)
     //hofRow.percentage = Math.trunc((hofRow.wins * 100) / hofRow.plays);
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
-    console.log(hofRow.staffName + ": ")
-    console.log(hofRow.loss + " loss count")
-    console.log(hofRow.plays + " plays")
-    hofRow.loss = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    
-    console.log(hofRow.loss + " loss count after calc")
+    hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
 
     
   
