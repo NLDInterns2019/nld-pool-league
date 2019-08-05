@@ -21,6 +21,12 @@ const itemsToBeDisplayed = props => {
     }
   }
 
+  if (losingStreak!==undefined) {
+    if (losingStreak.losingStreak === 0) {
+      losingStreak = null;
+    }
+  }
+
   if (bestGame!==undefined) {
     if (bestGame.highestGF === 0) {
       bestGame = null;
@@ -57,7 +63,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (slacker!==undefined) {
-    if (slacker.punctRate == 0) {   
+    if (slacker.punctRate === 0) {   
       slacker = null;
     }
   }
