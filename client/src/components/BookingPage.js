@@ -102,37 +102,6 @@ class FixturesPage extends Component {
     this.refs.container.style.display = "none";
   };
 
-  /* get all of the fixtures that are booked to be played today */
-  getTodaysFixtures = () => {
-    var todaysFixtures = [];
-    for (var i = 0; i < this.state.events.length; i++) {
-      if (
-        moment(this.state.events[i].start).dayOfYear() ===
-          moment().dayOfYear() &&
-        moment(this.state.events[i].start).year() === moment().year()
-      ) {
-        console.log("pushing");
-        todaysFixtures.push(this.state.events[i]);
-      }
-    }
-    console.log(todaysFixtures);
-    return todaysFixtures;
-  };
-
-  /* take the fixtures booked today and convert them into a message string */
-  prepareTodaysFixturesSlackMessage = todaysFixtures => {
-    var finalMessage = "";
-    for (var i = 0; i < todaysFixtures.length; i++) {
-      finalMessage = finalMessage.concat(
-        todaysFixtures[i].title.toLowerCase() +
-          " at " +
-          moment(todaysFixtures[i].start).format("HH:mm") +
-          "\n"
-      );
-    }
-    return finalMessage;
-  };
-
   makeBooking = async (player1, player2) => {
     const headers = {
       "Content-Type": "application/json",
