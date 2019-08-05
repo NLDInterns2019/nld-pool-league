@@ -90,7 +90,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
           {bestGame
-            ? bestGame.highestGF + " points in one season"
+            ? bestGame.highestPoints + " points in one season"
             : "Most points in a league"}
         </td>
       </tr>
