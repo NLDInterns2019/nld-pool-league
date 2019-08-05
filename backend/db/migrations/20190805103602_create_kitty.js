@@ -7,8 +7,8 @@ exports.up = function(knex) {
         table.string("seasonId").notNullable();
         table.string("staffName").notNullable();
         table.string("description").notNullable();
-        table.integer("value").notNullable();
-        table.integer("total").notNullable();
+        table.float("value", 2).notNullable();
+        table.float("total", 2).notNullable();
     
         table.timestamp("created_at").defaultTo(knex.fn.now());
         table.timestamp("updated_at").defaultTo(knex.fn.now());
