@@ -326,26 +326,38 @@ class App extends React.Component {
   };
 
   feePaid = async(staffName) => {
-    await backend.put("/api/89ball_league/paid", {
-      type: parseInt(this.state.type,10),
-      seasonId: this.state.activeSeason,
-      staffName: staffName
-    },
-    {
-      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-    })
+    try{
+      await backend.put("/api/89ball_league/paid", {
+        type: parseInt(this.state.type,10),
+        seasonId: this.state.activeSeason,
+        staffName: staffName
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      })
+  
+      await backend.post("/api/kitty/credit", {
+        type: parseInt(this.state.type,10),
+        seasonId: this.state.activeSeason,
+        staffName: staffName,
+        description: `Joining fee for ${this.state.type}-ball season ${this.state.activeSeason}`,
+        value: 2
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      })
+      this.updateData()
+      this.toastSuccess("Success")
+    }
+    catch(e) {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
+      if (e.response.status === 400) {
+        this.toastError("Error");
+      }
+    }
 
-    await backend.post("/api/kitty/credit", {
-      type: parseInt(this.state.type,10),
-      seasonId: this.state.activeSeason,
-      staffName: staffName,
-      description: `Joining fee for ${this.state.type}-ball season ${this.state.activeSeason}`,
-      value: 2
-    },
-    {
-      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-    })
-    this.updateData()
   }
 
   render() {
