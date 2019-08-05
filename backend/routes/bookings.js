@@ -53,6 +53,7 @@ router.get("/upcoming", (req, res) => {
     .where(where1)
     .andWhereBetween("start", [
       moment()
+      .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
         .toDate()
         .toISOString(),
       moment()

@@ -14,7 +14,7 @@ class HoFPage extends React.Component {
     super(props);
     this.state = {
       type: "",
-      latestSeason: null,
+      latestSeason: "",
       players: []
     };
   }

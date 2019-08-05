@@ -3,6 +3,7 @@ import backend from "../../api/backend";
 import { orderBy, some } from "lodash";
 import auth0Client from "../../Auth";
 import Axios from "axios";
+import moment from "moment"
 
 class CreateBooking extends React.Component {
   constructor(props) {
@@ -162,6 +163,7 @@ class CreateBooking extends React.Component {
     return (
       <div id="arrangeFixture">
         <h3>Arrange Fixture</h3>
+        <p>{moment(this.props.start).format("dddd DD MMM YYYY HH:mm").toString()}</p>
         <form>
           <label>Select your name:</label>
           {this.playerDropDown()}
