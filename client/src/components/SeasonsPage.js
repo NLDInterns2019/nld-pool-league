@@ -16,7 +16,7 @@ class SeasonsPage extends Component {
     this.state = {
       type: "",
       seasons: [],
-      latestSeason: null
+      latestSeason: ""
     };
   }
 
