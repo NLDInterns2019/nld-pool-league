@@ -116,6 +116,8 @@ router.post("/calculate", async (req, res) => {
       hofRow.improvement = 0;
       hofRow.percentage = 0;
       hofRow.losingStreak = 0;
+      hofRow.curStreak = 0;
+      hofRow.curLosingStreak = 0;
       start = false;
     }
 
@@ -125,6 +127,9 @@ router.post("/calculate", async (req, res) => {
       hofRow.highestGF = leagues[i].points;
     }
 
+    //Probable bug: Checks for number of seasons. Does not consider that all players may not be present. 
+    //May want to do this calculation individually via percentage.
+    
     /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
     //check if improvement should be calculated
     let seasons = await eight_nine_ball_seasons.query().where({
@@ -199,26 +204,26 @@ router.post("/calculate", async (req, res) => {
     //update streak or reset as necessary. scrappyRate: streak temp. percentage: losingStreak temp.
     //draws do not break streak, but also do not add to it
     if (fixtures[i].score1 > fixtures[i].score2) { //check which player won
-      hofAll[player1].scrappyRate++;
-      hofAll[player2].percentage++;
-      if (hofAll[player1].scrappyRate > hofAll[player1].streak) { //check if current streak is their best
-        hofAll[player1].streak = hofAll[player1].scrappyRate; 
+      hofAll[player1].curStreak++;
+      hofAll[player2].curLosingStreak++;
+      if (hofAll[player1].curStreak > hofAll[player1].streak) { //check if current streak is their best
+        hofAll[player1].streak = hofAll[player1].curStreak; 
       }
-      if (hofAll[player2].percentage > hofAll[player2].losingStreak) { //check if current losing streak is their best
-        hofAll[player2].losingStreak = hofAll[player2].percentage; 
+      if (hofAll[player2].curLosingStreak > hofAll[player2].losingStreak) { //check if current losing streak is their best
+        hofAll[player2].losingStreak = hofAll[player2].curLosingStreak; 
       }
-      hofAll[player2].scrappyRate = 0; 
-      hofAll[player1].percentage = 0; 
+      hofAll[player2].curStreak = 0; 
+      hofAll[player1].curLosingStreak = 0; 
     } else if (fixtures[i].score2 > fixtures[i].score1) {
-      hofAll[player2].scrappyRate++;
-      if (hofAll[player2].scrappyRate > hofAll[player2].streak) {
-        hofAll[player2].streak = hofAll[player2].scrappyRate;
+      hofAll[player2].curStreak++;
+      if (hofAll[player2].curStreak > hofAll[player2].streak) {
+        hofAll[player2].streak = hofAll[player2].curStreak;
       }
-      if (hofAll[player1].percentage > hofAll[player1].losingStreak) { 
-        hofAll[player1].losingStreak = hofAll[player1].percentage; 
+      if (hofAll[player1].curLosingStreak > hofAll[player1].losingStreak) { 
+        hofAll[player1].losingStreak = hofAll[player1].curLosingStreak; 
       }
-      hofAll[player1].scrappyRate = 0;
-      hofAll[player2].percentage = 0; //reset opponents
+      hofAll[player1].curStreak = 0;
+      hofAll[player2].curLosingStreak = 0; //reset opponents
     }
 
     

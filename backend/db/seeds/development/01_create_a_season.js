@@ -11,6 +11,8 @@ exports.seed = function(knex) {
         
         { type: 8, seasonId: 24},
         { type: 8, seasonId: 25},
+        { type: 8, seasonId: 26},
+        { type: 8, seasonId: 27},
 
       ]);
     });
