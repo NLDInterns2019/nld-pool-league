@@ -49,8 +49,10 @@ class KittyPage extends React.Component {
           type={this.state.type}
         />
         <div className="content">
-          {this.state.kitty.length ? null : <h3>Nothing to see here</h3> }
-          <KittyTable kitty={this.state.kitty} />
+          <div className="kittyTableContainer">
+            {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
+            <KittyTable kitty={this.state.kitty} />
+          </div>
         </div>
       </div>
     );

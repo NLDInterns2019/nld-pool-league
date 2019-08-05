@@ -232,6 +232,20 @@ table td {
 
 /* ==== League Table ==== */
 
+.kittyTable {
+  font-size: 12pt;
+  margin: auto;
+}
+
+.kittyTable th,
+.kittyTable td {
+  text-align: center;
+}
+
+#balance {
+  border-left: solid 2px #127e5c;
+}
+
 .leagueTable {
   font-size: 18pt;
   margin: auto;
@@ -877,11 +891,27 @@ tr td:last-child {
   background: url("./assets/eight-ball-vector.svg");
 }
 
+.eight-ball-icon-20 {
+  margin: auto;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  background: url("./assets/eight-ball-vector-20.svg");
+}
+
 .nine-ball-icon {
   vertical-align: middle;
   width: 40px;
   height: 40px;
   background: url("./assets/nine-ball-vector.svg");
+}
+
+.nine-ball-icon-20 {
+  margin: auto;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  background: url("./assets/nine-ball-vector-20.svg");
 }
 
 .trophy-icon {
@@ -1127,6 +1157,11 @@ tr td:last-child {
 
   #seasonsListContainer {
     order: 1;
+    align-self: center;
+    text-align: left;
+  }
+
+  .kittyTableContainer {
     align-self: center;
     text-align: left;
   }
