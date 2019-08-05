@@ -12,7 +12,7 @@ chai.use(chaiEnzyme());
 
 const today = new Date();
 const overdueFixture = { date: "Jul 03 2019", score1: null, score2: null };
-const normalFixture = { date: "Aug 03 2025", score1: null, score2: null };
+const normalFixture = { date: "Aug 03 3000", score1: null, score2: null };
 const playedFixture = { date: "Jul 03 2019", score1: "2", score2: "0" };
 
 /* copied from FixtureTableBody.js */
