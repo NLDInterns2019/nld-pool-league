@@ -16,7 +16,7 @@ let eight_nine_ball_season = require("./routes/eight_nine_ball_seasons"),
   hall_of_fame = require("./routes/hall_of_fame"),
   bookings = require("./routes/bookings"),
   slack = require("./routes/slack"),
-  kitty = requite("./routes/kitty.js")
+  kitty = require("./routes/kitty.js")
 
 const PORT = process.env.PORT || 8080;
 
