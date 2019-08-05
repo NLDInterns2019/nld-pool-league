@@ -340,7 +340,7 @@ class App extends React.Component {
         type: parseInt(this.state.type,10),
         seasonId: this.state.activeSeason,
         staffName: staffName,
-        description: `Joining fee for ${this.state.type}-ball season ${this.state.activeSeason}`,
+        description: `Joining fee`,
         value: 2
       },
       {
