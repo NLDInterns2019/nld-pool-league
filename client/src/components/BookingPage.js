@@ -11,21 +11,9 @@ import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
 
-const { WebClient } = require("@slack/web-api");
-
 const localizer = momentLocalizer(moment);
 
 class FixturesPage extends Component {
-  constructor(props) {
-    super(props);
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
-  }
-
   state = {
     type: "",
     fixtures: [],
@@ -110,37 +98,6 @@ class FixturesPage extends Component {
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
-  };
-
-  /* get all of the fixtures that are booked to be played today */
-  getTodaysFixtures = () => {
-    var todaysFixtures = [];
-    for (var i = 0; i < this.state.events.length; i++) {
-      if (
-        moment(this.state.events[i].start).dayOfYear() ===
-          moment().dayOfYear() &&
-        moment(this.state.events[i].start).year() === moment().year()
-      ) {
-        console.log("pushing");
-        todaysFixtures.push(this.state.events[i]);
-      }
-    }
-    console.log(todaysFixtures);
-    return todaysFixtures;
-  };
-
-  /* take the fixtures booked today and convert them into a message string */
-  prepareTodaysFixturesSlackMessage = todaysFixtures => {
-    var finalMessage = "";
-    for (var i = 0; i < todaysFixtures.length; i++) {
-      finalMessage = finalMessage.concat(
-        todaysFixtures[i].title.toLowerCase() +
-          " at " +
-          moment(todaysFixtures[i].start).format("HH:mm") +
-          "\n"
-      );
-    }
-    return finalMessage;
   };
 
   makeBooking = async (player1, player2) => {

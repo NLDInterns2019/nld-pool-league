@@ -56,23 +56,23 @@ const getPlayerForm = results => {
     /* if the player has played 5 or more games */
   } else {
     /* go from the most recent game to the 5th most recent */
-    for (var i = results.length - 1; i > results.length - 6; i--) {
+    for (var j = results.length - 1; j > results.length - 6; j--) {
       /* if the player won, add a win icon */
-      if (results[i] === "W") {
+      if (results[j] === "W") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="win-icon" alt="win" />
           </div>
         );
         /* if the player drew, add a draw icon */
-      } else if (results[i] === "D") {
+      } else if (results[j] === "D") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="draw-icon" alt="draw" />
           </div>
         );
         /* if the player lost, add a loss icon */
-      } else if (results[i] === "L") {
+      } else if (results[j] === "L") {
         formToDisplay = formToDisplay.concat(
           <div className="leagueTableFormItem">
             <div className="loss-icon" alt="loss" />
