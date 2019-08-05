@@ -233,8 +233,9 @@ table td {
 /* ==== League Table ==== */
 
 .kittyTable {
-  font-size: 12pt;
+  font-size: 18pt;
   margin: auto;
+  min-width: 946px;
 }
 
 .kittyTable th,
@@ -1146,38 +1147,44 @@ tr td:last-child {
 }
 
 /* ==== Responsive Styling ==== */
-@media only screen and (max-width: 1380px) {
-  .content {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: stretch;
-    justify-content: flex-start;
-    height: 100%;
+@media only screen and (min-width: 1365px) {
+  .subnav .main-items {
+    display: none;
+  }
+  .collapsible {
+    position: fixed;
+    background-color: #1f7058;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+    right: 0;
+    font-size: 18pt;
+    color: white;
+  }
+  .collapsible li {
+    margin-top: 1rem;
   }
 
-  #seasonsListContainer {
-    order: 1;
-    align-self: center;
-    text-align: left;
+  .collapsible a {
+    padding-left: 1rem;
+    text-decoration: none;
+    color: white;
   }
 
-  .kittyTableContainer {
-    align-self: center;
-    text-align: left;
+  .collapsible a:hover {
+    font-weight: bold;
   }
 
-  .contentLeft {
-    order: 2;
-    margin-bottom: 8rem;
-    height: auto;
-    position: static;
+  .menu-icon {
+    visibility: visible;
   }
 
-  .contentRight {
-    order: 3;
+  .menu-icon:hover {
+    cursor: pointer;
   }
+}
 
+@media only screen and (max-width: 1364px) {
   .subnav .main-items {
     display: none;
   }
@@ -1213,9 +1220,39 @@ tr td:last-child {
   .menu-icon:hover {
     cursor: pointer;
   }
+  .content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 100%;
+  }
+
+  #seasonsListContainer {
+    order: 1;
+    align-self: center;
+    text-align: left;
+  }
+
+  .kittyTableContainer {
+    align-self: center;
+    text-align: left;
+  }
+
+  .contentLeft {
+    order: 2;
+    margin-bottom: 8rem;
+    height: auto;
+    position: static;
+  }
+
+  .contentRight {
+    order: 3;
+  }
 }
 
-@media only screen and (min-width: 1381px) {
+@media only screen and (min-width: 1436px) {
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;
@@ -1224,5 +1261,9 @@ tr td:last-child {
 
   .itemMenu {
     display: none;
+  }
+
+  .subnav .main-items {
+    display: inline-block;
   }
 }
