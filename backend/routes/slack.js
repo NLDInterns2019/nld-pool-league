@@ -76,7 +76,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
 
 /* 
   POST handler for /api/slack/booking/reminder
-  Function: To send new booking message
+  Function: To send reminder 15 mins before scheduled fixture
 */
 router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
   const schema = {
@@ -131,7 +131,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
 
 /* 
   DELETE handler for /api/slack/booking/reminder
-  Function: To send new booking message
+  Function: To delete scheduled reminder
 */
 router.delete("/booking/reminder", auth.checkJwt, async (req, res) => {
   const schema = {

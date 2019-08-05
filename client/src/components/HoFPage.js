@@ -14,7 +14,6 @@ class HoFPage extends React.Component {
     super(props);
     this.state = {
       type: "",
-      seasons: [],
       latestSeason: null,
       players: []
     };
@@ -52,9 +51,11 @@ class HoFPage extends React.Component {
     });
 
     this.setState({ HoF9: HoF9.data });
+
+    this.createHoF();
   };
 
-  createHoF = async state => {
+  createHoF = async () => {
     try {
       const headers = {
         "Content-Type": "application/json",
@@ -69,7 +70,9 @@ class HoFPage extends React.Component {
         {
           headers: headers
         }
-      );
+      ).then((result) => {
+        this.setState({players: result.data})
+      })
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
