@@ -73,7 +73,7 @@ router.post("/calculate", async (req, res) => {
       type: type,
       staffName: leagues[i].staffName
     });
-
+console.log(hofRow)
     //if the name isn't in the hall of fame, add it
     if (typeof hofRow === "undefined") { 
       staffInHoF = false;
@@ -118,6 +118,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.losingStreak = 0;
       start = false;
     }
+    console.log(hofRow.loss)
 
     /////////////////////////////////////////////////////////////////////////   BEST GAME
     //check if this season is the players best yet
@@ -141,6 +142,7 @@ router.post("/calculate", async (req, res) => {
     }
 
     //basic calculations to aid numerous features
+    console.log(hofRow.loss + " hof row, " + leagues[i].lose + " league")
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
     hofRow.loss = hofRow.loss + leagues[i].lose;

@@ -19,6 +19,7 @@ exports.up = function(knex) {
     table.integer("loss").defaultTo(0);
     table.integer("improvement").defaultTo(0);
     table.integer("scrappyPlays").defaultTo(0);
+    table.integer("lossRate").defaultTo(0);
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
