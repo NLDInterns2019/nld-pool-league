@@ -2,8 +2,10 @@
 exports.up = function(knex) {
     return knex.schema.createTable("kitty", table => {
         table.increments();
-        table.string("seasonId").unique().notNullable();
-        table.string("staffName").unique().notNullable();
+        table.string("date").notNullable();
+        table.string("type").notNullable();
+        table.string("seasonId").notNullable();
+        table.string("staffName").notNullable();
         table.string("description").notNullable();
         table.integer("value").notNullable();
         table.integer("total").notNullable();

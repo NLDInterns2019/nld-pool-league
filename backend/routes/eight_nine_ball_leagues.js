@@ -308,7 +308,7 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
 
 /* 
   DELETE handler for /api/89ball_league/delete/player
-  Function: To delete player from the league (NOTE YET IMPLEMENTED IN THE UI)
+  Function: To delete player from the league
 */
 router.delete("/delete/player", auth.checkJwt, (req, res) => {
   const schema = {
@@ -371,6 +371,45 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
         res.status(500).send(e);
       }
     );
+});
+
+/* 
+  PUT handler for /api/89ball_league/paid
+  Function: To 
+*/
+router.put("/paid", auth.checkJwt, (req, res) => {
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    seasonId: Joi.number()
+      .integer()
+      .required(),
+    staffName: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  eight_nine_ball_leagues
+    .query()
+    .where({
+      type: req.body.type,
+      seasonId: req.body.seasonId,
+      staffName: req.body.staffName
+    })
+    .patch({paid: true})
+    .then(result => {
+      if(result===0){
+        res.status(404).send();
+      }
+      res.json(result)
+    }, e=> {
+      res.status(400).send(e);
+    })
 });
 
 module.exports = router;
