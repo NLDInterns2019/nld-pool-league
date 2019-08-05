@@ -56,12 +56,6 @@ const itemsToBeDisplayed = props => {
     }
   }
 
-  if (onTime!==undefined) {
-    if (onTime.punctRate == 0) {
-      onTime = null;
-    }
-  }
-
   if (slacker!==undefined) {
     if (slacker.punctRate == 0) {   
       slacker = null;
