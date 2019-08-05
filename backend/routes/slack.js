@@ -3,7 +3,7 @@ var router = express.Router();
 const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -36,8 +36,8 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  var date = moment(req.body.start).format("DD-MMM-YYYY");
-  var time = moment(req.body.start).format("HH:mm");
+  var date = moment(req.body.start).tz("Europe/London").format("DD-MMM-YYYY");
+  var time = moment(req.body.start).tz("Europe/London").format("HH:mm");
 
   await web.chat
     .postMessage({
@@ -92,7 +92,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  let time = moment(req.body.start).format("HH:mm");
+  let time = moment(req.body.start).tz("Europe/London").format("HH:mm");
   let fifteenMinsBefore = moment(req.body.start)
     .subtract(15, "minutes")
     .unix();
