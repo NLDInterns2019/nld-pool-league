@@ -16,16 +16,6 @@ const { WebClient } = require("@slack/web-api");
 const localizer = momentLocalizer(moment);
 
 class FixturesPage extends Component {
-  constructor(props) {
-    super(props);
-    /* slack token */
-    const token =
-      "xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e";
-    /* test channel */
-    this.channel = "CLB0QN8JY";
-    this.web = new WebClient(token);
-  }
-
   state = {
     type: "",
     fixtures: [],
