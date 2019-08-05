@@ -244,6 +244,7 @@ table td {
 
 #balance {
   border-left: solid 2px #127e5c;
+  font-weight: bold;
 }
 
 .leagueTable {
@@ -1182,7 +1183,7 @@ tr td:last-child {
   }
 
   .collapsible {
-    position: absolute;
+    position: fixed;
     background-color: #1f7058;
     min-width: 160px;
     z-index: 1;
