@@ -155,7 +155,7 @@ console.log(hofRow)
     console.log(hofRow.staffName + ": ")
     console.log(hofRow.loss + " loss count")
     console.log(hofRow.plays + " plays")
-    hofRow.loss = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+    hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
     
     console.log(hofRow.loss + " loss count after calc")
 
