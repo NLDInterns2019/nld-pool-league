@@ -38,7 +38,7 @@ router.post("/credit", (req, res) => {
       .required(),
     staffName: Joi.string().required(),
     description: Joi.string().required(),
-    value: Joi.integer().required()
+    value: Joi.number().required()
   };
 
   //Validation
@@ -47,28 +47,33 @@ router.post("/credit", (req, res) => {
     return;
   }
 
-  let latest = kitty
-    .query()
-    .orderBy("id", "desc")
-    .first();
-
   kitty
     .query()
     .orderBy("id", "desc")
-    .insert({
-      date: moment()
-        .tz("Europe/London")
-        .format("DD-MMM-YYYY"),
-      type: req.body.type,
-      seasonId: req.body.seasonId,
-      staffName: req.body.staffName,
-      description: req.body.description,
-      value: req.body.value,
-      total: latest.total + req.body.value
-    })
     .then(
-      kitty => {
-        res.json(kitty);
+      latest => {
+        kitty
+          .query()
+          .orderBy("id", "desc")
+          .insert({
+            date: moment()
+              .tz("Europe/London")
+              .toDate().toISOString(),
+            type: req.body.type,
+            seasonId: req.body.seasonId,
+            staffName: req.body.staffName,
+            description: req.body.description,
+            value: req.body.value,
+            total: (latest.length ? latest[0].total : 0 ) + req.body.value
+          })
+          .then(
+            kitty => {
+              res.json(kitty);
+            },
+            e => {
+              res.status(400).json(e);
+            }
+          );
       },
       e => {
         res.status(400).json(e);
@@ -81,51 +86,56 @@ router.post("/credit", (req, res) => {
   Function: To add debit transaction to kitty
 */
 router.post("/debit", (req, res) => {
-    const schema = {
-      type: Joi.number()
-        .integer()
-        .required(),
-      seasonId: Joi.number()
-        .integer()
-        .required(),
-      staffName: Joi.string().required(),
-      description: Joi.string().required(),
-      value: Joi.integer().required()
-    };
-  
-    //Validation
-    if (Joi.validate(req.body, schema, { convert: false }).error) {
-      res.status(400).json({ status: "error", error: "Invalid data" });
-      return;
-    }
-  
-    let latest = kitty
-      .query()
-      .orderBy("id", "desc")
-      .first();
-  
-    kitty
-      .query()
-      .orderBy("id", "desc")
-      .insert({
-        date: moment()
-          .tz("Europe/London")
-          .format("DD-MMM-YYYY"),
-        type: req.body.type,
-        seasonId: req.body.seasonId,
-        staffName: req.body.staffName,
-        description: req.body.description,
-        value: req.body.value,
-        total: latest.total - req.body.value
-      })
-      .then(
-        kitty => {
-          res.json(kitty);
-        },
-        e => {
-          res.status(400).json(e);
-        }
-      );
-  });
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    seasonId: Joi.number()
+      .integer()
+      .required(),
+    staffName: Joi.string().required(),
+    description: Joi.string().required(),
+    value: Joi.integer().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  kitty
+    .query()
+    .orderBy("id", "desc")
+    .then(
+      latest => {
+        kitty
+          .query()
+          .orderBy("id", "desc")
+          .insert({
+            date: moment()
+              .tz("Europe/London")
+              .format("DD-MMM-YYYY"),
+            type: req.body.type,
+            seasonId: req.body.seasonId,
+            staffName: req.body.staffName,
+            description: req.body.description,
+            value: req.body.value,
+            total: latest[0].total - req.body.value
+          })
+          .then(
+            kitty => {
+              res.json(kitty);
+            },
+            e => {
+              res.status(400).json(e);
+            }
+          );
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
 
 module.exports = router;
