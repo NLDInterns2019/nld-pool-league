@@ -108,6 +108,19 @@ const LeagueTableBody = props => {
         {/* {getPlayerForm(results)} */}
         {/* </td> */}
         <td align="center">{player.points}</td>
+        {player.paid ? (
+          <td align="center">Yes</td>
+        ) : (
+          <td
+            align="center"
+            onClick={() => {
+              if (window.confirm(`Are you sure ${player.staffName} has paid?`))
+                props.feePaid(player.staffName);
+            }}
+          >
+            No
+          </td>
+        )}
         <td style={{ backgroundColor: "#DBE9E2" }}>
           <span
             className="delete-icon"

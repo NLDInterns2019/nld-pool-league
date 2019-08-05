@@ -14,6 +14,7 @@ const LeagueTableHeader = () => {
         <th>A</th>
         {/* <th>Form</th> */}
         <th>Pts</th>
+        <th>Paid?</th>
       </tr>
     </thead>
   );

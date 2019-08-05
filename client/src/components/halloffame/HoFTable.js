@@ -9,7 +9,7 @@ const itemsToBeDisplayed = props => {
   let onTime = minBy(props.players, "punctRate");
   let slacker = maxBy(props.players, "punctRate");
   let bestGame = maxBy(props.players, "highestGF");
-  const losingStreak = maxBy(props.players, "losingStreak");
+  let losingStreak = maxBy(props.players, "losingStreak");
   let streak = maxBy(props.players, "streak");
   let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "improvement");
@@ -18,6 +18,12 @@ const itemsToBeDisplayed = props => {
   if (topPlayer!==undefined) {
     if (topPlayer.percentage === 0) {
       topPlayer = null;
+    }
+  }
+
+  if (losingStreak!==undefined) {
+    if (losingStreak.losingStreak === 0) {
+      losingStreak = null;
     }
   }
 
@@ -57,7 +63,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (slacker!==undefined) {
-    if (slacker.punctRate == 0) {   
+    if (slacker.punctRate === 0) {   
       slacker = null;
     }
   }
