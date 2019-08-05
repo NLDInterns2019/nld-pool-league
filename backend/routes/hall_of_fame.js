@@ -144,12 +144,18 @@ router.post("/calculate", async (req, res) => {
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
     hofRow.loss = hofRow.loss + leagues[i].lose;
+    
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.percentage = Math.trunc((hofRow.wins * 100) / hofRow.plays);
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
+    console.log(hofRow.staffName + ": ")
+    console.log(hofRow.loss + " loss count")
+    console.log(hofRow.plays + " plays")
     hofRow.loss = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+    
+    console.log(hofRow.loss + " loss count after calc")
 
     
   
