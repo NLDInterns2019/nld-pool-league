@@ -11,8 +11,6 @@ import Header from "./nav/Header";
 import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
 
-const { WebClient } = require("@slack/web-api");
-
 const localizer = momentLocalizer(moment);
 
 class FixturesPage extends Component {
