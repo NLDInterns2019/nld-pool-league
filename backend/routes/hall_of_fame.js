@@ -41,7 +41,7 @@ router.get("/", async (req, res) => {
 
 /* 
   POST handler for /api/89ball_league/hall_of_fame/calculate
-  Function: To calculate win percentages
+  Function: To calculate HoF achievement winners
 */
 router.post("/calculate", async (req, res) => {
   type = req.body.type;
