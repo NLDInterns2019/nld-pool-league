@@ -125,6 +125,9 @@ router.post("/calculate", async (req, res) => {
       hofRow.highestGF = leagues[i].points;
     }
 
+    //Probable bug: Checks for number of seasons. Does not consider that all players may not be present. 
+    //May want to do this calculation individually via percentage.
+    
     /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
     //check if improvement should be calculated
     let seasons = await eight_nine_ball_seasons.query().where({
