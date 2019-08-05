@@ -19,16 +19,15 @@ const SubNavBar = props => {
   var title =
     matchPath(currentPath, { path: "/8-ball/seasons", exact: false }) ||
     matchPath(currentPath, { path: "/8-ball/hall_of_fame", exact: false }) ||
+    matchPath(currentPath, { path: "/8-ball/kitty", exact: false }) ||
     matchPath(currentPath, { path: "/8-ball/dashboard", exact: false })
       ? "8-Ball"
       : matchPath(currentPath, { path: "/8-ball/overview" }) ||
         matchPath(currentPath, { path: "/8-ball/fixtures" })
       ? "8-Ball Season " + props.activeSeason
       : matchPath(currentPath, { path: "/9-ball/seasons", exact: false }) ||
-        matchPath(currentPath, {
-          path: "/9-ball/hall_of_fame",
-          exact: false
-        }) ||
+        matchPath(currentPath, {path: "/9-ball/hall_of_fame", exact: false}) ||
+        matchPath(currentPath, {path: "/9-ball/kitty", exact: false}) ||
         matchPath(currentPath, { path: "/9-ball/dashboard", exact: false })
       ? "9-Ball"
       : matchPath(currentPath, { path: "/9-ball/overview" }) ||
