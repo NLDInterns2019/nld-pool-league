@@ -6,8 +6,8 @@ const itemsToBeDisplayed = props => {
   const draw = maxBy(props.players, "draws");
   let dedicated = maxBy(props.players, "plays");
   let undedicated = minBy(props.players, "plays");
-  const onTime = minBy(props.players, "punctRate");
-  const slacker = maxBy(props.players, "punctRate");
+  let onTime = minBy(props.players, "punctRate");
+  let slacker = maxBy(props.players, "punctRate");
   const bestGame = maxBy(props.players, "highestGF");
   const losingStreak = maxBy(props.players, "losingStreak");
   const streak = maxBy(props.players, "streak");
@@ -27,7 +27,18 @@ const itemsToBeDisplayed = props => {
     }
   }
 
-  console.log(losingStreak)
+  if (onTime!==undefined) {
+    if (onTime.punctRate == 0) {
+      onTime = null;
+    }
+  }
+
+  if (slacker!==undefined) {
+    if (slacker.punctRate == 0) {   
+      slacker = null;
+    }
+  }
+
   return (
     <tbody>
       <tr>
