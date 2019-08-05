@@ -140,12 +140,30 @@ describe("Validation", () => {
   });
 });
 
+/* ================================================================================================== */
+
 describe("Create a season", () => {
-  it("should run method in createSeason prop", () => {
+  it("should run method in createSeason prop when season created", () => {
     var fake = sinon.fake();
 
     const wrapper = shallow(
       <CreateSeasonForm createSeason={fake} closePopUp={() => {}} />
+    );
+
+    wrapper.instance().createSeason();
+
+    fake.calledOnce.should.be.true;
+  });
+});
+
+/* ================================================================================================== */
+
+describe("Close popup", () => {
+  it("should run method in closePopUp prop when season created", () => {
+    var fake = sinon.fake();
+
+    const wrapper = shallow(
+      <CreateSeasonForm createSeason={() => {}} closePopUp={fake} />
     );
 
     wrapper.instance().createSeason();

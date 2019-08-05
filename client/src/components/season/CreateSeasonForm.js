@@ -66,19 +66,6 @@ class CreateSeasonForm extends Component {
     });
   }
 
-  /* posts a message to slack saying a new season has been created */
-  postCreateSeasonSlackMessage = async () => {
-    await this.web.chat.postMessage({
-      channel: this.channel,
-      text:
-        "New " +
-        (this.props.type === "8" ? ":8ball:" : ":9ball:") +
-        " season called 'Season " +
-        this.state.seasonName +
-        "' created"
-    });
-  };
-
   removePlayer(index) {
     this.state.playersName.splice(index, 1);
     this.setState({ playersName: this.state.playersName });
@@ -88,7 +75,6 @@ class CreateSeasonForm extends Component {
     //SET STATE IS ASYNCHRONOUS
     this.setState({ players: this.preparePlayers() }, () => {
       this.props.createSeason(this.state);
-      //this.postCreateSeasonSlackMessage();
       this.props.closePopUp();
       this.setState(this.initialState, () => {
         this.getPlayers();
