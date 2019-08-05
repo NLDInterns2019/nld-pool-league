@@ -5,10 +5,18 @@ const KittyTable = props => {
   const toBeDisplayed = props.kitty.map(k => {
     return (
       <tr key={k.id}>
-        <td align="center">{k.id}</td>
-        <td align="center">{moment(k.date).format("DD-MMM-YYYY")}</td>
-        <td align="center">{k.type}</td>
-        <td align="center">{k.seasonId}</td>
+        <td>{k.id}</td>
+        <td>{moment(k.date).format("DD-MMM-YYYY")}</td>
+        <td>
+          {k.type === "8" ? (
+            <div className="eight-ball-icon-20" alt="eight ball" />
+          ) : k.type === "9" ? (
+            <div className="nine-ball-icon-20" alt="nine ball" />
+          ) : (
+            "type error"
+          )}
+        </td>
+        <td>{k.seasonId}</td>
         <td>{k.staffName}</td>
         <td>{k.description}</td>
         {k.value < 0 ? (
@@ -17,10 +25,10 @@ const KittyTable = props => {
           </td>
         ) : (
           <td style={{ color: "Green" }} align="center">
-            +{k.value}
+            +£{k.value}
           </td>
         )}
-        <td align="center">{k.total}</td>
+        <td id="balance">£{k.total}</td>
       </tr>
     );
   });
@@ -31,10 +39,10 @@ const KittyTable = props => {
   return (
     <div>
       <h3>Kitty</h3>
-      <table cellSpacing="0">
+      <table cellSpacing="0" className="kittyTable">
         <thead>
           <tr>
-            <th>No</th>
+            <th>#</th>
             <th>Date</th>
             <th>Type</th>
             <th>Season</th>
