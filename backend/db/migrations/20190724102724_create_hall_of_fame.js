@@ -3,23 +3,23 @@ exports.up = function(knex) {
   return knex.schema.createTable("hall_of_fame", table => {
     table.integer("type").notNullable();
     table.string("staffName").notNullable();
-    table.integer("wins").defaultTo(0);
-    table.integer("draws").defaultTo(0);
     table.integer("plays").defaultTo(0);
+    table.integer("wins").defaultTo(0);
     table.integer("percentage").defaultTo(0);
+    table.integer("draws").defaultTo(0);
+    table.integer("drawRate").defaultTo(0);
+    table.integer("loss").defaultTo(0);
+    table.integer("lossRate").defaultTo(0);
     table.integer("punctuality").defaultTo(0);
     table.integer("punctRate").defaultTo(0);
     table.integer("goalsAgainstTop").defaultTo(0);
     table.integer("highestGF").defaultTo(0);
-    table.integer("drawRate").defaultTo(0);
+    table.integer("scrappyPlays").defaultTo(0);
     table.integer("scrappy").defaultTo(0);
     table.integer("scrappyRate").defaultTo(0);
     table.integer("streak").defaultTo(0);
     table.integer("losingStreak").defaultTo(0);
-    table.integer("loss").defaultTo(0);
     table.integer("improvement").defaultTo(0);
-    table.integer("scrappyPlays").defaultTo(0);
-    table.integer("lossRate").defaultTo(0);
     table.integer("curStreak").defaultTo(0);
     table.integer("curLosingStreak").defaultTo(0);
 
