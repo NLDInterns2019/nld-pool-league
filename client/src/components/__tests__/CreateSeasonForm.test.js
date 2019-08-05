@@ -139,3 +139,17 @@ describe("Validation", () => {
     wrapper.instance().isValidPlayersNumber().should.be.true;
   });
 });
+
+describe("Create a season", () => {
+  it("should run method in createSeason prop", () => {
+    var fake = sinon.fake();
+
+    const wrapper = shallow(
+      <CreateSeasonForm createSeason={fake} closePopUp={() => {}} />
+    );
+
+    wrapper.instance().createSeason();
+
+    fake.calledOnce.should.be.true;
+  });
+});
