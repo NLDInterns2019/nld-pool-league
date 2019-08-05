@@ -9,6 +9,7 @@ import UserPage from "./UserPage";
 import NotFound from "./NotFound";
 
 import Callback from "../Callback";
+import KittyPage from "./KittyPage.js";
 
 const App = () => {
   return (
@@ -27,6 +28,8 @@ const App = () => {
         <Route path="/:type(billiards)/seasons" component={SeasonsPage} />
         <Route path="/:type(8|9)-ball/hall_of_fame" component={HoFPage} />
         <Route path="/:type(billiards)/hall_of_fame" component={HoFPage} />
+        <Route path="/:type(8|9)-ball/kitty" component={KittyPage} />
+        <Route path="/:type(billiards)/kitty" component={KittyPage} />
         <Route path="/:type(8|9)-ball/dashboard" component={UserPage} />
         <Route path="/:type(billiards)/dashboard" component={UserPage} />
         <Route

@@ -86,6 +86,16 @@ const SubNavBar = props => {
       }
     : {};
 
+  /* makes 'kitty' link bold */
+  var kittyCurrentStyle = matchPath(currentPath, {
+    path: "*/kitty",
+    exact: false
+  })
+    ? {
+        fontWeight: "bold"
+      }
+    : {};
+
   const seasonFixtureLink = path => {
     if (props.type !== "Billiards") {
       if (props.activeSeason === undefined) {
@@ -99,6 +109,15 @@ const SubNavBar = props => {
                   id="HoFLink"
                 >
                   Hall of Fame
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={`/${path}/kitty`}
+                  style={kittyCurrentStyle}
+                  id="KittyLink"
+                >
+                  Kitty
                 </Link>
               </li>
             </span>
@@ -133,6 +152,15 @@ const SubNavBar = props => {
                   Hall of Fame
                 </Link>
               </li>
+              <li>
+                <Link
+                  to={`/${path}/kitty`}
+                  style={kittyCurrentStyle}
+                  id="KittyLink"
+                >
+                  Kitty
+                </Link>
+              </li>
             </span>
           );
         }
@@ -164,6 +192,15 @@ const SubNavBar = props => {
                 id="HoFLink"
               >
                 Hall of Fame
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`/${path}/kitty`}
+                style={kittyCurrentStyle}
+                id="KittyLink"
+              >
+                Kitty
               </Link>
             </li>
           </span>

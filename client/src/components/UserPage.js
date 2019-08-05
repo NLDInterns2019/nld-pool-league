@@ -10,7 +10,7 @@ import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
 
-class App extends React.Component {
+class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
   state = {
     player: " ",
@@ -145,4 +145,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default UserPage;

@@ -109,9 +109,10 @@ const LeagueTableBody = props => {
         {/* </td> */}
         <td align="center">{player.points}</td>
         {player.paid ? (
-          <td align="center">Yes</td>
+          <td style={{color: "Green"}} align="center">Yes</td>
         ) : (
           <td
+          style={{color: "Red"}}
             align="center"
             onClick={() => {
               if (window.confirm(`Are you sure ${player.staffName} has paid?`))
