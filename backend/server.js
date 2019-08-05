@@ -56,14 +56,19 @@ schedule.scheduleJob(
       .whereBetween("start", [start, end])
       .then(bookings => {
         let message = "";
-        bookings.map(booking => {
-          message = message.concat(
-            booking.title.toLowerCase() +
-              " at " +
-              moment(booking.start).tz("Europe/London").format("HH:mm") +
-              "\n"
-          );
-        });
+        if(bookings.length){
+          bookings.map(booking => {
+            message = message.concat(
+              booking.title.toLowerCase() +
+                " at " +
+                moment(booking.start).tz("Europe/London").format("HH:mm") +
+                "\n"
+            );
+          });
+        }else{
+          message = "There is no match scheduled for today"
+        }
+
         axios.post(
           "https://hooks.slack.com/services/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",
           {
