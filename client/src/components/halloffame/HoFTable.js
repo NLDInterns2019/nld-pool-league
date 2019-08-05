@@ -2,7 +2,7 @@ import React from "react";
 import { maxBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
   let topPlayer = maxBy(props.players, "percentage");
-  let casual = maxBy(props.players, "loss");
+  let casual = maxBy(props.players, "lossRate");
   let draw = maxBy(props.players, "draws");
   let dedicated = maxBy(props.players, "plays");
   let undedicated = minBy(props.players, "plays");
@@ -169,7 +169,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCellBorder">{casual ? casual.staffName : "-"}</td>
         <td className="hofCellBorder">
           {casual
-            ? casual.loss + "% of games lost"
+            ? casual.lossRate + "% of games lost"
             : "Highest loss rate"}
         </td>
       </tr>
