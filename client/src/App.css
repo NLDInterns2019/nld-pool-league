@@ -272,9 +272,39 @@ table td {
   align-items: center;
   height: inherit;
 }
+
 .leagueTableFormItem {
   padding-left: 2px;
   padding-right: 2px;
+}
+
+.leagueTablePaymentCol {
+  border-left: solid 2px #127e5c;
+}
+
+#hasNotPaid {
+  transition: background-color 0.5s ease;
+  background-color: white;
+}
+
+#hasNotPaid:hover {
+  cursor: pointer;
+  background-color: #127e5c;
+  color: white;
+}
+
+#hasNotPaid:hover .cross-icon {
+  display: none;
+}
+
+#hasNotPaid:hover #pay-overlay {
+  display: block;
+  transform: translateX(0%);
+}
+
+#pay-overlay {
+  display: none;
+  transform: translateX(100%);
 }
 
 /* ==== Fixture and League Table positioning ==== */
@@ -485,6 +515,7 @@ select:hover {
   width: 32px;
   height: 32px;
   background: url("./assets/delete-button-grey.svg");
+  transition: background 0.5s ease;
 }
 
 .delete-icon:hover {
@@ -1054,6 +1085,20 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/no-entry.svg");
+}
+
+.tick-icon {
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  background: url("./assets/tick.svg");
+}
+
+.cross-icon {
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  background: url("./assets/cross.svg");
 }
 
 /* ==== Toast ==== */
