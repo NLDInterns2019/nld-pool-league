@@ -189,7 +189,7 @@ const itemsToBeDisplayed = props => {
           <div className="falling-man-icon" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
-        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad">{losingStreak ? losingStreak.staffName : "-"}</td>
         <td className="hofCellBad">
           {losingStreak
             ? losingStreak.losingStreak + " losing streak"
