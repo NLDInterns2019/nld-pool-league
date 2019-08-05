@@ -258,6 +258,7 @@ class FixturesPage extends Component {
           <div className="form-popup" id="popup" ref="popup">
             <CreateBooking
               type={this.state.type}
+              start={this.state.start}
               activeSeason={this.state.activeSeason}
               makeBooking={this.makeBooking}
             />
