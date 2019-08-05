@@ -283,7 +283,7 @@ table td {
 }
 
 #hasNotPaid {
-  transition: background-color 0.5s ease;
+  transition: background-color 0.3s ease;
   background-color: white;
 }
 
@@ -459,6 +459,7 @@ select:hover {
   padding: 1rem;
   width: 72%;
   vertical-align: middle;
+  transition: background-color 0.3s ease;
 }
 
 #seasonsList button {
@@ -515,7 +516,7 @@ select:hover {
   width: 32px;
   height: 32px;
   background: url("./assets/delete-button-grey.svg");
-  transition: background 0.5s ease;
+  transition: background 0.3s ease;
 }
 
 .delete-icon:hover {
