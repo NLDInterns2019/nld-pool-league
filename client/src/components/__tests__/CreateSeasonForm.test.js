@@ -1,5 +1,5 @@
 import React from "react";
-import chai from "chai";
+import chai, { expect } from "chai";
 import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
@@ -152,7 +152,7 @@ describe("Create a season", () => {
 
     wrapper.instance().createSeason();
 
-    fake.calledOnce.should.be.true;
+    expect(fake.calledOnce).to.be.true;
   });
 });
 
@@ -168,6 +168,46 @@ describe("Close popup", () => {
 
     wrapper.instance().createSeason();
 
-    fake.calledOnce.should.be.true;
+    expect(fake.calledOnce).to.be.true;
+  });
+});
+
+/* ================================================================================================== */
+
+describe("Error messages", () => {
+  it("should display when there aren't enough players", () => {
+    wrapper.setState({ playersName: ["STEVE"] });
+
+    expect(wrapper.instance().checkPlayersNumberError()).to.not.equal(null);
+  });
+
+  it("should not display if there are enough players", () => {
+    wrapper.setState({ playersName: ["STEVE", "DAVE"] });
+
+    expect(wrapper.instance().checkPlayersNumberError()).to.equal(null);
+  });
+
+  it("should display when the season name is invalid", () => {
+    wrapper.setState({ seasonName: "" });
+
+    expect(wrapper.instance().checkSeasonError()).to.not.equal(null);
+  });
+
+  it("should not display if the season name is valid", () => {
+    wrapper.setState({ seasonName: "3" });
+
+    expect(wrapper.instance().checkSeasonError()).to.equal(null);
+  });
+
+  it("should display if there are duplicate players", () => {
+    wrapper.setState({ playersName: ["STEVE", "STEVE"] });
+
+    expect(wrapper.instance().checkPlayersError()).to.not.equal(null);
+  });
+
+  it("should not display if there are no duplicate players", () => {
+    wrapper.setState({ playersName: ["STEVE", "DAVE"] });
+
+    expect(wrapper.instance().checkPlayersError()).to.equal(null);
   });
 });
