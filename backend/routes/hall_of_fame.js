@@ -108,13 +108,13 @@ router.post("/calculate", async (req, res) => {
       hofRow.draws = 0;
       hofRow.punctuality = 0;
       hofRow.goalsAgainstTop = 0;
-      hofRow.highestGF = 0;
+      hofRow.highestPoints = 0;
       hofRow.scrappy = 0;
       hofRow.scrappyPlays = 0;
       hofRow.loss = 0;
-      hofRow.streak = 0;
+      hofRow.winningStreak = 0;
       hofRow.improvement = 0;
-      hofRow.percentage = 0;
+      hofRow.winRate = 0;
       hofRow.losingStreak = 0;
       hofRow.curStreak = 0;
       hofRow.curLosingStreak = 0;
@@ -123,8 +123,8 @@ router.post("/calculate", async (req, res) => {
 
     /////////////////////////////////////////////////////////////////////////   BEST GAME
     //check if this season is the players best yet
-    if (leagues[i].points > hofRow.highestGF) {
-      hofRow.highestGF = leagues[i].points;
+    if (leagues[i].points > hofRow.highestPoints) {
+      hofRow.highestPoints = leagues[i].points;
     }
 
     //Probable bug: Checks for number of seasons. Does not consider that all players may not be present. 
@@ -152,7 +152,7 @@ router.post("/calculate", async (req, res) => {
     
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
-    //hofRow.percentage = Math.trunc((hofRow.wins * 100) / hofRow.plays);
+    //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
@@ -201,13 +201,13 @@ router.post("/calculate", async (req, res) => {
     }
 
     /////////////////////////////////////////////////////////////////////////   LONGEST LOSING/STREAK
-    //update streak or reset as necessary. scrappyRate: streak temp. percentage: losingStreak temp.
+    //update streak or reset as necessary. scrappyRate: streak temp. winRate: losingStreak temp.
     //draws do not break streak, but also do not add to it
     if (fixtures[i].score1 > fixtures[i].score2) { //check which player won
       hofAll[player1].curStreak++;
       hofAll[player2].curLosingStreak++;
-      if (hofAll[player1].curStreak > hofAll[player1].streak) { //check if current streak is their best
-        hofAll[player1].streak = hofAll[player1].curStreak; 
+      if (hofAll[player1].curStreak > hofAll[player1].streak) { //check if current winningStreak is their best
+        hofAll[player1].winningStreak = hofAll[player1].curStreak; 
       }
       if (hofAll[player2].curLosingStreak > hofAll[player2].losingStreak) { //check if current losing streak is their best
         hofAll[player2].losingStreak = hofAll[player2].curLosingStreak; 
@@ -216,8 +216,8 @@ router.post("/calculate", async (req, res) => {
       hofAll[player1].curLosingStreak = 0; 
     } else if (fixtures[i].score2 > fixtures[i].score1) {
       hofAll[player2].curStreak++;
-      if (hofAll[player2].curStreak > hofAll[player2].streak) {
-        hofAll[player2].streak = hofAll[player2].curStreak;
+      if (hofAll[player2].curStreak > hofAll[player2].winningStreak) {
+        hofAll[player2].winningStreak = hofAll[player2].curStreak;
       }
       if (hofAll[player1].curLosingStreak > hofAll[player1].losingStreak) { 
         hofAll[player1].losingStreak = hofAll[player1].curLosingStreak; 
@@ -230,7 +230,7 @@ router.post("/calculate", async (req, res) => {
     
   }
 
-  let topPlayer = _.maxBy(hofAll, "percentage"); //get top player
+  let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
 
   //this is broken and terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
@@ -272,11 +272,11 @@ router.post("/calculate", async (req, res) => {
 
     //calculate wins as suitable regarding improvement HoF
     if (seasons.length > 3) {
-      hofAll[i].percentage = Math.trunc(
+      hofAll[i].winRate = Math.trunc(
         (hofAll[i].wins * 100) / hofAll[i].plays - 2
       );
     } else {
-      hofAll[i].percentage = Math.trunc(
+      hofAll[i].winRate = Math.trunc(
         (hofAll[i].wins * 100) / hofAll[i].plays
       );
     }

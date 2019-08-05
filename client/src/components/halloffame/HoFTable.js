@@ -1,22 +1,22 @@
 import React from "react";
 import { maxBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
-  let topPlayer = maxBy(props.players, "percentage");
+  let topPlayer = maxBy(props.players, "winRate");
   let casual = maxBy(props.players, "lossRate");
   let draw = maxBy(props.players, "draws");
   let dedicated = maxBy(props.players, "plays");
   let undedicated = minBy(props.players, "plays");
   let onTime = minBy(props.players, "punctRate");
   let slacker = maxBy(props.players, "punctRate");
-  let bestGame = maxBy(props.players, "highestGF");
+  let bestGame = maxBy(props.players, "highestPoints");
   let losingStreak = maxBy(props.players, "losingStreak");
-  let streak = maxBy(props.players, "streak");
+  let streak = maxBy(props.players, "winningStreak");
   let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
 
   if (topPlayer!==undefined) {
-    if (topPlayer.percentage === 0) {
+    if (topPlayer.winRate === 0) {
       topPlayer = null;
     }
   }
@@ -28,7 +28,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (bestGame!==undefined) {
-    if (bestGame.highestGF === 0) {
+    if (bestGame.highestPoints === 0) {
       bestGame = null;
     }
   }
@@ -46,7 +46,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (streak!==undefined) {
-    if (streak.streak === 0) {
+    if (streak.winningStreak === 0) {
       streak = null;
     }
   }
@@ -78,7 +78,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{topPlayer ? topPlayer.staffName : "-"}</td>
         <td className="hofCell">
           {topPlayer
-            ? topPlayer.percentage + "% games won"
+            ? topPlayer.winRate + "% games won"
             : "Best average win rate"}
         </td>
       </tr>
@@ -90,7 +90,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
           {bestGame
-            ? bestGame.highestGF + " points in one season"
+            ? bestGame.highestPoints + " points in one season"
             : "Most points in a league"}
         </td>
       </tr>
@@ -134,7 +134,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">The Train</td>
         <td className="hofCell">{streak ? streak.staffName : "-"}</td>
         <td className="hofCell">
-          {streak ? streak.streak + " win streak" : "Longest win streak"}
+          {streak ? streak.winningStreak + " win streak" : "Longest win streak"}
         </td>
       </tr>
       <tr>
@@ -189,7 +189,7 @@ const itemsToBeDisplayed = props => {
           <div className="falling-man-icon" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
-        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad">{losingStreak ? losingStreak.staffName : "-"}</td>
         <td className="hofCellBad">
           {losingStreak
             ? losingStreak.losingStreak + " losing streak"

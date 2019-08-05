@@ -21,14 +21,14 @@ const KittyTable = props => {
         <td>{k.description}</td>
         {k.value < 0 ? (
           <td style={{ color: "Red" }} align="center">
-            {k.value}
+            {k.value.toFixed(2)}
           </td>
         ) : (
           <td style={{ color: "Green" }} align="center">
-            +£{k.value}
+            +£{k.value.toFixed(2)}
           </td>
         )}
-        <td id="balance">£{k.total}</td>
+        <td id="balance">£{k.total.toFixed(2)}</td>
       </tr>
     );
   });
