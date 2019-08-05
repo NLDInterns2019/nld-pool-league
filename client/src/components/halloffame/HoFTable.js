@@ -1,20 +1,49 @@
 import React from "react";
 import { maxBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
-  const topPlayer = maxBy(props.players, "percentage");
-  const casual = maxBy(props.players, "loss");
-  const draw = maxBy(props.players, "draws");
+  let topPlayer = maxBy(props.players, "percentage");
+  let casual = maxBy(props.players, "loss");
+  let draw = maxBy(props.players, "draws");
   let dedicated = maxBy(props.players, "plays");
   let undedicated = minBy(props.players, "plays");
   let onTime = minBy(props.players, "punctRate");
   let slacker = maxBy(props.players, "punctRate");
-  const bestGame = maxBy(props.players, "highestGF");
+  let bestGame = maxBy(props.players, "highestGF");
   const losingStreak = maxBy(props.players, "losingStreak");
-  const streak = maxBy(props.players, "streak");
-  const scrappy = maxBy(props.players, "scrappyRate");
+  let streak = maxBy(props.players, "streak");
+  let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
 
+  if (topPlayer!==undefined) {
+    if (topPlayer.percentage === 0) {
+      topPlayer = null;
+    }
+  }
+
+  if (bestGame!==undefined) {
+    if (bestGame.highestGF === 0) {
+      bestGame = null;
+    }
+  }
+
+  if (draw!==undefined) {
+    if (draw.drawRate === 0) {
+      draw = null;
+    }
+  }
+
+  if (scrappy!==undefined) {
+    if (scrappy.goalsAgainstTop === 0) {
+      scrappy = null;
+    }
+  }
+
+  if (streak!==undefined) {
+    if (streak.streak === 0) {
+      streak = null;
+    }
+  }
   if (improved!==undefined) {
     if (improved.improvement === 0) {
       improved = null;
