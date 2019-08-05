@@ -152,7 +152,7 @@ describe("Create a season", () => {
 
     wrapper.instance().createSeason();
 
-    fake.calledOnce.should.be.true;
+    expect(fake.calledOnce).to.be.true;
   });
 });
 
@@ -168,7 +168,7 @@ describe("Close popup", () => {
 
     wrapper.instance().createSeason();
 
-    fake.calledOnce.should.be.true;
+    expect(fake.calledOnce).to.be.true;
   });
 });
 
