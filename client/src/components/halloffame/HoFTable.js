@@ -90,7 +90,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
           {bestGame
-            ? bestGame.highestGF + " points in one season"
+            ? bestGame.highestPoints + " points in one season"
             : "Most points in a league"}
         </td>
       </tr>
@@ -189,7 +189,7 @@ const itemsToBeDisplayed = props => {
           <div className="falling-man-icon" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
-        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad">{losingStreak ? losingStreak.staffName : "-"}</td>
         <td className="hofCellBad">
           {losingStreak
             ? losingStreak.losingStreak + " losing streak"

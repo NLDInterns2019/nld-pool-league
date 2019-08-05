@@ -325,31 +325,36 @@ class App extends React.Component {
     );
   };
 
-  feePaid = async(staffName) => {
-    try{
-      await backend.put("/api/89ball_league/paid", {
-        type: parseInt(this.state.type,10),
-        seasonId: this.state.activeSeason,
-        staffName: staffName
-      },
-      {
-        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-      })
-  
-      await backend.post("/api/kitty/credit", {
-        type: parseInt(this.state.type,10),
-        seasonId: this.state.activeSeason,
-        staffName: staffName,
-        description: `Joining fee`,
-        value: 2
-      },
-      {
-        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-      })
-      this.updateData()
-      this.toastSuccess("Success")
-    }
-    catch(e) {
+  feePaid = async staffName => {
+    try {
+      await backend.put(
+        "/api/89ball_league/paid",
+        {
+          type: parseInt(this.state.type, 10),
+          seasonId: this.state.activeSeason,
+          staffName: staffName
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
+
+      await backend.post(
+        "/api/kitty/credit",
+        {
+          type: parseInt(this.state.type, 10),
+          seasonId: this.state.activeSeason,
+          staffName: staffName,
+          description: `Joining fee`,
+          value: 2
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
+      this.updateData();
+      this.toastSuccess("Success");
+    } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
       }
@@ -357,8 +362,7 @@ class App extends React.Component {
         this.toastError("Error");
       }
     }
-
-  }
+  };
 
   render() {
     return (

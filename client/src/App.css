@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #dbe9e2;
-  min-width: 800px;
+  min-width: 968px;
 }
 
 /* ==== Headings ==== */
@@ -232,20 +232,6 @@ table td {
 
 /* ==== League Table ==== */
 
-.kittyTable {
-  font-size: 12pt;
-  margin: auto;
-}
-
-.kittyTable th,
-.kittyTable td {
-  text-align: center;
-}
-
-#balance {
-  border-left: solid 2px #127e5c;
-}
-
 .leagueTable {
   font-size: 18pt;
   margin: auto;
@@ -330,6 +316,38 @@ table td {
 .fixtureTableContainer {
   display: inline-block;
   margin-bottom: 4rem;
+}
+
+/* ==== Kitty ==== */
+.kittyTable {
+  font-size: 18pt;
+  margin: auto;
+  min-width: 946px;
+}
+
+.kittyTable th,
+.kittyTable td {
+  text-align: center;
+}
+
+.kittyTableContainer {
+  min-width: 946px;
+}
+
+#balance {
+  border-left: solid 2px #127e5c;
+  font-weight: bold;
+}
+
+.kittyTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.kittyTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
@@ -1132,6 +1150,13 @@ tr td:last-child {
   background: url("./assets/cross.svg");
 }
 
+.money-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/money.svg");
+}
+
 /* ==== Toast ==== */
 .toast {
   display: flex;
@@ -1145,44 +1170,12 @@ tr td:last-child {
 }
 
 /* ==== Responsive Styling ==== */
-@media only screen and (max-width: 1380px) {
-  .content {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: stretch;
-    justify-content: flex-start;
-    height: 100%;
-  }
-
-  #seasonsListContainer {
-    order: 1;
-    align-self: center;
-    text-align: left;
-  }
-
-  .kittyTableContainer {
-    align-self: center;
-    text-align: left;
-  }
-
-  .contentLeft {
-    order: 2;
-    margin-bottom: 8rem;
-    height: auto;
-    position: static;
-  }
-
-  .contentRight {
-    order: 3;
-  }
-
+@media only screen and (min-width: 1365px) {
   .subnav .main-items {
     display: none;
   }
-
   .collapsible {
-    position: absolute;
+    position: fixed;
     background-color: #1f7058;
     min-width: 160px;
     z-index: 1;
@@ -1214,7 +1207,75 @@ tr td:last-child {
   }
 }
 
-@media only screen and (min-width: 1381px) {
+@media only screen and (max-width: 1364px) {
+  .subnav .main-items {
+    display: none;
+  }
+
+  .collapsible {
+    position: fixed;
+    background-color: #1f7058;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+    right: 0;
+    font-size: 18pt;
+    color: white;
+  }
+  .collapsible li {
+    margin-top: 1rem;
+  }
+
+  .collapsible a {
+    padding-left: 1rem;
+    text-decoration: none;
+    color: white;
+  }
+
+  .collapsible a:hover {
+    font-weight: bold;
+  }
+
+  .menu-icon {
+    visibility: visible;
+  }
+
+  .menu-icon:hover {
+    cursor: pointer;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 100%;
+  }
+
+  #seasonsListContainer {
+    order: 1;
+    align-self: center;
+    text-align: left;
+  }
+
+  .kittyTableContainer {
+    order: 2;
+    align-self: center;
+  }
+
+  .contentLeft {
+    order: 3;
+    margin-bottom: 8rem;
+    height: auto;
+    position: static;
+  }
+
+  .contentRight {
+    order: 4;
+  }
+}
+
+@media only screen and (min-width: 1436px) {
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;
@@ -1223,5 +1284,9 @@ tr td:last-child {
 
   .itemMenu {
     display: none;
+  }
+
+  .subnav .main-items {
+    display: inline-block;
   }
 }
