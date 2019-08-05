@@ -81,7 +81,7 @@ class FixturesPage extends Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
         .then(async () => {
-          if(moment() < moment(event.start)){
+          if (moment() < moment(event.start)) {
             if (event.messageId) {
               await backend.delete("api/slack/booking/reminder", {
                 data: {
