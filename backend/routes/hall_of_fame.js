@@ -202,25 +202,25 @@ router.post("/calculate", async (req, res) => {
     //update streak or reset as necessary. scrappyRate: streak temp. percentage: losingStreak temp.
     //draws do not break streak, but also do not add to it
     if (fixtures[i].score1 > fixtures[i].score2) { //check which player won
-      hofAll[player1].scrappyRate++;
+      hofAll[player1].curStreak++;
       hofAll[player2].percentage++;
-      if (hofAll[player1].scrappyRate > hofAll[player1].streak) { //check if current streak is their best
-        hofAll[player1].streak = hofAll[player1].scrappyRate; 
+      if (hofAll[player1].curStreak > hofAll[player1].streak) { //check if current streak is their best
+        hofAll[player1].streak = hofAll[player1].curStreak; 
       }
       if (hofAll[player2].percentage > hofAll[player2].losingStreak) { //check if current losing streak is their best
         hofAll[player2].losingStreak = hofAll[player2].percentage; 
       }
-      hofAll[player2].scrappyRate = 0; 
+      hofAll[player2].curStreak = 0; 
       hofAll[player1].percentage = 0; 
     } else if (fixtures[i].score2 > fixtures[i].score1) {
-      hofAll[player2].scrappyRate++;
-      if (hofAll[player2].scrappyRate > hofAll[player2].streak) {
-        hofAll[player2].streak = hofAll[player2].scrappyRate;
+      hofAll[player2].curStreak++;
+      if (hofAll[player2].curStreak > hofAll[player2].streak) {
+        hofAll[player2].streak = hofAll[player2].curStreak;
       }
       if (hofAll[player1].percentage > hofAll[player1].losingStreak) { 
         hofAll[player1].losingStreak = hofAll[player1].percentage; 
       }
-      hofAll[player1].scrappyRate = 0;
+      hofAll[player1].curStreak = 0;
       hofAll[player2].percentage = 0; //reset opponents
     }
 
