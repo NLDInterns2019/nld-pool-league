@@ -121,8 +121,8 @@ router.post("/calculate", async (req, res) => {
 
     /////////////////////////////////////////////////////////////////////////   BEST GAME
     //check if this season is the players best yet
-    if (leagues[i].goalsFor + (leagues[i].win * 3) > hofRow.highestGF) {
-      hofRow.highestGF = leagues[i].goalsFor + (leagues[i].win * 3);
+    if (leagues[i].points > hofRow.highestGF) {
+      hofRow.highestGF = leagues[i].points;
     }
 
     /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
