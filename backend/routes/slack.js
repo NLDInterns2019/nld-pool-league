@@ -36,8 +36,12 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  var date = moment(req.body.start).tz("Europe/London").format("DD-MMM-YYYY");
-  var time = moment(req.body.start).tz("Europe/London").format("HH:mm");
+  var date = moment(req.body.start)
+    .tz("Europe/London")
+    .format("DD-MMM-YYYY");
+  var time = moment(req.body.start)
+    .tz("Europe/London")
+    .format("HH:mm");
 
   await web.chat
     .postMessage({
@@ -57,7 +61,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
             req.body.player1 +
             " vs " +
             req.body.player2 +
-            "  on " +
+            " on " +
             date +
             " at " +
             time
@@ -92,7 +96,9 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  let time = moment(req.body.start).tz("Europe/London").format("HH:mm");
+  let time = moment(req.body.start)
+    .tz("Europe/London")
+    .format("HH:mm");
   let fifteenMinsBefore = moment(req.body.start)
     .subtract(15, "minutes")
     .unix();
