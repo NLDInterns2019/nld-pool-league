@@ -6,7 +6,7 @@ body {
   border: 0rem;
   font-family: "Montserrat";
   background-color: #dbe9e2;
-  min-width: 800px;
+  min-width: 968px;
 }
 
 /* ==== Headings ==== */
@@ -232,22 +232,6 @@ table td {
 
 /* ==== League Table ==== */
 
-.kittyTable {
-  font-size: 18pt;
-  margin: auto;
-  min-width: 946px;
-}
-
-.kittyTable th,
-.kittyTable td {
-  text-align: center;
-}
-
-#balance {
-  border-left: solid 2px #127e5c;
-  font-weight: bold;
-}
-
 .leagueTable {
   font-size: 18pt;
   margin: auto;
@@ -332,6 +316,38 @@ table td {
 .fixtureTableContainer {
   display: inline-block;
   margin-bottom: 4rem;
+}
+
+/* ==== Kitty ==== */
+.kittyTable {
+  font-size: 18pt;
+  margin: auto;
+  min-width: 946px;
+}
+
+.kittyTable th,
+.kittyTable td {
+  text-align: center;
+}
+
+.kittyTableContainer {
+  min-width: 946px;
+}
+
+#balance {
+  border-left: solid 2px #127e5c;
+  font-weight: bold;
+}
+
+.kittyTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.kittyTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
@@ -1134,6 +1150,13 @@ tr td:last-child {
   background: url("./assets/cross.svg");
 }
 
+.money-icon {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  background: url("./assets/money.svg");
+}
+
 /* ==== Toast ==== */
 .toast {
   display: flex;
@@ -1236,19 +1259,19 @@ tr td:last-child {
   }
 
   .kittyTableContainer {
+    order: 2;
     align-self: center;
-    text-align: left;
   }
 
   .contentLeft {
-    order: 2;
+    order: 3;
     margin-bottom: 8rem;
     height: auto;
     position: static;
   }
 
   .contentRight {
-    order: 3;
+    order: 4;
   }
 }
 

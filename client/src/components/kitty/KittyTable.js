@@ -38,7 +38,12 @@ const KittyTable = props => {
   }
   return (
     <div>
-      <h3>Kitty</h3>
+      <div className="kittyTitle">
+        <div className="money-icon" alt="money" />
+        <h3>Kitty</h3>
+        <div className="money-icon" alt="money" />
+      </div>
+
       <table cellSpacing="0" className="kittyTable">
         <thead>
           <tr>
