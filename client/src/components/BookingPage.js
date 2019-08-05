@@ -81,13 +81,15 @@ class FixturesPage extends Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
         .then(async () => {
-          if (event.messageId) {
-            await backend.delete("api/slack/booking/reminder", {
-              data: {
-                messageId: event.messageId
-              },
-              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-            });
+          if(moment() < moment(event.start)){
+            if (event.messageId) {
+              await backend.delete("api/slack/booking/reminder", {
+                data: {
+                  messageId: event.messageId
+                },
+                headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+              });
+            }
           }
           this.toastSuccess("Booking Deleted!");
           this.getBookings();

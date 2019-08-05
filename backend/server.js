@@ -5,7 +5,7 @@ const path = require("path");
 const axios = require("axios");
 
 //Scheduler
-const moment = require("moment");
+const moment = require("moment-timezone");
 const schedule = require("node-schedule");
 const bookingsDB = require("./models/bookings");
 
@@ -58,7 +58,7 @@ schedule.scheduleJob(
           message = message.concat(
             booking.title.toLowerCase() +
               " at " +
-              moment(booking.start).format("HH:mm") +
+              moment(booking.start).tz("Europe/London").format("HH:mm") +
               "\n"
           );
         });
@@ -73,42 +73,6 @@ schedule.scheduleJob(
                 text: message
               }
             ]
-          }
-        );
-      });
-  }
-);
-
-// RUN EVERY DAY AT 11 AM
-schedule.scheduleJob(
-  "Slack daily remainder",
-  { hour: 11, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
-  () => {
-    let start = moment()
-      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-      .toDate()
-      .toISOString();
-    let end = moment(start)
-      .add(1, "day")
-      .toDate()
-      .toISOString();
-    bookingsDB
-      .query()
-      .whereBetween("start", [start, end])
-      .then(bookings => {
-        let message = "";
-        bookings.map(booking => {
-          message = message.concat(
-            booking.title.toLowerCase() +
-              " at " +
-              moment(booking.start).format("HH:mm") +
-              "\n"
-          );
-        });
-        axios.post(
-          "https://hooks.slack.com/services/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",
-          {
-            text: "11AM " + message
           }
         );
       });
