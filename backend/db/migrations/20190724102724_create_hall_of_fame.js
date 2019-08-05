@@ -5,7 +5,7 @@ exports.up = function(knex) {
     table.string("staffName").notNullable();
     table.integer("plays").defaultTo(0);
     table.integer("wins").defaultTo(0);
-    table.integer("percentage").defaultTo(0);
+    table.integer("winRate").defaultTo(0);
     table.integer("draws").defaultTo(0);
     table.integer("drawRate").defaultTo(0);
     table.integer("loss").defaultTo(0);
@@ -13,11 +13,11 @@ exports.up = function(knex) {
     table.integer("punctuality").defaultTo(0);
     table.integer("punctRate").defaultTo(0);
     table.integer("goalsAgainstTop").defaultTo(0);
-    table.integer("highestGF").defaultTo(0);
+    table.integer("highestPoints").defaultTo(0);
     table.integer("scrappyPlays").defaultTo(0);
     table.integer("scrappy").defaultTo(0);
     table.integer("scrappyRate").defaultTo(0);
-    table.integer("streak").defaultTo(0);
+    table.integer("winningStreak").defaultTo(0);
     table.integer("losingStreak").defaultTo(0);
     table.integer("improvement").defaultTo(0);
     table.integer("curStreak").defaultTo(0);
