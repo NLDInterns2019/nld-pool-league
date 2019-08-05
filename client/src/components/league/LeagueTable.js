@@ -11,6 +11,7 @@ const LeagueTable = props => {
         <LeagueTableBody
           deletePlayer={props.deletePlayer}
           players={props.players}
+          feePaid={props.feePaid}
         />
       </table>
     </div>

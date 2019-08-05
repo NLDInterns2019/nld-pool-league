@@ -325,6 +325,29 @@ class App extends React.Component {
     );
   };
 
+  feePaid = async(staffName) => {
+    await backend.put("/api/89ball_league/paid", {
+      type: parseInt(this.state.type,10),
+      seasonId: this.state.activeSeason,
+      staffName: staffName
+    },
+    {
+      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+    })
+
+    await backend.post("/api/kitty/credit", {
+      type: parseInt(this.state.type,10),
+      seasonId: this.state.activeSeason,
+      staffName: staffName,
+      description: `Joining fee for ${this.state.type}-ball season ${this.state.activeSeason}`,
+      value: 2
+    },
+    {
+      headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+    })
+    this.updateData()
+  }
+
   render() {
     return (
       <div className="app">
@@ -340,6 +363,7 @@ class App extends React.Component {
               activeSeason={this.state.activeSeason}
               players={this.state.players}
               deletePlayer={this.deletePlayer}
+              feePaid={this.feePaid}
             />
             {this.state.finished === null
               ? null

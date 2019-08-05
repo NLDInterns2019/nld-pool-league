@@ -98,7 +98,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="scales-icon" alt="scales" />
         </td>
-        <td className="hofCell">Most Average</td>
+        <td className="hofCell">Average</td>
         <td className="hofCell">{draw ? draw.staffName : "-"}</td>
         <td className="hofCell">
           {draw ? draw.drawRate + "% of games drawn" : "Best average draw rate"}
@@ -153,7 +153,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="graph-icon" alt="graph" />
         </td>
-        <td className="hofCell">Most Improved</td>
+        <td className="hofCell">Improver</td>
         <td className="hofCell">{improved ? improved.staffName : "-"}</td>
         <td className="hofCell">
           {improved
