@@ -25,6 +25,11 @@ exports.seed = function(knex) {
         { type: 8, seasonId: 24, staffName: "DREW", play: 7, win: 2, draw: 2, lose: 3, goalsFor: 6, goalsAgainst: 6, punctuality: 3, points: 8 },
         { type: 8, seasonId: 24, staffName: "WILKA", play: 7, win: 1, draw: 4, lose: 2, goalsFor: 6, goalsAgainst: 6, punctuality: 2, points: 7 },
         { type: 8, seasonId: 24, staffName: "IANR", play: 7, win: 0, draw: 6, lose: 1, goalsFor: 6, goalsAgainst: 6, punctuality: 1, points: 6  },
+
+        
+        { type: 8, seasonId: 25, staffName: "ANDY", play: 2, win: 0, draw: 2, lose: 0, goalsFor: 6, goalsAgainst: 6, punctuality: 3, points: 8 },
+        { type: 8, seasonId: 25, staffName: "MAL", play: 2, win: 2, draw: 0, lose: 0, goalsFor: 6, goalsAgainst: 6, punctuality: 2, points: 7 },
+        { type: 8, seasonId: 25, staffName: "CHRISP", play: 2, win: 0, draw: 0, lose: 2, goalsFor: 6, goalsAgainst: 6, punctuality: 1, points: 6  },
       ]);
     });
 };

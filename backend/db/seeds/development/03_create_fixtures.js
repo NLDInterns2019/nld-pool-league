@@ -51,6 +51,11 @@ exports.seed = function(knex) {
         {type: 8, seasonId: 24, player1: 'ANDY', player2: 'MAL', score1: 1, score2: 1}, //7
         {type: 8, seasonId: 24, player1: 'DAVIDT', player2: 'PAUL', score1: 1, score2: 1},
         {type: 8, seasonId: 24, player1: 'CHRIS', player2: 'DREW', score1: 2, score2: 0},
+
+        
+        {type: 8, seasonId: 25, player1: 'ANDY', player2: 'MAL', score1: 2, score2: 0}, //7
+        {type: 8, seasonId: 25, player1: 'MAL', player2: 'CHRISP', score1: 1, score2: 1},
+        {type: 8, seasonId: 25, player1: 'ANDY', player2: 'CHRISP', score1: 2, score2: 0},
       ]);
     });
 };
