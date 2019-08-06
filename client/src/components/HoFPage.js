@@ -36,18 +36,12 @@ class HoFPage extends React.Component {
     await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
-    const result = await backend.get("/api/hall_of_fame", {
-      params: {
-        type: 8
-      }
+    const result = await backend.get("/api/hall_of_fame?type=8", {
     });
 
     this.setState({ players: result.data });
 
-    const HoF9 = await backend.get("/api/hall_of_fame", {
-      params: {
-        type: 9
-      }
+    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {
     });
 
     this.setState({ HoF9: HoF9.data });
