@@ -346,7 +346,7 @@ table td {
   font-size: 18pt;
   margin: auto;
   min-width: 946px;
-  max-width: 80vh
+  max-width: 80vh;
 }
 
 .kittyTable th,
@@ -356,6 +356,7 @@ table td {
 
 .kittyTableContainer {
   min-width: 946px;
+  margin-bottom: 4rem;
 }
 
 #balance {
@@ -372,6 +373,25 @@ table td {
 .kittyTitle h3 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.kittyTransactionContainer form {
+  text-align: center;
+  width: 50%;
+  margin: auto;
+}
+
+.kittyTransactionContainer label {
+  padding-right: 0.5rem;
+}
+
+.kittyTransactionContainer input {
+  margin-bottom: 1rem;
+  vertical-align: top;
+}
+
+.kittyTransactionContainer select {
+  margin-bottom: 1rem;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
@@ -603,7 +623,7 @@ select:hover {
   width: 600px;
   margin: auto;
   padding: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   border-radius: 15px;
 }
 
