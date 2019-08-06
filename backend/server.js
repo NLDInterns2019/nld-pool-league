@@ -16,7 +16,7 @@ let eight_nine_ball_season = require("./routes/eight_nine_ball_seasons"),
   hall_of_fame = require("./routes/hall_of_fame"),
   bookings = require("./routes/bookings"),
   slack = require("./routes/slack"),
-  kitty = require("./routes/kitty.js")
+  kitty = require("./routes/kitty.js");
 
 const PORT = process.env.PORT || 8080;
 
@@ -30,7 +30,7 @@ app.use("/api/89ball_fixture", eight_nine_ball_fixtures);
 app.use("/api/hall_of_fame", hall_of_fame);
 app.use("/api/booking", bookings);
 app.use("/api/slack", slack);
-app.use("/api/kitty", kitty)
+app.use("/api/kitty", kitty);
 
 // Serve the static files from the production build of the client
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
@@ -40,8 +40,8 @@ app.get("/*", function(req, res) {
 
 // RUN EVERY DAY AT 7 AM
 schedule.scheduleJob(
-  "Slack daily remainder",
-  { hour: 7, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] },
+  "Slack daily reminder",
+  { hour: 7, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] }, // UTC
   () => {
     let start = moment()
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
@@ -56,17 +56,19 @@ schedule.scheduleJob(
       .whereBetween("start", [start, end])
       .then(bookings => {
         let message = "";
-        if(bookings.length){
+        if (bookings.length) {
           bookings.map(booking => {
             message = message.concat(
               booking.title.toLowerCase() +
                 " at " +
-                moment(booking.start).tz("Europe/London").format("HH:mm") +
+                moment(booking.start)
+                  .tz("Europe/London")
+                  .format("HH:mm") +
                 "\n"
             );
           });
-        }else{
-          message = "There is no match scheduled for today"
+        } else {
+          message = "There is no match scheduled for today";
         }
 
         axios.post(

@@ -14,7 +14,8 @@ const colours = {
   bookings: "#36a64f", // green
   results: "#ff9c33", // orange
   reminders: "#e23e4b", // red
-  seasons: "#1fbfb7" // blue
+  seasons: "#1fbfb7", // blue
+  kitty: "#8532a8" // purple
 };
 
 /* 
@@ -209,7 +210,7 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
 
 /* 
   POST handler for /api/slack/resultSubmitted
-  Function: To send new season message
+  Function: To send score submitted message
 */
 router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
   const schema = {
@@ -247,6 +248,190 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
             req.body.score2 +
             "  " +
             req.body.players.split(" ")[1]
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/slack/showTable
+  Function: To send league table message
+*/
+router.post("/showTable", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required(),
+    table: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") +
+            "* Season " +
+            req.body.seasonId +
+            " League Table:*",
+          text: "```" + req.body.table + "```"
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/slack/feePaid
+  Function: To send fee paid message
+*/
+router.post("/feePaid", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required(),
+    staffName: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.kitty,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") +
+            "* Season " +
+            req.body.seasonId +
+            " Joining Fee Paid:*",
+          text: req.body.staffName + " has paid"
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/slack/playerRemoved
+  Function: To send player removed message
+*/
+router.post("/playerRemoved", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required(),
+    staffName: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") +
+            "* Season " +
+            req.body.seasonId +
+            " Player Removed:*",
+          text: req.body.staffName + " has been removed"
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/slack/seasonClosed
+  Function: To send season closed message
+*/
+router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") + "* Season Closed:*",
+          text: "Season " + req.body.seasonId
         }
       ]
     })

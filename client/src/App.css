@@ -91,10 +91,12 @@ ul {
   display: inline-block;
   color: white;
   text-decoration: none;
+  opacity: 0.5;
+  font-weight: bold;
 }
 
 .nav a:hover {
-  font-weight: bold;
+  opacity: 1;
 }
 
 .nav h2 {
@@ -102,6 +104,15 @@ ul {
   display: inline-block;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+#loginBtnLink {
+  opacity: 1;
+}
+
+#loginBtn,
+#signout {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* ==== Sub Navigation ==== */
@@ -242,6 +253,7 @@ table td {
 /* ==== League Table ==== */
 
 .leagueTable {
+  transition: font-size 0.3s linear;
   font-size: 18pt;
   margin: auto;
 }
@@ -268,6 +280,10 @@ table td {
   opacity: 1;
 }
 
+.leagueTable tr:hover .leagueTablePaymentCol {
+  background-color: white;
+}
+
 #leagueTablePlayerName {
   max-width: 175px;
   overflow: hidden;
@@ -292,7 +308,7 @@ table td {
 }
 
 #hasNotPaid {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s linear;
   background-color: white;
 }
 
@@ -308,12 +324,10 @@ table td {
 
 #hasNotPaid:hover #pay-overlay {
   display: block;
-  transform: translateX(0%);
 }
 
 #pay-overlay {
   display: none;
-  transform: translateX(100%);
 }
 
 /* ==== Fixture and League Table positioning ==== */
@@ -501,7 +515,7 @@ select:hover {
   padding: 1rem;
   width: 72%;
   vertical-align: middle;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s linear;
 }
 
 #seasonsList button {
@@ -557,13 +571,13 @@ select:hover {
   vertical-align: middle;
   width: 32px;
   height: 32px;
-  background: url("./assets/delete-button-grey.svg");
-  transition: background 0.3s ease;
+  background-image: url("./assets/delete-button-grey.svg");
+  transition: background-image 0.3s linear;
 }
 
 .delete-icon:hover {
   cursor: pointer;
-  background: url("./assets/delete-button.svg");
+  background-image: url("./assets/delete-button.svg");
 }
 
 /* ==== White Boxes ==== */
@@ -925,7 +939,7 @@ tr td:last-child {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/eight-ball-vector.svg");
+  background-image: url("./assets/eight-ball-vector.svg");
 }
 
 .eight-ball-icon-20 {
@@ -933,14 +947,14 @@ tr td:last-child {
   vertical-align: middle;
   width: 20px;
   height: 20px;
-  background: url("./assets/eight-ball-vector-20.svg");
+  background-image: url("./assets/eight-ball-vector-20.svg");
 }
 
 .nine-ball-icon {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/nine-ball-vector.svg");
+  background-image: url("./assets/nine-ball-vector.svg");
 }
 
 .nine-ball-icon-20 {
@@ -948,161 +962,161 @@ tr td:last-child {
   vertical-align: middle;
   width: 20px;
   height: 20px;
-  background: url("./assets/nine-ball-vector-20.svg");
+  background-image: url("./assets/nine-ball-vector-20.svg");
 }
 
 .trophy-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/trophy.svg");
+  background-image: url("./assets/trophy.svg");
 }
 
 .trophy-icon-large {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/trophy-large.svg");
+  background-image: url("./assets/trophy-large.svg");
 }
 
 .clock-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/clock.svg");
+  background-image: url("./assets/clock.svg");
 }
 
 .snail-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/snail.svg");
+  background-image: url("./assets/snail.svg");
 }
 
 .graph-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/upwards-graph.svg");
+  background-image: url("./assets/upwards-graph.svg");
 }
 
 .weightlifting-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/weightlifting.svg");
+  background-image: url("./assets/weightlifting.svg");
 }
 
 .boxing-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/boxing.svg");
+  background-image: url("./assets/boxing.svg");
 }
 
 .train-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/train.svg");
+  background-image: url("./assets/train.svg");
 }
 
 .angry-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/angry.svg");
+  background-image: url("./assets/angry.svg");
 }
 
 .thumbs-up-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/thumbsup.svg");
+  background-image: url("./assets/thumbsup.svg");
 }
 
 .scales-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/scales.svg");
+  background-image: url("./assets/scales.svg");
 }
 
 .gold-medal-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/gold-medal.svg");
+  background-image: url("./assets/gold-medal.svg");
 }
 
 .silver-medal-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/silver-medal.svg");
+  background-image: url("./assets/silver-medal.svg");
 }
 
 .bronze-medal-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/bronze-medal.svg");
+  background-image: url("./assets/bronze-medal.svg");
 }
 
 .shield-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/shield.svg");
+  background-image: url("./assets/shield.svg");
 }
 
 .zero-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/zero.svg");
+  background-image: url("./assets/zero.svg");
 }
 
 .one-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/one.svg");
+  background-image: url("./assets/one.svg");
 }
 
 .swords-icon {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/swords.svg");
+  background-image: url("./assets/swords.svg");
 }
 
 .lock-icon {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/lock.svg");
+  background-image: url("./assets/lock.svg");
 }
 
 .lock-icon-small {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/lock-small.svg");
+  background-image: url("./assets/lock-small.svg");
 }
 
 .thumbs-down-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/thumbs-down.svg");
+  background-image: url("./assets/thumbs-down.svg");
 }
 
 .menu-icon {
   vertical-align: middle;
   width: 32px;
   height: 32px;
-  background: url("./assets/menu.svg");
+  background-image: url("./assets/menu.svg");
   visibility: hidden;
 }
 
@@ -1110,63 +1124,72 @@ tr td:last-child {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/downward-graph-red.svg");
+  background-image: url("./assets/downward-graph-red.svg");
 }
 
 .falling-man-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/falling-man.svg");
+  background-image: url("./assets/falling-man.svg");
 }
 
 .calendar-icon {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/calendar.svg");
+  background-image: url("./assets/calendar.svg");
 }
 
 .win-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/win.svg");
+  background-image: url("./assets/win.svg");
+  transition: background-image 0.3s linear;
 }
 
 .draw-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/draw.svg");
+  background-image: url("./assets/draw.svg");
+  transition: background-image 0.3s linear;
 }
 
 .loss-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/loss.svg");
+  background-image: url("./assets/loss.svg");
+  transition: background-image 0.3s linear;
 }
 
 .no-entry-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url("./assets/no-entry.svg");
+  background-image: url("./assets/no-entry.svg");
 }
 
 .tick-icon {
   vertical-align: middle;
   width: 32px;
   height: 32px;
-  background: url("./assets/tick.svg");
+  background-image: url("./assets/tick.svg");
+  transition: background-image 0.3s linear;
+  transition: width 0.3s linear;
+  transition: height 0.3s linear;
 }
 
 .cross-icon {
   vertical-align: middle;
   width: 32px;
   height: 32px;
-  background: url("./assets/cross.svg");
+  background-image: url("./assets/cross.svg");
+  transition: background-image 0.3s linear;
+  transition: width 0.3s linear;
+  transition: height 0.3s linear;
 }
 
 .money-icon {
@@ -1189,42 +1212,6 @@ tr td:last-child {
 }
 
 /* ==== Responsive Styling ==== */
-@media only screen and (min-width: 1365px) {
-  .subnav .main-items {
-    display: none;
-  }
-  .collapsible {
-    position: fixed;
-    background-color: #1f7058;
-    min-width: 160px;
-    z-index: 1;
-    list-style-type: none;
-    right: 0;
-    font-size: 18pt;
-    color: white;
-  }
-  .collapsible li {
-    margin-top: 1rem;
-  }
-
-  .collapsible a {
-    padding-left: 1rem;
-    text-decoration: none;
-    color: white;
-  }
-
-  .collapsible a:hover {
-    font-weight: bold;
-  }
-
-  .menu-icon {
-    visibility: visible;
-  }
-
-  .menu-icon:hover {
-    cursor: pointer;
-  }
-}
 
 @media only screen and (max-width: 1364px) {
   .subnav .main-items {
@@ -1292,20 +1279,131 @@ tr td:last-child {
   .contentRight {
     order: 4;
   }
+
+  .leagueTable {
+    font-size: 18pt;
+  }
 }
 
-@media only screen and (min-width: 1436px) {
+@media only screen and (min-width: 1365px) {
+  .subnav .main-items {
+    display: none;
+  }
+
+  .collapsible {
+    position: fixed;
+    background-color: #1f7058;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+    right: 0;
+    font-size: 18pt;
+    color: white;
+  }
+  .collapsible li {
+    margin-top: 1rem;
+  }
+
+  .collapsible a {
+    padding-left: 1rem;
+    text-decoration: none;
+    color: white;
+  }
+
+  .collapsible a:hover {
+    font-weight: bold;
+  }
+
+  .menu-icon {
+    visibility: visible;
+  }
+
+  .menu-icon:hover {
+    cursor: pointer;
+  }
+
+  .leagueTable {
+    font-size: 12pt;
+  }
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;
     margin-bottom: 10px;
   }
 
+  .win-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("./assets/win-small.svg");
+  }
+
+  .draw-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("./assets/draw-small.svg");
+  }
+
+  .loss-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("./assets/loss-small.svg");
+  }
+
+  .tick-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("./assets/tick-small.svg");
+  }
+
+  .cross-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("./assets/cross-small.svg");
+  }
+}
+
+@media only screen and (min-width: 1455px) {
   .itemMenu {
     display: none;
   }
 
   .subnav .main-items {
     display: inline-block;
+  }
+}
+
+@media only screen and (min-width: 1551px) {
+  .leagueTable {
+    font-size: 18pt;
+  }
+
+  .win-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url("./assets/win.svg");
+  }
+
+  .draw-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url("./assets/draw.svg");
+  }
+
+  .loss-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url("./assets/loss.svg");
+  }
+
+  .tick-icon {
+    width: 32px;
+    height: 32px;
+    background-image: url("./assets/tick.svg");
+  }
+
+  .cross-icon {
+    width: 32px;
+    height: 32px;
+    background-image: url("./assets/cross.svg");
   }
 }

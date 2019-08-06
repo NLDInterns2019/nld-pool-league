@@ -14,6 +14,8 @@ import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
 
+const cTable = require("console.table");
+
 class App extends React.Component {
   signal = Axios.CancelToken.source();
 
@@ -123,13 +125,24 @@ class App extends React.Component {
           </p>
         );
         this.updateData();
-        backend.post(
+        await backend.post(
           "/api/slack/resultSubmitted",
           {
             type: parseInt(this.state.type, 10),
             players: state.players,
             score1: state.score1,
             score2: state.score2
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+        await backend.post(
+          "/api/slack/showTable",
+          {
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason,
+            table: this.createConsoleTable()
           },
           {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -176,6 +189,17 @@ class App extends React.Component {
         );
         this.toastSuccess(`✅ ${staffName} Deleted!`);
         this.updateData();
+        await backend.post(
+          "/api/slack/playerRemoved",
+          {
+            staffName: staffName,
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
       } else if (this.state.finished) {
         this.toastError("Season closed, unable to delete player.");
       } else {
@@ -227,6 +251,16 @@ class App extends React.Component {
           );
           this.updateData();
         });
+      await backend.post(
+        "/api/slack/seasonClosed",
+        {
+          type: parseInt(this.state.type, 10),
+          seasonId: this.state.activeSeason
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
@@ -354,6 +388,17 @@ class App extends React.Component {
       );
       this.updateData();
       this.toastSuccess("Success");
+      await backend.post(
+        "/api/slack/feePaid",
+        {
+          staffName: staffName,
+          type: parseInt(this.state.type, 10),
+          seasonId: this.state.activeSeason
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
@@ -362,6 +407,31 @@ class App extends React.Component {
         this.toastError("Error");
       }
     }
+  };
+
+  createConsoleTable = () => {
+    var values = [];
+    var players = this.state.players;
+    for (var i = 0; i < players.length; i++) {
+      values.push([
+        i + 1,
+        players[i].staffName,
+        players[i].play,
+        players[i].win,
+        players[i].draw,
+        players[i].lose,
+        players[i].goalsFor,
+        players[i].goalsAgainst,
+        players[i].points
+      ]);
+    }
+
+    const table = cTable.getTable(
+      ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
+      values
+    );
+
+    return table;
   };
 
   render() {

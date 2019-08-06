@@ -59,7 +59,7 @@ const itemsToBeDisplayed = props => {
           <div className="clock-icon" alt="clock" />
         </td>
         <td className="achievementTitle">
-          Mr. Punctual
+          Dr. Punctual
           <span className="tooltiptext">Player with fewest lates</span>
         </td>
         <td className="name">{onTime ? onTime.staffName : "-"}</td>
@@ -69,7 +69,7 @@ const itemsToBeDisplayed = props => {
           <div className="snail-icon" alt="snail" />
         </td>
         <td className="achievementTitle">
-          Mr. Overdue
+          Slacker
           <span className="tooltiptext">Player with most lates</span>
         </td>
         <td className="name">{late ? late.staffName : "-"}</td>
