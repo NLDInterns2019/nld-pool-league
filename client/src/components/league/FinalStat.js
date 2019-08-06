@@ -69,7 +69,7 @@ const itemsToBeDisplayed = props => {
           <div className="snail-icon" alt="snail" />
         </td>
         <td className="achievementTitle">
-          Dr. Overdue
+          Slacker
           <span className="tooltiptext">Player with most lates</span>
         </td>
         <td className="name">{late ? late.staffName : "-"}</td>

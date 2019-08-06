@@ -14,7 +14,8 @@ const colours = {
   bookings: "#36a64f", // green
   results: "#ff9c33", // orange
   reminders: "#e23e4b", // red
-  seasons: "#1fbfb7" // blue
+  seasons: "#1fbfb7", // blue
+  kitty: "#8532a8" // purple
 };
 
 /* 
@@ -330,7 +331,7 @@ router.post("/feePaid", auth.checkJwt, async (req, res) => {
       attachments: [
         {
           mrkdwn_in: ["text"],
-          color: colours.seasons,
+          color: colours.kitty,
           pretext:
             (req.body.type === 8
               ? ":8ball:"
