@@ -368,6 +368,17 @@ class App extends React.Component {
       );
       this.updateData();
       this.toastSuccess("Success");
+      await backend.post(
+        "/api/slack/feePaid",
+        {
+          staffName: staffName,
+          type: parseInt(this.state.type, 10),
+          seasonId: this.state.activeSeason
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
