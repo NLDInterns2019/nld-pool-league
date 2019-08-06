@@ -180,7 +180,7 @@ class TransactionForm extends React.Component {
           </div>
         </form>
         <br />
-        {this.isFormValid() ? (
+        {(this.isFormValid() && this.isValueValid()) ? (
           <button type="button" onClick={this.submitTransaction}>
             Submit
           </button>
