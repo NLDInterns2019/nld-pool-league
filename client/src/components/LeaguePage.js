@@ -374,7 +374,7 @@ class App extends React.Component {
       );
 
       await backend.post(
-        "/api/kitty/credit",
+        "/api/kitty/transaction",
         {
           type: parseInt(this.state.type, 10),
           seasonId: this.state.activeSeason,
