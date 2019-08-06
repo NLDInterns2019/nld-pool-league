@@ -25,10 +25,10 @@ router.get("/", (req, res) => {
 });
 
 /* 
-  POST handler for /api/kitty/credit
+  POST handler for /api/kitty/transaction
   Function: To add credit transaction to kitty
 */
-router.post("/credit", (req, res) => {
+router.post("/transaction", (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
@@ -57,7 +57,6 @@ router.post("/credit", (req, res) => {
           .orderBy("id", "desc")
           .insert({
             date: moment()
-              .tz("Europe/London")
               .toDate().toISOString(),
             type: req.body.type,
             seasonId: req.body.seasonId,
@@ -81,61 +80,5 @@ router.post("/credit", (req, res) => {
     );
 });
 
-/* 
-  POST handler for /api/kitty/debit
-  Function: To add debit transaction to kitty
-*/
-router.post("/debit", (req, res) => {
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required(),
-    seasonId: Joi.number()
-      .integer()
-      .required(),
-    staffName: Joi.string().required(),
-    description: Joi.string().required(),
-    value: Joi.integer().required()
-  };
-
-  //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
-
-  kitty
-    .query()
-    .orderBy("id", "desc")
-    .then(
-      latest => {
-        kitty
-          .query()
-          .orderBy("id", "desc")
-          .insert({
-            date: moment()
-              .tz("Europe/London")
-              .format("DD-MMM-YYYY"),
-            type: req.body.type,
-            seasonId: req.body.seasonId,
-            staffName: req.body.staffName,
-            description: req.body.description,
-            value: req.body.value,
-            total: latest[0].total - req.body.value
-          })
-          .then(
-            kitty => {
-              res.json(kitty);
-            },
-            e => {
-              res.status(400).json(e);
-            }
-          );
-      },
-      e => {
-        res.status(400).json(e);
-      }
-    );
-});
 
 module.exports = router;

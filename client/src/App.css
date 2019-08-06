@@ -189,6 +189,15 @@ ul {
   flex-direction: column;
 }
 
+.kittyContent {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: stretch;
+  justify-content: flex-start;
+  height: 100%;
+}
+
 #seasonsListContainer {
   margin-top: 0rem;
 }
@@ -337,6 +346,7 @@ table td {
   font-size: 18pt;
   margin: auto;
   min-width: 946px;
+  max-width: 80vh
 }
 
 .kittyTable th,
@@ -586,6 +596,15 @@ select:hover {
 .submitScoreDiv {
   position: sticky;
   top: 30%;
+}
+
+.kittyTransactionContainer {
+  background-color: white;
+  width: 600px;
+  margin: auto;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 15px;
 }
 
 /* ==== Hall Of Fame ==== */
