@@ -42,6 +42,10 @@ class KittyPage extends React.Component {
   };
 
   submitTransaction = async state => {
+    let value = parseFloat(state.value);
+    if (state.transactionType === "DEBIT") {
+      value = value * -1;
+    }
     await backend.post(
       "/api/kitty/transaction",
       {
@@ -49,14 +53,27 @@ class KittyPage extends React.Component {
         seasonId: parseInt(state.seasonId),
         staffName: auth0Client.getProfile().nickname,
         description: state.description,
-        value: parseFloat(state.value)
+        value: value
       },
       {
         headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
       }
     );
 
+    this.toastSuccess("Transaction success");
+
     this.getKitty();
+  };
+
+  toastSuccess = message => {
+    toast.success(message, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
   };
 
   render() {

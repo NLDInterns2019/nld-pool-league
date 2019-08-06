@@ -34,9 +34,6 @@ class TransactionForm extends React.Component {
     if (this.state.type !== prevState.type) {
       this.getSeasonsList();
     }
-    if (this.state.transactionType !== prevState.transactionType) {
-      this.setState({ value: this.state.value * -1 });
-    }
   }
 
   creditDebitRadio = () => {
@@ -114,19 +111,15 @@ class TransactionForm extends React.Component {
   };
 
   handleValueChange = e => {
-    const regex = /^$|^(-?)\d+(\.)*(\d+)*$/;
+    const regex = /^(-?)$|^(-?)\d+(\.)*(\d+)*$/;
     if (regex.test(e.target.value)) {
-      if (this.state.transactionType === "CREDIT") {
-        this.setState({ value: e.target.value });
-      } else {
-        this.setState({ value: Math.abs(e.target.value) * -1 });
-      }
+      this.setState({ value: e.target.value });
     }
   };
 
   isValueValid() {
-    const regex = /^(-?)(([1-9][0-9]*))(.[0-9]+)?$/;
-    if (regex.test(this.state.value)) {
+    const regex = /^(0)(.[0-9]+[1-9])?$|^(([1-9][0-9]*))(.[0-9]+)?$/;
+    if (regex.test(this.state.value) && this.state.value !== 0) {
       return true;
     }
     return false;
@@ -144,9 +137,9 @@ class TransactionForm extends React.Component {
   }
 
   submitTransaction = () => {
-    this.props.submitTransaction(this.state)
+    this.props.submitTransaction(this.state);
     this.setState({ seasonId: "", description: "", value: 0 });
-  }
+  };
 
   render() {
     return (
@@ -167,7 +160,11 @@ class TransactionForm extends React.Component {
             />
           </div>
           <div>
-            <label>Value: £</label>
+            {this.state.transactionType === "CREDIT" ? (
+              <label>Value: £</label>
+            ) : (
+              <label>Value: <span style={{color:"red"}}>£-</span></label>
+            )}
             <input
               style={{ textAlign: "right" }}
               type="text"
@@ -184,10 +181,7 @@ class TransactionForm extends React.Component {
         </form>
         <br />
         {this.isFormValid() ? (
-          <button
-            type="button"
-            onClick={this.submitTransaction}
-          >
+          <button type="button" onClick={this.submitTransaction}>
             Submit
           </button>
         ) : null}
