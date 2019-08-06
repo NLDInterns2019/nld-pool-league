@@ -48,6 +48,7 @@ class HoFPage extends React.Component {
     this.setState({ HoF9: HoF9.data });
 
     this.createHoF();
+    this.createHoF9();
   };
 
   createHoF = async () => {
@@ -59,6 +60,28 @@ class HoFPage extends React.Component {
 
       await backend.post(
         "/api/hall_of_fame/calculate?type=8",
+        {
+          headers: headers
+        }
+      ).then((result) => {
+        this.setState({players: result.data})
+      })
+    } catch (e) {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
+    }
+  };
+
+  createHoF9 = async () => {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth0Client.getIdToken()}`
+      };
+
+      await backend.post(
+        "/api/hall_of_fame/calculate?type=9",
         {
           headers: headers
         }
