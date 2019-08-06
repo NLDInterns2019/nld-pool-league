@@ -230,41 +230,6 @@ router.post("/calculate", async (req, res) => {
     
   }
 
-  let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
-
-  //this is broken and terrible. i should be fired for writing this
-  for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
-/////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
-    //get the locations of the players from the main HoF table
-    for (let j = 0; j < hofAll.length; j++) {
-      if (hofAll[j].staffName == fixtures[i].player1) {
-        player1 = j;
-      } else if (hofAll[j].staffName == fixtures[i].player2) {
-        player2 = j;
-      } //TODO can't break because that gives a sexy little error
-    }
-    if (fixtures[i].player1 == topPlayer.staffname) { //check if the top player played in the fixture
-      hofAll[player2].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
-      if (fixtures[i].score2 > fixtures[i].score1) {
-        hofAll[player2].scrappy++; //if so, increment suitably
-      }
-    } else if (fixtures[i].player2 == topPlayer.staffName)  {
-      hofAll[player1].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
-      if (fixtures[i].score1 > fixtures[i].score2) {
-        hofAll[player1].scrappy++; //if so, increment suitably
-      }
-    }
-  }
-  //have to go through hof again for Scrappy - else no way to know who the top player is
-  for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].scrappyRate = Math.trunc(
-      (hofAll[i].scrappy * 100) / hofAll[i].scrappyPlays
-    );
-    hofAll[i].improvement = Math.trunc((hofAll[i].improvement * 100) / 2);
-
-    
-  }
-
   for (let i = 0; i < hofAll.length; i++) {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
@@ -282,6 +247,43 @@ router.post("/calculate", async (req, res) => {
     }
     
   }
+
+  let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
+console.log("top player is " + topPlayer.staffName)
+  //this is broken and terrible. i should be fired for writing this
+  for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
+/////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
+    //get the locations of the players from the main HoF table
+    for (let j = 0; j < hofAll.length; j++) {
+      if (hofAll[j].staffName == fixtures[i].player1) {
+        player1 = j;
+      } else if (hofAll[j].staffName == fixtures[i].player2) {
+        player2 = j;
+      } //TODO can't break because that gives a sexy little error
+    }
+
+    if (fixtures[i].player1 == topPlayer.staffName) { //check if the top player played in the fixture
+      hofAll[player2].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
+      if (parseInt(fixtures[i].score2) > parseInt(fixtures[i].score1)) {
+        hofAll[player2].scrappy++; //if so, increment suitably
+      }
+    } else if (fixtures[i].player2 == topPlayer.staffName)  {
+      hofAll[player1].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
+      if (parseInt(fixtures[i].score1) > parseInt(fixtures[i].score2)) {
+        hofAll[player1].scrappy++; //if so, increment suitably
+      }
+    }
+  }
+  //have to go through hof again for Scrappy - else no way to know who the top player is
+  for (let i = 0; i < hofAll.length; i++) {
+    hofAll[i].scrappyRate = Math.trunc(
+      (hofAll[i].scrappy * 100) / hofAll[i].scrappyPlays
+    );
+    hofAll[i].improvement = Math.trunc((hofAll[i].improvement * 100) / 2);
+
+    
+  }
+
   //patch db
   for (let v = 0; v < hofAll.length; v++) {
     

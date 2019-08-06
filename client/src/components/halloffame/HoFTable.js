@@ -40,7 +40,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (scrappy!==undefined) {
-    if (scrappy.goalsAgainstTop === 0) {
+    if (scrappy.scrappyRate === 0) {
       scrappy = null;
     }
   }
