@@ -4,7 +4,6 @@ import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import LeagueTableBody from "../league/LeagueTableBody";
-import sinon from "sinon";
 
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
