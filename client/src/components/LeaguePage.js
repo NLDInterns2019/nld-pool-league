@@ -13,7 +13,6 @@ import FinalRankTable from "./league/FinalRankTable";
 import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
-import { create } from "domain";
 
 const cTable = require("console.table");
 

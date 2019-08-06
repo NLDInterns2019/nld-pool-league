@@ -233,7 +233,7 @@ table td {
 /* ==== League Table ==== */
 
 .leagueTable {
-  transition: font-size 0.3s ease;
+  transition: font-size 0.3s linear;
   font-size: 18pt;
   margin: auto;
 }
@@ -288,7 +288,7 @@ table td {
 }
 
 #hasNotPaid {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s linear;
   background-color: white;
 }
 
@@ -494,7 +494,7 @@ select:hover {
   padding: 1rem;
   width: 72%;
   vertical-align: middle;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s linear;
 }
 
 #seasonsList button {
@@ -551,7 +551,7 @@ select:hover {
   width: 32px;
   height: 32px;
   background: url("./assets/delete-button-grey.svg");
-  transition: background 0.3s ease;
+  transition: background 0.3s linear;
 }
 
 .delete-icon:hover {
@@ -1116,9 +1116,7 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/win.svg");
-  transition: background 0.3s ease;
-  transition: width 0.3s ease;
-  transition: height 0.3s ease;
+  transition: background 0.3s linear;
 }
 
 .draw-icon {
@@ -1126,9 +1124,7 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/draw.svg");
-  transition: background 0.3s ease;
-  transition: width 0.3s ease;
-  transition: height 0.3s ease;
+  transition: background 0.3s linear;
 }
 
 .loss-icon {
@@ -1136,7 +1132,7 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/loss.svg");
-  transition: background 0.3s ease;
+  transition: background 0.3s linear;
 }
 
 .no-entry-icon {
@@ -1186,6 +1182,7 @@ tr td:last-child {
   .subnav .main-items {
     display: none;
   }
+
   .collapsible {
     position: fixed;
     background-color: #1f7058;
