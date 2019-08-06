@@ -1,11 +1,9 @@
 import React from "react";
-import chai from "chai";
+import chai, { expect } from "chai";
 import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import SeasonsPage from "../SeasonsPage.js";
-
-chai.should();
 
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
@@ -14,7 +12,7 @@ const wrapperSeasonsPage = shallow(<SeasonsPage />);
 
 describe("SeasonsPage component", () => {
   it("should render", () => {
-    wrapperSeasonsPage.exists().should.be.true;
+    expect(wrapperSeasonsPage.exists()).to.be.true;
   });
 });
 
@@ -27,12 +25,12 @@ describe("Popups", () => {
 
     wrapperSeasonsPage.instance().openPopUp();
 
-    wrapperSeasonsPage
-      .instance()
-      .refs.popup.style.display.should.equal("block");
-    wrapperSeasonsPage
-      .instance()
-      .refs.container.style.display.should.equal("block");
+    expect(wrapperSeasonsPage.instance().refs.popup.style.display).to.equal(
+      "block"
+    );
+    expect(wrapperSeasonsPage.instance().refs.container.style.display).to.equal(
+      "block"
+    );
   });
 
   it("should close when closePopUp() is run", () => {
@@ -43,9 +41,11 @@ describe("Popups", () => {
 
     wrapperSeasonsPage.instance().closePopUp();
 
-    wrapperSeasonsPage.instance().refs.popup.style.display.should.equal("none");
-    wrapperSeasonsPage
-      .instance()
-      .refs.container.style.display.should.equal("none");
+    expect(wrapperSeasonsPage.instance().refs.popup.style.display).to.equal(
+      "none"
+    );
+    expect(wrapperSeasonsPage.instance().refs.container.style.display).to.equal(
+      "none"
+    );
   });
 });

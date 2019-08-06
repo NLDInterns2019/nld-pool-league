@@ -5,7 +5,6 @@ import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import CreateSeasonForm from "../season/CreateSeasonForm.js";
 import sinon from "sinon";
-chai.should();
 
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
@@ -18,10 +17,10 @@ const inputSeasonNo = wrapper.find("#inputSeasonNo");
 
 describe("Rendering", () => {
   it("should render the different elements", () => {
-    wrapper.exists().should.be.true;
-    addPlayerBtn.exists().should.be.true;
-    createSeasonBtn.exists().should.be.true;
-    inputSeasonNo.exists().should.be.true;
+    expect(wrapper.exists()).to.be.true;
+    expect(addPlayerBtn.exists()).to.be.true;
+    expect(createSeasonBtn.exists()).to.be.true;
+    expect(inputSeasonNo.exists()).to.be.true;
   });
 });
 
@@ -32,7 +31,7 @@ describe("Add a Player", () => {
     // run the add player method, players length should increase by 1
     wrapper.setState({ playersName: ["", ""] });
     wrapper.instance().addPlayer();
-    wrapper.state().playersName.should.have.lengthOf(3);
+    expect(wrapper.state().playersName).to.have.lengthOf(3);
   });
 });
 
@@ -43,7 +42,7 @@ describe("Add Player button click", () => {
     var spy = sinon.spy(CreateSeasonForm.prototype, "addPlayer");
 
     addPlayerBtn.simulate("click");
-    spy.calledOnce.should.be.true;
+    expect(spy.calledOnce).to.be.true;
   });
 });
 
@@ -55,13 +54,13 @@ describe("Remove a Player", () => {
     const expectedArr = ["ALICE", "CHARLES"];
 
     wrapper.setState({ playersName: initialArr });
-    wrapper.state().playersName.should.have.lengthOf(3);
+    expect(wrapper.state().playersName).to.have.lengthOf(3);
 
     wrapper.instance().removePlayer(1);
 
-    wrapper.state().playersName.should.have.lengthOf(2);
-    wrapper.state().playersName[0].should.equal(expectedArr[0]);
-    wrapper.state().playersName[1].should.equal(expectedArr[1]);
+    expect(wrapper.state().playersName).to.have.lengthOf(2);
+    expect(wrapper.state().playersName[0]).to.equal(expectedArr[0]);
+    expect(wrapper.state().playersName[1]).to.equal(expectedArr[1]);
   });
 });
 
@@ -78,7 +77,7 @@ describe("Remove Player button click", () => {
     const removePlayerBtn = wrapper.find("#button2");
 
     removePlayerBtn.simulate("click");
-    spy.calledOnce.should.be.true;
+    expect(spy.calledOnce).to.be.true;
   });
 });
 
@@ -88,7 +87,7 @@ describe("Typing a season number", () => {
   it("should change the state", () => {
     const event = { target: { value: "1" } };
     inputSeasonNo.simulate("change", event);
-    wrapper.state().seasonName.should.equal("1");
+    expect(wrapper.state().seasonName).to.equal("1");
   });
 });
 
@@ -108,7 +107,7 @@ describe("Validation", () => {
       seasonName: ""
     });
 
-    wrapper.instance().isValidSeason().should.be.false;
+    expect(wrapper.instance().isValidSeason()).to.be.false;
   });
 
   it("should return false if a letter is entered into season name", () => {
@@ -117,7 +116,7 @@ describe("Validation", () => {
       seasonName: "season"
     });
 
-    wrapper.instance().isValidSeason().should.be.false;
+    expect(wrapper.instance().isValidSeason()).to.be.false;
   });
 
   it("should return true if all inputs are correct", () => {
@@ -126,8 +125,8 @@ describe("Validation", () => {
       seasonName: "3"
     });
 
-    wrapper.instance().isValidSeason().should.be.true;
-    wrapper.instance().isValidPlayersNumber().should.be.true;
+    expect(wrapper.instance().isValidSeason()).to.be.true;
+    expect(wrapper.instance().isValidPlayersNumber()).to.be.true;
   });
 
   it("should return true if there are more than 2 players", () => {
@@ -136,7 +135,7 @@ describe("Validation", () => {
       seasonName: "3"
     });
 
-    wrapper.instance().isValidPlayersNumber().should.be.true;
+    expect(wrapper.instance().isValidPlayersNumber()).to.be.true;
   });
 });
 

@@ -1,10 +1,9 @@
 import React from "react";
-import chai from "chai";
+import chai, { expect } from "chai";
 import chaiEnzyme from "chai-enzyme";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import SubmitScoreForm from "../fixture/SubmitScoreForm";
-chai.should();
 
 configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
@@ -20,12 +19,12 @@ const drawRadioBtn = wrapper.find("#draw");
 
 describe("Rendering", () => {
   it("should render all the elements", () => {
-    wrapper.exists().should.be.true;
-    selectFixture.exists().should.be.true;
-    submitScoreBtn.exists().should.be.true;
-    player1RadioBtn.exists().should.be.true;
-    player2RadioBtn.exists().should.be.true;
-    drawRadioBtn.exists().should.be.true;
+    expect(wrapper.exists()).to.be.true;
+    expect(selectFixture.exists()).to.be.true;
+    expect(submitScoreBtn.exists()).to.be.true;
+    expect(player1RadioBtn.exists()).to.be.true;
+    expect(player2RadioBtn.exists()).to.be.true;
+    expect(drawRadioBtn.exists()).to.be.true;
   });
 });
 
@@ -40,7 +39,7 @@ describe("Validation", () => {
   });
 
   it("should return false if all fields are empty", () => {
-    wrapper.instance().isValid().should.be.false;
+    expect(wrapper.instance().isValid()).to.be.false;
   });
 
   it("should return false if 1 field is empty", () => {
@@ -49,7 +48,7 @@ describe("Validation", () => {
       score2: ""
     });
 
-    wrapper.instance().isValid().should.be.false;
+    expect(wrapper.instance().isValid()).to.be.false;
   });
 
   it("should return false if the score fields are empty", () => {
@@ -58,7 +57,7 @@ describe("Validation", () => {
       score2: ""
     });
 
-    wrapper.instance().isValid().should.be.false;
+    expect(wrapper.instance().isValid()).to.be.false;
   });
 
   it("should return false if numbers don't add up to 2", () => {
@@ -67,14 +66,14 @@ describe("Validation", () => {
       score2: "0"
     });
 
-    wrapper.instance().isValid().should.be.false;
+    expect(wrapper.instance().isValid()).to.be.false;
 
     wrapper.setState({
       score1: "3",
       score2: "3"
     });
 
-    wrapper.instance().isValid().should.be.false;
+    expect(wrapper.instance().isValid()).to.be.false;
   });
 
   it("should return true if all fields are filled in correctly", () => {
@@ -83,7 +82,7 @@ describe("Validation", () => {
       score2: "1"
     });
 
-    wrapper.instance().isValid().should.be.true;
+    expect(wrapper.instance().isValid()).to.be.true;
   });
 });
 
@@ -104,8 +103,8 @@ describe("Clicking a radio button", () => {
 
     wrapper.instance().handleRadioClick();
 
-    wrapper.state().score1.should.equal(2);
-    wrapper.state().score2.should.equal(0);
+    expect(wrapper.state().score1).to.equal(2);
+    expect(wrapper.state().score2).to.equal(0);
   });
 
   it("should set the score correctly when player 2 wins", () => {
@@ -117,8 +116,8 @@ describe("Clicking a radio button", () => {
 
     wrapper.instance().handleRadioClick();
 
-    wrapper.state().score1.should.equal(0);
-    wrapper.state().score2.should.equal(2);
+    expect(wrapper.state().score1).to.equal(0);
+    expect(wrapper.state().score2).to.equal(2);
   });
 
   it("should set the score correctly when it's a draw", () => {
@@ -130,8 +129,8 @@ describe("Clicking a radio button", () => {
 
     wrapper.instance().handleRadioClick();
 
-    wrapper.state().score1.should.equal(1);
-    wrapper.state().score2.should.equal(1);
+    expect(wrapper.state().score1).to.equal(1);
+    expect(wrapper.state().score2).to.equal(1);
   });
 });
 
@@ -145,9 +144,9 @@ describe("Clearing radio buttons", () => {
 
     wrapper.instance().clearRadioButtons();
 
-    wrapper.instance().refs.player1won.checked.should.be.false;
-    wrapper.instance().refs.draw.checked.should.be.false;
-    wrapper.instance().refs.player2won.checked.should.be.false;
+    expect(wrapper.instance().refs.player1won.checked).to.be.false;
+    expect(wrapper.instance().refs.draw.checked).to.be.false;
+    expect(wrapper.instance().refs.player2won.checked).to.be.false;
   });
 });
 
@@ -157,10 +156,7 @@ describe("Radio buttons", () => {
       players: "matthew michael"
     });
 
-    wrapper
-      .instance()
-      .resultStyle()
-      .display.should.equal("block");
+    expect(wrapper.instance().resultStyle().display).to.equal("block");
   });
 
   it("should disappear when a fixture isn't selected", () => {
@@ -168,10 +164,7 @@ describe("Radio buttons", () => {
       players: ""
     });
 
-    wrapper
-      .instance()
-      .resultStyle()
-      .display.should.equal("none");
+    expect(wrapper.instance().resultStyle().display).to.equal("none");
   });
 });
 
@@ -187,16 +180,16 @@ describe("setting scores", () => {
     it("should change the state so that score1 is correct", () => {
       wrapper.instance().setScore1(2);
 
-      wrapper.state().score1.should.equal(2);
-      wrapper.state().score2.should.equal("");
+      expect(wrapper.state().score1).to.equal(2);
+      expect(wrapper.state().score2).to.equal("");
     });
   });
   describe("setScore2()", () => {
     it("should change the state so that score2 is correct", () => {
       wrapper.instance().setScore2(2);
 
-      wrapper.state().score1.should.equal("");
-      wrapper.state().score2.should.equal(2);
+      expect(wrapper.state().score1).to.equal("");
+      expect(wrapper.state().score2).to.equal(2);
     });
   });
 });
