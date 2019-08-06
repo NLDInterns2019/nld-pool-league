@@ -401,4 +401,47 @@ router.post("/playerRemoved", auth.checkJwt, async (req, res) => {
     );
 });
 
+/* 
+  POST handler for /api/slack/seasonClosed
+  Function: To send season closed message
+*/
+router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") + "* Season Closed:*",
+          text: "Season " + req.body.seasonId
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
 module.exports = router;
