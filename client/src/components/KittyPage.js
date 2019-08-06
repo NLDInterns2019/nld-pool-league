@@ -4,9 +4,11 @@ import { ToastContainer, toast } from "react-toastify";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
+import TransactionForm from "./kitty/TransactionForm";
 import KittyTable from "./kitty/KittyTable";
 
 import Axios from "axios";
+import auth0Client from "../Auth";
 
 class KittyPage extends React.Component {
   signal = Axios.CancelToken.source();
@@ -39,6 +41,24 @@ class KittyPage extends React.Component {
     await this.getKitty();
   };
 
+  submitTransaction = async state => {
+    await backend.post(
+      "/api/kitty/transaction",
+      {
+        type: parseInt(state.type),
+        seasonId: parseInt(state.seasonId),
+        staffName: auth0Client.getProfile().nickname,
+        description: state.description,
+        value: parseFloat(state.value)
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
+
+    this.getKitty();
+  };
+
   render() {
     return (
       <div className="app">
@@ -48,7 +68,10 @@ class KittyPage extends React.Component {
           latestSeason={this.state.latestSeason}
           type={this.state.type}
         />
-        <div className="content">
+        <div className="kittyContent">
+          {auth0Client.isAuthenticated() ? (
+            <TransactionForm submitTransaction={this.submitTransaction} />
+          ) : null}
           <div className="kittyTableContainer">
             {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
             <KittyTable kitty={this.state.kitty} />
