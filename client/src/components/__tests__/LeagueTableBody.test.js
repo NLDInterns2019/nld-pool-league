@@ -10,23 +10,9 @@ configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
 
 const wrapper = shallow(<LeagueTableBody players={[""]} />);
-const hasNotPaid = wrapper.find("#hasNotPaid");
 
 describe("LeagueTableBody Component", () => {
   it("should render", () => {
     expect(wrapper.exists()).to.be.true;
   });
 });
-
-// describe("Paying a fee", () => {
-//   it("should run method from props", () => {
-//     var fake = sinon.fake();
-//     const wrapper = shallow(<LeagueTableBody players={[""]} feePaid={fake} />);
-
-//     window.confirm() = true;
-
-//     hasNotPaid.simulate('click');
-//     expect(fake.calledOnce).to.be.true;
-
-//   });
-// });
