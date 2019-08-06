@@ -15,9 +15,6 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
 
-  if (scrappy!==undefined) {
-    console.log(scrappy.scrappyRate)
-  }
   if (topPlayer!==undefined) {
     if (topPlayer.winRate === 0) {
       topPlayer = null;

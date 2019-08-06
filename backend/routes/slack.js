@@ -209,7 +209,7 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
 
 /* 
   POST handler for /api/slack/resultSubmitted
-  Function: To send new season message
+  Function: To send score submitted message
 */
 router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
   const schema = {
@@ -247,6 +247,53 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
             req.body.score2 +
             "  " +
             req.body.players.split(" ")[1]
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/slack/showTable
+  Function: To send league table message
+*/
+router.post("/showTable", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required(),
+    table: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") +
+            "* Season " +
+            req.body.seasonId +
+            " League Table:*",
+          text: "```" + req.body.table + "```"
         }
       ]
     })
