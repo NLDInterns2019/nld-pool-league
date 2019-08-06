@@ -262,7 +262,6 @@ console.log("top player is " + topPlayer.staffName)
       } //TODO can't break because that gives a sexy little error
     }
 
-    console.log(fixtures[i].player1 + " " + fixtures[i].player2)
     if (fixtures[i].player1 == topPlayer.staffName) { //check if the top player played in the fixture
       hofAll[player2].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
       if (parseInt(fixtures[i].score2) > parseInt(fixtures[i].score1)) {
