@@ -233,6 +233,7 @@ table td {
 /* ==== League Table ==== */
 
 .leagueTable {
+  transition: font-size 0.3s ease;
   font-size: 18pt;
   margin: auto;
 }
@@ -303,12 +304,10 @@ table td {
 
 #hasNotPaid:hover #pay-overlay {
   display: block;
-  transform: translateX(0%);
 }
 
 #pay-overlay {
   display: none;
-  transform: translateX(100%);
 }
 
 /* ==== Fixture and League Table positioning ==== */
@@ -1117,6 +1116,9 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/win.svg");
+  transition: background 0.3s ease;
+  transition: width 0.3s ease;
+  transition: height 0.3s ease;
 }
 
 .draw-icon {
@@ -1124,6 +1126,9 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/draw.svg");
+  transition: background 0.3s ease;
+  transition: width 0.3s ease;
+  transition: height 0.3s ease;
 }
 
 .loss-icon {
@@ -1131,6 +1136,7 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background: url("./assets/loss.svg");
+  transition: background 0.3s ease;
 }
 
 .no-entry-icon {
@@ -1145,6 +1151,7 @@ tr td:last-child {
   width: 32px;
   height: 32px;
   background: url("./assets/tick.svg");
+  transition: background 0.3s ease;
 }
 
 .cross-icon {
@@ -1152,6 +1159,7 @@ tr td:last-child {
   width: 32px;
   height: 32px;
   background: url("./assets/cross.svg");
+  transition: background 0.3s ease;
 }
 
 .money-icon {
@@ -1277,9 +1285,16 @@ tr td:last-child {
   .contentRight {
     order: 4;
   }
+
+  .leagueTable {
+    font-size: 18pt;
+  }
 }
 
-@media only screen and (min-width: 1436px) {
+@media only screen and (min-width: 1365px) {
+  .leagueTable {
+    font-size: 12pt;
+  }
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;
@@ -1292,5 +1307,71 @@ tr td:last-child {
 
   .subnav .main-items {
     display: inline-block;
+  }
+
+  .win-icon {
+    width: 18px;
+    height: 18px;
+    background: url("./assets/win-small.svg");
+  }
+
+  .draw-icon {
+    width: 18px;
+    height: 18px;
+    background: url("./assets/draw-small.svg");
+  }
+
+  .loss-icon {
+    width: 18px;
+    height: 18px;
+    background: url("./assets/loss-small.svg");
+  }
+
+  .tick-icon {
+    width: 18px;
+    height: 18px;
+    background: url("./assets/tick-small.svg");
+  }
+
+  .cross-icon {
+    width: 18px;
+    height: 18px;
+    background: url("./assets/cross-small.svg");
+  }
+}
+
+@media only screen and (min-width: 1551px) {
+  .leagueTable {
+    font-size: 18pt;
+  }
+
+  .win-icon {
+    width: 24px;
+    height: 24px;
+    background: url("./assets/win.svg");
+  }
+
+  .draw-icon {
+    width: 24px;
+    height: 24px;
+    background: url("./assets/draw.svg");
+  }
+
+  .loss-icon {
+    width: 24px;
+    height: 24px;
+    background: url("./assets/loss.svg");
+  }
+
+  .tick-icon {
+    width: 32px;
+    height: 32px;
+    background: url("./assets/tick.svg");
+  }
+
+  .cross-icon {
+    width: 32px;
+    height: 32px;
+    background: url("./assets/cross.svg");
   }
 }
