@@ -57,10 +57,7 @@ class HoFPage extends React.Component {
       };
 
       await backend.post(
-        "/api/hall_of_fame/calculate",
-        {
-          type: parseInt(this.state.type)
-        },
+        "/api/hall_of_fame/calculate?type=8",
         {
           headers: headers
         }
