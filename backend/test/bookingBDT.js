@@ -131,65 +131,65 @@ describe("Bookings", () => {
     });
   });
 
-  describe("PUT /api/booking/add/message_id", () => {
-    it("should slack message id to the booking", done => {
-      chai
-        .request(server)
-        .put("/api/booking/add/message_id")
-        .set("authorization", `Bearer ${bearerToken}`)
-        .send({
-          id: 1,
-          messageId: "QWERTY"
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          chai
-            .request(server)
-            .get("/api/booking")
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.be.a("array");
-              res.body.length.should.be.eql(3);
-              res.body.should.include.something.like({
-                id: 1,
-                messageId: "QWERTY",
-                player1: "Michael",
-                player2: "Matthew",
-                title: "Michael VS Matthew"
-              });
-              done();
-            });
-        });
-    });
-  });
+  // describe("PUT /api/booking/add/message_id", () => {
+  //   it("should slack message id to the booking", done => {
+  //     chai
+  //       .request(server)
+  //       .put("/api/booking/add/message_id")
+  //       .set("authorization", `Bearer ${bearerToken}`)
+  //       .send({
+  //         id: 1,
+  //         messageId: "QWERTY"
+  //       })
+  //       .end((err, res) => {
+  //         res.should.have.status(200);
+  //         chai
+  //           .request(server)
+  //           .get("/api/booking")
+  //           .end((err, res) => {
+  //             res.should.have.status(200);
+  //             res.body.should.be.a("array");
+  //             res.body.length.should.be.eql(3);
+  //             res.body.should.include.something.like({
+  //               id: 1,
+  //               messageId: "QWERTY",
+  //               player1: "Michael",
+  //               player2: "Matthew",
+  //               title: "Michael VS Matthew"
+  //             });
+  //             done();
+  //           });
+  //       });
+  //   });
+  // });
 
-  describe("DELETE /api/booking/delete", () => {
-    it("should add a booking", done => {
-      chai
-        .request(server)
-        .delete("/api/booking/delete")
-        .set("authorization", `Bearer ${bearerToken}`)
-        .send({
-          id: 1
-        })
-        .end((err, res) => {
-          res.should.have.status(204);
-          chai
-            .request(server)
-            .get("/api/booking")
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.be.a("array");
-              res.body.length.should.be.eql(2);
-              res.body.should.not.include.something.like({
-                id: 1,
-                player1: "Michael",
-                player2: "Matthew",
-                title: "Michael VS Matthew"
-              });
-              done();
-            });
-        });
-    });
-  });
+  // describe("DELETE /api/booking/delete", () => {
+  //   it("should add a booking", done => {
+  //     chai
+  //       .request(server)
+  //       .delete("/api/booking/delete")
+  //       .set("authorization", `Bearer ${bearerToken}`)
+  //       .send({
+  //         id: 1
+  //       })
+  //       .end((err, res) => {
+  //         res.should.have.status(204);
+  //         chai
+  //           .request(server)
+  //           .get("/api/booking")
+  //           .end((err, res) => {
+  //             res.should.have.status(200);
+  //             res.body.should.be.a("array");
+  //             res.body.length.should.be.eql(2);
+  //             res.body.should.not.include.something.like({
+  //               id: 1,
+  //               player1: "Michael",
+  //               player2: "Matthew",
+  //               title: "Michael VS Matthew"
+  //             });
+  //             done();
+  //           });
+  //       });
+  //   });
+  // });
 });
