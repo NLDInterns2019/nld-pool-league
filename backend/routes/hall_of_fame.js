@@ -251,21 +251,12 @@ router.post("/calculate", async (req, res) => {
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
-  
   //this is broken and terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
 /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
-    //get the locations of the players from the main HoF table
-    for (let j = 0; j < hofAll.length; j++) {
-      if (hofAll[j].staffName == fixtures[i].player1) {
-        player1 = j;
-      } else if (hofAll[j].staffName == fixtures[i].player2) {
-        player2 = j;
-      } //TODO can't use break because that gives a sexy little error
-    }
+   
 
-    hofAll = scrappyGen.calculateScrappy(fixtures, topPlayer.staffName, hofAll, player1, player2, i);
-    //fixtures, topPlayer, hofAll, player1, player2
+    hofAll = scrappyGen.calculateScrappy(fixtures, topPlayer.staffName, hofAll, i); //calculate scrappy
   }
   //have to go through hof again for Scrappy - else no way to know who the top player is
   for (let i = 0; i < hofAll.length; i++) {
