@@ -190,6 +190,17 @@ class App extends React.Component {
         );
         this.toastSuccess(`✅ ${staffName} Deleted!`);
         this.updateData();
+        await backend.post(
+          "/api/slack/playerRemoved",
+          {
+            staffName: staffName,
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
       } else if (this.state.finished) {
         this.toastError("Season closed, unable to delete player.");
       } else {
