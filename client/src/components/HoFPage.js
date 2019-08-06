@@ -8,6 +8,7 @@ import SubNavBar from "./nav/SubNavBar.js";
 import Header from "./nav/Header.js";
 import "../App.css";
 import HoFTable from "./halloffame/HoFTable";
+import HoFTable9 from "./halloffame/HoFTable9";
 
 class HoFPage extends React.Component {
   constructor(props) {
@@ -106,7 +107,7 @@ class HoFPage extends React.Component {
               <h3>9-Ball</h3>
               <span className="nine-ball-icon" alt="nine ball" />
             </div>
-            <HoFTable HoF9={this.state.HoF9} />
+            <HoFTable9 HoF9={this.state.HoF9} />
           </div>
         </div>
       </div>
