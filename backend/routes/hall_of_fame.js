@@ -67,6 +67,7 @@ router.post("/calculate", async (req, res) => {
   });
   if (leagues === 0) {
     res.status(404).send();
+    return;
   }
 
   //go through all league rows relevant
@@ -177,6 +178,7 @@ router.post("/calculate", async (req, res) => {
   });
   if (fixtures === 0) {
     res.status(404).send();
+    return;
   }
 
   //needs the full HoF DB this time
@@ -185,6 +187,7 @@ router.post("/calculate", async (req, res) => {
   });
   if (fixtures === 0) {
     res.status(404).send();
+    return;
   }
 
   
