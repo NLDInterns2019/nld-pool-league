@@ -259,6 +259,10 @@ table td {
   opacity: 1;
 }
 
+.leagueTable tr:hover .leagueTablePaymentCol {
+  background-color: white;
+}
+
 #leagueTablePlayerName {
   max-width: 175px;
   overflow: hidden;
