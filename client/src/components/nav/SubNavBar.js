@@ -26,8 +26,11 @@ const SubNavBar = props => {
         matchPath(currentPath, { path: "/8-ball/fixtures" })
       ? "8-Ball Season " + props.activeSeason
       : matchPath(currentPath, { path: "/9-ball/seasons", exact: false }) ||
-        matchPath(currentPath, {path: "/9-ball/hall_of_fame", exact: false}) ||
-        matchPath(currentPath, {path: "/9-ball/kitty", exact: false}) ||
+        matchPath(currentPath, {
+          path: "/9-ball/hall_of_fame",
+          exact: false
+        }) ||
+        matchPath(currentPath, { path: "/9-ball/kitty", exact: false }) ||
         matchPath(currentPath, { path: "/9-ball/dashboard", exact: false })
       ? "9-Ball"
       : matchPath(currentPath, { path: "/9-ball/overview" }) ||
@@ -41,7 +44,7 @@ const SubNavBar = props => {
     exact: false
   })
     ? {
-        fontWeight: "bold"
+        opacity: 1
       }
     : {};
 
@@ -51,7 +54,7 @@ const SubNavBar = props => {
     exact: false
   })
     ? {
-        fontWeight: "bold"
+        opacity: 1
       }
     : {};
 
@@ -61,7 +64,7 @@ const SubNavBar = props => {
     exact: false
   })
     ? {
-        fontWeight: "bold"
+        opacity: 1
       }
     : {};
 
@@ -71,7 +74,7 @@ const SubNavBar = props => {
     exact: false
   })
     ? {
-        fontWeight: "bold"
+        opacity: 1
       }
     : {};
 
@@ -81,7 +84,7 @@ const SubNavBar = props => {
     exact: false
   })
     ? {
-        fontWeight: "bold"
+        opacity: 1
       }
     : {};
 
@@ -91,7 +94,7 @@ const SubNavBar = props => {
     exact: false
   })
     ? {
-        fontWeight: "bold"
+        opacity: 1
       }
     : {};
 

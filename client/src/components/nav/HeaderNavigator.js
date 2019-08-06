@@ -8,7 +8,7 @@ const HeaderNavigator = () => {
     path: "/8-ball",
     exact: false
   })
-    ? { fontWeight: "bold" }
+    ? { opacity: 1 }
     : {};
 
   /* makes '9-ball' bold */
@@ -16,7 +16,7 @@ const HeaderNavigator = () => {
     path: "/9-ball",
     exact: false
   })
-    ? { fontWeight: "bold" }
+    ? { opacity: 1 }
     : {};
 
   /* makes 'billiards' bold */
@@ -24,7 +24,7 @@ const HeaderNavigator = () => {
   //   path: "/billiards",
   //   exact: false
   // })
-  //   ? { fontWeight: "bold" }
+  //   ? { opacity: 1 }
   //   : {};
 
   return (

@@ -5,7 +5,7 @@ import auth0Client from "../../Auth";
 const Login = props => {
   return (
     <div className="nav">
-      <Link>
+      <Link style={{ opacity: 1 }}>
         {!auth0Client.isAuthenticated() && (
           <button className="btn btn-dark" onClick={auth0Client.signIn}>
             Sign In

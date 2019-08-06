@@ -91,10 +91,12 @@ ul {
   display: inline-block;
   color: white;
   text-decoration: none;
+  opacity: 0.5;
+  font-weight: bold;
 }
 
 .nav a:hover {
-  font-weight: bold;
+  opacity: 1;
 }
 
 .nav h2 {
@@ -1178,43 +1180,6 @@ tr td:last-child {
 }
 
 /* ==== Responsive Styling ==== */
-@media only screen and (min-width: 1365px) {
-  .subnav .main-items {
-    display: none;
-  }
-
-  .collapsible {
-    position: fixed;
-    background-color: #1f7058;
-    min-width: 160px;
-    z-index: 1;
-    list-style-type: none;
-    right: 0;
-    font-size: 18pt;
-    color: white;
-  }
-  .collapsible li {
-    margin-top: 1rem;
-  }
-
-  .collapsible a {
-    padding-left: 1rem;
-    text-decoration: none;
-    color: white;
-  }
-
-  .collapsible a:hover {
-    font-weight: bold;
-  }
-
-  .menu-icon {
-    visibility: visible;
-  }
-
-  .menu-icon:hover {
-    cursor: pointer;
-  }
-}
 
 @media only screen and (max-width: 1364px) {
   .subnav .main-items {
@@ -1289,6 +1254,42 @@ tr td:last-child {
 }
 
 @media only screen and (min-width: 1365px) {
+  .subnav .main-items {
+    display: none;
+  }
+
+  .collapsible {
+    position: fixed;
+    background-color: #1f7058;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+    right: 0;
+    font-size: 18pt;
+    color: white;
+  }
+  .collapsible li {
+    margin-top: 1rem;
+  }
+
+  .collapsible a {
+    padding-left: 1rem;
+    text-decoration: none;
+    color: white;
+  }
+
+  .collapsible a:hover {
+    font-weight: bold;
+  }
+
+  .menu-icon {
+    visibility: visible;
+  }
+
+  .menu-icon:hover {
+    cursor: pointer;
+  }
+
   .leagueTable {
     font-size: 12pt;
   }
@@ -1296,14 +1297,6 @@ tr td:last-child {
     align-self: stretch;
     flex-shrink: 10;
     margin-bottom: 10px;
-  }
-
-  .itemMenu {
-    display: none;
-  }
-
-  .subnav .main-items {
-    display: inline-block;
   }
 
   .win-icon {
@@ -1334,6 +1327,16 @@ tr td:last-child {
     width: 18px;
     height: 18px;
     background: url("./assets/cross-small.svg");
+  }
+}
+
+@media only screen and (min-width: 1455px) {
+  .itemMenu {
+    display: none;
+  }
+
+  .subnav .main-items {
+    display: inline-block;
   }
 }
 
