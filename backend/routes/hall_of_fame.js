@@ -8,6 +8,8 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
+const scrappyGen = require("../functions/scrappy");
+
 /* 
   GET handler for /api/89ball_league/hall_of_fame 
   Function: To get the hall of fame
@@ -259,20 +261,11 @@ router.post("/calculate", async (req, res) => {
         player1 = j;
       } else if (hofAll[j].staffName == fixtures[i].player2) {
         player2 = j;
-      } //TODO can't break because that gives a sexy little error
+      } //TODO can't use break because that gives a sexy little error
     }
 
-    if (fixtures[i].player1 == topPlayer.staffName) { //check if the top player played in the fixture
-      hofAll[player2].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
-      if (parseInt(fixtures[i].score2) > parseInt(fixtures[i].score1)) {
-        hofAll[player2].scrappy++; //if so, increment suitably
-      }
-    } else if (fixtures[i].player2 == topPlayer.staffName)  {
-      hofAll[player1].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
-      if (parseInt(fixtures[i].score1) > parseInt(fixtures[i].score2)) {
-        hofAll[player1].scrappy++; //if so, increment suitably
-      }
-    }
+    hofAll = scrappyGen.calculateScrappy(fixtures, topPlayer.staffName, hofAll, player1, player2, i);
+    //fixtures, topPlayer, hofAll, player1, player2
   }
   //have to go through hof again for Scrappy - else no way to know who the top player is
   for (let i = 0; i < hofAll.length; i++) {
