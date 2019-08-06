@@ -1,69 +1,69 @@
 import React from "react";
 import { maxBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
-  let topPlayer = maxBy(props.players, "winRate");
-  let casual = maxBy(props.players, "lossRate");
-  let draw = maxBy(props.players, "draws");
-  let dedicated = maxBy(props.players, "plays");
-  let undedicated = minBy(props.players, "plays");
-  let onTime = minBy(props.players, "punctRate");
-  let slacker = maxBy(props.players, "punctRate");
-  let bestGame = maxBy(props.players, "highestPoints");
-  let losingStreak = maxBy(props.players, "losingStreak");
-  let streak = maxBy(props.players, "winningStreak");
-  let scrappy = maxBy(props.players, "scrappyRate");
-  let improved = maxBy(props.players, "improvement");
-  let retire = minBy(props.players, "improvement");
+  let topPlayer = maxBy(props.HoF9, "winRate");
+  let casual = maxBy(props.HoF9, "lossRate");
+  let draw = maxBy(props.HoF9, "draws");
+  let dedicated = maxBy(props.HoF9, "plays");
+  let undedicated = minBy(props.HoF9, "plays");
+  let onTime = minBy(props.HoF9, "punctRate");
+  let slacker = maxBy(props.HoF9, "punctRate");
+  let bestGame = maxBy(props.HoF9, "highestPoints");
+  let losingStreak = maxBy(props.HoF9, "losingStreak");
+  let streak = maxBy(props.HoF9, "winningStreak");
+  let scrappy = maxBy(props.HoF9, "scrappyRate");
+  let improved = maxBy(props.HoF9, "improvement");
+  let retire = minBy(props.HoF9, "improvement");
 
-  if (topPlayer!==undefined) {
+  if (topPlayer !== undefined) {
     if (topPlayer.winRate === 0) {
       topPlayer = null;
     }
   }
 
-  if (losingStreak!==undefined) {
+  if (losingStreak !== undefined) {
     if (losingStreak.losingStreak === 0) {
       losingStreak = null;
     }
   }
 
-  if (bestGame!==undefined) {
+  if (bestGame !== undefined) {
     if (bestGame.highestPoints === 0) {
       bestGame = null;
     }
   }
 
-  if (draw!==undefined) {
+  if (draw !== undefined) {
     if (draw.drawRate === 0) {
       draw = null;
     }
   }
 
-  if (scrappy!==undefined) {
+  if (scrappy !== undefined) {
     if (scrappy.scrappyRate === 0) {
       scrappy = null;
     }
   }
 
-  if (streak!==undefined) {
+  if (streak !== undefined) {
     if (streak.winningStreak === 0) {
       streak = null;
     }
   }
-  if (improved!==undefined) {
+  if (improved !== undefined) {
     if (improved.improvement === 0) {
       improved = null;
       retire = null;
     }
   }
-  if (dedicated!==undefined) {
+  if (dedicated !== undefined) {
     if (dedicated === undedicated) {
       dedicated = null;
     }
   }
 
-  if (slacker!==undefined) {
-    if (slacker.punctRate === 0) {   
+  if (slacker !== undefined) {
+    if (slacker.punctRate === 0) {
       slacker = null;
     }
   }
@@ -119,7 +119,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="clock-icon" alt="clock" />
         </td>
-        <td className="hofCell">Mr. Punctual</td>
+        <td className="hofCell">Dr. Punctual</td>
         <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
         <td className="hofCell">
           {slacker
@@ -168,9 +168,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCellBorder">Filthy Casual</td>
         <td className="hofCellBorder">{casual ? casual.staffName : "-"}</td>
         <td className="hofCellBorder">
-          {casual
-            ? casual.lossRate + "% of games lost"
-            : "Highest loss rate"}
+          {casual ? casual.lossRate + "% of games lost" : "Highest loss rate"}
         </td>
       </tr>
       <tr>
@@ -189,7 +187,9 @@ const itemsToBeDisplayed = props => {
           <div className="falling-man-icon" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
-        <td className="hofCellBad">{losingStreak ? losingStreak.staffName : "-"}</td>
+        <td className="hofCellBad">
+          {losingStreak ? losingStreak.staffName : "-"}
+        </td>
         <td className="hofCellBad">
           {losingStreak
             ? losingStreak.losingStreak + " losing streak"
