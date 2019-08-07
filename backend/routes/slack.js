@@ -315,10 +315,10 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
 router.post("/showTableCommand", async (req, res) => {
   let text = req.body.text;
   let requestBody = req.body;
-  //let split = req.body.text.split(" ");
+  let split = req.body.text.split("+");
 
-  //const type = split[0];
-  //const seasonId = split[1];
+  const type = split[0];
+  const seasonId = split[1];
 
   const response = {
     response_type: "in_channel", // public to the channel
@@ -326,13 +326,12 @@ router.post("/showTableCommand", async (req, res) => {
       {
         mrkdwn_in: ["text"],
         color: colours.seasons,
-        // pretext:
-        //   // (type === 8 ? ":8ball:" : type === 9 ? ":9ball:" : "TYPE ERROR") +
-        //   // "* Season " +
-        //   // seasonId +
-        //   // " League Table:*",
-        //   text,
-        text: requestBody
+        pretext:
+          (type === 8 ? ":8ball:" : type === 9 ? ":9ball:" : "TYPE ERROR") +
+          "* Season " +
+          seasonId +
+          " League Table:*",
+        text: "Table goes here"
       }
     ]
   };
