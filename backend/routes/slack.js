@@ -313,7 +313,7 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
   Function: league table slash command (/table type season_id)
 */
 router.post("/showTableCommand", async (req, res) => {
-  //let text = req.body.text;
+  let text = req.body.text;
   //let requestBody = req.body;
   let split = req.body.text.split("+");
 
@@ -326,11 +326,11 @@ router.post("/showTableCommand", async (req, res) => {
       {
         mrkdwn_in: ["text"],
         color: colours.seasons,
-        pretext:
-          (type === 8 ? ":8ball:" : type === 9 ? ":9ball:" : "TYPE ERROR") +
-          "* Season " +
-          seasonId +
-          " League Table:*",
+        pretext: "req.body.text = " + text,
+        // (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+        // "* Season " +
+        // seasonId +
+        // " League Table:*",
         text: "Table goes here"
       }
     ]
