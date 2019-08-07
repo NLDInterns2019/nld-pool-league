@@ -4,6 +4,7 @@ const Joi = require("joi");
 const auth = require("../auth");
 const moment = require("moment-timezone");
 const cTable = require("console.table");
+const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -351,7 +352,6 @@ router.post("/showTableCommand", async (req, res) => {
     .then(
       players => {
         const table = createConsoleTable(players);
-        console.log(table);
         const response = {
           response_type: "in_channel", // public to the channel
           attachments: [
@@ -367,8 +367,7 @@ router.post("/showTableCommand", async (req, res) => {
                 "* Season " +
                 seasonId +
                 " League Table:*",
-              //text: "```" + table + "```"
-              text: "Table goes here"
+              text: "```" + table + "```"
             }
           ]
         };
