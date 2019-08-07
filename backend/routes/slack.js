@@ -313,12 +313,8 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
   Function: league table slash command (/table type season_id)
 */
 router.post("/showTableCommand", async (req, res) => {
-  let text = req.body.text;
-  //let requestBody = req.body;
-  let split = req.body.text.split("+");
-
-  const type = split[0];
-  const seasonId = split[1];
+  const type = req.body.text.split(" ")[0];
+  const seasonId = req.body.text.split(" ")[1];
 
   const response = {
     response_type: "in_channel", // public to the channel
@@ -326,11 +322,11 @@ router.post("/showTableCommand", async (req, res) => {
       {
         mrkdwn_in: ["text"],
         color: colours.seasons,
-        pretext: "req.body.text = " + text,
-        // (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-        // "* Season " +
-        // seasonId +
-        // " League Table:*",
+        pretext:
+          (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
+          "* Season " +
+          seasonId +
+          " League Table:*",
         text: "Table goes here"
       }
     ]
