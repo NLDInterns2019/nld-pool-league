@@ -15,6 +15,7 @@ describe("calculateScore()", () => {
       goalsAgainst: 0,
       points: 0,
       punctuality: 0,
+      form: "-----"
     };
 
     player2 = {
@@ -25,7 +26,8 @@ describe("calculateScore()", () => {
       goalsFor: 0,
       goalsAgainst: 0,
       points: 0,
-      punctuality: 0
+      punctuality: 0,
+      form: "-----"
     };
   });
 
@@ -42,7 +44,8 @@ describe("calculateScore()", () => {
       goalsFor: 2,
       goalsAgainst: 0,
       points: 3,
-      punctuality: 1
+      punctuality: 1,
+      form: "W----"
     };
 
     let expectedPlayer2 = {
@@ -53,7 +56,8 @@ describe("calculateScore()", () => {
       goalsFor: 0,
       goalsAgainst: 2,
       points: 0,
-      punctuality: 1
+      punctuality: 1,
+      form: "L----"
     };
 
     //2. ACT
@@ -82,7 +86,8 @@ describe("calculateScore()", () => {
       goalsFor: 0,
       goalsAgainst: 2,
       points: 0,
-      punctuality: 1
+      punctuality: 1,
+      form: "L----"
     };
 
     expectedPlayer2 = {
@@ -93,7 +98,8 @@ describe("calculateScore()", () => {
       goalsFor: 2,
       goalsAgainst: 0,
       points: 3,
-      punctuality: 1
+      punctuality: 1,
+      form: "W----"
     };
 
     //2. ACT
@@ -122,7 +128,8 @@ describe("calculateScore()", () => {
       goalsFor: 1,
       goalsAgainst: 1,
       points: 1,
-      punctuality: 1
+      punctuality: 1,
+      form: "D----"
     };
 
     expectedPlayer2 = {
@@ -133,7 +140,8 @@ describe("calculateScore()", () => {
       goalsFor: 1,
       goalsAgainst: 1,
       points: 1,
-      punctuality: 1
+      punctuality: 1,
+      form: "D----"
     };
 
     //2. ACT
