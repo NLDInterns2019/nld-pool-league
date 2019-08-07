@@ -69,7 +69,7 @@ schedule.scheduleJob(
             );
           });
         } else {
-          message = "There is no match scheduled for today";
+          message = "There are no matches scheduled for today";
         }
 
         axios.post(

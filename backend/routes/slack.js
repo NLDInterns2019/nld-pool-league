@@ -9,6 +9,7 @@ const _ = require("lodash");
 
 var getToken = require("../test/function/token");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
+const bookingsDB = require("../models/bookings");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -471,6 +472,54 @@ router.post("/showTableCommand", async (req, res) => {
         }
       );
   }
+});
+
+/* 
+  POST handler for /api/slack/todayCommand
+  Function: today's fixtures slash command (/today)
+*/
+router.post("/todayCommand", async (req, res) => {
+  let start = moment()
+    .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+    .toDate()
+    .toISOString();
+  let end = moment(start)
+    .add(1, "day")
+    .toDate()
+    .toISOString();
+
+  bookingsDB
+    .query()
+    .whereBetween("start", [start, end])
+    .then(bookings => {
+      let message = "";
+      if (bookings.length) {
+        bookings.map(booking => {
+          message = message.concat(
+            booking.title.toLowerCase() +
+              " at " +
+              moment(booking.start)
+                .tz("Europe/London")
+                .format("HH:mm") +
+              "\n"
+          );
+        });
+      } else {
+        message = "There are no matches scheduled for today";
+      }
+      const response = {
+        response_type: "in_channel",
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.reminders,
+            pretext: "*Today's Fixtures:*",
+            text: message
+          }
+        ]
+      };
+      res.json(response);
+    });
 });
 
 /* 
