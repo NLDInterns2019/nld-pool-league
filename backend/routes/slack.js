@@ -3,6 +3,7 @@ var router = express.Router();
 const Joi = require("joi");
 const auth = require("../auth");
 const moment = require("moment-timezone");
+const cTable = require("console.table");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -308,6 +309,31 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
     );
 });
 
+/* create a league table string from an array of players */
+createConsoleTable = players => {
+  var values = [];
+  for (var i = 0; i < players.length; i++) {
+    values.push([
+      i + 1,
+      players[i].staffName,
+      players[i].play,
+      players[i].win,
+      players[i].draw,
+      players[i].lose,
+      players[i].goalsFor,
+      players[i].goalsAgainst,
+      players[i].points
+    ]);
+  }
+
+  const table = cTable.getTable(
+    ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
+    values
+  );
+
+  return table;
+};
+
 /* 
   POST handler for /api/slack/showTableCommand
   Function: league table slash command (/table type season_id)
@@ -315,6 +341,24 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
 router.post("/showTableCommand", async (req, res) => {
   const type = req.body.text.split(" ")[0];
   const seasonId = req.body.text.split(" ")[1];
+  const players = eight_nine_ball_leagues
+    .query()
+    .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
+    .orderBy("points", "desc")
+    .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
+    .orderBy("win", "desc")
+    .then(
+      players => {
+        if (!players.length) res.status(404).send();
+        else res.json(players);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+
+  const table = createConsoleTable(players);
 
   const response = {
     response_type: "in_channel", // public to the channel
@@ -327,7 +371,7 @@ router.post("/showTableCommand", async (req, res) => {
           "* Season " +
           seasonId +
           " League Table:*",
-        text: "Table goes here"
+        text: "```" + table + "```"
       }
     ]
   };
