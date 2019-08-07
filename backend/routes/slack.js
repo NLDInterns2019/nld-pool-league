@@ -343,48 +343,58 @@ router.post("/showTableCommand", async (req, res) => {
   const type = req.body.text.split(" ")[0];
   const seasonId = req.body.text.split(" ")[1];
 
-  eight_nine_ball_leagues
-    .query()
-    .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
-    .orderBy("points", "desc")
-    .orderBy("goalsFor", "desc")
-    .orderBy("goalsAgainst", "asc")
-    .orderBy("win", "desc")
-    .then(
-      players => {
-        if (!players.length) {
-          const response = {
-            response_type: "in_channel",
-            text: "Invalid parameter(s)"
-          };
-        } else {
-          const table = createConsoleTable(players);
-          const response = {
-            response_type: "in_channel", // public to the channel
-            attachments: [
-              {
-                mrkdwn_in: ["text"],
-                color: colours.seasons,
-                pretext:
-                  (type === "8"
-                    ? ":8ball:"
-                    : type === "9"
-                    ? ":9ball:"
-                    : "TYPE ERROR") +
-                  "* Season " +
-                  seasonId +
-                  " League Table:*",
-                text: "```" + table + "```"
-              }
-            ]
-          };
-          res.json(response);
+  if (type !== "8" && type !== "9") {
+    const response = {
+      response_type: "in_channel",
+      text: "Invalid type"
+    };
+    res.json(response);
+  } else {
+    eight_nine_ball_leagues
+      .query()
+      .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
+      .orderBy("points", "desc")
+      .orderBy("goalsFor", "desc")
+      .orderBy("goalsAgainst", "asc")
+      .orderBy("win", "desc")
+      .then(
+        players => {
+          if (!players.length) {
+            const response = {
+              response_type: "in_channel",
+              text: "Nothing to show"
+            };
+
+            res.json(response);
+          } else {
+            const table = createConsoleTable(players);
+            const response = {
+              response_type: "in_channel", // public to the channel
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: colours.seasons,
+                  pretext:
+                    (type === "8"
+                      ? ":8ball:"
+                      : type === "9"
+                      ? ":9ball:"
+                      : "TYPE ERROR") +
+                    "* Season " +
+                    seasonId +
+                    " League Table:*",
+                  text: "```" + table + "```"
+                }
+              ]
+            };
+            res.json(response);
+          }
+        },
+        e => {
+          res.status(400).json(e);
         }
-      },
-      e => {
-        res.status(400).json(e);
-      }
-    );
+      );
+  }
 });
 
 /* 
