@@ -42,10 +42,9 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  let playersdb = []
+  let playersdb = [];
 
-  await getToken()
-  .then(
+  await getToken().then(
     async result => {
       await axios
         .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
@@ -55,7 +54,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
           headers: { Authorization: `Bearer ${result}` }
         })
         .then(players => {
-          playersdb = players.data
+          playersdb = players.data;
         });
     },
     e => {
@@ -64,11 +63,15 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     }
   );
 
-  const player1 = _.find(playersdb, {nickname: req.body.player1})
-  const player2 = _.find(playersdb, {nickname: req.body.player2})
+  const player1 = _.find(playersdb, { nickname: req.body.player1 });
+  const player2 = _.find(playersdb, { nickname: req.body.player2 });
   //Use the slackId if exist, otherwise use the nickname
-  const player1SlackId = player1.hasOwnProperty("user_metadata") ? player1.user_metadata.slackId : player1.nickname
-  const player2SlackId = player2.hasOwnProperty("user_metadata") ? player2.user_metadata.slackId : player2.nickname
+  const player1SlackId = player1.hasOwnProperty("user_metadata")
+    ? player1.user_metadata.slackId
+    : player1.nickname;
+  const player2SlackId = player2.hasOwnProperty("user_metadata")
+    ? player2.user_metadata.slackId
+    : player2.nickname;
 
   var date = moment(req.body.start)
     .tz("Europe/London")
@@ -130,8 +133,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  await getToken()
-  .then(
+  await getToken().then(
     async result => {
       await axios
         .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
@@ -141,7 +143,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
           headers: { Authorization: `Bearer ${result}` }
         })
         .then(players => {
-          playersdb = players.data
+          playersdb = players.data;
         });
     },
     e => {
@@ -150,11 +152,15 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     }
   );
 
-  const player1 = _.find(playersdb, {nickname: req.body.player1})
-  const player2 = _.find(playersdb, {nickname: req.body.player2})
+  const player1 = _.find(playersdb, { nickname: req.body.player1 });
+  const player2 = _.find(playersdb, { nickname: req.body.player2 });
   //Use the slackId if exist, otherwise use the nickname
-  const player1SlackId = player1.hasOwnProperty("user_metadata") ? player1.user_metadata.slackId : player1.nickname
-  const player2SlackId = player2.hasOwnProperty("user_metadata") ? player2.user_metadata.slackId : player2.nickname
+  const player1SlackId = player1.hasOwnProperty("user_metadata")
+    ? player1.user_metadata.slackId
+    : player1.nickname;
+  const player2SlackId = player2.hasOwnProperty("user_metadata")
+    ? player2.user_metadata.slackId
+    : player2.nickname;
 
   let time = moment(req.body.start)
     .tz("Europe/London")
@@ -181,7 +187,12 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
               : req.body.type === 9
               ? ":9ball:"
               : "TYPE ERROR") + " *Reminder:*",
-          text: `<@${player1SlackId}>` + " vs " + `<@${player2SlackId}>` + " at " + time
+          text:
+            `<@${player1SlackId}>` +
+            " vs " +
+            `<@${player2SlackId}>` +
+            " at " +
+            time
         }
       ]
     })
@@ -400,49 +411,66 @@ function createConsoleTable(players) {
 router.post("/showTableCommand", async (req, res) => {
   const type = req.body.text.split(" ")[0];
   const seasonId = req.body.text.split(" ")[1];
+  const regex = /^[1-9]([0-9])*$/;
 
-  eight_nine_ball_leagues
-    .query()
-    .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
-    .orderBy("points", "desc")
-    .orderBy("goalsFor", "desc")
-    .orderBy("goalsAgainst", "asc")
-    .orderBy("win", "desc")
-    .then(
-      players => {
-        if (!players.length) {
-          const response = {
-            response_type: "in_channel",
-            text: "Invalid parameter(s)"
-          };
-        } else {
-          const table = createConsoleTable(players);
-          const response = {
-            response_type: "in_channel", // public to the channel
-            attachments: [
-              {
-                mrkdwn_in: ["text"],
-                color: colours.seasons,
-                pretext:
-                  (type === "8"
-                    ? ":8ball:"
-                    : type === "9"
-                    ? ":9ball:"
-                    : "TYPE ERROR") +
-                  "* Season " +
-                  seasonId +
-                  " League Table:*",
-                text: "```" + table + "```"
-              }
-            ]
-          };
-          res.json(response);
+  if (type !== "8" && type !== "9") {
+    const response = {
+      response_type: "in_channel",
+      text: "Invalid type"
+    };
+    res.json(response);
+  } else if (!regex.test(seasonId)) {
+    const response = {
+      response_type: "in_channel",
+      text: "Invalid season"
+    };
+    res.json(response);
+  } else {
+    eight_nine_ball_leagues
+      .query()
+      .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
+      .orderBy("points", "desc")
+      .orderBy("goalsFor", "desc")
+      .orderBy("goalsAgainst", "asc")
+      .orderBy("win", "desc")
+      .then(
+        players => {
+          if (!players.length) {
+            const response = {
+              response_type: "in_channel",
+              text: "Nothing to show"
+            };
+
+            res.json(response);
+          } else {
+            const table = createConsoleTable(players);
+            const response = {
+              response_type: "in_channel", // public to the channel
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: colours.seasons,
+                  pretext:
+                    (type === "8"
+                      ? ":8ball:"
+                      : type === "9"
+                      ? ":9ball:"
+                      : "TYPE ERROR") +
+                    "* Season " +
+                    seasonId +
+                    " League Table:*",
+                  text: "```" + table + "```"
+                }
+              ]
+            };
+            res.json(response);
+          }
+        },
+        e => {
+          res.status(400).json(e);
         }
-      },
-      e => {
-        res.status(400).json(e);
-      }
-    );
+      );
+  }
 });
 
 /* 
