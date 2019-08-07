@@ -1,6 +1,5 @@
 import React from "react";
 import backend from "../../api/backend";
-import auth0Client from "../../Auth";
 
 import Axios from "axios";
 

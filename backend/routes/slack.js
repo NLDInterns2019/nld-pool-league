@@ -4,6 +4,10 @@ const Joi = require("joi");
 const auth = require("../auth");
 const moment = require("moment-timezone");
 const cTable = require("console.table");
+const axios = require("axios");
+const _ = require("lodash");
+
+var getToken = require("../test/function/token");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -37,6 +41,34 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  let playersdb = []
+
+  await getToken()
+  .then(
+    async result => {
+      await axios
+        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+          params: {
+            search_engine: "v3"
+          },
+          headers: { Authorization: `Bearer ${result}` }
+        })
+        .then(players => {
+          playersdb = players.data
+        });
+    },
+    e => {
+      res.status(400).send(e);
+      return;
+    }
+  );
+
+  const player1 = _.find(playersdb, {nickname: req.body.player1})
+  const player2 = _.find(playersdb, {nickname: req.body.player2})
+  //Use the slackId if exist, otherwise use the nickname
+  const player1SlackId = player1.hasOwnProperty("user_metadata") ? player1.user_metadata.slackId : player1.nickname
+  const player2SlackId = player2.hasOwnProperty("user_metadata") ? player2.user_metadata.slackId : player2.nickname
+
   var date = moment(req.body.start)
     .tz("Europe/London")
     .format("DD-MMM-YYYY");
@@ -59,9 +91,9 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
               ? ":9ball:"
               : "TYPE ERROR") + " *Booking created:*",
           text:
-            req.body.player1 +
+            `<@${player1SlackId}>` +
             " vs " +
-            req.body.player2 +
+            `<@${player2SlackId}>` +
             " on " +
             date +
             " at " +
@@ -97,6 +129,32 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  await getToken()
+  .then(
+    async result => {
+      await axios
+        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+          params: {
+            search_engine: "v3"
+          },
+          headers: { Authorization: `Bearer ${result}` }
+        })
+        .then(players => {
+          playersdb = players.data
+        });
+    },
+    e => {
+      res.status(400).send(e);
+      return;
+    }
+  );
+
+  const player1 = _.find(playersdb, {nickname: req.body.player1})
+  const player2 = _.find(playersdb, {nickname: req.body.player2})
+  //Use the slackId if exist, otherwise use the nickname
+  const player1SlackId = player1.hasOwnProperty("user_metadata") ? player1.user_metadata.slackId : player1.nickname
+  const player2SlackId = player2.hasOwnProperty("user_metadata") ? player2.user_metadata.slackId : player2.nickname
+
   let time = moment(req.body.start)
     .tz("Europe/London")
     .format("HH:mm");
@@ -104,7 +162,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     .subtract(15, "minutes")
     .unix();
 
-  if (moment() > moment(req.body.start).subtract(15, "minutes")) {
+  if (moment() >= moment(req.body.start).subtract(15, "minutes")) {
     res.status(204).send();
     return;
   }
@@ -122,7 +180,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
               : req.body.type === 9
               ? ":9ball:"
               : "TYPE ERROR") + " *Reminder:*",
-          text: req.body.player1 + " vs " + req.body.player2 + " at " + time
+          text: `<@${player1SlackId}>` + " vs " + `<@${player2SlackId}>` + " at " + time
         }
       ]
     })
