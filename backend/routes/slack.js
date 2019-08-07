@@ -8,6 +8,7 @@ const axios = require("axios");
 const _ = require("lodash");
 
 var getToken = require("../test/function/token");
+const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -368,7 +369,7 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
 });
 
 /* create a league table string from an array of players */
-createConsoleTable = players => {
+function createConsoleTable(players) {
   var values = [];
   for (var i = 0; i < players.length; i++) {
     values.push([
@@ -390,7 +391,7 @@ createConsoleTable = players => {
   );
 
   return table;
-};
+}
 
 /* 
   POST handler for /api/slack/showTableCommand
@@ -399,7 +400,8 @@ createConsoleTable = players => {
 router.post("/showTableCommand", async (req, res) => {
   const type = req.body.text.split(" ")[0];
   const seasonId = req.body.text.split(" ")[1];
-  const players = eight_nine_ball_leagues
+
+  eight_nine_ball_leagues
     .query()
     .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
     .orderBy("points", "desc")
@@ -408,63 +410,39 @@ router.post("/showTableCommand", async (req, res) => {
     .orderBy("win", "desc")
     .then(
       players => {
-        if (!players.length) res.status(404).send();
-        else res.json(players);
+        if (!players.length) {
+          const response = {
+            response_type: "in_channel",
+            text: "Invalid parameter(s)"
+          };
+        } else {
+          const table = createConsoleTable(players);
+          const response = {
+            response_type: "in_channel", // public to the channel
+            attachments: [
+              {
+                mrkdwn_in: ["text"],
+                color: colours.seasons,
+                pretext:
+                  (type === "8"
+                    ? ":8ball:"
+                    : type === "9"
+                    ? ":9ball:"
+                    : "TYPE ERROR") +
+                  "* Season " +
+                  seasonId +
+                  " League Table:*",
+                text: "```" + table + "```"
+              }
+            ]
+          };
+          res.json(response);
+        }
       },
       e => {
         res.status(400).json(e);
       }
     );
-
-  const table = createConsoleTable(players);
-
-  const response = {
-    response_type: "in_channel", // public to the channel
-    attachments: [
-      {
-        mrkdwn_in: ["text"],
-        color: colours.seasons,
-        pretext:
-          (type === "8" ? ":8ball:" : type === "9" ? ":9ball:" : "TYPE ERROR") +
-          "* Season " +
-          seasonId +
-          " League Table:*",
-        text: "```" + table + "```"
-      }
-    ]
-  };
-
-  res.json(response);
-
-  // const response = await web.chat
-  //   .postMessage({
-  //     channel: channel,
-  //     attachments: [
-  //       {
-  //         mrkdwn_in: ["text"],
-  //         color: colours.seasons,
-  //         // pretext:
-  //         // (req.query.text.split("+")[0] === 8
-  //         //   ? ":8ball:"
-  //         //   : req.query.text.split("+")[0] === 9
-  //         //   ? ":9ball:"
-  //         //   : "TYPE ERROR") +
-  //         // "* Season " +
-  //         // req.query.text.split("+")[1] +
-  //         // " League Table:*",
-  //         //text: "```" + req.query.table + "```"
-  //         text: "Table goes here"
-  //       }
-  //     ]
-  //   })
-  //   .then(
-  //     response => {
-  //       res.status(200).json(response);
-  //     },
-  //     e => {
-  //       res.status(400).send(e);
-  //     }
-  //   );
 });
 
 /* 
