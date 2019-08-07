@@ -313,48 +313,58 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
   Function: league table slash command (/table type season_id)
 */
 router.post("/showTableCommand", async (req, res) => {
-  console.log("function run");
-  const schema = {
-    type: Joi.number().required(),
-    seasonId: Joi.number().required()
-    //table: Joi.string().required()
+  let split = req.body.text.split("+");
+
+  const type = split[0];
+  const seasonId = split[1];
+
+  const response = {
+    response_type: "in_channel", // public to the channel
+    attachments: [
+      {
+        mrkdwn_in: ["text"],
+        color: colours.seasons,
+        pretext:
+          (type === 8 ? ":8ball:" : type === 9 ? ":9ball:" : "TYPE ERROR") +
+          "* Season " +
+          seasonId +
+          " League Table:*",
+        text: "Table goes here"
+      }
+    ]
   };
 
-  //Validation
-  if (Joi.validate(req.query, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
+  res.json(response);
 
-  const response = await web.chat
-    .postMessage({
-      channel: channel,
-      attachments: [
-        {
-          mrkdwn_in: ["text"],
-          color: colours.seasons,
-          // pretext:
-          // (req.query.text.split("+")[0] === 8
-          //   ? ":8ball:"
-          //   : req.query.text.split("+")[0] === 9
-          //   ? ":9ball:"
-          //   : "TYPE ERROR") +
-          // "* Season " +
-          // req.query.text.split("+")[1] +
-          // " League Table:*",
-          //text: "```" + req.query.table + "```"
-          text: "Table goes here"
-        }
-      ]
-    })
-    .then(
-      response => {
-        res.status(200).json(response);
-      },
-      e => {
-        res.status(400).send(e);
-      }
-    );
+  // const response = await web.chat
+  //   .postMessage({
+  //     channel: channel,
+  //     attachments: [
+  //       {
+  //         mrkdwn_in: ["text"],
+  //         color: colours.seasons,
+  //         // pretext:
+  //         // (req.query.text.split("+")[0] === 8
+  //         //   ? ":8ball:"
+  //         //   : req.query.text.split("+")[0] === 9
+  //         //   ? ":9ball:"
+  //         //   : "TYPE ERROR") +
+  //         // "* Season " +
+  //         // req.query.text.split("+")[1] +
+  //         // " League Table:*",
+  //         //text: "```" + req.query.table + "```"
+  //         text: "Table goes here"
+  //       }
+  //     ]
+  //   })
+  //   .then(
+  //     response => {
+  //       res.status(200).json(response);
+  //     },
+  //     e => {
+  //       res.status(400).send(e);
+  //     }
+  //   );
 });
 
 /* 
