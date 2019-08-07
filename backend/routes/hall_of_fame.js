@@ -46,27 +46,17 @@ router.get("/", async (req, res) => {
   Function: To calculate HoF achievement winners
 */
 router.post("/calculate", async (req, res) => {
-  type = req.body.type;
+  type = parseInt(req.query.type, 10);
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];
-  const schema = {
-    type: Joi.number()
-      .integer()
-      .required()
-  };
-
-  //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
-    return;
-  }
 
   let leagues = await eight_nine_ball_leagues.query().where({
     type: type
   });
   if (leagues === 0) {
     res.status(404).send();
+    return;
   }
 
   //go through all league rows relevant
@@ -177,6 +167,7 @@ router.post("/calculate", async (req, res) => {
   });
   if (fixtures === 0) {
     res.status(404).send();
+    return;
   }
 
   //needs the full HoF DB this time
@@ -185,6 +176,7 @@ router.post("/calculate", async (req, res) => {
   });
   if (fixtures === 0) {
     res.status(404).send();
+    return;
   }
 
   

@@ -8,6 +8,7 @@ import SubNavBar from "./nav/SubNavBar.js";
 import Header from "./nav/Header.js";
 import "../App.css";
 import HoFTable from "./halloffame/HoFTable";
+import HoFTable9 from "./halloffame/HoFTable9";
 
 class HoFPage extends React.Component {
   constructor(props) {
@@ -36,23 +37,18 @@ class HoFPage extends React.Component {
     await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
-    const result = await backend.get("/api/hall_of_fame", {
-      params: {
-        type: 8
-      }
+    const result = await backend.get("/api/hall_of_fame?type=8", {
     });
 
     this.setState({ players: result.data });
 
-    const HoF9 = await backend.get("/api/hall_of_fame", {
-      params: {
-        type: 9
-      }
+    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {
     });
 
     this.setState({ HoF9: HoF9.data });
 
     this.createHoF();
+    this.createHoF9();
   };
 
   createHoF = async () => {
@@ -63,10 +59,29 @@ class HoFPage extends React.Component {
       };
 
       await backend.post(
-        "/api/hall_of_fame/calculate",
+        "/api/hall_of_fame/calculate?type=8",
         {
-          type: parseInt(this.state.type)
-        },
+          headers: headers
+        }
+      ).then((result) => {
+        this.setState({players: result.data})
+      })
+    } catch (e) {
+      if (e.response.status === 401) {
+        this.toastUnauthorised();
+      }
+    }
+  };
+
+  createHoF9 = async () => {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth0Client.getIdToken()}`
+      };
+
+      await backend.post(
+        "/api/hall_of_fame/calculate?type=9",
         {
           headers: headers
         }
@@ -115,7 +130,7 @@ class HoFPage extends React.Component {
               <h3>9-Ball</h3>
               <span className="nine-ball-icon" alt="nine ball" />
             </div>
-            <HoFTable HoF9={this.state.HoF9} />
+            <HoFTable9 HoF9={this.state.HoF9} />
           </div>
         </div>
       </div>
