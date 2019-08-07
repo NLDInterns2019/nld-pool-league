@@ -342,6 +342,7 @@ function createConsoleTable(players) {
 router.post("/showTableCommand", async (req, res) => {
   const type = req.body.text.split(" ")[0];
   const seasonId = req.body.text.split(" ")[1];
+
   eight_nine_ball_leagues
     .query()
     .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
@@ -351,27 +352,34 @@ router.post("/showTableCommand", async (req, res) => {
     .orderBy("win", "desc")
     .then(
       players => {
-        const table = createConsoleTable(players);
-        const response = {
-          response_type: "in_channel", // public to the channel
-          attachments: [
-            {
-              mrkdwn_in: ["text"],
-              color: colours.seasons,
-              pretext:
-                (type === "8"
-                  ? ":8ball:"
-                  : type === "9"
-                  ? ":9ball:"
-                  : "TYPE ERROR") +
-                "* Season " +
-                seasonId +
-                " League Table:*",
-              text: "```" + table + "```"
-            }
-          ]
-        };
-        res.json(response);
+        if (!players.length) {
+          const response = {
+            response_type: "in_channel",
+            text: "Invalid parameter(s)"
+          };
+        } else {
+          const table = createConsoleTable(players);
+          const response = {
+            response_type: "in_channel", // public to the channel
+            attachments: [
+              {
+                mrkdwn_in: ["text"],
+                color: colours.seasons,
+                pretext:
+                  (type === "8"
+                    ? ":8ball:"
+                    : type === "9"
+                    ? ":9ball:"
+                    : "TYPE ERROR") +
+                  "* Season " +
+                  seasonId +
+                  " League Table:*",
+                text: "```" + table + "```"
+              }
+            ]
+          };
+          res.json(response);
+        }
       },
       e => {
         res.status(400).json(e);
