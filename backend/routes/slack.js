@@ -310,7 +310,7 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
 });
 
 /* create a league table string from an array of players */
-createConsoleTable = players => {
+function createConsoleTable(players) {
   var values = [];
   for (var i = 0; i < players.length; i++) {
     values.push([
@@ -332,7 +332,7 @@ createConsoleTable = players => {
   );
 
   return table;
-};
+}
 
 /* 
   POST handler for /api/slack/showTableCommand
@@ -341,7 +341,6 @@ createConsoleTable = players => {
 router.post("/showTableCommand", async (req, res) => {
   const type = req.body.text.split(" ")[0];
   const seasonId = req.body.text.split(" ")[1];
-  let players;
   eight_nine_ball_leagues
     .query()
     .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
