@@ -313,7 +313,7 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
   Function: league table slash command (/table type season_id)
 */
 router.post("/showTableCommand", async (req, res) => {
-  let split = req.body.text.split("+");
+  let split = req.body.text.split(" ");
 
   const type = split[0];
   const seasonId = split[1];
