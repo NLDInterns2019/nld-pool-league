@@ -12,7 +12,7 @@ const LeagueTableHeader = () => {
         <th>L</th>
         <th>F</th>
         <th>A</th>
-        {/* <th>Form</th> */}
+        <th>Form</th>
         <th>Pts</th>
         <th>Paid?</th>
       </tr>

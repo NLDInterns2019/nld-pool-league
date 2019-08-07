@@ -17,12 +17,21 @@ const results = [
   "W"
 ];
 
+const twoResults = ["W", "D"];
+const noResults = [];
+
 /* takes an array of results and returns icons for the last five */
 const getPlayerForm = results => {
   var formToDisplay = [];
   /* if the player hasn't played any games */
   if (results.length === 0) {
-    formToDisplay = " - ";
+    for (var i = 0; i < 5; i++) {
+      formToDisplay = formToDisplay.concat(
+        <div className="leagueTableFormItem">
+          <div className="no-game-icon" alt="no game" />
+        </div>
+      );
+    }
     /* if the player has played less than 5 games */
   } else if (results.length < 5) {
     /* go from the most recent game to the oldest */
@@ -52,6 +61,13 @@ const getPlayerForm = results => {
       } else {
         formToDisplay = formToDisplay.concat("ERROR");
       }
+    }
+    for (var i = 0; i < 5 - results.length; i++) {
+      formToDisplay = formToDisplay.concat(
+        <div className="leagueTableFormItem">
+          <div className="no-game-icon" alt="no game" />
+        </div>
+      );
     }
     /* if the player has played 5 or more games */
   } else {
@@ -101,12 +117,12 @@ const LeagueTableBody = props => {
         <td align="center">{player.lose}</td>
         <td align="center">{player.goalsFor}</td>
         <td align="center">{player.goalsAgainst}</td>
-        {/* <td align="center" className="leagueTableForm"> */}
-        {/* store all the players results in an array and call it like this? */}
-        {/* {getPlayerForm(player.results)} */}
-        {/* placeholder array being sent for now */}
-        {/* {getPlayerForm(results)} */}
-        {/* </td> */}
+        <td align="center" className="leagueTableForm">
+          {/* store all the players results in an array and call it like this? */}
+          {/* {getPlayerForm(player.results)} */}
+          {/* placeholder array being sent for now */}
+          {getPlayerForm(results)}
+        </td>
         <td align="center">{player.points}</td>
         {player.paid ? (
           <td className="leagueTablePaymentCol" id="hasPaid" align="center">
