@@ -28,7 +28,7 @@ const getPlayerForm = forms => {
     if (forms.charAt(i) === "-") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
         <div className="leagueTableFormItem">
-          -
+          <div className="no-game-icon" alt="no game" />
         </div>
       );
     }
