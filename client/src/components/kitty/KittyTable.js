@@ -8,9 +8,9 @@ const KittyTable = props => {
         <td>{k.id}</td>
         <td>{moment(k.date).format("DD-MM-YY")}</td>
         <td>
-          {k.type === "8" ? (
+          {k.type === 8 ? (
             <div className="eight-ball-icon-20" alt="eight ball" />
-          ) : k.type === "9" ? (
+          ) : k.type === 9 ? (
             <div className="nine-ball-icon-20" alt="nine ball" />
           ) : (
             "type error"
