@@ -722,13 +722,14 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
   Function: general pool league command (/pool function type season_id)
 */
 router.post("/poolCommand", async (req, res) => {
-  const func = req.body.text.split(" ")[0];
-  const type = req.body.text.split(" ")[1];
-  const seasonId = req.body.text.split(" ")[2];
+  const text = req.body.text;
+  const func = text.split(" ")[0];
+  const type = text.split(" ")[1];
+  const seasonId = text.split(" ")[2];
   const regex = /^[1-9]([0-9])*$/;
 
   // show the league table for given season
-  if (func === "table") {
+  if (func === "table" && text.split(" ").length === 3) {
     if (type !== "8" && type !== "9") {
       const response = {
         response_type: "in_channel",
@@ -787,7 +788,7 @@ router.post("/poolCommand", async (req, res) => {
           }
         );
     }
-  } else if (func === "today") {
+  } else if (func === "today" && text.split(" ").length === 1) {
     let start = moment()
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
       .toDate()
@@ -829,7 +830,7 @@ router.post("/poolCommand", async (req, res) => {
         };
         res.json(response);
       });
-  } else if (func === "tomorrow") {
+  } else if (func === "tomorrow" && text.split(" ").length === 1) {
     if (moment().day() === 5 || moment().day() === 6) {
       // if today is a Friday or Saturday, there can't be games tomorrow
       const response = {
