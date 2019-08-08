@@ -22,7 +22,8 @@ const colours = {
   results: "#ff9c33", // orange
   reminders: "#e23e4b", // red
   seasons: "#1fbfb7", // blue
-  kitty: "#8532a8" // purple
+  kitty: "#8532a8", // purple
+  info: "#fcba03" // yellow
 };
 
 /* 
@@ -710,7 +711,15 @@ router.post("/poolCommand", async (req, res) => {
   } else {
     const response = {
       response_type: "in_channel",
-      text: "Invalid function"
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.info,
+          pretext: "*Invalid function*",
+          text:
+            "*The valid functions are:*\n`/pool table type season_id`\n`/pool today`\n`/pool tomorrow`"
+        }
+      ]
     };
     res.json(response);
   }
