@@ -2,7 +2,7 @@ import React from "react";
 
 const UnpaidSeasonsTableBody = props => {
   return props.unpaid.map(season => (
-    <tr>
+    <tr key={season.type + season.seasonId}>
       <td id="unpaid-type">
         {season.type === 8 ? (
           <div className="eight-ball-icon-20" alt="eight ball" />
