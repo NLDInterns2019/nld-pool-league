@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
   Function: To calculate HoF achievement winners
 */
 router.post("/calculate", async (req, res) => {
-  type = parseInt(req.query.type, 10);
+  type = parseInt(req.body.type, 10);
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];

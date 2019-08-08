@@ -53,9 +53,6 @@ class UserPage extends React.Component {
         staffName: this.state.player
       }
     });
-
-    console.log(unpaid);
-
     this.setState({ unpaid: unpaid.data });
   };
 

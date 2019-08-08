@@ -150,7 +150,8 @@ router.post("/add/players", auth.checkJwt, (req, res) => {
         seasonId: Joi.number()
           .integer()
           .required(),
-        staffName: Joi.string().required()
+        staffName: Joi.string().required(),
+        form: Joi.string().required()
       })
     )
   };
