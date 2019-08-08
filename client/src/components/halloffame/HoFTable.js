@@ -15,6 +15,8 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
 
+  console.log(improved)
+  console.log(retire)
   if (topPlayer !== undefined) {
     if (topPlayer.winRate === 0) {
       topPlayer = null;
