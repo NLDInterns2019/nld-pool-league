@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="73.279702"
-     inkscape:cy="-94.990302"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="1.9479703"
+     inkscape:cy="7.8956991"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -49,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,28 +59,25 @@
      id="layer1"
      transform="translate(-40.13913,-106.30112)">
     <g
-       transform="translate(17.773425,3.1043243e-6)"
-       id="g840">
+       id="g828">
       <rect
          ry="1.3096207"
          y="106.30112"
-         x="22.365705"
+         x="40.13913"
          height="6.3499999"
          width="6.3499999"
          id="rect815"
          style="opacity:1;fill:#8dd35f;fill-opacity:1;stroke:none;stroke-width:0.0816762;stroke-miterlimit:4;stroke-dasharray:none" />
-      <text
-         transform="scale(0.88896715,1.124901)"
+      <g
          id="text823"
-         y="98.92495"
-         x="26.182257"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.58611107px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.06138813"
-         xml:space="preserve"><tspan
+         transform="scale(0.88896713,1.124901)"
+         aria-label="W">
+        <path
+           id="path822"
            style="fill:#ffffff;stroke-width:0.06138813"
-           y="98.92495"
-           x="26.182257"
-           id="tspan821"
-           sodipodi:role="line">W</tspan></text>
+           d="m 51.105671,95.71468 -1.082322,3.210277 H 49.665632 L 48.72548,96.187049 47.780741,98.924957 H 47.42761 L 46.345288,95.71468 h 0.348545 l 0.926394,2.760838 0.958497,-2.760838 h 0.316442 l 0.944739,2.774597 0.940152,-2.774597 z" />
+      </g>
     </g>
   </g>
 </svg>

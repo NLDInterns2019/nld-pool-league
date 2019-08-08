@@ -3,6 +3,13 @@ var router = express.Router();
 const Joi = require("joi");
 const auth = require("../auth");
 const moment = require("moment-timezone");
+const cTable = require("console.table");
+const axios = require("axios");
+const _ = require("lodash");
+
+var getToken = require("../test/function/token");
+const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
+const bookingsDB = require("../models/bookings");
 
 const { WebClient } = require("@slack/web-api");
 
@@ -36,6 +43,37 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  let playersdb = [];
+
+  await getToken().then(
+    async result => {
+      await axios
+        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+          params: {
+            search_engine: "v3"
+          },
+          headers: { Authorization: `Bearer ${result}` }
+        })
+        .then(players => {
+          playersdb = players.data;
+        });
+    },
+    e => {
+      res.status(400).send(e);
+      return;
+    }
+  );
+
+  const player1 = _.find(playersdb, { nickname: req.body.player1 });
+  const player2 = _.find(playersdb, { nickname: req.body.player2 });
+  //Use the slackId if exist, otherwise use the nickname
+  const player1SlackId = player1.hasOwnProperty("user_metadata")
+    ? player1.user_metadata.slackId
+    : player1.nickname;
+  const player2SlackId = player2.hasOwnProperty("user_metadata")
+    ? player2.user_metadata.slackId
+    : player2.nickname;
+
   var date = moment(req.body.start)
     .tz("Europe/London")
     .format("DD-MMM-YYYY");
@@ -58,9 +96,9 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
               ? ":9ball:"
               : "TYPE ERROR") + " *Booking created:*",
           text:
-            req.body.player1 +
+            `<@${player1SlackId}>` +
             " vs " +
-            req.body.player2 +
+            `<@${player2SlackId}>` +
             " on " +
             date +
             " at " +
@@ -96,6 +134,35 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  await getToken().then(
+    async result => {
+      await axios
+        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+          params: {
+            search_engine: "v3"
+          },
+          headers: { Authorization: `Bearer ${result}` }
+        })
+        .then(players => {
+          playersdb = players.data;
+        });
+    },
+    e => {
+      res.status(400).send(e);
+      return;
+    }
+  );
+
+  const player1 = _.find(playersdb, { nickname: req.body.player1 });
+  const player2 = _.find(playersdb, { nickname: req.body.player2 });
+  //Use the slackId if exist, otherwise use the nickname
+  const player1SlackId = player1.hasOwnProperty("user_metadata")
+    ? player1.user_metadata.slackId
+    : player1.nickname;
+  const player2SlackId = player2.hasOwnProperty("user_metadata")
+    ? player2.user_metadata.slackId
+    : player2.nickname;
+
   let time = moment(req.body.start)
     .tz("Europe/London")
     .format("HH:mm");
@@ -103,7 +170,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     .subtract(15, "minutes")
     .unix();
 
-  if (moment() > moment(req.body.start).subtract(15, "minutes")) {
+  if (moment() >= moment(req.body.start).subtract(15, "minutes")) {
     res.status(204).send();
     return;
   }
@@ -121,7 +188,12 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
               : req.body.type === 9
               ? ":9ball:"
               : "TYPE ERROR") + " *Reminder:*",
-          text: req.body.player1 + " vs " + req.body.player2 + " at " + time
+          text:
+            `<@${player1SlackId}>` +
+            " vs " +
+            `<@${player2SlackId}>` +
+            " at " +
+            time
         }
       ]
     })
@@ -306,6 +378,206 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
         res.status(400).send(e);
       }
     );
+});
+
+/* create a league table string from an array of players */
+function createConsoleTable(players) {
+  var values = [];
+  for (var i = 0; i < players.length; i++) {
+    values.push([
+      i + 1,
+      players[i].staffName,
+      players[i].play,
+      players[i].win,
+      players[i].draw,
+      players[i].lose,
+      players[i].goalsFor,
+      players[i].goalsAgainst,
+      players[i].points
+    ]);
+  }
+
+  const table = cTable.getTable(
+    ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
+    values
+  );
+
+  return table;
+}
+
+/* 
+  POST handler for /api/slack/showTableCommand
+  Function: league table slash command (/table type season_id)
+*/
+router.post("/showTableCommand", async (req, res) => {
+  const type = req.body.text.split(" ")[0];
+  const seasonId = req.body.text.split(" ")[1];
+  const regex = /^[1-9]([0-9])*$/;
+
+  if (type !== "8" && type !== "9") {
+    const response = {
+      response_type: "in_channel",
+      text: "Invalid type"
+    };
+    res.json(response);
+  } else if (!regex.test(seasonId)) {
+    const response = {
+      response_type: "in_channel",
+      text: "Invalid season"
+    };
+    res.json(response);
+  } else {
+    eight_nine_ball_leagues
+      .query()
+      .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
+      .orderBy("points", "desc")
+      .orderBy("goalsFor", "desc")
+      .orderBy("goalsAgainst", "asc")
+      .orderBy("win", "desc")
+      .then(
+        players => {
+          if (!players.length) {
+            const response = {
+              response_type: "in_channel",
+              text: "Nothing to show"
+            };
+
+            res.json(response);
+          } else {
+            const table = createConsoleTable(players);
+            const response = {
+              response_type: "in_channel", // public to the channel
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: colours.seasons,
+                  pretext:
+                    (type === "8"
+                      ? ":8ball:"
+                      : type === "9"
+                      ? ":9ball:"
+                      : "TYPE ERROR") +
+                    "* Season " +
+                    seasonId +
+                    " League Table:*",
+                  text: "```" + table + "```"
+                }
+              ]
+            };
+            res.json(response);
+          }
+        },
+        e => {
+          res.status(400).json(e);
+        }
+      );
+  }
+});
+
+/* 
+  POST handler for /api/slack/todayCommand
+  Function: today's fixtures slash command (/today)
+*/
+router.post("/todayCommand", async (req, res) => {
+  let start = moment()
+    .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+    .toDate()
+    .toISOString();
+  let end = moment(start)
+    .add(1, "day")
+    .toDate()
+    .toISOString();
+
+  bookingsDB
+    .query()
+    .whereBetween("start", [start, end])
+    .then(bookings => {
+      let message = "";
+      if (bookings.length) {
+        bookings.map(booking => {
+          message = message.concat(
+            booking.title.toLowerCase() +
+              " at " +
+              moment(booking.start)
+                .tz("Europe/London")
+                .format("HH:mm") +
+              "\n"
+          );
+        });
+      } else {
+        message = "There are no matches scheduled for today";
+      }
+      const response = {
+        response_type: "in_channel",
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.reminders,
+            pretext: "*Today's Fixtures:*",
+            text: message
+          }
+        ]
+      };
+      res.json(response);
+    });
+});
+
+/* 
+  POST handler for /api/slack/tomorrowCommand
+  Function: tomorrow's fixtures slash command (/today)
+*/
+router.post("/tomorrowCommand", async (req, res) => {
+  if (moment().day() === 5 || moment().day() === 6) {
+    // if today is a Friday or Saturday, there can't be games tomorrow
+    const response = {
+      response_type: "in_channel",
+      text: "There are no games at the weekend"
+    };
+    res.json(response);
+  } else {
+    let start = moment()
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+      .add(1, "day")
+      .toDate()
+      .toISOString();
+    let end = moment(start)
+      .add(1, "day")
+      .toDate()
+      .toISOString();
+
+    bookingsDB
+      .query()
+      .whereBetween("start", [start, end])
+      .then(bookings => {
+        let message = "";
+        if (bookings.length) {
+          bookings.map(booking => {
+            message = message.concat(
+              booking.title.toLowerCase() +
+                " at " +
+                moment(booking.start)
+                  .tz("Europe/London")
+                  .format("HH:mm") +
+                "\n"
+            );
+          });
+        } else {
+          message = "There are no matches scheduled for tomorrow";
+        }
+        const response = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              mrkdwn_in: ["text"],
+              color: colours.reminders,
+              pretext: "*Tomorrow's Fixtures:*",
+              text: message
+            }
+          ]
+        };
+        res.json(response);
+      });
+  }
 });
 
 /* 

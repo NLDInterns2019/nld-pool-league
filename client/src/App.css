@@ -1185,6 +1185,14 @@ tr td:last-child {
   transition: background-image 0.3s linear;
 }
 
+.no-game-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background-image: url("./assets/no-game.svg");
+  transition: background-image 0.3s linear;
+}
+
 .no-entry-icon {
   vertical-align: middle;
   width: 24px;
@@ -1369,6 +1377,12 @@ tr td:last-child {
     background-image: url("./assets/loss-small.svg");
   }
 
+  .no-game-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("./assets/no-game-small.svg");
+  }
+
   .tick-icon {
     width: 18px;
     height: 18px;
@@ -1413,6 +1427,12 @@ tr td:last-child {
     width: 24px;
     height: 24px;
     background-image: url("./assets/loss.svg");
+  }
+
+  .no-game-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url("./assets/no-game.svg");
   }
 
   .tick-icon {

@@ -3,8 +3,8 @@ exports.up = function(knex) {
     return knex.schema.createTable("kitty", table => {
         table.increments();
         table.string("date").notNullable();
-        table.string("type").notNullable();
-        table.string("seasonId").notNullable();
+        table.integer("type").notNullable();
+        table.integer("seasonId").notNullable();
         table.string("staffName").notNullable();
         table.string("description").notNullable();
         table.float("value", 2).notNullable();
