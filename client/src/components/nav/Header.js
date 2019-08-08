@@ -5,33 +5,33 @@ import auth0Client from "../../Auth";
 import HeaderNavigator from "./HeaderNavigator.js";
 import Login from "./Login";
 
-const Header = props => {
-  var currentPath = window.location.pathname;
+const Header = () => {
   /* SIGN OUT */
   const signOut = () => {
     auth0Client.signOut();
-    props.history.replace("/");
+    this.props.history.replace("/");
   };
+  
+    return (
+      <div className="header" id="headerBox">
+        <div className="headerLeft">
+          <Link to="/">POOL MANAGER</Link>
+        </div>
+        <div className="headerRight">
+          <div className="headerRight-left">
+            {matchPath(window.location.pathname, { path: "/", exact: true }) ? (
+              <div />
+            ) : (
+              <HeaderNavigator />
+            )}
+          </div>
+          <div className="headerRight-right">
+            <Login signOut={signOut} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  return (
-    <div className="header" id="headerBox">
-      <div className="headerLeft">
-        <Link to="/">POOL MANAGER</Link>
-      </div>
-      <div className="headerRight">
-        <div className="headerRight-left">
-          {matchPath(currentPath, { path: "/", exact: true }) ? (
-            <div />
-          ) : (
-            <HeaderNavigator />
-          )}
-        </div>
-        <div className="headerRight-right">
-          <Login signOut={signOut} />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default withRouter(Header);
