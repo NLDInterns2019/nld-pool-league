@@ -559,13 +559,27 @@ router.post("/poolCommand", async (req, res) => {
     if (type !== "8" && type !== "9") {
       const response = {
         response_type: "in_channel",
-        text: "Invalid type"
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.info,
+            pretext: "*Invalid type*",
+            text: "The valid types are: `8` and `9`"
+          }
+        ]
       };
       res.json(response);
     } else if (!regex.test(seasonId)) {
       const response = {
         response_type: "in_channel",
-        text: "Invalid season"
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.info,
+            pretext: "*Invalid season*",
+            text: "Season has to be a number bigger than zero"
+          }
+        ]
       };
       res.json(response);
     } else {
@@ -661,7 +675,14 @@ router.post("/poolCommand", async (req, res) => {
       // if today is a Friday or Saturday, there can't be games tomorrow
       const response = {
         response_type: "in_channel",
-        text: "There are no games at the weekend"
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.info,
+            pretext: "*Error*",
+            text: "There are no games at the weekend"
+          }
+        ]
       };
       res.json(response);
     } else {
