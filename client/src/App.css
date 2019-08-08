@@ -962,7 +962,7 @@ tr td:last-child {
   display: inline-block;
 }
 
-.unpaid-seasons p {
+.unpaid-seasons .unpaid-text {
   color: red;
   font-weight: bold;
 }

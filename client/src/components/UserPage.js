@@ -119,6 +119,20 @@ class UserPage extends React.Component {
     });
   };
 
+  unpaidSeasonsTable = () => {
+    return this.state.unpaid.length === 0 ? (
+      <p className="paid-text">You have no outstanding payments</p>
+    ) : (
+      <div>
+        <p className="unpaid-text">You have outstanding payments for:</p>
+        <table cellSpacing="0" id="unpaid-seasons-table">
+          <UnpaidSeasonsTableHeader />
+          <UnpaidSeasonsTableBody unpaid={this.state.unpaid} />
+        </table>
+      </div>
+    );
+  };
+
   render() {
     return (
       <div className="app">
@@ -146,13 +160,7 @@ class UserPage extends React.Component {
               <p>
                 Your winning rate is <b>50%</b>
               </p>
-              <div className="unpaid-seasons">
-                <p>You have outstanding payments for:</p>
-                <table cellSpacing="0" id="unpaid-seasons-table">
-                  <UnpaidSeasonsTableHeader />
-                  <UnpaidSeasonsTableBody unpaid={this.state.unpaid} />
-                </table>
-              </div>
+              <div className="unpaid-seasons">{this.unpaidSeasonsTable()}</div>
             </div>
             <div className="content">
               <div className="contentLeft">
