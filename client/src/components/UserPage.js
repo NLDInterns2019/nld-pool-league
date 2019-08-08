@@ -134,7 +134,7 @@ class UserPage extends React.Component {
         ) : (
           //Logged In
           <div style={{ textAlign: "center" }}>
-            <div style={{ marginBottom: "4rem" }}>
+            <div className="player-info">
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
@@ -144,13 +144,13 @@ class UserPage extends React.Component {
               <p>
                 Your winning rate is <b>50%</b>
               </p>
-              <div style={{ display: "inline-block", color: "red" }}>
-                <p style={{fontWeight:"bold"}}>You havent paid:</p>
-                <ol style={{ textAlign: "left" }}>
+              <div className="unpaid-seasons-list">
+                <p>You have outstanding payments for:</p>
+                <ul>
                   {this.state.unpaid.map(season => (
                     <li>{`${season.type}-ball Season ${season.seasonId}`}</li>
                   ))}
-                </ol>
+                </ul>
               </div>
             </div>
             <div className="content">
@@ -160,11 +160,13 @@ class UserPage extends React.Component {
                 <SeasonAccordion type="9" staffName={this.state.player} />
               </div>
               <div className="contentRight">
-                {this.state.bookings.length ? (
-                  <UpcomingMatch bookings={this.state.bookings} />
-                ) : (
-                  <h3>You have no arranged fixtures</h3>
-                )}
+                <div className="arrangedFixturesContainer">
+                  {this.state.bookings.length ? (
+                    <UpcomingMatch bookings={this.state.bookings} />
+                  ) : (
+                    <h3>You have no arranged fixtures</h3>
+                  )}
+                </div>
               </div>
             </div>
           </div>

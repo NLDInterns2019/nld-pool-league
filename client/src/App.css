@@ -921,7 +921,7 @@ tr td:last-child {
   opacity: 1;
 }
 
-/* ==== Upcoming Matches ==== */
+/* ==== Dashboard ==== */
 .upcomingMatchesTitle {
   display: flex;
   flex-direction: row;
@@ -943,7 +943,6 @@ tr td:last-child {
   margin: auto;
 }
 
-/* ==== Unplayed Fixtures ==== */
 .unplayedTitle {
   display: flex;
   flex-direction: row;
@@ -953,6 +952,33 @@ tr td:last-child {
 .unplayedTitle h3 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.player-info {
+  margin-bottom: 4rem;
+}
+
+.unpaid-seasons-list {
+  display: inline-block;
+  color: red;
+}
+
+.unpaid-seasons-list p {
+  font-weight: bold;
+}
+
+.unpaid-seasons-list ul {
+  list-style-type: none;
+}
+
+.unplayed-accordian {
+  width: 650px;
+  margin: auto;
+}
+
+.arrangedFixturesContainer {
+  min-width: 650px;
+  margin: 0 auto;
 }
 
 /* ==== Icons ==== */

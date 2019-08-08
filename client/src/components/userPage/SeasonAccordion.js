@@ -33,7 +33,13 @@ class SeasonAccordion extends React.Component {
         hidePlayed: true
       }
     });
-    this.setState({ unplayedSeasons: orderBy(uniqBy(result.data, "seasonId"), ["seasonId"], ["desc"]) });
+    this.setState({
+      unplayedSeasons: orderBy(
+        uniqBy(result.data, "seasonId"),
+        ["seasonId"],
+        ["desc"]
+      )
+    });
   };
 
   componentDidMount = async () => {
@@ -57,17 +63,21 @@ class SeasonAccordion extends React.Component {
       );
     }
     return (
-      <div style={{ width: "650px", margin: "auto" }}>
+      <div className="unplayed-accordian">
         {this.state.type === "8" ? (
           <div className="unplayedTitle">
             <span className="eight-ball-icon" alt="eight ball" />
-            <h3>Unplayed <strong>8-Ball</strong> Fixtures</h3>
+            <h3>
+              Unplayed <strong>8-Ball</strong> Fixtures
+            </h3>
             <span className="eight-ball-icon" alt="eight ball" />
           </div>
         ) : (
           <div className="unplayedTitle">
             <span className="nine-ball-icon" alt="nine ball" />
-            <h3>Unplayed <strong>9-Ball</strong> Fixtures</h3>
+            <h3>
+              Unplayed <strong>9-Ball</strong> Fixtures
+            </h3>
             <span className="nine-ball-icon" alt="nine ball" />
           </div>
         )}
