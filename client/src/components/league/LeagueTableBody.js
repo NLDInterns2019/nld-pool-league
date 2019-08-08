@@ -4,6 +4,9 @@ import auth0Client from "../../Auth";
 /* takes an array of results and returns icons for the last five */
 const getPlayerForm = forms => {
   let formsToBeDisplayed = [];
+  if(!forms){
+    forms = "-----"
+  }
   for (let i = 0; i < forms.length; i++) {
     if (forms.charAt(i) === "W") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
