@@ -9,6 +9,8 @@ import SeasonAccordion from "./userPage/SeasonAccordion";
 import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
+import UnpaidSeasonsTableHeader from "./userPage/UnpaidSeasonsTableHeader";
+import UnpaidSeasonsTableBody from "./userPage/UnpaidSeasonsTableBody";
 
 class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
@@ -144,13 +146,12 @@ class UserPage extends React.Component {
               <p>
                 Your winning rate is <b>50%</b>
               </p>
-              <div className="unpaid-seasons-list">
+              <div className="unpaid-seasons">
                 <p>You have outstanding payments for:</p>
-                <ul>
-                  {this.state.unpaid.map(season => (
-                    <li>{`${season.type}-ball Season ${season.seasonId}`}</li>
-                  ))}
-                </ul>
+                <table cellSpacing="0" id="unpaid-seasons-table">
+                  <UnpaidSeasonsTableHeader />
+                  <UnpaidSeasonsTableBody unpaid={this.state.unpaid} />
+                </table>
               </div>
             </div>
             <div className="content">
