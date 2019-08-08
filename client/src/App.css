@@ -93,6 +93,7 @@ ul {
   text-decoration: none;
   opacity: 0.5;
   font-weight: bold;
+  transition: opacity 0.1s linear;
 }
 
 .nav a:hover {
