@@ -5,25 +5,13 @@ import auth0Client from "../../Auth";
 import HeaderNavigator from "./HeaderNavigator.js";
 import Login from "./Login";
 
-class Header extends React.Component {
-  //Silent auth
-  async componentDidMount() {
-    if (this.props.location.pathname === '/callback') return;
-    try {
-      await auth0Client.silentAuth();
-      this.forceUpdate();
-    } catch (err) {
-      if (err.error !== 'login_required') console.log(err.error);
-    }
-  }
-
+const Header = () => {
   /* SIGN OUT */
-  signOut = () => {
+  const signOut = () => {
     auth0Client.signOut();
     this.props.history.replace("/");
   };
   
-  render() {
     return (
       <div className="header" id="headerBox">
         <div className="headerLeft">
@@ -38,12 +26,11 @@ class Header extends React.Component {
             )}
           </div>
           <div className="headerRight-right">
-            <Login signOut={this.signOut} />
+            <Login signOut={signOut} />
           </div>
         </div>
       </div>
     );
-  };
   }
 
 
