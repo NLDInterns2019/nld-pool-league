@@ -284,8 +284,8 @@ describe("League", () => {
           type: 8,
           seasonId: 2222,
           staffs: [
-            { type: 8, seasonId: 2222, staffName: "Michael" },
-            { type: 8, seasonId: 2222, staffName: "Matthew" }
+            { type: 8, seasonId: 2222, staffName: "Michael", form:"-----" },
+            { type: 8, seasonId: 2222, staffName: "Matthew", form:"-----" }
           ]
         })
         .end((err, res) => {
@@ -299,12 +299,14 @@ describe("League", () => {
               res.body.should.include.something.like({
                 type: 8,
                 seasonId: 2222,
-                staffName: "Michael"
+                staffName: "Michael",
+                form:"-----"
               });
               res.body.should.include.something.like({
                 type: 8,
                 seasonId: 2222,
-                staffName: "Matthew"
+                staffName: "Matthew",
+                form:"-----"
               });
               done();
             });
@@ -319,8 +321,8 @@ describe("League", () => {
           type: 9,
           seasonId: 2222,
           staffs: [
-            { type: 9, seasonId: 2222, staffName: "Michael" },
-            { type: 9, seasonId: 2222, staffName: "Matthew" }
+            { type: 9, seasonId: 2222, staffName: "Michael", form:"-----" },
+            { type: 9, seasonId: 2222, staffName: "Matthew", form:"-----"}
           ]
         })
         .end((err, res) => {
@@ -334,12 +336,14 @@ describe("League", () => {
               res.body.should.include.something.like({
                 type: 9,
                 seasonId: 2222,
-                staffName: "Michael"
+                staffName: "Michael",
+                form:"-----"
               });
               res.body.should.include.something.like({
                 type: 9,
                 seasonId: 2222,
-                staffName: "Matthew"
+                staffName: "Matthew",
+                form:"-----"
               });
               done();
             });
@@ -352,7 +356,8 @@ describe("League", () => {
         .set("authorization", `Bearer ${bearerToken}`)
         .send({
           seasonId: 2019,
-          staffName: "Michael"
+          staffName: "Michael",
+          form:"-----"
         })
         .end((err, res) => {
           res.should.have.status(400);
