@@ -7,28 +7,28 @@ const getPlayerForm = forms => {
   for (let i = 0; i < forms.length; i++) {
     if (forms.charAt(i) === "W") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div className="leagueTableFormItem">
+        <div key={i} className="leagueTableFormItem">
           <div className="win-icon" alt="win" />
         </div>
       );
     }
     if (forms.charAt(i) === "D") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div className="leagueTableFormItem">
+        <div key={i} className="leagueTableFormItem">
           <div className="draw-icon" alt="draw" />
         </div>
       );
     }
     if (forms.charAt(i) === "L") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div className="leagueTableFormItem">
+        <div key={i} className="leagueTableFormItem">
           <div className="loss-icon" alt="loss" />
         </div>
       );
     }
     if (forms.charAt(i) === "-") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div className="leagueTableFormItem">
+        <div key={i} className="leagueTableFormItem">
           <div className="no-game-icon" alt="no game" />
         </div>
       );

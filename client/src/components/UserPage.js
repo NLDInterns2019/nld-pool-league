@@ -18,7 +18,9 @@ class UserPage extends React.Component {
     latestSeason: "",
     type: "",
     groupCount: 0,
-    bookings: []
+    bookings: [],
+    unpaid: [],
+    isAuthenticated: false
   };
 
   getLatestSeason = async () => {
@@ -43,15 +45,34 @@ class UserPage extends React.Component {
     this.setState({ bookings: bookings.data });
   };
 
+  getUnpaidSeasons = async () => {
+    const unpaid = await backend.get("/api/kitty/unpaid", {
+      params: {
+        staffName: this.state.player
+      }
+    });
+
+    console.log(unpaid);
+
+    this.setState({ unpaid: unpaid.data });
+  };
+
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
-    if (auth0Client.isAuthenticated()) {
-      this.setState({ player: auth0Client.getProfile().nickname }, () => {
-        this.getBookings();
-      });
-    }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isAuthenticated === false && auth0Client.isAuthenticated()) {
+      this.setState(
+        { player: auth0Client.getProfile().nickname, isAuthenticated: true },
+        () => {
+          this.getBookings();
+          this.getUnpaidSeasons();
+        }
+      );
+    }
+  }
 
   componentWillUnmount() {
     this.signal.cancel("");
@@ -123,6 +144,14 @@ class UserPage extends React.Component {
               <p>
                 Your winning rate is <b>50%</b>
               </p>
+              <div style={{ display: "inline-block", color: "red" }}>
+                <p style={{fontWeight:"bold"}}>You havent paid:</p>
+                <ol style={{ textAlign: "left" }}>
+                  {this.state.unpaid.map(season => (
+                    <li>{`${season.type}-ball Season ${season.seasonId}`}</li>
+                  ))}
+                </ol>
+              </div>
             </div>
             <div className="content">
               <div className="contentLeft">
