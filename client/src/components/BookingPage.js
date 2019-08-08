@@ -247,7 +247,7 @@ class FixturesPage extends Component {
             views={["work_week", "day"]}
             defaultView="work_week"
             min={new Date(2017, 10, 0, 8, 0, 0)}
-            max={new Date(2017, 10, 0, 18, 0, 0)}
+            max={new Date(2017, 10, 0, 18, 30, 0)}
             events={this.state.events}
             onDoubleClickEvent={this.handleDoubleClick}
             onSelectSlot={this.handleSelect}
