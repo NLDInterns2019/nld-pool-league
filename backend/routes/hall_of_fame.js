@@ -66,15 +66,14 @@ router.post("/calculate", async (req, res) => {
       type: type,
       staffName: leagues[i].staffName
     });
-    
+
     //if the name isn't in the hall of fame, add it
-    if (typeof hofRow === "undefined") { 
+    if (typeof hofRow === "undefined") {
       staffInHoF = false;
-      await hall_of_fame.query()
-        .insert({
-          staffName: leagues[i].staffName,
-          type: type
-        })
+      await hall_of_fame.query().insert({
+        staffName: leagues[i].staffName,
+        type: type
+      });
     }
 
     //then set the row again
@@ -82,12 +81,12 @@ router.post("/calculate", async (req, res) => {
       hofRow = await hall_of_fame.query().findOne({
         type: type,
         staffName: leagues[i].staffName
-      })
+      });
     }
 
     //wipes values without need for extra db call loop
     //check if name has been called
-    if (names.includes(leagues[i].staffName)) { 
+    if (names.includes(leagues[i].staffName)) {
       start = false;
     } else {
       start = true;
@@ -120,16 +119,15 @@ router.post("/calculate", async (req, res) => {
       hofRow.highestPoints = leagues[i].points;
     }
 
-    //Probable bug: Checks for number of seasons. Does not consider that all players may not be present. 
-    //May want to do this calculation individually via percentage.
-    
     /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
     //check if improvement should be calculated
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-    if (seasons.length > 3) { //only with more than 3 seasons
-      if (i > seasons.length - 2) { //and only with the latest two
+    if (seasons.length > 3) {
+      //only with more than 3 seasons
+      if (i > seasons.length - 2) {
+        //and only with the latest two
         hofRow.improvement = hofRow.improvement + leagues[i].win;
       } else {
         hofRow.wins = hofRow.wins + leagues[i].win;
@@ -142,16 +140,13 @@ router.post("/calculate", async (req, res) => {
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
     hofRow.loss = hofRow.loss + leagues[i].lose;
-    
+
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-
-    
-  
 
     //update the table
     await hall_of_fame
@@ -172,7 +167,7 @@ router.post("/calculate", async (req, res) => {
   }
 
   //needs the full HoF DB this time
-  let hofAll = await hall_of_fame.query().where({ 
+  let hofAll = await hall_of_fame.query().where({
     type: type
   });
   if (fixtures === 0) {
@@ -181,7 +176,7 @@ router.post("/calculate", async (req, res) => {
   }
 
   hofAll = streakGen.calculateStreaks(fixtures, hofAll); ////////////////////////streakCalc
-  
+
   for (let i = 0; i < hofAll.length; i++) {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
@@ -193,36 +188,27 @@ router.post("/calculate", async (req, res) => {
         (hofAll[i].wins * 100) / hofAll[i].plays - 2
       );
     } else {
-      hofAll[i].winRate = Math.trunc(
-        (hofAll[i].wins * 100) / hofAll[i].plays
-      );
+      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
     }
-    
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
   //this is broken and terrible. i should be fired for writing this
-  for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
-/////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
-   if (topPlayer!=null) {
-
-    hofAll = scrappyGen.calculateScrappy(fixtures, topPlayer.staffName, hofAll, i); //calculate scrappy
-   }
-
-  }
-  //have to go through hof again for Scrappy - else no way to know who the top player is
-  for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].scrappyRate = Math.trunc(
-      (hofAll[i].scrappy * 100) / hofAll[i].scrappyPlays
-    );
-    hofAll[i].improvement = Math.trunc((hofAll[i].improvement * 100) / 2);
-
-    
+  for (let i = 0; i < fixtures.length; i++) {
+    //need a new loop for scrappy so you know who the top player is
+    /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
+    if (topPlayer != null) {
+      hofAll = scrappyGen.calculateScrappy(
+        fixtures,
+        topPlayer.staffName,
+        hofAll,
+        i
+      ); //calculate scrappy
+    }
   }
 
   //patch db
   for (let v = 0; v < hofAll.length; v++) {
-    
     await hall_of_fame
       .query()
       .findOne({
