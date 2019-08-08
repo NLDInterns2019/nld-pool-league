@@ -523,6 +523,64 @@ router.post("/todayCommand", async (req, res) => {
 });
 
 /* 
+  POST handler for /api/slack/tomorrowCommand
+  Function: tomorrow's fixtures slash command (/today)
+*/
+router.post("/tomorrowCommand", async (req, res) => {
+  if (moment().day() === 5 || moment().day() === 6) {
+    // if today is a Friday or Saturday, there can't be games tomorrow
+    const response = {
+      response_type: "in_channel",
+      text: "There are no games at the weekend"
+    };
+    res.json(response);
+  } else {
+    let start = moment()
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+      .add(1, "day")
+      .toDate()
+      .toISOString();
+    let end = moment(start)
+      .add(1, "day")
+      .toDate()
+      .toISOString();
+
+    bookingsDB
+      .query()
+      .whereBetween("start", [start, end])
+      .then(bookings => {
+        let message = "";
+        if (bookings.length) {
+          bookings.map(booking => {
+            message = message.concat(
+              booking.title.toLowerCase() +
+                " at " +
+                moment(booking.start)
+                  .tz("Europe/London")
+                  .format("HH:mm") +
+                "\n"
+            );
+          });
+        } else {
+          message = "There are no matches scheduled for today";
+        }
+        const response = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              mrkdwn_in: ["text"],
+              color: colours.reminders,
+              pretext: "*Tomorrow's Fixtures:*",
+              text: message
+            }
+          ]
+        };
+        res.json(response);
+      });
+  }
+});
+
+/* 
   POST handler for /api/slack/feePaid
   Function: To send fee paid message
 */
