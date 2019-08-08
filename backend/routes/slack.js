@@ -22,7 +22,8 @@ const colours = {
   results: "#ff9c33", // orange
   reminders: "#e23e4b", // red
   seasons: "#1fbfb7", // blue
-  kitty: "#8532a8" // purple
+  kitty: "#8532a8", // purple
+  info: "#fcba03" // yellow
 };
 
 /* 
@@ -406,181 +407,6 @@ function createConsoleTable(players) {
 }
 
 /* 
-  POST handler for /api/slack/showTableCommand
-  Function: league table slash command (/table type season_id)
-*/
-router.post("/showTableCommand", async (req, res) => {
-  const type = req.body.text.split(" ")[0];
-  const seasonId = req.body.text.split(" ")[1];
-  const regex = /^[1-9]([0-9])*$/;
-
-  if (type !== "8" && type !== "9") {
-    const response = {
-      response_type: "in_channel",
-      text: "Invalid type"
-    };
-    res.json(response);
-  } else if (!regex.test(seasonId)) {
-    const response = {
-      response_type: "in_channel",
-      text: "Invalid season"
-    };
-    res.json(response);
-  } else {
-    eight_nine_ball_leagues
-      .query()
-      .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
-      .orderBy("points", "desc")
-      .orderBy("goalsFor", "desc")
-      .orderBy("goalsAgainst", "asc")
-      .orderBy("win", "desc")
-      .then(
-        players => {
-          if (!players.length) {
-            const response = {
-              response_type: "in_channel",
-              text: "Nothing to show"
-            };
-
-            res.json(response);
-          } else {
-            const table = createConsoleTable(players);
-            const response = {
-              response_type: "in_channel", // public to the channel
-              attachments: [
-                {
-                  mrkdwn_in: ["text"],
-                  color: colours.seasons,
-                  pretext:
-                    (type === "8"
-                      ? ":8ball:"
-                      : type === "9"
-                      ? ":9ball:"
-                      : "TYPE ERROR") +
-                    "* Season " +
-                    seasonId +
-                    " League Table:*",
-                  text: "```" + table + "```"
-                }
-              ]
-            };
-            res.json(response);
-          }
-        },
-        e => {
-          res.status(400).json(e);
-        }
-      );
-  }
-});
-
-/* 
-  POST handler for /api/slack/todayCommand
-  Function: today's fixtures slash command (/today)
-*/
-router.post("/todayCommand", async (req, res) => {
-  let start = moment()
-    .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-    .toDate()
-    .toISOString();
-  let end = moment(start)
-    .add(1, "day")
-    .toDate()
-    .toISOString();
-
-  bookingsDB
-    .query()
-    .whereBetween("start", [start, end])
-    .then(bookings => {
-      let message = "";
-      if (bookings.length) {
-        bookings.map(booking => {
-          message = message.concat(
-            booking.title.toLowerCase() +
-              " at " +
-              moment(booking.start)
-                .tz("Europe/London")
-                .format("HH:mm") +
-              "\n"
-          );
-        });
-      } else {
-        message = "There are no matches scheduled for today";
-      }
-      const response = {
-        response_type: "in_channel",
-        attachments: [
-          {
-            mrkdwn_in: ["text"],
-            color: colours.reminders,
-            pretext: "*Today's Fixtures:*",
-            text: message
-          }
-        ]
-      };
-      res.json(response);
-    });
-});
-
-/* 
-  POST handler for /api/slack/tomorrowCommand
-  Function: tomorrow's fixtures slash command (/today)
-*/
-router.post("/tomorrowCommand", async (req, res) => {
-  if (moment().day() === 5 || moment().day() === 6) {
-    // if today is a Friday or Saturday, there can't be games tomorrow
-    const response = {
-      response_type: "in_channel",
-      text: "There are no games at the weekend"
-    };
-    res.json(response);
-  } else {
-    let start = moment()
-      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-      .add(1, "day")
-      .toDate()
-      .toISOString();
-    let end = moment(start)
-      .add(1, "day")
-      .toDate()
-      .toISOString();
-
-    bookingsDB
-      .query()
-      .whereBetween("start", [start, end])
-      .then(bookings => {
-        let message = "";
-        if (bookings.length) {
-          bookings.map(booking => {
-            message = message.concat(
-              booking.title.toLowerCase() +
-                " at " +
-                moment(booking.start)
-                  .tz("Europe/London")
-                  .format("HH:mm") +
-                "\n"
-            );
-          });
-        } else {
-          message = "There are no matches scheduled for tomorrow";
-        }
-        const response = {
-          response_type: "in_channel",
-          attachments: [
-            {
-              mrkdwn_in: ["text"],
-              color: colours.reminders,
-              pretext: "*Tomorrow's Fixtures:*",
-              text: message
-            }
-          ]
-        };
-        res.json(response);
-      });
-  }
-});
-
-/* 
   POST handler for /api/slack/feePaid
   Function: To send fee paid message
 */
@@ -885,7 +711,15 @@ router.post("/poolCommand", async (req, res) => {
   } else {
     const response = {
       response_type: "in_channel",
-      text: "Invalid function"
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.info,
+          pretext: "*Invalid function*",
+          text:
+            "*The valid functions are:*\n`/pool table type season_id`\n`/pool today`\n`/pool tomorrow`"
+        }
+      ]
     };
     res.json(response);
   }
