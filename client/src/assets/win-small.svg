@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="4.6572313"
-     inkscape:cy="2.6121032"
+     inkscape:zoom="11.313708"
+     inkscape:cx="-8.3367141"
+     inkscape:cy="5.1136635"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -49,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,28 +59,25 @@
      id="layer1"
      transform="translate(-40.13913,-107.88862)">
     <g
-       transform="matrix(0.75000001,0,0,0.75000001,23.364851,28.162781)"
-       id="g840">
+       id="g828">
       <rect
-         ry="1.3096207"
-         y="106.30112"
-         x="22.365705"
-         height="6.3499999"
-         width="6.3499999"
+         ry="0.98221558"
+         y="107.88862"
+         x="40.13913"
+         height="4.7624998"
+         width="4.7624998"
          id="rect815"
-         style="opacity:1;fill:#8dd35f;fill-opacity:1;stroke:none;stroke-width:0.0816762;stroke-miterlimit:4;stroke-dasharray:none" />
-      <text
-         transform="scale(0.88896715,1.124901)"
+         style="opacity:1;fill:#8dd35f;fill-opacity:1;stroke:none;stroke-width:0.06125715;stroke-miterlimit:4;stroke-dasharray:none" />
+      <g
          id="text823"
-         y="98.92495"
-         x="26.182257"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.58611107px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.06138813"
-         xml:space="preserve"><tspan
-           style="fill:#ffffff;stroke-width:0.06138813"
-           y="98.92495"
-           x="26.182257"
-           id="tspan821"
-           sodipodi:role="line">W</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.4395833px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.0460411"
+         transform="scale(0.88896713,1.124901)"
+         aria-label="W">
+        <path
+           id="path822"
+           style="fill:#ffffff;stroke-width:0.0460411"
+           d="M 49.61739,96.821792 48.805648,99.2295 H 48.537361 L 47.832246,97.176069 47.123692,99.2295 h -0.264848 l -0.811741,-2.407708 h 0.261408 l 0.694796,2.070629 0.718873,-2.070629 h 0.237331 l 0.708554,2.080947 0.705115,-2.080947 z" />
+      </g>
     </g>
   </g>
 </svg>
