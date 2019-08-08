@@ -46,13 +46,17 @@ class Auth {
         if (!authResult || !authResult.idToken) {
           return reject(err);
         }
-        this.idToken = authResult.idToken;
-        this.profile = authResult.idTokenPayload;
-        // set the time that the id token will expire at
-        this.expiresAt = authResult.idTokenPayload.exp * 1000;
+        this.setSession(authResult);
         resolve(authResult.appState.url);
       });
     }) 
+  }
+
+  setSession(authResult) {
+    this.idToken = authResult.idToken;
+    this.profile = authResult.idTokenPayload;
+    // set the time that the id token will expire at
+    this.expiresAt = authResult.idTokenPayload.exp * 1000;
   }
 
   signOut() {
@@ -64,6 +68,16 @@ class Auth {
       returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
       client_id: '33YrQE03f8FWXKFzLl9RXvKj1XszVCab'
     })   
+  }
+
+  silentAuth() {
+    return new Promise((resolve, reject) => {
+      this.auth0.checkSession({}, (err, authResult) => {
+        if (err) return reject(err);
+        this.setSession(authResult);
+        resolve();
+      });
+    });
   }
 }
 
