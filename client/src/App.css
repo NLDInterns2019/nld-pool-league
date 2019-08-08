@@ -921,7 +921,7 @@ tr td:last-child {
   opacity: 1;
 }
 
-/* ==== Upcoming Matches ==== */
+/* ==== Dashboard ==== */
 .upcomingMatchesTitle {
   display: flex;
   flex-direction: row;
@@ -943,7 +943,6 @@ tr td:last-child {
   margin: auto;
 }
 
-/* ==== Unplayed Fixtures ==== */
 .unplayedTitle {
   display: flex;
   flex-direction: row;
@@ -953,6 +952,64 @@ tr td:last-child {
 .unplayedTitle h3 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.player-info {
+  margin-bottom: 4rem;
+}
+
+.unpaid-seasons {
+  display: inline-block;
+}
+
+.unpaid-seasons p {
+  color: red;
+  font-weight: bold;
+}
+
+#unpaid-seasons-table {
+  margin: auto;
+  max-width: 400px;
+}
+
+#unpaid-seasons-table th {
+  background-color: #e23e4b;
+}
+
+#unpaid-type {
+  width: 50px;
+}
+
+#unpaid-pay {
+  background-color: white;
+  color: black;
+  min-width: 50px;
+  font-weight: bold;
+
+  transition: color 0.1s linear;
+  transition: background-color 0.1s linear;
+}
+
+#unpaid-pay:hover {
+  cursor: pointer;
+  background-color: #e23e4b;
+  color: white;
+}
+
+.unpaid-season-title .eight-ball-icon-20,
+.unpaid-season-title .nine-ball-icon-20 {
+  margin-right: 2rem;
+  margin-left: 0;
+}
+
+.unplayed-accordian {
+  width: 650px;
+  margin: auto;
+}
+
+.arrangedFixturesContainer {
+  min-width: 650px;
+  margin: 0 auto;
 }
 
 /* ==== Icons ==== */

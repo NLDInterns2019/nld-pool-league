@@ -9,6 +9,8 @@ import SeasonAccordion from "./userPage/SeasonAccordion";
 import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
+import UnpaidSeasonsTableHeader from "./userPage/UnpaidSeasonsTableHeader";
+import UnpaidSeasonsTableBody from "./userPage/UnpaidSeasonsTableBody";
 
 class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
@@ -134,7 +136,7 @@ class UserPage extends React.Component {
         ) : (
           //Logged In
           <div style={{ textAlign: "center" }}>
-            <div style={{ marginBottom: "4rem" }}>
+            <div className="player-info">
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
@@ -144,13 +146,12 @@ class UserPage extends React.Component {
               <p>
                 Your winning rate is <b>50%</b>
               </p>
-              <div style={{ display: "inline-block", color: "red" }}>
-                <p style={{fontWeight:"bold"}}>You havent paid:</p>
-                <ol style={{ textAlign: "left" }}>
-                  {this.state.unpaid.map(season => (
-                    <li>{`${season.type}-ball Season ${season.seasonId}`}</li>
-                  ))}
-                </ol>
+              <div className="unpaid-seasons">
+                <p>You have outstanding payments for:</p>
+                <table cellSpacing="0" id="unpaid-seasons-table">
+                  <UnpaidSeasonsTableHeader />
+                  <UnpaidSeasonsTableBody unpaid={this.state.unpaid} />
+                </table>
               </div>
             </div>
             <div className="content">
@@ -160,11 +161,13 @@ class UserPage extends React.Component {
                 <SeasonAccordion type="9" staffName={this.state.player} />
               </div>
               <div className="contentRight">
-                {this.state.bookings.length ? (
-                  <UpcomingMatch bookings={this.state.bookings} />
-                ) : (
-                  <h3>You have no arranged fixtures</h3>
-                )}
+                <div className="arrangedFixturesContainer">
+                  {this.state.bookings.length ? (
+                    <UpcomingMatch bookings={this.state.bookings} />
+                  ) : (
+                    <h3>You have no arranged fixtures</h3>
+                  )}
+                </div>
               </div>
             </div>
           </div>
