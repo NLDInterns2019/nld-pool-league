@@ -36,7 +36,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (draw !== undefined) {
-    if (draw.drawRate === 0) {
+    if (draw.drawRate === 0||draw.drawRate === null) {
       draw = null;
     }
   }
