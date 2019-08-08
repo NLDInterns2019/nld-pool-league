@@ -1,4 +1,5 @@
 import React from "react";
+import auth0Client from "../../Auth";
 
 /* takes an array of results and returns icons for the last five */
 const getPlayerForm = forms => {
@@ -72,20 +73,23 @@ const LeagueTableBody = props => {
             <div className="cross-icon" alt="cross" />
           </td>
         )}
-        <td style={{ backgroundColor: "#DBE9E2" }}>
-          <span
-            className="delete-icon"
-            onClick={() => {
-              if (
-                window.confirm(
-                  `Are you sure you want to delete ${player.staffName}?`
+        {auth0Client.isAuthenticated() &&
+        auth0Client.getProfile().nickname === "admin" ? (
+          <td style={{ backgroundColor: "#DBE9E2" }}>
+            <span
+              className="delete-icon"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `Are you sure you want to delete ${player.staffName}?`
+                  )
                 )
-              )
-                props.deletePlayer(player.staffName);
-            }}
-            alt="remove player"
-          />
-        </td>
+                  props.deletePlayer(player.staffName);
+              }}
+              alt="remove player"
+            />
+          </td>
+        ) : null}
       </tr>
     );
   });
