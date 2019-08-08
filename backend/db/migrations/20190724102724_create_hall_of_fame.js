@@ -1,6 +1,8 @@
 
 exports.up = function(knex) {
   return knex.schema.createTable("hall_of_fame", table => {
+    table.increments();
+    table.unique(["type","staffName"]);
     table.integer("type").notNullable();
     table.string("staffName").notNullable();
     table.integer("plays").defaultTo(0);
