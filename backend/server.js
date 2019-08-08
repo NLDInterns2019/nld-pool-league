@@ -8,6 +8,7 @@ const axios = require("axios");
 const moment = require("moment-timezone");
 const schedule = require("node-schedule");
 const bookingsDB = require("./models/bookings");
+const leaguesDB = require("./models/eight_nine_ball_leagues");
 
 //Define routes
 let eight_nine_ball_season = require("./routes/eight_nine_ball_seasons"),
@@ -85,6 +86,55 @@ schedule.scheduleJob(
             ]
           }
         );
+      });
+  }
+);
+
+/* Outstanding payment reminder to post at 7am every monday */
+schedule.scheduleJob(
+  "Slack Payment Reminder",
+  { hour: 7, minute: 0, dayOfWeek: 1 },
+  () => {
+    leaguesDB
+      .query()
+      .where({ paid: 0 })
+      .then(players => {
+        let eightBallMessage = ":8ball: Eight Ball :8ball:\n";
+        let nineBallMessage = "\n:9ball: Nine Ball :9ball:\n";
+        let finalMessage = "";
+        if (players.length) {
+          players.map(player => {
+            if (player.type === 8) {
+              eightBallMessage = eightBallMessage.concat(
+                player.staffName + " : Season " + player.seasonId + "\n"
+              );
+            } else if (player.type === 9) {
+              nineBallMessage = nineBallMessage.concat(
+                player.staffName + " : Season " + player.seasonId + "\n"
+              );
+            }
+          });
+          finalMessage = finalMessage.concat(
+            eightBallMessage.concat(nineBallMessage)
+          );
+        } else {
+          finalMessage = "";
+        }
+        if (finalMessage !== "") {
+          axios.post(
+            "https://hooks.slack.com/services/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",
+            {
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: "#e23e4b",
+                  pretext: "*Outstanding Joining Fee Payments:*",
+                  text: finalMessage
+                }
+              ]
+            }
+          );
+        }
       });
   }
 );
