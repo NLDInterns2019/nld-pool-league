@@ -536,7 +536,7 @@ select:hover {
   padding: 1rem;
   width: 72%;
   vertical-align: middle;
-  transition: background-color 0.3s linear;
+  transition: background-color 0.1s linear;
 }
 
 #seasonsList button {
@@ -593,7 +593,7 @@ select:hover {
   width: 32px;
   height: 32px;
   background-image: url("./assets/delete-button-grey.svg");
-  transition: background-image 0.3s linear;
+  transition: background-image 0.1s linear;
 }
 
 .delete-icon:hover {
