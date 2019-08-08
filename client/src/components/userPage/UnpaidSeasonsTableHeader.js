@@ -6,7 +6,7 @@ const UnpaidSeasonsTableHeader = () => {
       <th>Type</th>
       <th>Name</th>
       <th>Amount</th>
-      <th />
+      {/* <th /> */}
     </tr>
   );
 };

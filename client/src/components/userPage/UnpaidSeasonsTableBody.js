@@ -14,7 +14,7 @@ const UnpaidSeasonsTableBody = props => {
       </td>
       <td id="unpaid-name">{"Season " + season.seasonId}</td>
       <td id="unpaid-amount">£2.00</td>
-      <td id="unpaid-pay">Pay</td>
+      {/* <td id="unpaid-pay">Pay</td> */}
     </tr>
   ));
 };
