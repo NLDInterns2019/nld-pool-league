@@ -562,7 +562,7 @@ router.post("/tomorrowCommand", async (req, res) => {
             );
           });
         } else {
-          message = "There are no matches scheduled for today";
+          message = "There are no matches scheduled for tomorrow";
         }
         const response = {
           response_type: "in_channel",
