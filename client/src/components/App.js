@@ -16,7 +16,7 @@ class App extends React.Component {
   //Silent auth
   async componentDidMount() {
     if (this.props.location.pathname === "/callback") return;
-    try {
+    try { 
       await auth0Client.silentAuth();
       this.forceUpdate();
     } catch (err) {

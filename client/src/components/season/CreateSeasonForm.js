@@ -12,7 +12,8 @@ class CreateSeasonForm extends Component {
     this.initialState = {
       auth0Players: [],
       playersName: [],
-      seasonName: ""
+      seasonName: "",
+      isAuthenticated: false,
     };
 
     this.state = this.initialState;
@@ -27,12 +28,11 @@ class CreateSeasonForm extends Component {
         })
         .then(res => {
           this.setState({
-            auth0Players: orderBy(res.data, ["username"], ["asc"])
-          });
-          this.setState({
-            playersName: orderBy(res.data, ["username"], ["asc"]).map(
-              player => player.nickname
-            )
+            auth0Players: orderBy(res.data, ["username"], ["asc"]),
+            playersName: orderBy(res.data, ["username"], ["asc"])
+            .filter(player => player.nickname !== "admin")
+            .map(player => player.nickname),
+            isAuthenticated: true
           });
         });
     } catch (e) {
@@ -45,9 +45,9 @@ class CreateSeasonForm extends Component {
     }
   };
 
-  componentDidMount() {
-    if (auth0Client.isAuthenticated()) {
-      this.getPlayers();
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.isAuthenticated === false && auth0Client.isAuthenticated()){
+      this.getPlayers()
     }
   }
 
