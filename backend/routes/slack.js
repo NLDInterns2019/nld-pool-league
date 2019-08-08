@@ -717,4 +717,178 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
     );
 });
 
+/* 
+  POST handler for /api/slack/poolCommand
+  Function: general pool league command (/pool function type season_id)
+*/
+router.post("/poolCommand", async (req, res) => {
+  const text = req.body.text;
+  const func = text.split(" ")[0];
+  const type = text.split(" ")[1];
+  const seasonId = text.split(" ")[2];
+  const regex = /^[1-9]([0-9])*$/;
+
+  // show the league table for given season
+  if (func === "table" && text.split(" ").length === 3) {
+    if (type !== "8" && type !== "9") {
+      const response = {
+        response_type: "in_channel",
+        text: "Invalid type"
+      };
+      res.json(response);
+    } else if (!regex.test(seasonId)) {
+      const response = {
+        response_type: "in_channel",
+        text: "Invalid season"
+      };
+      res.json(response);
+    } else {
+      eight_nine_ball_leagues
+        .query()
+        .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
+        .orderBy("points", "desc")
+        .orderBy("goalsFor", "desc")
+        .orderBy("goalsAgainst", "asc")
+        .orderBy("win", "desc")
+        .then(
+          players => {
+            if (!players.length) {
+              const response = {
+                response_type: "in_channel",
+                text: "Nothing to show"
+              };
+
+              res.json(response);
+            } else {
+              const table = createConsoleTable(players);
+              const response = {
+                response_type: "in_channel", // public to the channel
+                attachments: [
+                  {
+                    mrkdwn_in: ["text"],
+                    color: colours.seasons,
+                    pretext:
+                      (type === "8"
+                        ? ":8ball:"
+                        : type === "9"
+                        ? ":9ball:"
+                        : "TYPE ERROR") +
+                      "* Season " +
+                      seasonId +
+                      " League Table:*",
+                    text: "```" + table + "```"
+                  }
+                ]
+              };
+              res.json(response);
+            }
+          },
+          e => {
+            res.status(400).json(e);
+          }
+        );
+    }
+  } else if (func === "today" && text.split(" ").length === 1) {
+    let start = moment()
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+      .toDate()
+      .toISOString();
+    let end = moment(start)
+      .add(1, "day")
+      .toDate()
+      .toISOString();
+
+    bookingsDB
+      .query()
+      .whereBetween("start", [start, end])
+      .then(bookings => {
+        let message = "";
+        if (bookings.length) {
+          bookings.map(booking => {
+            message = message.concat(
+              booking.title.toLowerCase() +
+                " at " +
+                moment(booking.start)
+                  .tz("Europe/London")
+                  .format("HH:mm") +
+                "\n"
+            );
+          });
+        } else {
+          message = "There are no matches scheduled for today";
+        }
+        const response = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              mrkdwn_in: ["text"],
+              color: colours.reminders,
+              pretext: "*Today's Fixtures:*",
+              text: message
+            }
+          ]
+        };
+        res.json(response);
+      });
+  } else if (func === "tomorrow" && text.split(" ").length === 1) {
+    if (moment().day() === 5 || moment().day() === 6) {
+      // if today is a Friday or Saturday, there can't be games tomorrow
+      const response = {
+        response_type: "in_channel",
+        text: "There are no games at the weekend"
+      };
+      res.json(response);
+    } else {
+      let start = moment()
+        .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+        .add(1, "day")
+        .toDate()
+        .toISOString();
+      let end = moment(start)
+        .add(1, "day")
+        .toDate()
+        .toISOString();
+
+      bookingsDB
+        .query()
+        .whereBetween("start", [start, end])
+        .then(bookings => {
+          let message = "";
+          if (bookings.length) {
+            bookings.map(booking => {
+              message = message.concat(
+                booking.title.toLowerCase() +
+                  " at " +
+                  moment(booking.start)
+                    .tz("Europe/London")
+                    .format("HH:mm") +
+                  "\n"
+              );
+            });
+          } else {
+            message = "There are no matches scheduled for tomorrow";
+          }
+          const response = {
+            response_type: "in_channel",
+            attachments: [
+              {
+                mrkdwn_in: ["text"],
+                color: colours.reminders,
+                pretext: "*Tomorrow's Fixtures:*",
+                text: message
+              }
+            ]
+          };
+          res.json(response);
+        });
+    }
+  } else {
+    const response = {
+      response_type: "in_channel",
+      text: "Invalid function"
+    };
+    res.json(response);
+  }
+});
+
 module.exports = router;
