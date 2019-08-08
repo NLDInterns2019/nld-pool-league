@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="-23.786931"
+     inkscape:cx="-64.824378"
      inkscape:cy="-23.864707"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -49,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,27 +59,24 @@
      id="layer1"
      transform="translate(-20.815023,-139.67844)">
     <g
-       id="g869"
-       transform="matrix(0.75000001,0,0,0.75000001,5.2037556,36.110234)">
+       id="g828">
       <rect
-         style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:0.0816762;stroke-miterlimit:4;stroke-dasharray:none"
+         style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:0.06125715;stroke-miterlimit:4;stroke-dasharray:none"
          id="rect838"
-         width="6.3499999"
-         height="6.3499999"
+         width="4.7624998"
+         height="4.7624998"
          x="20.815023"
-         y="138.09094"
-         ry="1.3096207" />
-      <text
+         y="139.67844"
+         ry="0.98221558" />
+      <g
          id="text857"
-         y="144.16748"
-         x="21.945028"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.70678711px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.61769927"
-         xml:space="preserve"><tspan
-           style="fill:#ffffff;stroke-width:0.61769927"
-           y="144.16748"
-           x="21.945028"
-           id="tspan855"
-           sodipodi:role="line">-</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.03009033px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.46327445"
+         aria-label="-">
+        <path
+           id="path822"
+           style="fill:#ffffff;stroke-width:0.46327445"
+           d="m 22.144333,141.81075 h 2.103883 v 0.49787 h -2.103883 z" />
+      </g>
     </g>
   </g>
 </svg>
