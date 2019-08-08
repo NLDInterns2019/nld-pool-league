@@ -48,7 +48,7 @@ class HoFPage extends React.Component {
     this.setState({ HoF9: HoF9.data });
 
     this.createHoF();
-    this.createHoF9();
+    //this.createHoF9();
   };
 
   createHoF = async () => {
