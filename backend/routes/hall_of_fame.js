@@ -9,6 +9,7 @@ const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
 const scrappyGen = require("../functions/scrappy");
+const streakGen = require("../functions/streaks");
 
 /* 
   GET handler for /api/89ball_league/hall_of_fame 
@@ -179,51 +180,8 @@ router.post("/calculate", async (req, res) => {
     return;
   }
 
+  hofAll = streakGen.calculateStreaks(fixtures, hofAll); ////////////////////////streakCalc
   
-  let player1, player2 = 0;
-
-  //now go through fixtures: needed for scrappy and streak calculations
-  for (let i = 0; i < fixtures.length; i++) {
-
-    //get the locations of the players from the main HoF table
-    for (let j = 0; j < hofAll.length; j++) {
-      if (hofAll[j].staffName == fixtures[i].player1) {
-        player1 = j;
-      } else if (hofAll[j].staffName == fixtures[i].player2) {
-        player2 = j;
-      } //TODO can't break because that gives a sexy little error
-    }
-
-    /////////////////////////////////////////////////////////////////////////   LONGEST LOSING/STREAK
-    //update streak or reset as necessary. scrappyRate: streak temp. winRate: losingStreak temp.
-    //draws do not break streak, but also do not add to it
-    if (fixtures[i].score1 > fixtures[i].score2) { //check which player won
-      hofAll[player1].curStreak++;
-      hofAll[player2].curLosingStreak++;
-      if (hofAll[player1].curStreak > hofAll[player1].streak) { //check if current winningStreak is their best
-        hofAll[player1].winningStreak = hofAll[player1].curStreak; 
-      }
-      if (hofAll[player2].curLosingStreak > hofAll[player2].losingStreak) { //check if current losing streak is their best
-        hofAll[player2].losingStreak = hofAll[player2].curLosingStreak; 
-      }
-      hofAll[player2].curStreak = 0; 
-      hofAll[player1].curLosingStreak = 0; 
-    } else if (fixtures[i].score2 > fixtures[i].score1) {
-      hofAll[player2].curStreak++;
-      if (hofAll[player2].curStreak > hofAll[player2].winningStreak) {
-        hofAll[player2].winningStreak = hofAll[player2].curStreak;
-      }
-      if (hofAll[player1].curLosingStreak > hofAll[player1].losingStreak) { 
-        hofAll[player1].losingStreak = hofAll[player1].curLosingStreak; 
-      }
-      hofAll[player1].curStreak = 0;
-      hofAll[player2].curLosingStreak = 0; //reset opponents
-    }
-
-    
-    
-  }
-
   for (let i = 0; i < hofAll.length; i++) {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
@@ -246,9 +204,11 @@ router.post("/calculate", async (req, res) => {
   //this is broken and terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) { //need a new loop for scrappy so you know who the top player is
 /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
-   
+   if (topPlayer!=null) {
 
     hofAll = scrappyGen.calculateScrappy(fixtures, topPlayer.staffName, hofAll, i); //calculate scrappy
+   }
+
   }
   //have to go through hof again for Scrappy - else no way to know who the top player is
   for (let i = 0; i < hofAll.length; i++) {
