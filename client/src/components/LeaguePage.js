@@ -329,15 +329,18 @@ class App extends React.Component {
         />
         <br />
         <br />
-        <button
-          id="closeSeason"
-          onClick={() => {
-            if (window.confirm("Are you sure you want to close this season?"))
-              this.closeSeason();
-          }}
-        >
-          Close Season
-        </button>
+        {auth0Client.isAuthenticated() &&
+        auth0Client.getProfile().nickname === "admin" ? (
+          <button
+            id="closeSeason"
+            onClick={() => {
+              if (window.confirm("Are you sure you want to close this season?"))
+                this.closeSeason();
+            }}
+          >
+            Close Season
+          </button>
+        ) : null}
       </div>
     );
   };
