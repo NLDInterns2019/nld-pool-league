@@ -116,18 +116,84 @@ class UserPage extends React.Component {
     });
   };
 
-  unpaidSeasonsTable = () => {
-    return this.state.unpaid.length === 0 ? (
-      <p className="paid-text">You have no outstanding payments</p>
-    ) : (
-      <div>
-        <p className="unpaid-text">You have outstanding payments for:</p>
-        <table cellSpacing="0" id="unpaid-seasons-table">
-          <UnpaidSeasonsTableHeader />
-          <UnpaidSeasonsTableBody unpaid={this.state.unpaid} />
-        </table>
-      </div>
-    );
+  unpaidEightBallMessage = () => {
+    const unpaidSeasons = this.state.unpaid;
+    const unpaidEightBallSeasons = [];
+
+    for (var i = unpaidSeasons.length - 1; i >= 0; i--) {
+      if (unpaidSeasons[i].type === 8) {
+        unpaidEightBallSeasons.push(unpaidSeasons[i]);
+      }
+    }
+    if (unpaidEightBallSeasons.length > 0) {
+      return (
+        <div className="unpaid-seasons-message">
+          <div className="unpaid-season-title">
+            <div className="eight-ball-icon" alt="eight ball" />
+            <h3>Payments Due:</h3>
+          </div>
+          <div className="unpaid-seasons-list">
+            <div className="unpaid-eight-ball">
+              {unpaidEightBallSeasons.map(season => {
+                return (
+                  <div
+                    key={season.seasonId + season.type}
+                    className="unpaid-item"
+                  >
+                    Season {season.seasonId}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="unpaid-total">
+            Total: £{unpaidEightBallSeasons.length}.00
+          </div>
+        </div>
+      );
+    } else {
+      return;
+    }
+  };
+
+  unpaidNineBallMessage = () => {
+    const unpaidSeasons = this.state.unpaid;
+    const unpaidNineBallSeasons = [];
+
+    for (var i = unpaidSeasons.length - 1; i >= 0; i--) {
+      if (unpaidSeasons[i].type === 9) {
+        unpaidNineBallSeasons.push(unpaidSeasons[i]);
+      }
+    }
+    if (unpaidNineBallSeasons.length > 0) {
+      return (
+        <div className="unpaid-seasons-message">
+          <div className="unpaid-season-title">
+            <div className="nine-ball-icon" alt="nine ball" />
+            <h3>Payments Due:</h3>
+          </div>
+          <div className="unpaid-seasons-list">
+            <div className="unpaid-nine-ball">
+              {unpaidNineBallSeasons.map(season => {
+                return (
+                  <div
+                    key={season.seasonId + season.type}
+                    className="unpaid-item"
+                  >
+                    Season {season.seasonId}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="unpaid-total">
+            Total: £{unpaidNineBallSeasons.length}.00
+          </div>
+        </div>
+      );
+    } else {
+      return;
+    }
   };
 
   render() {
@@ -151,13 +217,8 @@ class UserPage extends React.Component {
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
-              <p>
-                You have played <b>99</b> matches
-              </p>
-              <p>
-                Your winning rate is <b>50%</b>
-              </p>
-              <div className="unpaid-seasons">{this.unpaidSeasonsTable()}</div>
+              {this.unpaidEightBallMessage()}
+              {this.unpaidNineBallMessage()}
             </div>
             <div className="content">
               <div className="contentLeft">
