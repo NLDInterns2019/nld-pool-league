@@ -184,9 +184,9 @@ router.post("/calculate", async (req, res) => {
     });
 
     //calculate wins as suitable regarding improvement HoF
-    if (seasons.length > 3) {
+    if (seasons.length > 2) {
       hofAll[i].winRate = Math.trunc(
-        (hofAll[i].wins * 100) / hofAll[i].plays - 2
+        (hofAll[i].wins * 100) / hofAll[i].plays - 1
       );
     } else {
       hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
@@ -194,7 +194,7 @@ router.post("/calculate", async (req, res) => {
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
-  //this is broken and terrible. i should be fired for writing this
+  //this is terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) {
     //need a new loop for scrappy so you know who the top player is
     /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
