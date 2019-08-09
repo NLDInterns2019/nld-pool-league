@@ -8,7 +8,6 @@ import SubNavBar from "./nav/SubNavBar.js";
 import Header from "./nav/Header.js";
 import "../App.css";
 import HoFTable from "./halloffame/HoFTable";
-import HoFTable9 from "./halloffame/HoFTable9";
 
 class HoFPage extends React.Component {
   constructor(props) {
@@ -16,7 +15,8 @@ class HoFPage extends React.Component {
     this.state = {
       type: "",
       latestSeason: "",
-      players: []
+      HoF8: [],
+      HoF9: []
     };
   }
 
@@ -37,18 +37,18 @@ class HoFPage extends React.Component {
     await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
-    const HoF8 = await backend.get("/api/hall_of_fame?type=8", {
+    const HoF8  = await backend.get("/api/hall_of_fame?type=8", {
     });
 
-    this.setState({ players: HoF8.data });
+    this.setState({ HoF8: HoF8.data });
 
     const HoF9 = await backend.get("/api/hall_of_fame?type=9", {
     });
 
     this.setState({ HoF9: HoF9.data });
 
-    this.createHoF();
-    //this.createHoF9();
+    await this.createHoF();
+    await this.createHoF9();
   };
 
   createHoF = async () => {
@@ -67,7 +67,7 @@ class HoFPage extends React.Component {
           headers: headers
         }
       ).then((result) => {
-        this.setState({players: result.data})
+        this.setState({HoF8: result.data})
       })
     } catch (e) {
       if (e.response.status === 401) {
@@ -86,13 +86,13 @@ class HoFPage extends React.Component {
       await backend.post(
         "/api/hall_of_fame/calculate",
         {
-          type: 8
+          type: 9
         },
         {
           headers: headers
         }
       ).then((result) => {
-        this.setState({players: result.data})
+        this.setState({HoF9: result.data})
       })
     } catch (e) {
       if (e.response.status === 401) {
@@ -128,7 +128,7 @@ class HoFPage extends React.Component {
               <h3>8-Ball</h3>
               <span className="eight-ball-icon" alt="eight ball" />
             </div>
-            <HoFTable players={this.state.players} />
+            <HoFTable players={this.state.HoF8} />
           </div>
           <div className="contentRight">
             <div className="hallOfFameTitleContainer">
@@ -136,7 +136,7 @@ class HoFPage extends React.Component {
               <h3>9-Ball</h3>
               <span className="nine-ball-icon" alt="nine ball" />
             </div>
-            <HoFTable9 HoF9={this.state.HoF9} />
+            <HoFTable players={this.state.HoF9} />
           </div>
         </div>
       </div>

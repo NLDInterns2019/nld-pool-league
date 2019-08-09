@@ -52,7 +52,8 @@ router.post("/calculate", async (req, res) => {
   let start = true;
   let names = ["", ""];
 
-  let leagues = await eight_nine_ball_leagues.query().where({
+  let leagues = await eight_nine_ball_leagues.query()
+  .where({
     type: type
   });
   if (leagues === 0) {
