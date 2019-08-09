@@ -9,8 +9,6 @@ import SeasonAccordion from "./userPage/SeasonAccordion";
 import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
-import UnpaidSeasonsTableHeader from "./userPage/UnpaidSeasonsTableHeader";
-import UnpaidSeasonsTableBody from "./userPage/UnpaidSeasonsTableBody";
 
 class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
