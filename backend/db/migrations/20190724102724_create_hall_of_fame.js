@@ -22,6 +22,7 @@ exports.up = function(knex) {
     table.integer("winningStreak").defaultTo(0);
     table.integer("losingStreak").defaultTo(0);
     table.integer("improvement").defaultTo(0);
+    table.integer("improvementRate").defaultTo(0);
     table.integer("curStreak").defaultTo(0);
     table.integer("curLosingStreak").defaultTo(0);
 
