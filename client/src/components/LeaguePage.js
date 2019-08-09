@@ -129,20 +129,10 @@ class App extends React.Component {
           "/api/slack/resultSubmitted",
           {
             type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason,
             players: state.players,
             score1: state.score1,
             score2: state.score2
-          },
-          {
-            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-          }
-        );
-        await backend.post(
-          "/api/slack/showTable",
-          {
-            type: parseInt(this.state.type, 10),
-            seasonId: this.state.activeSeason,
-            table: this.createConsoleTable()
           },
           {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -256,6 +246,7 @@ class App extends React.Component {
         {
           type: parseInt(this.state.type, 10),
           seasonId: this.state.activeSeason
+          //table: this.createConsoleTable()
         },
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -412,30 +403,30 @@ class App extends React.Component {
     }
   };
 
-  createConsoleTable = () => {
-    var values = [];
-    var players = this.state.players;
-    for (var i = 0; i < players.length; i++) {
-      values.push([
-        i + 1,
-        players[i].staffName,
-        players[i].play,
-        players[i].win,
-        players[i].draw,
-        players[i].lose,
-        players[i].goalsFor,
-        players[i].goalsAgainst,
-        players[i].points
-      ]);
-    }
+  // createConsoleTable = () => {
+  //   var values = [];
+  //   var players = this.state.players;
+  //   for (var i = 0; i < players.length; i++) {
+  //     values.push([
+  //       i + 1,
+  //       players[i].staffName,
+  //       players[i].play,
+  //       players[i].win,
+  //       players[i].draw,
+  //       players[i].lose,
+  //       players[i].goalsFor,
+  //       players[i].goalsAgainst,
+  //       players[i].points
+  //     ]);
+  //   }
 
-    const table = cTable.getTable(
-      ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
-      values
-    );
+  //   const table = cTable.getTable(
+  //     ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
+  //     values
+  //   );
 
-    return table;
-  };
+  //   return table;
+  // };
 
   render() {
     return (
