@@ -1391,6 +1391,11 @@ tr td:last-child {
   .leagueTable {
     font-size: 18pt;
   }
+
+  .summary-container {
+    width: 700px;
+    margin: auto;
+  }
 }
 
 @media only screen and (min-width: 1365px) {
