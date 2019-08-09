@@ -26,6 +26,44 @@ const colours = {
   info: "#fcba03" // yellow
 };
 
+/* create a league table string from an array of players */
+function createConsoleTable(players) {
+  var values = [];
+  for (var i = 0; i < players.length; i++) {
+    values.push([
+      i + 1,
+      players[i].staffName,
+      players[i].play,
+      players[i].win,
+      players[i].draw,
+      players[i].lose,
+      players[i].goalsFor,
+      players[i].goalsAgainst,
+      players[i].points
+    ]);
+  }
+
+  const table = cTable.getTable(
+    ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
+    values
+  );
+
+  return table;
+}
+
+function getLeagueTable(type, seasonId) {
+  return eight_nine_ball_leagues
+    .query()
+    .where({
+      type: parseInt(type),
+      seasonId: parseInt(seasonId)
+    })
+    .orderBy("points", "desc")
+    .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
+    .orderBy("win", "desc");
+}
+
 /* 
   POST handler for /api/slack/booking
   Function: To send new booking message
@@ -288,6 +326,7 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
 router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number().required(),
+    seasonId: Joi.number().required(),
     players: Joi.string().required(),
     score1: Joi.number().required(),
     score2: Joi.number().required()
@@ -299,39 +338,48 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  const response = await web.chat
-    .postMessage({
-      channel: channel,
-      /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
-      attachments: [
-        {
-          mrkdwn_in: ["text"],
-          color: colours.results,
-          pretext:
-            (req.body.type === 8
-              ? ":8ball:"
-              : req.body.type === 9
-              ? ":9ball:"
-              : "TYPE ERROR") + " *Result:*",
-          text:
-            req.body.players.split(" ")[0] +
-            "  " +
-            req.body.score1 +
-            "  -  " +
-            req.body.score2 +
-            "  " +
-            req.body.players.split(" ")[1]
+  getLeagueTable(req.body.type, req.body.seasonId).then(async players => {
+    const table = createConsoleTable(players);
+    const response = await web.chat
+      .postMessage({
+        channel: channel,
+        /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.results,
+            pretext:
+              (req.body.type === 8
+                ? ":8ball:"
+                : req.body.type === 9
+                ? ":9ball:"
+                : "TYPE ERROR") +
+              " *Season " +
+              req.body.seasonId +
+              " Result:*",
+            text:
+              req.body.players.split(" ")[0] +
+              "  " +
+              req.body.score1 +
+              "  -  " +
+              req.body.score2 +
+              "  " +
+              req.body.players.split(" ")[1] +
+              "\n\nUpdated League Table:\n```" +
+              table +
+              "```"
+          }
+        ]
+      })
+      .then(
+        response => {
+          res.status(200).json(response);
+        },
+        e => {
+          res.status(400).send(e);
         }
-      ]
-    })
-    .then(
-      response => {
-        res.status(200).json(response);
-      },
-      e => {
-        res.status(400).send(e);
-      }
-    );
+      );
+  });
 });
 
 /* 
@@ -341,8 +389,8 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
 router.post("/showTable", auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number().required(),
-    seasonId: Joi.number().required(),
-    table: Joi.string().required()
+    seasonId: Joi.number().required()
+    //table: Joi.string().required()
   };
 
   //Validation
@@ -351,60 +399,38 @@ router.post("/showTable", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  const response = await web.chat
-    .postMessage({
-      channel: channel,
-      attachments: [
-        {
-          mrkdwn_in: ["text"],
-          color: colours.seasons,
-          pretext:
-            (req.body.type === 8
-              ? ":8ball:"
-              : req.body.type === 9
-              ? ":9ball:"
-              : "TYPE ERROR") +
-            "* Season " +
-            req.body.seasonId +
-            " League Table:*",
-          text: "```" + req.body.table + "```"
+  getLeagueTable(req.body.type, req.body.seasonId).then(async players => {
+    const table = createConsoleTable(players);
+    const response = await web.chat
+      .postMessage({
+        channel: channel, // public to the channel
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.seasons,
+            pretext:
+              (req.body.type === 8
+                ? ":8ball:"
+                : req.body.type === 9
+                ? ":9ball:"
+                : "TYPE ERROR") +
+              "* Season " +
+              req.body.seasonId +
+              " League Table:*",
+            text: "```" + table + "```"
+          }
+        ]
+      })
+      .then(
+        response => {
+          res.status(200).json(response);
+        },
+        e => {
+          res.status(400).send(e);
         }
-      ]
-    })
-    .then(
-      response => {
-        res.status(200).json(response);
-      },
-      e => {
-        res.status(400).send(e);
-      }
-    );
+      );
+  });
 });
-
-/* create a league table string from an array of players */
-function createConsoleTable(players) {
-  var values = [];
-  for (var i = 0; i < players.length; i++) {
-    values.push([
-      i + 1,
-      players[i].staffName,
-      players[i].play,
-      players[i].win,
-      players[i].draw,
-      players[i].lose,
-      players[i].goalsFor,
-      players[i].goalsAgainst,
-      players[i].points
-    ]);
-  }
-
-  const table = cTable.getTable(
-    ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
-    values
-  );
-
-  return table;
-}
 
 /* 
   POST handler for /api/slack/feePaid
@@ -508,6 +534,7 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number().required(),
     seasonId: Joi.number().required()
+    //table: Joi.string().required()
   };
 
   //Validation
@@ -516,31 +543,37 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  const response = await web.chat
-    .postMessage({
-      channel: channel,
-      attachments: [
-        {
-          mrkdwn_in: ["text"],
-          color: colours.seasons,
-          pretext:
-            (req.body.type === 8
-              ? ":8ball:"
-              : req.body.type === 9
-              ? ":9ball:"
-              : "TYPE ERROR") + "* Season Closed:*",
-          text: "Season " + req.body.seasonId
+  getLeagueTable(req.body.type, req.body.seasonId).then(async players => {
+    const table = createConsoleTable(players);
+    const response = await web.chat
+      .postMessage({
+        channel: channel,
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.seasons,
+            pretext:
+              (req.body.type === 8
+                ? ":8ball:"
+                : req.body.type === 9
+                ? ":9ball:"
+                : "TYPE ERROR") +
+              "* Season " +
+              req.body.seasonId +
+              " Closed:*",
+            text: "Final Standings: \n```" + table + "```"
+          }
+        ]
+      })
+      .then(
+        response => {
+          res.status(200).json(response);
+        },
+        e => {
+          res.status(400).send(e);
         }
-      ]
-    })
-    .then(
-      response => {
-        res.status(200).json(response);
-      },
-      e => {
-        res.status(400).send(e);
-      }
-    );
+      );
+  });
 });
 
 /* 
@@ -583,50 +616,43 @@ router.post("/poolCommand", async (req, res) => {
       };
       res.json(response);
     } else {
-      eight_nine_ball_leagues
-        .query()
-        .where({ type: parseInt(type), seasonId: parseInt(seasonId) })
-        .orderBy("points", "desc")
-        .orderBy("goalsFor", "desc")
-        .orderBy("goalsAgainst", "asc")
-        .orderBy("win", "desc")
-        .then(
-          players => {
-            if (!players.length) {
-              const response = {
-                response_type: "in_channel",
-                text: "Nothing to show"
-              };
+      getLeagueTable(parseInt(type), parseInt(seasonId)).then(
+        players => {
+          if (!players.length) {
+            const response = {
+              response_type: "in_channel",
+              text: "Nothing to show"
+            };
 
-              res.json(response);
-            } else {
-              const table = createConsoleTable(players);
-              const response = {
-                response_type: "in_channel", // public to the channel
-                attachments: [
-                  {
-                    mrkdwn_in: ["text"],
-                    color: colours.seasons,
-                    pretext:
-                      (type === "8"
-                        ? ":8ball:"
-                        : type === "9"
-                        ? ":9ball:"
-                        : "TYPE ERROR") +
-                      "* Season " +
-                      seasonId +
-                      " League Table:*",
-                    text: "```" + table + "```"
-                  }
-                ]
-              };
-              res.json(response);
-            }
-          },
-          e => {
-            res.status(400).json(e);
+            res.json(response);
+          } else {
+            const table = createConsoleTable(players);
+            const response = {
+              response_type: "in_channel", // public to the channel
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: colours.seasons,
+                  pretext:
+                    (type === "8"
+                      ? ":8ball:"
+                      : type === "9"
+                      ? ":9ball:"
+                      : "TYPE ERROR") +
+                    "* Season " +
+                    seasonId +
+                    " League Table:*",
+                  text: "```" + table + "```"
+                }
+              ]
+            };
+            res.json(response);
           }
-        );
+        },
+        e => {
+          res.status(400).json(e);
+        }
+      );
     }
   } else if (func === "today" && text.split(" ").length === 1) {
     let start = moment()
