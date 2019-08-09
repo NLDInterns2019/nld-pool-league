@@ -403,31 +403,6 @@ class App extends React.Component {
     }
   };
 
-  // createConsoleTable = () => {
-  //   var values = [];
-  //   var players = this.state.players;
-  //   for (var i = 0; i < players.length; i++) {
-  //     values.push([
-  //       i + 1,
-  //       players[i].staffName,
-  //       players[i].play,
-  //       players[i].win,
-  //       players[i].draw,
-  //       players[i].lose,
-  //       players[i].goalsFor,
-  //       players[i].goalsAgainst,
-  //       players[i].points
-  //     ]);
-  //   }
-
-  //   const table = cTable.getTable(
-  //     ["Pos", "Name", "P", "W", "D", "L", "F", "A", "Pts"],
-  //     values
-  //   );
-
-  //   return table;
-  // };
-
   render() {
     return (
       <div className="app">

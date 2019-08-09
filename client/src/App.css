@@ -1029,6 +1029,40 @@ tr td:last-child {
   border-radius: 15px;
 }
 
+.current-stats {
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.current-stats h4 {
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.current-league-pos {
+  display: flex;
+  align-items: center;
+}
+
+.league-pos h4 {
+  background-color: #127e5c;
+  color: white;
+  padding: 5px 15px;
+}
+
+.current-form {
+  text-align: right;
+  margin-left: auto;
+  display: flex;
+}
+
+.current-form .form-item {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 .arrangedFixturesContainer {
   min-width: 650px;
   margin: 0 auto;
@@ -1444,25 +1478,25 @@ tr td:last-child {
     margin-bottom: 10px;
   }
 
-  .win-icon {
+  .leagueTable .win-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/win-small.svg");
   }
 
-  .draw-icon {
+  .leagueTable .draw-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/draw-small.svg");
   }
 
-  .loss-icon {
+  .leagueTable .loss-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/loss-small.svg");
   }
 
-  .no-game-icon {
+  .leagueTable .no-game-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/no-game-small.svg");
@@ -1496,25 +1530,25 @@ tr td:last-child {
     font-size: 18pt;
   }
 
-  .win-icon {
+  .leagueTable .win-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/win.svg");
   }
 
-  .draw-icon {
+  .leagueTable .draw-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/draw.svg");
   }
 
-  .loss-icon {
+  .leagueTable .loss-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/loss.svg");
   }
 
-  .no-game-icon {
+  .leagueTable .no-game-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/no-game.svg");

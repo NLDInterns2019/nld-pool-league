@@ -194,6 +194,48 @@ class UserPage extends React.Component {
     }
   };
 
+  getPlayerForm = forms => {
+    let formsToBeDisplayed = [];
+    if (!forms) {
+      forms = "-----";
+    }
+    for (let i = 0; i < forms.length; i++) {
+      if (forms.charAt(i) === "W") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="win-icon" alt="win" />
+          </div>
+        );
+      }
+      if (forms.charAt(i) === "D") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="draw-icon" alt="draw" />
+          </div>
+        );
+      }
+      if (forms.charAt(i) === "L") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="loss-icon" alt="loss" />
+          </div>
+        );
+      }
+      if (forms.charAt(i) === "-") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="no-game-icon" alt="no game" />
+          </div>
+        );
+      }
+    }
+    return formsToBeDisplayed;
+  };
+
+  getLeaguePos = () => {
+    return <h4>1st</h4>;
+  };
+
   render() {
     return (
       <div className="app">
@@ -220,11 +262,21 @@ class UserPage extends React.Component {
             </div>
             <div className="content">
               <div className="contentLeft">
+                <div className="summary-title">
+                  <div className="eight-ball-icon" alt="eight ball" />
+                  <h3>8-Ball Summary</h3>
+                  <div className="eight-ball-icon" alt="eight ball" />
+                </div>
                 <div className="summary-container">
-                  <div className="summary-title">
-                    <div className="eight-ball-icon" alt="eight ball" />
-                    <h3>8-Ball Summary</h3>
-                    <div className="eight-ball-icon" alt="eight ball" />
+                  <div className="current-stats">
+                    <div className="current-league-pos">
+                      <h4>Current League Position:</h4>
+                      <div className="league-pos">{this.getLeaguePos()}</div>
+                    </div>
+                    <div className="current-form">
+                      <h4>Form:</h4>
+                      {this.getPlayerForm()}
+                    </div>
                   </div>
                   <SeasonAccordion type="8" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
@@ -237,11 +289,21 @@ class UserPage extends React.Component {
                 </div>
               </div>
               <div className="contentRight">
+                <div className="summary-title">
+                  <div className="nine-ball-icon" alt="nine ball" />
+                  <h3>9-Ball Summary</h3>
+                  <div className="nine-ball-icon" alt="nine ball" />
+                </div>
                 <div className="summary-container">
-                  <div className="summary-title">
-                    <div className="nine-ball-icon" alt="nine ball" />
-                    <h3>9-Ball Summary</h3>
-                    <div className="nine-ball-icon" alt="nine ball" />
+                  <div className="current-stats">
+                    <div className="current-league-pos">
+                      <h4>Current League Position:</h4>
+                      <div className="league-pos">{this.getLeaguePos()}</div>
+                    </div>
+                    <div className="current-form">
+                      <h4>Form:</h4>
+                      {this.getPlayerForm()}
+                    </div>
                   </div>
                   <SeasonAccordion type="9" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">

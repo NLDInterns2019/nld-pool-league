@@ -20,6 +20,7 @@
   border: none;
   border-radius: 25px;
   transition: background-color 0.1s linear;
+  width: 90%;
 }
 
 .accordion__button:hover {
