@@ -9,20 +9,21 @@ const UpcomingMatch = props => {
           {moment(booking.start).format("ddd DD MMM YYYY")}
         </td>
         <td align="center">{moment(booking.start).format("HH:mm")}</td>
-        <td align="center">{booking.title}</td>
+        {booking.player1 === props.player ? (
+          <td align="center">{booking.player2}</td>
+        ) : (
+          <td align="center">{booking.player1}</td>
+        )}
       </tr>
     );
   });
 
   return (
     <div className="upcomingMatchesTableContainer">
-      <div className="upcomingMatchesTitle">
-        <div className="calendar-icon" alt="calendar" />
-        <h3>Upcoming Matches</h3>
-        <div className="calendar-icon" alt="calendar" />
-      </div>
+      <h4 style={{ fontWeight: "bold" }}>Upcoming Arranged Matches:</h4>
+
       <table
-        style={{ width: "40rem" }}
+        style={{ width: "100%", textAlign: "center", fontSize: "14pt" }}
         className="upcomingMatchesTable"
         cellSpacing="0"
       >
@@ -30,7 +31,7 @@ const UpcomingMatch = props => {
           <tr>
             <th>Date</th>
             <th>Time</th>
-            <th>Description</th>
+            <th>Opponent</th>
           </tr>
         </thead>
         <tbody>{body}</tbody>

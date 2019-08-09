@@ -291,7 +291,10 @@ class UserPage extends React.Component {
                   <SeasonAccordion type="8" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
                     {this.state.bookings.length ? (
-                      <UpcomingMatch bookings={this.state.bookings} />
+                      <UpcomingMatch
+                        bookings={this.state.bookings}
+                        player={this.state.player}
+                      />
                     ) : (
                       <h4>You have no arranged fixtures</h4>
                     )}
@@ -318,7 +321,10 @@ class UserPage extends React.Component {
                   <SeasonAccordion type="9" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
                     {this.state.bookings.length ? (
-                      <UpcomingMatch bookings={this.state.bookings} />
+                      <UpcomingMatch
+                        bookings={this.state.bookings}
+                        player={this.state.player}
+                      />
                     ) : (
                       <h4>You have no arranged fixtures</h4>
                     )}
