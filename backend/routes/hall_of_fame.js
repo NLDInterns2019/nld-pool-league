@@ -194,7 +194,7 @@ router.post("/calculate", async (req, res) => {
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
-  //this is broken and terrible. i should be fired for writing this
+  //this is terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) {
     //need a new loop for scrappy so you know who the top player is
     /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
