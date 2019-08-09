@@ -125,6 +125,10 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
+
+    if (seasons.length > 1) { //with more than one season
+      hofRow.improvement = hofRow.improvement
+    }
    // if (seasons.length > 2) {
       //only with more than 3 seasons
     //  if (i > seasons.length - 1) {
