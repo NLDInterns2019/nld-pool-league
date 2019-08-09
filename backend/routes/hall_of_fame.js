@@ -125,17 +125,17 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-    if (seasons.length > 3) {
+   // if (seasons.length > 2) {
       //only with more than 3 seasons
-      if (i > seasons.length - 2) {
+    //  if (i > seasons.length - 1) {
         //and only with the latest two
-        hofRow.improvement = hofRow.improvement + leagues[i].win;
-      } else {
+     //   hofRow.improvement = hofRow.improvement + leagues[i].win;
+     // } else {
         hofRow.wins = hofRow.wins + leagues[i].win;
-      }
-    } else {
-      hofRow.wins = hofRow.wins + leagues[i].win;
-    }
+     // }
+   // } else {
+    //  hofRow.wins = hofRow.wins + leagues[i].win;
+    //}
 
     //basic calculations to aid numerous features
     hofRow.plays = hofRow.plays + leagues[i].play;
@@ -184,13 +184,13 @@ router.post("/calculate", async (req, res) => {
     });
 
     //calculate wins as suitable regarding improvement HoF
-    if (seasons.length > 2) {
+   // if (seasons.length > 2) {
       hofAll[i].winRate = Math.trunc(
-        (hofAll[i].wins * 100) / hofAll[i].plays - 1
-      );
-    } else {
-      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
-    }
+        (hofAll[i].wins * 100) / hofAll[i].plays) //-1
+    //  );
+   // } else {
+    //  hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+   // }
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
