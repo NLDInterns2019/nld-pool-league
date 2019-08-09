@@ -922,6 +922,8 @@ tr td:last-child {
 }
 
 /* ==== Dashboard ==== */
+
+/* upcoming matches */
 .upcomingMatchesTitle {
   display: flex;
   flex-direction: row;
@@ -946,16 +948,15 @@ tr td:last-child {
 .arrangedFixturesContainer {
   text-align: left;
   padding-left: 18px;
+  min-width: 650px;
+  margin: 0 auto;
 }
 
+/* unplayed fixtures */
 .unplayedTitle {
   display: flex;
   flex-direction: row;
   padding-left: 18px;
-}
-
-.player-info {
-  margin-bottom: 4rem;
 }
 
 .unplayed-accordian {
@@ -963,6 +964,12 @@ tr td:last-child {
   margin: auto;
 }
 
+/* top of page */
+.player-info {
+  margin-bottom: 4rem;
+}
+
+/* unpaid seasons */
 .unpaid-seasons-message,
 .unpaid-season-title,
 .unpaid-seasons-list,
@@ -1006,6 +1013,7 @@ tr td:last-child {
   text-align: right;
 }
 
+/* summary */
 .summary-title {
   display: flex;
   justify-content: center;
@@ -1029,27 +1037,33 @@ tr td:last-child {
   border-radius: 15px;
 }
 
-.current-stats {
+/* stats */
+.current-stats,
+.all-time-stats {
   display: flex;
   align-items: center;
   padding-left: 18px;
   padding-right: 18px;
 }
 
-.current-stats h4 {
+.current-stats h4,
+.all-time-stats h4 {
   margin-right: 1rem;
   font-weight: bold;
 }
 
-.current-league-pos {
+.current-league-pos,
+.points-per-game {
   display: flex;
   align-items: center;
 }
 
-.league-pos h4 {
+.stat h4 {
   background-color: #127e5c;
   color: white;
   padding: 5px 15px;
+  margin-right: 0;
+  font-weight: normal;
 }
 
 .current-form {
@@ -1063,9 +1077,19 @@ tr td:last-child {
   padding-right: 2px;
 }
 
-.arrangedFixturesContainer {
-  min-width: 650px;
-  margin: 0 auto;
+.current-form .form-item:last-child {
+  padding-right: 0;
+}
+
+.win-percentage {
+  text-align: right;
+  margin-left: auto;
+  align-items: center;
+  display: flex;
+}
+
+.stats-container {
+  margin-bottom: 4rem;
 }
 
 /* ==== Icons ==== */

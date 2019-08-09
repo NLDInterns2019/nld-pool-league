@@ -9,6 +9,8 @@ import SeasonAccordion from "./userPage/SeasonAccordion";
 import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
+import CurrentStats from "./userPage/CurrentStats";
+import AllTimeStats from "./userPage/AllTimeStats";
 
 class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
@@ -236,6 +238,14 @@ class UserPage extends React.Component {
     return <h4>1st</h4>;
   };
 
+  getPPG = () => {
+    return <h4>2.24</h4>;
+  };
+
+  getWinPercentage = () => {
+    return <h4>54%</h4>;
+  };
+
   render() {
     return (
       <div className="app">
@@ -268,15 +278,15 @@ class UserPage extends React.Component {
                   <div className="eight-ball-icon" alt="eight ball" />
                 </div>
                 <div className="summary-container">
-                  <div className="current-stats">
-                    <div className="current-league-pos">
-                      <h4>Current League Position:</h4>
-                      <div className="league-pos">{this.getLeaguePos()}</div>
-                    </div>
-                    <div className="current-form">
-                      <h4>Form:</h4>
-                      {this.getPlayerForm()}
-                    </div>
+                  <div className="stats-container">
+                    <CurrentStats
+                      getLeaguePos={this.getLeaguePos()}
+                      getPlayerForm={this.getPlayerForm()}
+                    />
+                    <AllTimeStats
+                      getPPG={this.getPPG()}
+                      getWinPercentage={this.getWinPercentage()}
+                    />
                   </div>
                   <SeasonAccordion type="8" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
@@ -295,15 +305,15 @@ class UserPage extends React.Component {
                   <div className="nine-ball-icon" alt="nine ball" />
                 </div>
                 <div className="summary-container">
-                  <div className="current-stats">
-                    <div className="current-league-pos">
-                      <h4>Current League Position:</h4>
-                      <div className="league-pos">{this.getLeaguePos()}</div>
-                    </div>
-                    <div className="current-form">
-                      <h4>Form:</h4>
-                      {this.getPlayerForm()}
-                    </div>
+                  <div className="stats-container">
+                    <CurrentStats
+                      getLeaguePos={this.getLeaguePos()}
+                      getPlayerForm={this.getPlayerForm()}
+                    />
+                    <AllTimeStats
+                      getPPG={this.getPPG()}
+                      getWinPercentage={this.getWinPercentage()}
+                    />
                   </div>
                   <SeasonAccordion type="9" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
