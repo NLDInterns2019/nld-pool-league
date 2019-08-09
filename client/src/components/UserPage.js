@@ -220,17 +220,37 @@ class UserPage extends React.Component {
             </div>
             <div className="content">
               <div className="contentLeft">
-                <SeasonAccordion type="8" staffName={this.state.player} />
-                <br />
-                <SeasonAccordion type="9" staffName={this.state.player} />
+                <div className="summary-container">
+                  <div className="summary-title">
+                    <div className="eight-ball-icon" alt="eight ball" />
+                    <h3>8-Ball Summary</h3>
+                    <div className="eight-ball-icon" alt="eight ball" />
+                  </div>
+                  <SeasonAccordion type="8" staffName={this.state.player} />
+                  <div className="arrangedFixturesContainer">
+                    {this.state.bookings.length ? (
+                      <UpcomingMatch bookings={this.state.bookings} />
+                    ) : (
+                      <h4>You have no arranged fixtures</h4>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="contentRight">
-                <div className="arrangedFixturesContainer">
-                  {this.state.bookings.length ? (
-                    <UpcomingMatch bookings={this.state.bookings} />
-                  ) : (
-                    <h3>You have no arranged fixtures</h3>
-                  )}
+                <div className="summary-container">
+                  <div className="summary-title">
+                    <div className="nine-ball-icon" alt="nine ball" />
+                    <h3>9-Ball Summary</h3>
+                    <div className="nine-ball-icon" alt="nine ball" />
+                  </div>
+                  <SeasonAccordion type="9" staffName={this.state.player} />
+                  <div className="arrangedFixturesContainer">
+                    {this.state.bookings.length ? (
+                      <UpcomingMatch bookings={this.state.bookings} />
+                    ) : (
+                      <h4>You have no arranged fixtures</h4>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

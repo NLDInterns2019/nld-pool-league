@@ -57,28 +57,26 @@ class SeasonAccordion extends React.Component {
   render() {
     if (!this.state.unplayedSeasons.length) {
       return (
-        <h3>
-          You have no unplayed fixtures for <b>{this.state.type}-ball</b>
-        </h3>
+        <div className="unplayedTitle">
+          <h4>
+            You have no unplayed fixtures for <b>{this.state.type}-ball</b>
+          </h4>
+        </div>
       );
     }
     return (
       <div className="unplayed-accordian">
         {this.state.type === "8" ? (
           <div className="unplayedTitle">
-            <span className="eight-ball-icon" alt="eight ball" />
-            <h3>
+            <h4>
               Unplayed <strong>8-Ball</strong> Fixtures
-            </h3>
-            <span className="eight-ball-icon" alt="eight ball" />
+            </h4>
           </div>
         ) : (
           <div className="unplayedTitle">
-            <span className="nine-ball-icon" alt="nine ball" />
-            <h3>
+            <h4>
               Unplayed <strong>9-Ball</strong> Fixtures
-            </h3>
-            <span className="nine-ball-icon" alt="nine ball" />
+            </h4>
           </div>
         )}
         <span
