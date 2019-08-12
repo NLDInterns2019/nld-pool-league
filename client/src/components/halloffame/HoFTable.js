@@ -103,6 +103,18 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
+          <div className="thumbs-up-icon" alt="thumbs up" />
+        </td>
+        <td className="hofCell">4.0 GPA</td>
+        <td className="hofCell">{avgPoints ? avgPoints.staffName : "-"}</td>
+        <td className="hofCell">
+          {avgPoints
+            ? avgPoints.avgPoints + " point average"
+            : "Highest point average"}
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
           <div className="scales-icon" alt="scales" />
         </td>
         <td className="hofCell">Average</td>
