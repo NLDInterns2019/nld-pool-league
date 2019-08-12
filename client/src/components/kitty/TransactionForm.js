@@ -17,12 +17,18 @@ class TransactionForm extends React.Component {
   signal = Axios.CancelToken.source();
 
   getSeasonsList = async () => {
-    const response = await backend.get("/api/89ball_season", {
-      params: {
-        type: this.state.type
-      }
-    });
-    this.setState({ seasons: response.data });
+    try{
+      const response = await backend.get("/api/89ball_season", {
+        cancelToken: this.signal.token,
+        params: {
+          type: this.state.type
+        }
+      });
+      this.setState({ seasons: response.data });
+    }catch (err) {
+      //API CALL BEING CANCELED
+    }
+    
   };
 
   componentDidMount() {
@@ -33,6 +39,10 @@ class TransactionForm extends React.Component {
     if (this.state.type !== prevState.type) {
       this.getSeasonsList();
     }
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel("");
   }
 
   creditDebitRadio = () => {
