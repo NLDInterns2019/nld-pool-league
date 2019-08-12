@@ -1409,7 +1409,14 @@ tr td:last-child {
   vertical-align: middle;
   width: 40px;
   height: 40px;
-  background: url("./assets/money.svg");
+  background-image: url("./assets/money.svg");
+}
+
+.chequered-flag-icon {
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  background-image: url("./assets/chequered-flag.svg");
 }
 
 /* ==== Toast ==== */

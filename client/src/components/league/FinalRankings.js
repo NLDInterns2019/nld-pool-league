@@ -4,12 +4,12 @@ const FinalRankings = props => {
   return (
     <div style={{ marginBottom: "4rem" }}>
       <div className="seasonClosed">
-        <div className="lock-icon-large" alt="lock" />
+        <div className="chequered-flag-icon" alt="chequered flag" />
         <h1 style={{ fontSize: "40pt" }}>
           {" "}
           Season {props.season} has finished
         </h1>
-        <div className="lock-icon-large" alt="lock" />
+        <div className="chequered-flag-icon" alt="chequered flag" />
       </div>
       <div className="finalRankings">
         <div className="finalRankingsItem">
