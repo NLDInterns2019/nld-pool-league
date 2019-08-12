@@ -71,10 +71,10 @@ router.get("/all", (req, res) => {
 
   //Build the filter
   let where1 = {
-    type: req.query.type,
+    type: req.query.type
   };
   let where2 = {
-    type: req.query.type,
+    type: req.query.type
   };
 
   //Params handling
@@ -117,7 +117,8 @@ router.get("/:seasonId", (req, res) => {
       .integer()
       .required(),
     staffName: Joi.string(),
-    hidePlayed: Joi.string()
+    hidePlayed: Joi.string(),
+    showLess: Joi.string()
   };
 
   //Validation
@@ -151,19 +152,44 @@ router.get("/:seasonId", (req, res) => {
     where2.score2 = null;
   }
 
-  eight_nine_ball_fixtures
-    .query()
-    .where(where1)
-    .orWhere(where2)
-    .orderBy("player1")
-    .then(
-      fixture => {
-        res.send(fixture);
-      },
-      e => {
-        res.status(500).json(e);
-      }
-    );
+  if (req.query.hasOwnProperty("showLess") && req.query.showLess === "true") {
+    eight_nine_ball_fixtures
+      .query()
+      .where(function() {
+        this.where(where1)
+        .orWhere(where2)
+      })
+      .andWhere(
+        "date",
+        "<=",
+        moment()
+          .add(2, "weeks")
+          .toISOString()
+      )
+      .orderBy("player1")
+      .then(
+        fixture => {
+          res.send(fixture);
+        },
+        e => {
+          res.status(500).json(e);
+        }
+      );
+  } else {
+    eight_nine_ball_fixtures
+      .query()
+      .where(where1)
+      .orWhere(where2)
+      .orderBy("player1")
+      .then(
+        fixture => {
+          res.send(fixture);
+        },
+        e => {
+          res.status(500).json(e);
+        }
+      );
+  }
 });
 
 /* 

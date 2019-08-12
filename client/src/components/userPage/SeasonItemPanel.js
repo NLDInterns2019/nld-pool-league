@@ -28,7 +28,8 @@ class SeasonItemPanel extends React.Component {
         params: {
           type: this.state.type,
           staffName: this.state.staffName,
-          hidePlayed: true
+          hidePlayed: true,
+          showLess: true,
         }
       }
     );
