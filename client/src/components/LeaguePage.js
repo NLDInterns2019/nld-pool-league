@@ -9,7 +9,7 @@ import LeagueTable from "./league/LeagueTable";
 import FixtureList from "./fixture/FixtureList";
 import SubmitScoreForm from "./fixture/SubmitScoreForm";
 import ViewYourFixtures from "./fixture/ViewYourFixtures";
-import FinalRankTable from "./league/FinalRankTable";
+import FinalRankings from "./league/FinalRankings";
 import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
@@ -246,7 +246,6 @@ class App extends React.Component {
         {
           type: parseInt(this.state.type, 10),
           seasonId: this.state.activeSeason
-          //table: this.createConsoleTable()
         },
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -336,23 +335,6 @@ class App extends React.Component {
     );
   };
 
-  showSeasonClosed = () => {
-    return (
-      <div>
-        <div className="seasonClosed">
-          <div className="lock-icon" alt="lock" />
-          <h1> Season is closed</h1>
-          <div className="lock-icon" alt="lock" />
-        </div>
-        <FinalRankTable
-          activeSeason={this.state.activeSeason}
-          players={this.state.players}
-        />
-        <FinalStat players={this.state.players} />
-      </div>
-    );
-  };
-
   feePaid = async staffName => {
     try {
       await backend.put(
@@ -403,6 +385,19 @@ class App extends React.Component {
     }
   };
 
+  showFinalRankings = () => {
+    return (
+      <FinalRankings
+        players={this.state.players}
+        season={this.state.activeSeason}
+      />
+    );
+  };
+
+  showFinalStats = () => {
+    return <FinalStat players={this.state.players} />;
+  };
+
   render() {
     return (
       <div className="app">
@@ -412,6 +407,12 @@ class App extends React.Component {
           type={this.state.type}
           activeSeason={this.state.activeSeason}
         />
+
+        {this.state.finished === null
+          ? null
+          : this.state.finished
+          ? this.showFinalRankings()
+          : null}
         <div className="content">
           <div className="contentLeft">
             <LeagueTable
@@ -420,14 +421,11 @@ class App extends React.Component {
               deletePlayer={this.deletePlayer}
               feePaid={this.feePaid}
             />
-            {this.state.finished === null
-              ? null
-              : this.state.finished
-              ? this.showSeasonClosed()
-              : this.showSubmitResult()}
+            {!this.state.finished ? this.showSubmitResult() : null}
           </div>
           <div className="contentRight">
             <div className="contentRight-top">
+              {this.state.finished ? this.showFinalStats() : null}
               <ViewYourFixtures
                 players={this.state.players} //Force update when player is deleted
                 type={this.state.type}
