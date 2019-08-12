@@ -53,7 +53,7 @@ router.get("/upcoming", (req, res) => {
     .where(where1)
     .andWhereBetween("start", [
       moment()
-      .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
+        .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
         .toDate()
         .toISOString(),
       moment()
@@ -142,6 +142,45 @@ router.put("/add/message_id", auth.checkJwt, (req, res) => {
     .query()
     .where({ id: req.body.id })
     .patch({ messageId: req.body.messageId })
+    .then(
+      result => {
+        if (res === 0) {
+          res.status(404).send();
+        }
+        res.json(result);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  PUT handler for /api/booking/edit
+  Function: To edit the booking
+*/
+router.put("/edit", auth.checkJwt, (req, res) => {
+  const schema = {
+    id: Joi.number().required(),
+    messageId: Joi.string().required(),
+    start: Joi.string().required(),
+    end: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  bookings
+    .query()
+    .where({ id: req.body.id })
+    .patch({
+      messageId: req.body.messageId,
+      start: req.body.start,
+      end: req.body.end
+    })
     .then(
       result => {
         if (res === 0) {
