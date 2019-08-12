@@ -423,7 +423,11 @@ class App extends React.Component {
               feePaid={this.feePaid}
             />
             {/* if the season hasn't finished, show the submit score form */}
-            {!this.state.finished ? this.showSubmitResult() : null}
+            {this.state.finished === null
+              ? null
+              : !this.state.finished
+              ? this.showSubmitResult()
+              : null}
           </div>
           <div className="contentRight">
             <div className="contentRight-top">
