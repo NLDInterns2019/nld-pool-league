@@ -9,7 +9,7 @@ import LeagueTable from "./league/LeagueTable";
 import FixtureList from "./fixture/FixtureList";
 import SubmitScoreForm from "./fixture/SubmitScoreForm";
 import ViewYourFixtures from "./fixture/ViewYourFixtures";
-import FinalRankTable from "./league/FinalRankTable";
+import FinalRankings from "./league/FinalRankings";
 import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
@@ -246,7 +246,6 @@ class App extends React.Component {
         {
           type: parseInt(this.state.type, 10),
           seasonId: this.state.activeSeason
-          //table: this.createConsoleTable()
         },
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -386,42 +385,12 @@ class App extends React.Component {
     }
   };
 
-  showSeasonClosed = () => {
+  showFinalRankings = () => {
     return (
-      <div style={{ marginBottom: "4rem" }}>
-        <div className="seasonClosed">
-          <div className="lock-icon-large" alt="lock" />
-          <h1 style={{ fontSize: "40pt" }}>
-            {" "}
-            Season {this.state.activeSeason} has finished
-          </h1>
-          <div className="lock-icon-large" alt="lock" />
-        </div>
-        <div className="finalRankings">
-          <div className="finalRankingsItem">
-            <div className="gold-medal-icon-large" alt="first place" />
-            <h1 style={{ fontSize: "50pt" }}>
-              {this.state.players[0].staffName} &nbsp;&nbsp;{" "}
-              {this.state.players[0].points} pts
-            </h1>
-          </div>
-          <div className="finalRankingsItem">
-            <div className="silver-medal-icon-large" alt="second place" />
-            <h1 style={{ fontSize: "36pt" }}>
-              {this.state.players[1].staffName} &nbsp;&nbsp;{" "}
-              {this.state.players[1].points} pts
-            </h1>
-          </div>
-          <div className="finalRankingsItem">
-            <div className="bronze-medal-icon-large" alt="third place" />
-            <h1 style={{ fontSize: "36pt" }}>
-              {this.state.players[2].staffName} &nbsp;&nbsp;{" "}
-              {this.state.players[2].points} pts
-            </h1>
-          </div>
-        </div>
-        {/* <FinalStat players={this.state.players} /> */}
-      </div>
+      <FinalRankings
+        players={this.state.players}
+        season={this.state.activeSeason}
+      />
     );
   };
 
@@ -442,7 +411,7 @@ class App extends React.Component {
         {this.state.finished === null
           ? null
           : this.state.finished
-          ? this.showSeasonClosed()
+          ? this.showFinalRankings()
           : null}
         <div className="content">
           <div className="contentLeft">
