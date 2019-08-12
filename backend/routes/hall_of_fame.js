@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
-const knex = require("../db/knex");
 
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
@@ -53,7 +52,8 @@ router.post("/calculate", async (req, res) => {
   let start = true;
   let names = ["", ""];
 
-  let leagues = await eight_nine_ball_leagues.query().where({
+  let leagues = await eight_nine_ball_leagues.query()
+  .where({
     type: type
   });
   if (leagues === 0) {
@@ -71,7 +71,7 @@ router.post("/calculate", async (req, res) => {
     //if the name isn't in the hall of fame, add it
     if (typeof hofRow === "undefined") {
       staffInHoF = false;
-      await knex("hall_of_fame").insert({
+      await hall_of_fame.query().insert({
         staffName: leagues[i].staffName,
         type: type
       });
@@ -125,22 +125,13 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-
-    if (seasons.length > 1) {
-      //with more than one season
-      hofRow.improvement = hofRow.improvement;
+console.log(seasons.length)
+console.log(seasons.length + " " + leagues[i].seasonId)
+   if (seasons.length > 1 && leagues[i].seasonId === seasons.length) { //with more than one season
+      hofRow.improvement = parseInt(leagues[i].win);
     }
-    // if (seasons.length > 2) {
-    //only with more than 3 seasons
-    //  if (i > seasons.length - 1) {
-    //and only with the latest two
-    //   hofRow.improvement = hofRow.improvement + leagues[i].win;
-    // } else {
     hofRow.wins = hofRow.wins + leagues[i].win;
-    // }
-    // } else {
-    //  hofRow.wins = hofRow.wins + leagues[i].win;
-    //}
+    
 
     //basic calculations to aid numerous features
     hofRow.plays = hofRow.plays + leagues[i].play;
@@ -154,6 +145,7 @@ router.post("/calculate", async (req, res) => {
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
 
+    console.log(hofRow.improvement + " new improvementzzzzzzzzzz")
     //update the table
     await hall_of_fame
       .query()
@@ -187,14 +179,24 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-
+console.log(hofAll[i].improvement + "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+    if (seasons.length > 1) {
+      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays - 1)
+    } else {
+      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays)
+    }
+    //hofAll[i].improvementRate = Math.trunc((hofAll.improvement * 100))
+    //hofAll[i].improvementRate = Math.trunc((hofAll.improvement * 100))
     //calculate wins as suitable regarding improvement HoF
-    // if (seasons.length > 2) {
-    hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays); //-1
+   // if (seasons.length > 2) {
+      hofAll[i].winRate = Math.trunc(
+        (hofAll[i].wins * 100) / hofAll[i].plays) //-1
     //  );
-    // } else {
+   // } else {
     //  hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
-    // }
+   // }
+   
+console.log(hofAll[i].improvement + "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
@@ -211,9 +213,11 @@ router.post("/calculate", async (req, res) => {
       ); //calculate scrappy
     }
   }
-
   //patch db
+  
   for (let v = 0; v < hofAll.length; v++) {
+    console.log(hofAll[v].wins + " final value wins")
+    console.log(hofAll[v].improvement + " final value improvement")
     await hall_of_fame
       .query()
       .findOne({

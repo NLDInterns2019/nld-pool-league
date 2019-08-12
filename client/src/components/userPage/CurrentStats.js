@@ -3,6 +3,8 @@ import Forms from "../league/Forms";
 
 const CurrentStats = props => {
   return (
+    <div>
+    <h2 style={{ textAlign: "left", marginLeft: "18px" }}>Current Season:</h2>
     <div className="current-stats">
       <div className="current-league-pos">
         <h4>Current League Position:</h4>
@@ -14,6 +16,7 @@ const CurrentStats = props => {
         <h4>Form:</h4>
         <Forms form={props.player ? props.player.form : []} />
       </div>
+    </div>
     </div>
   );
 };
