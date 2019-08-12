@@ -336,23 +336,6 @@ class App extends React.Component {
     );
   };
 
-  showSeasonClosed = () => {
-    return (
-      <div>
-        <div className="seasonClosed">
-          <div className="lock-icon" alt="lock" />
-          <h1> Season is closed</h1>
-          <div className="lock-icon" alt="lock" />
-        </div>
-        <FinalRankTable
-          activeSeason={this.state.activeSeason}
-          players={this.state.players}
-        />
-        <FinalStat players={this.state.players} />
-      </div>
-    );
-  };
-
   feePaid = async staffName => {
     try {
       await backend.put(
@@ -403,6 +386,49 @@ class App extends React.Component {
     }
   };
 
+  showSeasonClosed = () => {
+    return (
+      <div style={{ marginBottom: "4rem" }}>
+        <div className="seasonClosed">
+          <div className="lock-icon-large" alt="lock" />
+          <h1 style={{ fontSize: "40pt" }}>
+            {" "}
+            Season {this.state.activeSeason} has finished
+          </h1>
+          <div className="lock-icon-large" alt="lock" />
+        </div>
+        <div className="finalRankings">
+          <div className="finalRankingsItem">
+            <div className="gold-medal-icon-large" alt="first place" />
+            <h1 style={{ fontSize: "50pt" }}>
+              {this.state.players[0].staffName} &nbsp;&nbsp;{" "}
+              {this.state.players[0].points} pts
+            </h1>
+          </div>
+          <div className="finalRankingsItem">
+            <div className="silver-medal-icon-large" alt="second place" />
+            <h1 style={{ fontSize: "36pt" }}>
+              {this.state.players[1].staffName} &nbsp;&nbsp;{" "}
+              {this.state.players[1].points} pts
+            </h1>
+          </div>
+          <div className="finalRankingsItem">
+            <div className="bronze-medal-icon-large" alt="third place" />
+            <h1 style={{ fontSize: "36pt" }}>
+              {this.state.players[2].staffName} &nbsp;&nbsp;{" "}
+              {this.state.players[2].points} pts
+            </h1>
+          </div>
+        </div>
+        {/* <FinalStat players={this.state.players} /> */}
+      </div>
+    );
+  };
+
+  showFinalStats = () => {
+    return <FinalStat players={this.state.players} />;
+  };
+
   render() {
     return (
       <div className="app">
@@ -412,6 +438,12 @@ class App extends React.Component {
           type={this.state.type}
           activeSeason={this.state.activeSeason}
         />
+
+        {this.state.finished === null
+          ? null
+          : this.state.finished
+          ? this.showSeasonClosed()
+          : null}
         <div className="content">
           <div className="contentLeft">
             <LeagueTable
@@ -420,14 +452,11 @@ class App extends React.Component {
               deletePlayer={this.deletePlayer}
               feePaid={this.feePaid}
             />
-            {this.state.finished === null
-              ? null
-              : this.state.finished
-              ? this.showSeasonClosed()
-              : this.showSubmitResult()}
+            {!this.state.finished ? this.showSubmitResult() : null}
           </div>
           <div className="contentRight">
             <div className="contentRight-top">
+              {this.state.finished ? this.showFinalStats() : null}
               <ViewYourFixtures
                 players={this.state.players} //Force update when player is deleted
                 type={this.state.type}

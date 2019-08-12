@@ -719,6 +719,25 @@ tr td:last-child {
   width: 60px;
 }
 
+/* ==== Final Rankings ==== */
+.finalRankings {
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.finalRankingsItem {
+  display: flex;
+  align-items: center;
+}
+
+.finalRankingsItem h1 {
+  margin-left: 3rem;
+}
+
 /* ==== Final Stats Table ==== */
 .finalStatsTitleContainer {
   display: flex;
@@ -733,7 +752,7 @@ tr td:last-child {
 
 .finalStatsTableContainer {
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: 5rem;
 }
 
 .finalStatsTable {
@@ -1207,6 +1226,13 @@ tr td:last-child {
   background-image: url("./assets/gold-medal.svg");
 }
 
+.gold-medal-icon-large {
+  vertical-align: middle;
+  width: 120px;
+  height: 120px;
+  background-image: url("./assets/gold-medal-large.svg");
+}
+
 .silver-medal-icon {
   vertical-align: middle;
   width: 24px;
@@ -1214,11 +1240,25 @@ tr td:last-child {
   background-image: url("./assets/silver-medal.svg");
 }
 
+.silver-medal-icon-large {
+  vertical-align: middle;
+  width: 60px;
+  height: 60px;
+  background-image: url("./assets/silver-medal-large.svg");
+}
+
 .bronze-medal-icon {
   vertical-align: middle;
   width: 24px;
   height: 24px;
   background-image: url("./assets/bronze-medal.svg");
+}
+
+.bronze-medal-icon-large {
+  vertical-align: middle;
+  width: 60px;
+  height: 60px;
+  background-image: url("./assets/bronze-medal-large.svg");
 }
 
 .shield-icon {
@@ -1261,6 +1301,13 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background-image: url("./assets/lock-small.svg");
+}
+
+.lock-icon-large {
+  vertical-align: middle;
+  width: 60px;
+  height: 60px;
+  background-image: url("./assets/lock-large.svg");
 }
 
 .thumbs-down-icon {
@@ -1437,7 +1484,7 @@ tr td:last-child {
 
   .contentLeft {
     order: 3;
-    margin-bottom: 8rem;
+    margin-bottom: 4rem;
     height: auto;
     position: static;
   }
