@@ -262,7 +262,7 @@ class UserPage extends React.Component {
         <ToastContainer />
         <Header />
         <SubNavBar
-          latestSeason={this.state.latestSeason}
+          latestSeason={this.state.type === "8" ? this.state.latestSeason8 : this.state.latestSeason9}
           type={this.state.type}
         />
         {!auth0Client.isAuthenticated() ? (
