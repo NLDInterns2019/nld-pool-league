@@ -408,6 +408,7 @@ class App extends React.Component {
           activeSeason={this.state.activeSeason}
         />
 
+        {/* if the season has finished, display the final rankings */}
         {this.state.finished === null
           ? null
           : this.state.finished
@@ -421,10 +422,16 @@ class App extends React.Component {
               deletePlayer={this.deletePlayer}
               feePaid={this.feePaid}
             />
-            {!this.state.finished ? this.showSubmitResult() : null}
+            {/* if the season hasn't finished, show the submit score form */}
+            {this.state.finished === null
+              ? null
+              : !this.state.finished
+              ? this.showSubmitResult()
+              : null}
           </div>
           <div className="contentRight">
             <div className="contentRight-top">
+              {/* if the season has finished, show the final stats */}
               {this.state.finished ? this.showFinalStats() : null}
               <ViewYourFixtures
                 players={this.state.players} //Force update when player is deleted
