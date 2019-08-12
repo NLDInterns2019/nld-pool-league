@@ -6,11 +6,13 @@ const CurrentStats = props => {
     <div className="current-stats">
       <div className="current-league-pos">
         <h4>Current League Position:</h4>
-        <div className="stat">{props.getLeaguePos}</div>
+        <div className="stat">
+          <h4>{props.position >=0 ? props.position + 1 : "-"}</h4>
+        </div>
       </div>
       <div className="current-form">
         <h4>Form:</h4>
-        <Forms form={props.form} />
+        <Forms form={props.player ? props.player.form : []} />
       </div>
     </div>
   );

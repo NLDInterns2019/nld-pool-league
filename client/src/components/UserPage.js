@@ -3,6 +3,7 @@ import backend from "../api/backend";
 import auth0Client from "../Auth";
 import { ToastContainer, toast } from "react-toastify";
 import Axios from "axios";
+import { find, findIndex } from "lodash";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
@@ -16,8 +17,8 @@ class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
   state = {
     player: " ",
-    form8: [],
-    form9: [],
+    players8: [],
+    players9: [],
     fixtures: [],
     latestSeason8: null,
     latestSeason9: null,
@@ -29,47 +30,63 @@ class UserPage extends React.Component {
   };
 
   getLatestSeason = async () => {
-    const latest8 = await backend.get("/api/89ball_season/latest", {
-      params: {
-        type: 8
-      }
-    });
+    try {
+      const latest8 = await backend.get("/api/89ball_season/latest", {
+        cancelToken: this.signal.token,
+        params: {
+          type: 8
+        }
+      });
 
-    this.setState({
-      latestSeason8: latest8.data[0].seasonId
-    });
+      this.setState({
+        latestSeason8: latest8.data[0].seasonId
+      });
+    } catch (err) {}
 
-    const latest9 = await backend.get("/api/89ball_season/latest", {
-      params: {
-        type: 9
-      }
-    });
+    try {
+      const latest9 = await backend.get("/api/89ball_season/latest", {
+        cancelToken: this.signal.token,
+        params: {
+          type: 9
+        }
+      });
 
-    this.setState({
-      latestSeason9: latest9.data[0].seasonId
-    });
+      this.setState({
+        latestSeason9: latest9.data[0].seasonId
+      });
+    } catch (err) {}
   };
 
   getBookings = async () => {
-    const bookings = await backend.get("/api/booking/upcoming", {
-      params: {
-        staffName: this.state.player
-      }
-    });
+    try {
+      const bookings = await backend.get("/api/booking/upcoming", {
+        cancelToken: this.signal.token,
+        params: {
+          staffName: this.state.player
+        }
+      });
 
-    this.setState({ bookings: bookings.data });
+      this.setState({ bookings: bookings.data });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   getUnpaidSeasons = async () => {
-    const unpaid = await backend.get("/api/kitty/unpaid", {
-      params: {
-        staffName: this.state.player
-      }
-    });
-    this.setState({ unpaid: unpaid.data });
+    try {
+      const unpaid = await backend.get("/api/kitty/unpaid", {
+        cancelToken: this.signal.token,
+        params: {
+          staffName: this.state.player
+        }
+      });
+      this.setState({ unpaid: unpaid.data });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
-  getForms = async () => {
+  getPlayers = async () => {
     if (this.state.latestSeason8 !== null) {
       const eight = await backend.get(
         "/api/89ball_league/" + this.state.latestSeason8,
@@ -77,11 +94,10 @@ class UserPage extends React.Component {
           cancelToken: this.signal.token,
           params: {
             type: 8,
-            staffName: this.state.player
           }
         }
       );
-      this.setState({ form8: eight.data[0].form });
+      this.setState({ players8: eight.data});
     }
 
     if (this.state.latestSeason9 !== null) {
@@ -91,11 +107,10 @@ class UserPage extends React.Component {
           cancelToken: this.signal.token,
           params: {
             type: 9,
-            staffName: this.state.player
           }
         }
       );
-      this.setState({ form9: nine.data[0].form });
+      this.setState({ players9: nine.data });
     }
   };
 
@@ -117,7 +132,7 @@ class UserPage extends React.Component {
         () => {
           this.getBookings();
           this.getUnpaidSeasons();
-          this.getForms();
+          this.getPlayers();
         }
       );
     }
@@ -128,7 +143,7 @@ class UserPage extends React.Component {
         this.state.latestSeason9 !== prevState.latestSeason9)
     ) {
       this.getUnpaidSeasons();
-      this.getForms();
+      this.getPlayers();
     }
   }
 
@@ -255,19 +270,14 @@ class UserPage extends React.Component {
     }
   };
 
-  /* retrieve current league position */
-  getLeaguePos = () => {
-    return <h4>1st</h4>;
-  };
-
   /* calculate average points per game */
   getPPG = () => {
-    return <h4>2.24</h4>;
+    return <h4>-</h4>;
   };
 
   /* calculate win percentage */
   getWinPercentage = () => {
-    return <h4>54%</h4>;
+    return <h4>-</h4>;
   };
 
   render() {
@@ -308,8 +318,8 @@ class UserPage extends React.Component {
                 <div className="summary-container">
                   <div className="stats-container">
                     <CurrentStats
-                      getLeaguePos={this.getLeaguePos()}
-                      form={this.state.form8}
+                      position={findIndex(this.state.players8, {staffName: this.state.player})}
+                      player={find(this.state.players8, {staffName: this.state.player})}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
@@ -338,8 +348,8 @@ class UserPage extends React.Component {
                 <div className="summary-container">
                   <div className="stats-container">
                     <CurrentStats
-                      getLeaguePos={this.getLeaguePos()}
-                      form={this.state.form9}
+                      position={findIndex(this.state.players9, {staffName: this.state.player})}
+                      player={find(this.state.players9, {staffName: this.state.player})}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
