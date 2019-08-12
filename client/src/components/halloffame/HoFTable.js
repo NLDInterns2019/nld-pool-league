@@ -14,9 +14,14 @@ const itemsToBeDisplayed = props => {
   let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
+  let avgPoints = maxBy(props.players, "avgPoints");
 
-  console.log(improved);
-  console.log(retire);
+  if (avgPoints !== undefined) {
+    if (avgPoints.avgPoints === 0) {
+      avgPoints = null;
+    }
+  }
+
   if (topPlayer !== undefined) {
     if (topPlayer.winRate === 0) {
       topPlayer = null;
@@ -94,6 +99,18 @@ const itemsToBeDisplayed = props => {
           {bestGame
             ? bestGame.highestPoints + " points in one season"
             : "Most points in a league"}
+        </td>
+      </tr>
+      <tr>
+        <td className="hofCell">
+          <div className="thumbs-up-icon" alt="thumbs up" />
+        </td>
+        <td className="hofCell">4.0 GPA</td>
+        <td className="hofCell">{avgPoints ? avgPoints.staffName : "-"}</td>
+        <td className="hofCell">
+          {avgPoints
+            ? avgPoints.avgPoints + " point average"
+            : "Highest point average"}
         </td>
       </tr>
       <tr>
