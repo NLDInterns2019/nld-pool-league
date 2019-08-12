@@ -15,8 +15,8 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
 
-  console.log(improved)
-  console.log(retire)
+  console.log(improved);
+  console.log(retire);
   if (topPlayer !== undefined) {
     if (topPlayer.winRate === 0) {
       topPlayer = null;
@@ -36,7 +36,7 @@ const itemsToBeDisplayed = props => {
   }
 
   if (draw !== undefined) {
-    if (draw.drawRate === 0||draw.drawRate === null) {
+    if (draw.drawRate === 0 || draw.drawRate === null) {
       draw = null;
     }
   }
@@ -88,7 +88,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           <div className="thumbs-up-icon" alt="thumbs up" />
         </td>
-        <td className="hofCell">Best Game</td>
+        <td className="hofCell">Best Season</td>
         <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
         <td className="hofCell">
           {bestGame
