@@ -1,6 +1,8 @@
 import React from "react";
+import Forms from "../league/Forms";
 
 const CurrentStats = props => {
+  console.log(props.form)
   return (
     <div className="current-stats">
       <div className="current-league-pos">
@@ -9,7 +11,7 @@ const CurrentStats = props => {
       </div>
       <div className="current-form">
         <h4>Form:</h4>
-        {props.getPlayerForm}
+        <Forms form={props.form} />
       </div>
     </div>
   );
