@@ -19,13 +19,13 @@ class UserPage extends React.Component {
     form8: [],
     form9: [],
     fixtures: [],
-    latestSeason8: "",
-    latestSeason9: "",
+    latestSeason8: null,
+    latestSeason9: null,
     type: "",
     groupCount: 0,
     bookings: [],
     unpaid: [],
-    isAuthenticated: false
+    intialAuthentication: false
   };
 
   getLatestSeason = async () => {
@@ -70,29 +70,33 @@ class UserPage extends React.Component {
   };
 
   getForms = async () => {
-    const eight = await backend.get(
-      "/api/89ball_league/" + this.state.latestSeason8,
-      {
-        cancelToken: this.signal.token,
-        params: {
-          type: 8,
-          staffName: this.state.player
+    if (this.state.latestSeason8 !== null) {
+      const eight = await backend.get(
+        "/api/89ball_league/" + this.state.latestSeason8,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: 8,
+            staffName: this.state.player
+          }
         }
-      }
-    );
-    this.setState({ form8: eight.data[0].form });
+      );
+      this.setState({ form8: eight.data[0].form });
+    }
 
-    const nine = await backend.get(
-      "/api/89ball_league/" + this.state.latestSeason9,
-      {
-        cancelToken: this.signal.token,
-        params: {
-          type: 9,
-          staffName: this.state.player
+    if (this.state.latestSeason9 !== null) {
+      const nine = await backend.get(
+        "/api/89ball_league/" + this.state.latestSeason9,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: 9,
+            staffName: this.state.player
+          }
         }
-      }
-    );
-    this.setState({ form9: nine.data.form });
+      );
+      this.setState({ form9: nine.data[0].form });
+    }
   };
 
   componentDidMount = async () => {
@@ -102,19 +106,29 @@ class UserPage extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      this.state.isAuthenticated === false &&
-      auth0Client.isAuthenticated() &&
-      this.state.latestSeason8 !== "" &&
-      this.state.latestSeason9 !== ""
+      this.state.intialAuthentication === false &&
+      auth0Client.isAuthenticated()
     ) {
       this.setState(
-        { player: auth0Client.getProfile().nickname, isAuthenticated: true },
+        {
+          player: auth0Client.getProfile().nickname,
+          intialAuthentication: true
+        },
         () => {
           this.getBookings();
           this.getUnpaidSeasons();
           this.getForms();
         }
       );
+    }
+
+    if (
+      auth0Client.isAuthenticated() &&
+      (this.state.latestSeason8 !== prevState.latestSeason8 ||
+        this.state.latestSeason9 !== prevState.latestSeason9)
+    ) {
+      this.getUnpaidSeasons();
+      this.getForms();
     }
   }
 
@@ -262,7 +276,11 @@ class UserPage extends React.Component {
         <ToastContainer />
         <Header />
         <SubNavBar
-          latestSeason={this.state.type === "8" ? this.state.latestSeason8 : this.state.latestSeason9}
+          latestSeason={
+            this.state.type === "8"
+              ? this.state.latestSeason8
+              : this.state.latestSeason9
+          }
           type={this.state.type}
         />
         {!auth0Client.isAuthenticated() ? (
