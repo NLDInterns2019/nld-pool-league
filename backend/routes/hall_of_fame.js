@@ -127,8 +127,13 @@ router.post("/calculate", async (req, res) => {
       type: type
     });
     
+    //change this to get users last played season if not in this one TODO
    if (seasons.length > 1 && leagues[i].seasonId === seasons.length) { //with more than one season
-      hofRow.improvement = parseInt(leagues[i].win);
+    console.log("entered")
+    hofRow.improvementRate = 
+      hofRow.improvementRate = parseInt((leagues[i].win * 100)/leagues[i].play)
+      hofRow.latestWins = parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+      console.log(hofRow.latestWins)
     }
     hofRow.wins = hofRow.wins + leagues[i].win;
     
@@ -145,9 +150,8 @@ router.post("/calculate", async (req, res) => {
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = Math.trunc(hofRow.totalPoints / hofRow.plays);
+    hofRow.avgPoints = Math.trunc(hofRow.totalPoints / hofRow.plays)
 
-    console.log(hofRow.improvement + " new improvementzzzzzzzzzz")
     //update the table
     await hall_of_fame
       .query()
@@ -181,7 +185,7 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-console.log(hofAll[i].improvement + "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+    
     if (seasons.length > 1) {
       hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays - 1)
     } else {
@@ -197,8 +201,6 @@ console.log(hofAll[i].improvement + "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
    // } else {
     //  hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
    // }
-   
-console.log(hofAll[i].improvement + "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
@@ -218,8 +220,6 @@ console.log(hofAll[i].improvement + "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
   //patch db
   
   for (let v = 0; v < hofAll.length; v++) {
-    console.log(hofAll[v].wins + " final value wins")
-    console.log(hofAll[v].improvement + " final value improvement")
     await hall_of_fame
       .query()
       .findOne({
