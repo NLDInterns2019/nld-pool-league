@@ -111,6 +111,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.losingStreak = 0;
       hofRow.curStreak = 0;
       hofRow.curLosingStreak = 0;
+      hofRow.totalPoints = 0;
       start = false;
     }
 
@@ -125,8 +126,7 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-console.log(seasons.length)
-console.log(seasons.length + " " + leagues[i].seasonId)
+    
    if (seasons.length > 1 && leagues[i].seasonId === seasons.length) { //with more than one season
       hofRow.improvement = parseInt(leagues[i].win);
     }
@@ -137,6 +137,7 @@ console.log(seasons.length + " " + leagues[i].seasonId)
     hofRow.plays = hofRow.plays + leagues[i].play;
     hofRow.draws = hofRow.draws + leagues[i].draw;
     hofRow.loss = hofRow.loss + leagues[i].lose;
+    hofRow.totalPoints = hofRow.totalPoints + leagues[i].points;
 
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
@@ -144,6 +145,7 @@ console.log(seasons.length + " " + leagues[i].seasonId)
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+    hofRow.avgPoints = Math.trunc(hofRow.totalPoints / hofRow.plays);
 
     console.log(hofRow.improvement + " new improvementzzzzzzzzzz")
     //update the table
