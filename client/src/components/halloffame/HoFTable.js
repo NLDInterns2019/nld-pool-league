@@ -14,9 +14,14 @@ const itemsToBeDisplayed = props => {
   let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "improvement");
   let retire = minBy(props.players, "improvement");
+  let avgPoints = maxBy(props.players, "avgPoints");
 
-  console.log(improved);
-  console.log(retire);
+  if (avgPoints !== undefined) {
+    if (avgPoints.avgPoints === 0) {
+      avgPoints = null;
+    }
+  }
+
   if (topPlayer !== undefined) {
     if (topPlayer.winRate === 0) {
       topPlayer = null;
