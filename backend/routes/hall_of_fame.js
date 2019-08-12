@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
+const knex = require("../db/knex");
 
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
@@ -52,8 +53,7 @@ router.post("/calculate", async (req, res) => {
   let start = true;
   let names = ["", ""];
 
-  let leagues = await eight_nine_ball_leagues.query()
-  .where({
+  let leagues = await eight_nine_ball_leagues.query().where({
     type: type
   });
   if (leagues === 0) {
@@ -71,7 +71,7 @@ router.post("/calculate", async (req, res) => {
     //if the name isn't in the hall of fame, add it
     if (typeof hofRow === "undefined") {
       staffInHoF = false;
-      await hall_of_fame.query().insert({
+      await knex("hall_of_fame").insert({
         staffName: leagues[i].staffName,
         type: type
       });
@@ -126,18 +126,19 @@ router.post("/calculate", async (req, res) => {
       type: type
     });
 
-    if (seasons.length > 1) { //with more than one season
-      hofRow.improvement = hofRow.improvement
+    if (seasons.length > 1) {
+      //with more than one season
+      hofRow.improvement = hofRow.improvement;
     }
-   // if (seasons.length > 2) {
-      //only with more than 3 seasons
+    // if (seasons.length > 2) {
+    //only with more than 3 seasons
     //  if (i > seasons.length - 1) {
-        //and only with the latest two
-     //   hofRow.improvement = hofRow.improvement + leagues[i].win;
-     // } else {
-        hofRow.wins = hofRow.wins + leagues[i].win;
-     // }
-   // } else {
+    //and only with the latest two
+    //   hofRow.improvement = hofRow.improvement + leagues[i].win;
+    // } else {
+    hofRow.wins = hofRow.wins + leagues[i].win;
+    // }
+    // } else {
     //  hofRow.wins = hofRow.wins + leagues[i].win;
     //}
 
@@ -188,13 +189,12 @@ router.post("/calculate", async (req, res) => {
     });
 
     //calculate wins as suitable regarding improvement HoF
-   // if (seasons.length > 2) {
-      hofAll[i].winRate = Math.trunc(
-        (hofAll[i].wins * 100) / hofAll[i].plays) //-1
+    // if (seasons.length > 2) {
+    hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays); //-1
     //  );
-   // } else {
+    // } else {
     //  hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
-   // }
+    // }
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
