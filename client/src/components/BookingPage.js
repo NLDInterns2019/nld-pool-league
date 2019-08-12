@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "../react-big-calendar.css";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,6 +15,8 @@ import SubNavBar from "./nav/SubNavBar";
 import backend from "../api/backend";
 
 const localizer = momentLocalizer(moment);
+
+const DnDCalendar = withDragAndDrop(Calendar);
 
 class FixturesPage extends Component {
   state = {
@@ -88,6 +93,69 @@ class FixturesPage extends Component {
           }
         });
     }
+  };
+
+  handleDragAndDrop = async ({ event, start, end, allDay }) => {
+    if(auth0Client.isAuthenticated()){
+      try {
+        //Delete old reminder
+        backend.delete("api/slack/booking/reminder", {
+          data: {
+            messageId: event.messageId
+          },
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        });
+  
+        //Post
+        backend.post(
+          "/api/slack/booking",
+          {
+            type: parseInt(this.state.type, 10),
+            start: moment(start).toISOString(),
+            player1: event.player1,
+            player2: event.player2
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+  
+        //Schedule reminder
+        await backend
+          .post(
+            "/api/slack/booking/reminder",
+            {
+              type: parseInt(this.state.type, 10),
+              start: moment(start).toISOString(),
+              player1: event.player1,
+              player2: event.player2
+            },
+            {
+              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            }
+          )
+          .then(async result => {
+            await backend.put(
+              "/api/booking/edit",
+              {
+                id: event.id,
+                messageId: result.data.scheduled_message_id,
+                start: moment(start).toISOString(),
+                end: moment(end).toISOString()
+              },
+              {
+                headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+              }
+            );
+            this.getBookings();
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }else{
+      this.toastUnauthorised()
+    }
+    
   };
 
   openPopUp = () => {
@@ -240,7 +308,8 @@ class FixturesPage extends Component {
           <h3>Arrange Fixtures</h3>
           <h4>Click an empty slot to create a booking</h4>
           <h4>Double click an event to delete a booking</h4>
-          <Calendar
+          <h4>Drag and drop an event to edit the timeslot (might be buggy)</h4>
+          <DnDCalendar
             selectable
             localizer={localizer}
             defaultDate={new Date()}
@@ -252,6 +321,7 @@ class FixturesPage extends Component {
             onDoubleClickEvent={this.handleDoubleClick}
             onSelectSlot={this.handleSelect}
             onSelectEvent={this.handleSelectEvent}
+            onEventDrop={this.handleDragAndDrop}
           />
         </div>
         <div className="popup-container" id="container" ref="container">
