@@ -22,7 +22,7 @@ const displayPos = position => {
 const CurrentStats = props => {
   return (
     <div>
-      <h2 style={{ textAlign: "left", marginLeft: "18px" }}>Current Season:</h2>
+      <h2 style={{ textAlign: "left", marginLeft: "18px" }}>Season {props.season}:</h2>
       <div className="current-stats">
         <div className="current-league-pos">
           <h4>Current League Position:</h4>

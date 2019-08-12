@@ -93,11 +93,11 @@ class UserPage extends React.Component {
         {
           cancelToken: this.signal.token,
           params: {
-            type: 8,
+            type: 8
           }
         }
       );
-      this.setState({ players8: eight.data});
+      this.setState({ players8: eight.data });
     }
 
     if (this.state.latestSeason9 !== null) {
@@ -106,7 +106,7 @@ class UserPage extends React.Component {
         {
           cancelToken: this.signal.token,
           params: {
-            type: 9,
+            type: 9
           }
         }
       );
@@ -318,8 +318,13 @@ class UserPage extends React.Component {
                 <div className="summary-container">
                   <div className="stats-container">
                     <CurrentStats
-                      position={findIndex(this.state.players8, {staffName: this.state.player})}
-                      player={find(this.state.players8, {staffName: this.state.player})}
+                      season={this.state.latestSeason8}
+                      position={findIndex(this.state.players8, {
+                        staffName: this.state.player
+                      })}
+                      player={find(this.state.players8, {
+                        staffName: this.state.player
+                      })}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
@@ -348,8 +353,13 @@ class UserPage extends React.Component {
                 <div className="summary-container">
                   <div className="stats-container">
                     <CurrentStats
-                      position={findIndex(this.state.players9, {staffName: this.state.player})}
-                      player={find(this.state.players9, {staffName: this.state.player})}
+                      season={this.state.latestSeason9}
+                      position={findIndex(this.state.players9, {
+                        staffName: this.state.player
+                      })}
+                      player={find(this.state.players9, {
+                        staffName: this.state.player
+                      })}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
