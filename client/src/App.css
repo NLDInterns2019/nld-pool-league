@@ -977,12 +977,11 @@ tr td:last-child {
 .unplayedTitle {
   display: flex;
   flex-direction: row;
-  padding-left: 18px;
+  margin-left: 18px;
 }
 
 .unplayed-accordian {
   width: 650px;
-  margin: auto;
 }
 
 /* top of page */
