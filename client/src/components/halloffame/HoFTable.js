@@ -103,7 +103,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="thumbs-up-icon" alt="thumbs up" />
+        📖
         </td>
         <td className="hofCell">4.0 GPA</td>
         <td className="hofCell">{avgPoints ? avgPoints.staffName : "-"}</td>
@@ -164,7 +164,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
         <td className="hofCell">
           {scrappy
-            ? scrappy.scrappyRate + "% wins against " + topPlayer.staffName
+            ? scrappy.scrappyRate + "% wins against " 
             : "Best win % against #1"}
         </td>
       </tr>
