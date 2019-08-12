@@ -1,44 +1,6 @@
 import React from "react";
 import auth0Client from "../../Auth";
-
-/* takes an array of results and returns icons for the last five */
-const getPlayerForm = forms => {
-  let formsToBeDisplayed = [];
-  if(!forms){
-    forms = "-----"
-  }
-  for (let i = 0; i < forms.length; i++) {
-    if (forms.charAt(i) === "W") {
-      formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div key={i} className="leagueTableFormItem">
-          <div className="win-icon" alt="win" />
-        </div>
-      );
-    }
-    if (forms.charAt(i) === "D") {
-      formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div key={i} className="leagueTableFormItem">
-          <div className="draw-icon" alt="draw" />
-        </div>
-      );
-    }
-    if (forms.charAt(i) === "L") {
-      formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div key={i} className="leagueTableFormItem">
-          <div className="loss-icon" alt="loss" />
-        </div>
-      );
-    }
-    if (forms.charAt(i) === "-") {
-      formsToBeDisplayed = formsToBeDisplayed.concat(
-        <div key={i} className="leagueTableFormItem">
-          <div className="no-game-icon" alt="no game" />
-        </div>
-      );
-    }
-  }
-  return formsToBeDisplayed;
-};
+import Forms from "./Forms";
 
 const LeagueTableBody = props => {
   const itemsToBeDisplayed = props.players.map((player, index) => {
@@ -55,7 +17,7 @@ const LeagueTableBody = props => {
         <td align="center">{player.goalsFor}</td>
         <td align="center">{player.goalsAgainst}</td>
         <td align="center" className="leagueTableForm">
-          {getPlayerForm(player.form)}
+          <Forms form={player.form} />
         </td>
         <td align="center">{player.points}</td>
         {player.paid ? (

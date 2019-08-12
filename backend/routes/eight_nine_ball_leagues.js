@@ -52,7 +52,8 @@ router.get("/:seasonId", (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
-      .required()
+      .required(),
+    staffName: Joi.string()
   };
 
   //Validation
@@ -63,9 +64,16 @@ router.get("/:seasonId", (req, res) => {
 
   let seasonId = parseInt(req.params.seasonId, 10);
 
+  let where = { type: req.query.type, seasonId: seasonId };
+
+  //Params handling
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
+    where.staffName = req.query.staffName;
+  }
+
   eight_nine_ball_leagues
     .query()
-    .where({ type: req.query.type, seasonId: seasonId })
+    .where(where)
     .orderBy("points", "desc")
     .orderBy("goalsFor", "desc")
     .orderBy("goalsAgainst", "asc")

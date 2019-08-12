@@ -2,13 +2,13 @@ import React from "react";
 import backend from "../api/backend";
 import auth0Client from "../Auth";
 import { ToastContainer, toast } from "react-toastify";
+import Axios from "axios";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
 import SeasonAccordion from "./userPage/SeasonAccordion";
 import UpcomingMatch from "./userPage/UpcomingMatch";
 
-import Axios from "axios";
 import CurrentStats from "./userPage/CurrentStats";
 import AllTimeStats from "./userPage/AllTimeStats";
 
@@ -16,8 +16,11 @@ class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
   state = {
     player: " ",
+    form8: [],
+    form9: [],
     fixtures: [],
-    latestSeason: "",
+    latestSeason8: "",
+    latestSeason9: "",
     type: "",
     groupCount: 0,
     bookings: [],
@@ -26,14 +29,24 @@ class UserPage extends React.Component {
   };
 
   getLatestSeason = async () => {
-    const latest = await backend.get("/api/89ball_season/latest", {
+    const latest8 = await backend.get("/api/89ball_season/latest", {
       params: {
-        type: this.state.type
+        type: 8
       }
     });
 
     this.setState({
-      latestSeason: latest.data[0].seasonId
+      latestSeason8: latest8.data[0].seasonId
+    });
+
+    const latest9 = await backend.get("/api/89ball_season/latest", {
+      params: {
+        type: 9
+      }
+    });
+
+    this.setState({
+      latestSeason9: latest9.data[0].seasonId
     });
   };
 
@@ -56,18 +69,50 @@ class UserPage extends React.Component {
     this.setState({ unpaid: unpaid.data });
   };
 
+  getForms = async () => {
+    const eight = await backend.get(
+      "/api/89ball_league/" + this.state.latestSeason8,
+      {
+        cancelToken: this.signal.token,
+        params: {
+          type: 8,
+          staffName: this.state.player
+        }
+      }
+    );
+    this.setState({ form8: eight.data[0].form });
+
+    const nine = await backend.get(
+      "/api/89ball_league/" + this.state.latestSeason9,
+      {
+        cancelToken: this.signal.token,
+        params: {
+          type: 9,
+          staffName: this.state.player
+        }
+      }
+    );
+    this.setState({ form9: nine.data.form });
+  };
+
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.isAuthenticated === false && auth0Client.isAuthenticated()) {
+    if (
+      this.state.isAuthenticated === false &&
+      auth0Client.isAuthenticated() &&
+      this.state.latestSeason8 !== "" &&
+      this.state.latestSeason9 !== ""
+    ) {
       this.setState(
         { player: auth0Client.getProfile().nickname, isAuthenticated: true },
         () => {
           this.getBookings();
           this.getUnpaidSeasons();
+          this.getForms();
         }
       );
     }
@@ -196,44 +241,6 @@ class UserPage extends React.Component {
     }
   };
 
-  getPlayerForm = forms => {
-    let formsToBeDisplayed = [];
-    if (!forms) {
-      forms = "-----";
-    }
-    for (let i = 0; i < forms.length; i++) {
-      if (forms.charAt(i) === "W") {
-        formsToBeDisplayed = formsToBeDisplayed.concat(
-          <div key={i} className="form-item">
-            <div className="win-icon" alt="win" />
-          </div>
-        );
-      }
-      if (forms.charAt(i) === "D") {
-        formsToBeDisplayed = formsToBeDisplayed.concat(
-          <div key={i} className="form-item">
-            <div className="draw-icon" alt="draw" />
-          </div>
-        );
-      }
-      if (forms.charAt(i) === "L") {
-        formsToBeDisplayed = formsToBeDisplayed.concat(
-          <div key={i} className="form-item">
-            <div className="loss-icon" alt="loss" />
-          </div>
-        );
-      }
-      if (forms.charAt(i) === "-") {
-        formsToBeDisplayed = formsToBeDisplayed.concat(
-          <div key={i} className="form-item">
-            <div className="no-game-icon" alt="no game" />
-          </div>
-        );
-      }
-    }
-    return formsToBeDisplayed;
-  };
-
   /* retrieve current league position */
   getLeaguePos = () => {
     return <h4>1st</h4>;
@@ -284,7 +291,7 @@ class UserPage extends React.Component {
                   <div className="stats-container">
                     <CurrentStats
                       getLeaguePos={this.getLeaguePos()}
-                      getPlayerForm={this.getPlayerForm()}
+                      form={this.state.form8}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
@@ -314,7 +321,7 @@ class UserPage extends React.Component {
                   <div className="stats-container">
                     <CurrentStats
                       getLeaguePos={this.getLeaguePos()}
-                      getPlayerForm={this.getPlayerForm()}
+                      form={this.state.form9}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
