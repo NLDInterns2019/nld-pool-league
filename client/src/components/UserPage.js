@@ -234,14 +234,17 @@ class UserPage extends React.Component {
     return formsToBeDisplayed;
   };
 
+  /* retrieve current league position */
   getLeaguePos = () => {
     return <h4>1st</h4>;
   };
 
+  /* calculate average points per game */
   getPPG = () => {
     return <h4>2.24</h4>;
   };
 
+  /* calculate win percentage */
   getWinPercentage = () => {
     return <h4>54%</h4>;
   };
