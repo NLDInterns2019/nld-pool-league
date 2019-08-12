@@ -683,6 +683,7 @@ tr td:last-child {
   margin: auto;
   padding: 4rem;
   border-radius: 30px;
+  margin-bottom: 4rem;
 }
 
 #seasonsListContainer {
