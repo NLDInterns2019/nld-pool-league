@@ -96,7 +96,7 @@ class FixturesPage extends Component {
   };
 
   handleDragAndDrop = async ({ event, start, end, allDay }) => {
-    if(auth0Client.isAuthenticated()){
+    if (auth0Client.isAuthenticated()) {
       try {
         //Delete old reminder
         backend.delete("api/slack/booking/reminder", {
@@ -105,7 +105,7 @@ class FixturesPage extends Component {
           },
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         });
-  
+
         //Post
         backend.post(
           "/api/slack/booking",
@@ -119,7 +119,7 @@ class FixturesPage extends Component {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
         );
-  
+
         //Schedule reminder
         await backend
           .post(
@@ -152,10 +152,9 @@ class FixturesPage extends Component {
       } catch (err) {
         console.log(err);
       }
-    }else{
-      this.toastUnauthorised()
+    } else {
+      this.toastUnauthorised();
     }
-    
   };
 
   openPopUp = () => {
@@ -312,6 +311,7 @@ class FixturesPage extends Component {
           <DnDCalendar
             selectable
             localizer={localizer}
+            resizableAccessor={() => false}
             defaultDate={new Date()}
             views={["work_week", "day"]}
             defaultView="work_week"
