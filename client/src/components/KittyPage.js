@@ -19,20 +19,31 @@ class KittyPage extends React.Component {
   };
 
   getLatestSeason = async () => {
-    const latest = await backend.get("/api/89ball_season/latest", {
-      params: {
-        type: this.state.type
-      }
-    });
+    try {
+      const latest = await backend.get("/api/89ball_season/latest", {
+        cancelToken: this.signal.token,
+        params: {
+          type: this.state.type
+        }
+      });
 
-    this.setState({
-      latestSeason: latest.data[0].seasonId
-    });
+      this.setState({
+        latestSeason: latest.data[0].seasonId
+      });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   getKitty = async () => {
-    const kitty = await backend.get("/api/kitty");
-    this.setState({ kitty: kitty.data });
+    try {
+      const kitty = await backend.get("/api/kitty", {
+        cancelToken: this.signal.token
+      });
+      this.setState({ kitty: kitty.data });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   componentDidMount = async () => {
@@ -40,6 +51,10 @@ class KittyPage extends React.Component {
     await this.getLatestSeason();
     await this.getKitty();
   };
+
+  componentWillUnmount() {
+    this.signal.cancel("");
+  }
 
   submitTransaction = async state => {
     let value = parseFloat(state.value);

@@ -14,8 +14,6 @@ import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
 
-const cTable = require("console.table");
-
 class App extends React.Component {
   signal = Axios.CancelToken.source();
 
@@ -335,6 +333,9 @@ class App extends React.Component {
     );
   };
 
+  /*
+   *CHANGE DEFAULT SEASON JOINING FEE HERE
+   */
   feePaid = async staffName => {
     try {
       await backend.put(
@@ -356,7 +357,8 @@ class App extends React.Component {
           seasonId: this.state.activeSeason,
           staffName: staffName,
           description: `Joining fee`,
-          value: 2
+          //JOINING FEE
+          value: 1
         },
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }

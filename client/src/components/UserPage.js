@@ -20,8 +20,8 @@ class UserPage extends React.Component {
     players8: [],
     players9: [],
     fixtures: [],
-    latestSeason8: null,
-    latestSeason9: null,
+    latestSeason8: "",
+    latestSeason9: "",
     type: "",
     groupCount: 0,
     bookings: [],
@@ -38,12 +38,6 @@ class UserPage extends React.Component {
         }
       });
 
-      this.setState({
-        latestSeason8: latest8.data[0].seasonId
-      });
-    } catch (err) {}
-
-    try {
       const latest9 = await backend.get("/api/89ball_season/latest", {
         cancelToken: this.signal.token,
         params: {
@@ -52,6 +46,7 @@ class UserPage extends React.Component {
       });
 
       this.setState({
+        latestSeason8: latest8.data[0].seasonId,
         latestSeason9: latest9.data[0].seasonId
       });
     } catch (err) {}
@@ -87,30 +82,38 @@ class UserPage extends React.Component {
   };
 
   getPlayers = async () => {
-    if (this.state.latestSeason8 !== null) {
-      const eight = await backend.get(
-        "/api/89ball_league/" + this.state.latestSeason8,
-        {
-          cancelToken: this.signal.token,
-          params: {
-            type: 8,
+    if (this.state.latestSeason8 !== null && this.state.latestSeason8 !== "") {
+      try {
+        const eight = await backend.get(
+          "/api/89ball_league/" + this.state.latestSeason8,
+          {
+            cancelToken: this.signal.token,
+            params: {
+              type: 8
+            }
           }
-        }
-      );
-      this.setState({ players8: eight.data});
+        );
+        this.setState({ players8: eight.data });
+      } catch (err) {
+        //API CALL BEING CANCELED
+      }
     }
 
-    if (this.state.latestSeason9 !== null) {
-      const nine = await backend.get(
-        "/api/89ball_league/" + this.state.latestSeason9,
-        {
-          cancelToken: this.signal.token,
-          params: {
-            type: 9,
+    if (this.state.latestSeason9 !== null && this.state.latestSeason9 !== "") {
+      try {
+        const nine = await backend.get(
+          "/api/89ball_league/" + this.state.latestSeason9,
+          {
+            cancelToken: this.signal.token,
+            params: {
+              type: 9
+            }
           }
-        }
-      );
-      this.setState({ players9: nine.data });
+        );
+        this.setState({ players9: nine.data });
+      } catch (err) {
+        //API CALL BEING CANCELED
+      }
     }
   };
 
@@ -318,8 +321,13 @@ class UserPage extends React.Component {
                 <div className="summary-container">
                   <div className="stats-container">
                     <CurrentStats
-                      position={findIndex(this.state.players8, {staffName: this.state.player})}
-                      player={find(this.state.players8, {staffName: this.state.player})}
+                      season={this.state.latestSeason8}
+                      position={findIndex(this.state.players8, {
+                        staffName: this.state.player
+                      })}
+                      player={find(this.state.players8, {
+                        staffName: this.state.player
+                      })}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}
@@ -348,8 +356,13 @@ class UserPage extends React.Component {
                 <div className="summary-container">
                   <div className="stats-container">
                     <CurrentStats
-                      position={findIndex(this.state.players9, {staffName: this.state.player})}
-                      player={find(this.state.players9, {staffName: this.state.player})}
+                      season={this.state.latestSeason9}
+                      position={findIndex(this.state.players9, {
+                        staffName: this.state.player
+                      })}
+                      player={find(this.state.players9, {
+                        staffName: this.state.player
+                      })}
                     />
                     <AllTimeStats
                       getPPG={this.getPPG()}

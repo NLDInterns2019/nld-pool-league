@@ -21,34 +21,40 @@ class SeasonItemPanel extends React.Component {
   signal = Axios.CancelToken.source();
 
   getUnplayedFixtures = async () => {
-    const fixtures = await backend.get(
-      "/api/89ball_fixture/" + this.state.activeSeason,
-      {
-        cancelToken: this.signal.token,
-        params: {
-          type: this.state.type,
-          staffName: this.state.staffName,
-          hidePlayed: true,
-          showLess: true,
+    try {
+      const fixtures = await backend.get(
+        "/api/89ball_fixture/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type,
+            staffName: this.state.staffName,
+            hidePlayed: true,
+            showLess: true
+          }
         }
-      }
-    );
+      );
 
-    this.setState({ fixtures: fixtures.data });
+      this.setState({ fixtures: fixtures.data });
+    } catch (err) {}
   };
 
   getGroupCount = async () => {
-    const count = await backend.get(
-      "/api/89ball_fixture/group/" + this.state.activeSeason,
-      {
-        cancelToken: this.signal.token,
-        params: {
-          type: this.state.type
+    try {
+      const count = await backend.get(
+        "/api/89ball_fixture/group/" + this.state.activeSeason,
+        {
+          cancelToken: this.signal.token,
+          params: {
+            type: this.state.type
+          }
         }
-      }
-    );
+      );
 
-    this.setState({ groupCount: count.data[0] });
+      this.setState({ groupCount: count.data[0] });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   componentDidMount = async () => {
@@ -59,6 +65,10 @@ class SeasonItemPanel extends React.Component {
     this.getUnplayedFixtures();
     this.getGroupCount();
   };
+
+  componentWillUnmount() {
+    this.signal.cancel("");
+  }
 
   render() {
     return (

@@ -25,21 +25,26 @@ class SeasonAccordion extends React.Component {
   signal = Axios.CancelToken.source();
 
   getUnplayedSeasons = async () => {
-    const result = await backend.get("/api/89ball_fixture/all/", {
-      cancelToken: this.signal.token,
-      params: {
-        type: this.state.type,
-        staffName: this.state.staffName,
-        hidePlayed: true
-      }
-    });
-    this.setState({
-      unplayedSeasons: orderBy(
-        uniqBy(result.data, "seasonId"),
-        ["seasonId"],
-        ["desc"]
-      )
-    });
+    try{
+      const result = await backend.get("/api/89ball_fixture/all/", {
+        cancelToken: this.signal.token,
+        params: {
+          type: this.state.type,
+          staffName: this.state.staffName,
+          hidePlayed: true
+        }
+      });
+      this.setState({
+        unplayedSeasons: orderBy(
+          uniqBy(result.data, "seasonId"),
+          ["seasonId"],
+          ["desc"]
+        )
+      });
+    }catch (err) {
+      //API CALL BEING CANCELED
+    }
+   
   };
 
   componentDidMount = async () => {
@@ -53,6 +58,10 @@ class SeasonAccordion extends React.Component {
       this.getUnplayedSeasons();
     }
   };
+
+  componentWillUnmount() {
+    this.signal.cancel("");
+  }
 
   render() {
     if (!this.state.unplayedSeasons.length) {
