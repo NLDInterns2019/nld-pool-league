@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "../react-big-calendar.css";
-import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import "../rbc-dnd.css";
 
 import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";

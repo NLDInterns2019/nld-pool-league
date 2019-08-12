@@ -104,6 +104,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.highestPoints = 0;
       hofRow.scrappy = 0;
       hofRow.scrappyPlays = 0;
+      hofRow.scrappyRate = 0;
       hofRow.loss = 0;
       hofRow.winningStreak = 0;
       hofRow.improvement = 0;
@@ -121,15 +122,9 @@ router.post("/calculate", async (req, res) => {
       hofRow.highestPoints = leagues[i].points;
     }
 
-    /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
-    //check if improvement should be calculated
-    let seasons = await eight_nine_ball_seasons.query().where({
-      type: type
-    });
     
-   if (seasons.length > 1 && leagues[i].seasonId === seasons.length) { //with more than one season
-      hofRow.improvement = parseInt(leagues[i].win);
-    }
+    
+  
     hofRow.wins = hofRow.wins + leagues[i].win;
     
 
@@ -145,9 +140,9 @@ router.post("/calculate", async (req, res) => {
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = Math.trunc(hofRow.totalPoints / hofRow.plays);
+    hofRow.avgPoints = Math.trunc(hofRow.totalPoints / hofRow.plays)
 
-    console.log(hofRow.improvement + " new improvementzzzzzzzzzz")
+    
     //update the table
     await hall_of_fame
       .query()
@@ -178,30 +173,12 @@ router.post("/calculate", async (req, res) => {
   hofAll = streakGen.calculateStreaks(fixtures, hofAll); ////////////////////////streakCalc
 
   for (let i = 0; i < hofAll.length; i++) {
-    let seasons = await eight_nine_ball_seasons.query().where({
-      type: type
-    });
-console.log(hofAll[i].improvement + "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-    if (seasons.length > 1) {
-      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays - 1)
-    } else {
+    
       hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays)
-    }
-    //hofAll[i].improvementRate = Math.trunc((hofAll.improvement * 100))
-    //hofAll[i].improvementRate = Math.trunc((hofAll.improvement * 100))
-    //calculate wins as suitable regarding improvement HoF
-   // if (seasons.length > 2) {
-      hofAll[i].winRate = Math.trunc(
-        (hofAll[i].wins * 100) / hofAll[i].plays) //-1
-    //  );
-   // } else {
-    //  hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
-   // }
-   
-console.log(hofAll[i].improvement + "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
+
   //this is terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) {
     //need a new loop for scrappy so you know who the top player is
@@ -217,9 +194,29 @@ console.log(hofAll[i].improvement + "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
   }
   //patch db
   
+  /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
+    //check if improvement should be calculated
+    let seasons = await eight_nine_ball_seasons.query().where({
+      type: type
+    });
+  for (let i = 0; i < leagues.length; i++) {
+    hofRow = await hall_of_fame.query().findOne({
+      type: type,
+      staffName: leagues[i].staffName
+    });
+      //change this to get users last played season if not in this one TODO
+   if (seasons.length > 1 && leagues[i].seasonId === seasons.length) { //with more than one season
+    console.log("entered")
+    hofRow.improvementRate = 
+      hofRow.improvementRate = parseInt((leagues[i].win * 100)/leagues[i].play)
+      hofRow.latestWins = parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+
+      console.log(hofRow.latestWins)
+      console.log(hofRow.staffName + ": " + hofRow.improvementRate + " - " + hofRow.winRate + " = " + hofRow.latestWins)
+    } //this will be functional when i figure out why hofrow suddenly can't access winrate. who cares anymore
+  }
   for (let v = 0; v < hofAll.length; v++) {
-    console.log(hofAll[v].wins + " final value wins")
-    console.log(hofAll[v].improvement + " final value improvement")
+    console.log(hofAll[v].winRate)
     await hall_of_fame
       .query()
       .findOne({
