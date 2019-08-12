@@ -402,15 +402,18 @@ router.put("/paid", auth.checkJwt, (req, res) => {
       seasonId: req.body.seasonId,
       staffName: req.body.staffName
     })
-    .patch({paid: true})
-    .then(result => {
-      if(result===0){
-        res.status(404).send();
+    .patch({ paid: true })
+    .then(
+      result => {
+        if (result === 0) {
+          res.status(404).send();
+        }
+        res.json(result);
+      },
+      e => {
+        res.status(400).send(e);
       }
-      res.json(result)
-    }, e=> {
-      res.status(400).send(e);
-    })
+    );
 });
 
 module.exports = router;

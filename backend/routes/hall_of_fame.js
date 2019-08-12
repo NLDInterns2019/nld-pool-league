@@ -125,17 +125,21 @@ router.post("/calculate", async (req, res) => {
     let seasons = await eight_nine_ball_seasons.query().where({
       type: type
     });
-    if (seasons.length > 3) {
-      //only with more than 3 seasons
-      if (i > seasons.length - 2) {
-        //and only with the latest two
-        hofRow.improvement = hofRow.improvement + leagues[i].win;
-      } else {
-        hofRow.wins = hofRow.wins + leagues[i].win;
-      }
-    } else {
-      hofRow.wins = hofRow.wins + leagues[i].win;
+
+    if (seasons.length > 1) { //with more than one season
+      hofRow.improvement = hofRow.improvement
     }
+   // if (seasons.length > 2) {
+      //only with more than 3 seasons
+    //  if (i > seasons.length - 1) {
+        //and only with the latest two
+     //   hofRow.improvement = hofRow.improvement + leagues[i].win;
+     // } else {
+        hofRow.wins = hofRow.wins + leagues[i].win;
+     // }
+   // } else {
+    //  hofRow.wins = hofRow.wins + leagues[i].win;
+    //}
 
     //basic calculations to aid numerous features
     hofRow.plays = hofRow.plays + leagues[i].play;
@@ -184,17 +188,17 @@ router.post("/calculate", async (req, res) => {
     });
 
     //calculate wins as suitable regarding improvement HoF
-    if (seasons.length > 3) {
+   // if (seasons.length > 2) {
       hofAll[i].winRate = Math.trunc(
-        (hofAll[i].wins * 100) / hofAll[i].plays - 2
-      );
-    } else {
-      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
-    }
+        (hofAll[i].wins * 100) / hofAll[i].plays) //-1
+    //  );
+   // } else {
+    //  hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+   // }
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
-  //this is broken and terrible. i should be fired for writing this
+  //this is terrible. i should be fired for writing this
   for (let i = 0; i < fixtures.length; i++) {
     //need a new loop for scrappy so you know who the top player is
     /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY

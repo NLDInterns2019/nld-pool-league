@@ -922,6 +922,8 @@ tr td:last-child {
 }
 
 /* ==== Dashboard ==== */
+
+/* upcoming matches */
 .upcomingMatchesTitle {
   display: flex;
   flex-direction: row;
@@ -943,63 +945,18 @@ tr td:last-child {
   margin: auto;
 }
 
+.arrangedFixturesContainer {
+  text-align: left;
+  padding-left: 18px;
+  min-width: 650px;
+  margin: 0 auto;
+}
+
+/* unplayed fixtures */
 .unplayedTitle {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-}
-
-.unplayedTitle h3 {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.player-info {
-  margin-bottom: 4rem;
-}
-
-.unpaid-seasons {
-  display: inline-block;
-}
-
-.unpaid-seasons .unpaid-text {
-  color: red;
-  font-weight: bold;
-}
-
-#unpaid-seasons-table {
-  margin: auto;
-  max-width: 400px;
-}
-
-#unpaid-seasons-table th {
-  background-color: #e23e4b;
-}
-
-#unpaid-type {
-  width: 50px;
-}
-
-#unpaid-pay {
-  background-color: white;
-  color: black;
-  min-width: 50px;
-  font-weight: bold;
-
-  transition: color 0.1s linear;
-  transition: background-color 0.1s linear;
-}
-
-#unpaid-pay:hover {
-  cursor: pointer;
-  background-color: #e23e4b;
-  color: white;
-}
-
-.unpaid-season-title .eight-ball-icon-20,
-.unpaid-season-title .nine-ball-icon-20 {
-  margin-right: 2rem;
-  margin-left: 0;
+  padding-left: 18px;
 }
 
 .unplayed-accordian {
@@ -1007,9 +964,132 @@ tr td:last-child {
   margin: auto;
 }
 
-.arrangedFixturesContainer {
-  min-width: 650px;
-  margin: 0 auto;
+/* top of page */
+.player-info {
+  margin-bottom: 4rem;
+}
+
+/* unpaid seasons */
+.unpaid-seasons-message,
+.unpaid-season-title,
+.unpaid-seasons-list,
+.unpaid-eight-ball,
+.unpaid-nine-ball {
+  display: flex;
+  align-items: center;
+}
+
+.unpaid-seasons-message {
+  background-color: #e23e4b;
+  color: white;
+  width: 90%;
+  margin: auto;
+  padding: 5px 15px 5px 15px;
+  margin-bottom: 1rem;
+  border: 5px solid #a31c26;
+  font-weight: bold;
+}
+
+.unpaid-eight-ball,
+.unpaid-nine-ball,
+.unpaid-total {
+  font-size: 17pt;
+  margin-left: 1rem;
+}
+
+.unpaid-season-title h3 {
+  margin-bottom: 0;
+  margin-left: 1rem;
+  font-size: 21pt;
+  font-weight: bold;
+}
+
+.unpaid-item {
+  margin-left: 1rem;
+}
+
+.unpaid-total {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* summary */
+.summary-title {
+  display: flex;
+  justify-content: center;
+}
+
+.summary-title h3 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.summary-container h4 {
+  color: black;
+}
+
+.summary-container {
+  background-color: white;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+/* stats */
+.current-stats,
+.all-time-stats {
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.current-stats h4,
+.all-time-stats h4 {
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.current-league-pos,
+.points-per-game {
+  display: flex;
+  align-items: center;
+}
+
+.stat h4 {
+  background-color: #127e5c;
+  color: white;
+  padding: 5px 15px;
+  margin-right: 0;
+  font-weight: normal;
+}
+
+.current-form {
+  text-align: right;
+  margin-left: auto;
+  display: flex;
+}
+
+.current-form .form-item {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.current-form .form-item:last-child {
+  padding-right: 0;
+}
+
+.win-percentage {
+  text-align: right;
+  margin-left: auto;
+  align-items: center;
+  display: flex;
+}
+
+.stats-container {
+  margin-bottom: 4rem;
 }
 
 /* ==== Icons ==== */
@@ -1369,6 +1449,11 @@ tr td:last-child {
   .leagueTable {
     font-size: 18pt;
   }
+
+  .summary-container {
+    width: 700px;
+    margin: auto;
+  }
 }
 
 @media only screen and (min-width: 1365px) {
@@ -1417,25 +1502,25 @@ tr td:last-child {
     margin-bottom: 10px;
   }
 
-  .win-icon {
+  .leagueTable .win-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/win-small.svg");
   }
 
-  .draw-icon {
+  .leagueTable .draw-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/draw-small.svg");
   }
 
-  .loss-icon {
+  .leagueTable .loss-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/loss-small.svg");
   }
 
-  .no-game-icon {
+  .leagueTable .no-game-icon {
     width: 18px;
     height: 18px;
     background-image: url("./assets/no-game-small.svg");
@@ -1469,25 +1554,25 @@ tr td:last-child {
     font-size: 18pt;
   }
 
-  .win-icon {
+  .leagueTable .win-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/win.svg");
   }
 
-  .draw-icon {
+  .leagueTable .draw-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/draw.svg");
   }
 
-  .loss-icon {
+  .leagueTable .loss-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/loss.svg");
   }
 
-  .no-game-icon {
+  .leagueTable .no-game-icon {
     width: 24px;
     height: 24px;
     background-image: url("./assets/no-game.svg");

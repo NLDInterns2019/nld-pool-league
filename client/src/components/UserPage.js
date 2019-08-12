@@ -9,8 +9,8 @@ import SeasonAccordion from "./userPage/SeasonAccordion";
 import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import Axios from "axios";
-import UnpaidSeasonsTableHeader from "./userPage/UnpaidSeasonsTableHeader";
-import UnpaidSeasonsTableBody from "./userPage/UnpaidSeasonsTableBody";
+import CurrentStats from "./userPage/CurrentStats";
+import AllTimeStats from "./userPage/AllTimeStats";
 
 class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
@@ -116,18 +116,137 @@ class UserPage extends React.Component {
     });
   };
 
-  unpaidSeasonsTable = () => {
-    return this.state.unpaid.length === 0 ? (
-      <p className="paid-text">You have no outstanding payments</p>
-    ) : (
-      <div>
-        <p className="unpaid-text">You have outstanding payments for:</p>
-        <table cellSpacing="0" id="unpaid-seasons-table">
-          <UnpaidSeasonsTableHeader />
-          <UnpaidSeasonsTableBody unpaid={this.state.unpaid} />
-        </table>
-      </div>
-    );
+  unpaidEightBallMessage = () => {
+    const unpaidSeasons = this.state.unpaid;
+    const unpaidEightBallSeasons = [];
+
+    for (var i = unpaidSeasons.length - 1; i >= 0; i--) {
+      if (unpaidSeasons[i].type === 8) {
+        unpaidEightBallSeasons.push(unpaidSeasons[i]);
+      }
+    }
+    if (unpaidEightBallSeasons.length > 0) {
+      return (
+        <div className="unpaid-seasons-message">
+          <div className="unpaid-season-title">
+            <div className="eight-ball-icon" alt="eight ball" />
+            <h3>Payments Due:</h3>
+          </div>
+          <div className="unpaid-seasons-list">
+            <div className="unpaid-eight-ball">
+              {unpaidEightBallSeasons.map(season => {
+                return (
+                  <div
+                    key={season.seasonId + season.type}
+                    className="unpaid-item"
+                  >
+                    Season {season.seasonId}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="unpaid-total">
+            Total: £{unpaidEightBallSeasons.length}.00
+          </div>
+        </div>
+      );
+    } else {
+      return;
+    }
+  };
+
+  unpaidNineBallMessage = () => {
+    const unpaidSeasons = this.state.unpaid;
+    const unpaidNineBallSeasons = [];
+
+    for (var i = unpaidSeasons.length - 1; i >= 0; i--) {
+      if (unpaidSeasons[i].type === 9) {
+        unpaidNineBallSeasons.push(unpaidSeasons[i]);
+      }
+    }
+    if (unpaidNineBallSeasons.length > 0) {
+      return (
+        <div className="unpaid-seasons-message">
+          <div className="unpaid-season-title">
+            <div className="nine-ball-icon" alt="nine ball" />
+            <h3>Payments Due:</h3>
+          </div>
+          <div className="unpaid-seasons-list">
+            <div className="unpaid-nine-ball">
+              {unpaidNineBallSeasons.map(season => {
+                return (
+                  <div
+                    key={season.seasonId + season.type}
+                    className="unpaid-item"
+                  >
+                    Season {season.seasonId}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="unpaid-total">
+            Total: £{unpaidNineBallSeasons.length}.00
+          </div>
+        </div>
+      );
+    } else {
+      return;
+    }
+  };
+
+  getPlayerForm = forms => {
+    let formsToBeDisplayed = [];
+    if (!forms) {
+      forms = "-----";
+    }
+    for (let i = 0; i < forms.length; i++) {
+      if (forms.charAt(i) === "W") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="win-icon" alt="win" />
+          </div>
+        );
+      }
+      if (forms.charAt(i) === "D") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="draw-icon" alt="draw" />
+          </div>
+        );
+      }
+      if (forms.charAt(i) === "L") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="loss-icon" alt="loss" />
+          </div>
+        );
+      }
+      if (forms.charAt(i) === "-") {
+        formsToBeDisplayed = formsToBeDisplayed.concat(
+          <div key={i} className="form-item">
+            <div className="no-game-icon" alt="no game" />
+          </div>
+        );
+      }
+    }
+    return formsToBeDisplayed;
+  };
+
+  /* retrieve current league position */
+  getLeaguePos = () => {
+    return <h4>1st</h4>;
+  };
+
+  /* calculate average points per game */
+  getPPG = () => {
+    return <h4>2.24</h4>;
+  };
+
+  /* calculate win percentage */
+  getWinPercentage = () => {
+    return <h4>54%</h4>;
   };
 
   render() {
@@ -151,27 +270,68 @@ class UserPage extends React.Component {
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
               </h3>
-              <p>
-                You have played <b>99</b> matches
-              </p>
-              <p>
-                Your winning rate is <b>50%</b>
-              </p>
-              <div className="unpaid-seasons">{this.unpaidSeasonsTable()}</div>
+              {this.unpaidEightBallMessage()}
+              {this.unpaidNineBallMessage()}
             </div>
             <div className="content">
               <div className="contentLeft">
-                <SeasonAccordion type="8" staffName={this.state.player} />
-                <br />
-                <SeasonAccordion type="9" staffName={this.state.player} />
+                <div className="summary-title">
+                  <div className="eight-ball-icon" alt="eight ball" />
+                  <h3>8-Ball Summary</h3>
+                  <div className="eight-ball-icon" alt="eight ball" />
+                </div>
+                <div className="summary-container">
+                  <div className="stats-container">
+                    <CurrentStats
+                      getLeaguePos={this.getLeaguePos()}
+                      getPlayerForm={this.getPlayerForm()}
+                    />
+                    <AllTimeStats
+                      getPPG={this.getPPG()}
+                      getWinPercentage={this.getWinPercentage()}
+                    />
+                  </div>
+                  <SeasonAccordion type="8" staffName={this.state.player} />
+                  <div className="arrangedFixturesContainer">
+                    {this.state.bookings.length ? (
+                      <UpcomingMatch
+                        bookings={this.state.bookings}
+                        player={this.state.player}
+                      />
+                    ) : (
+                      <h4>You have no arranged fixtures</h4>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="contentRight">
-                <div className="arrangedFixturesContainer">
-                  {this.state.bookings.length ? (
-                    <UpcomingMatch bookings={this.state.bookings} />
-                  ) : (
-                    <h3>You have no arranged fixtures</h3>
-                  )}
+                <div className="summary-title">
+                  <div className="nine-ball-icon" alt="nine ball" />
+                  <h3>9-Ball Summary</h3>
+                  <div className="nine-ball-icon" alt="nine ball" />
+                </div>
+                <div className="summary-container">
+                  <div className="stats-container">
+                    <CurrentStats
+                      getLeaguePos={this.getLeaguePos()}
+                      getPlayerForm={this.getPlayerForm()}
+                    />
+                    <AllTimeStats
+                      getPPG={this.getPPG()}
+                      getWinPercentage={this.getWinPercentage()}
+                    />
+                  </div>
+                  <SeasonAccordion type="9" staffName={this.state.player} />
+                  <div className="arrangedFixturesContainer">
+                    {this.state.bookings.length ? (
+                      <UpcomingMatch
+                        bookings={this.state.bookings}
+                        player={this.state.player}
+                      />
+                    ) : (
+                      <h4>You have no arranged fixtures</h4>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
