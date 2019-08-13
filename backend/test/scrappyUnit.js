@@ -58,16 +58,16 @@ describe("scrappy()", () => {
         });
       });
       it("should properly calculate scrappyRate for one player", async() => {
-        // //PREP
-        // topPlayer = "Andy";
-        // let hofAll = await hall_of_fame.query().where({
-        //   type: type
-        // });
-        // //ACT
-        // scrappyVal = scrappy.generateScrappy(fixtures, hofAll, topPlayer, i);
-        // players = polygon.polygonShuffle(players);
+       /*
+         //PREP
+         topPlayer = "Andy";
+         let hofAll = await hall_of_fame.query().where({
+           type: type
+         });
+         //ACT
+         scrappyVal = scrappy.generateScrappy(fixtures, hofAll, topPlayer, i);
 
         //ASSERT
-       // expect(scrappyVal).to.eql(expPlayers); 
+        expect(scrappyVal).to.eql(expPlayers); */
     })
 });

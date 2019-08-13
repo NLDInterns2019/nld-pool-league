@@ -118,7 +118,8 @@ router.get("/:seasonId", (req, res) => {
       .required(),
     staffName: Joi.string(),
     hidePlayed: Joi.string(),
-    showLess: Joi.string()
+    showLess: Joi.string(),
+    onlyPlayed: Joi.string()
   };
 
   //Validation
@@ -156,8 +157,7 @@ router.get("/:seasonId", (req, res) => {
     eight_nine_ball_fixtures
       .query()
       .where(function() {
-        this.where(where1)
-        .orWhere(where2)
+        this.where(where1).orWhere(where2);
       })
       .andWhere(
         "date",
@@ -166,6 +166,26 @@ router.get("/:seasonId", (req, res) => {
           .add(2, "weeks")
           .toISOString()
       )
+      .orderBy("player1")
+      .then(
+        fixture => {
+          res.send(fixture);
+        },
+        e => {
+          res.status(500).json(e);
+        }
+      );
+  } else if (
+    req.query.hasOwnProperty("onlyPlayed") &&
+    req.query.onlyPlayed === "true"
+  ) {
+    eight_nine_ball_fixtures
+      .query()
+      .where(function() {
+        this.where(where1).orWhere(where2);
+      })
+      .whereNotNull("score1")
+      .whereNotNull("score2")
       .orderBy("player1")
       .then(
         fixture => {
@@ -331,6 +351,58 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
       .query()
       .findOne(p2Attributes)
       .patch(player2);
+    if (result === 0) {
+      res.status(404).send();
+      return;
+    }
+  } catch (e) {
+    res.status(500).send();
+    return;
+  }
+
+  //EVERYTHING SUCCEED
+  res.status(200).send();
+});
+
+/* 
+  PUT handler for /api/89ball_fixture/edit/force
+  Function: To update the score
+*/
+router.put("/edit/force", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    seasonId: Joi.number()
+      .integer()
+      .required(),
+    player1: Joi.string().required(),
+    score1: Joi.number().required(),
+    player2: Joi.string().required(),
+    score2: Joi.number().required()
+  };
+
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const leagueAttributes = {
+    type: req.body.type,
+    seasonId: req.body.seasonId,
+    player1: req.body.player1,
+    player2: req.body.player2,
+  };
+
+  //UPDATE FIXTURE TABLE
+  try {
+    let result = await eight_nine_ball_fixtures
+      .query()
+      .findOne(leagueAttributes)
+      .patch({
+        score1: req.body.score1,
+        score2: req.body.score2
+      });
     if (result === 0) {
       res.status(404).send();
       return;

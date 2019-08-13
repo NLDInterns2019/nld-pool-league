@@ -19,6 +19,8 @@ class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
   state = {
     player: " ",
+    hofStat8: [],
+    hofStat9: [],
     players8: [],
     players9: [],
     fixtures: [],
@@ -153,6 +155,34 @@ class UserPage extends React.Component {
     }
   };
 
+  getPlayerStat = async () => {
+    try {
+      const eight = await backend.get("/api/hall_of_fame", {
+        cancelToken: this.signal.token,
+        params: {
+          type: 8,
+          staffName: this.state.player
+        }
+      });
+      this.setState({ hofStat8: eight.data[0] });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
+
+    try {
+      const nine = await backend.get("/api/hall_of_fame", {
+        cancelToken: this.signal.token,
+        params: {
+          staffName: this.state.player,
+          type: 9
+        }
+      });
+      this.setState({ hofStat9: nine.data[0] });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
+  };
+
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
@@ -169,9 +199,10 @@ class UserPage extends React.Component {
           intialAuthentication: true
         },
         () => {
-          this.getBookings();
           this.getUnpaidSeasons();
+          this.getBookings();
           this.getPlayers();
+          this.getPlayerStat();
         }
       );
     }
@@ -366,10 +397,9 @@ class UserPage extends React.Component {
                       })}
                     />
                     <AllTimeStats
-                      getPPG={this.getPPG()}
-                      getWinPercentage={this.getWinPercentage()}
+                      ppg={this.state.hofStat8.avgPoints}
+                      wr={this.state.hofStat8.winRate}
                     />
-
                     <h2>Position History:</h2>
                     <div className="chart">
                       <CanvasJSChart

@@ -3,30 +3,44 @@ import {
   Accordion,
   AccordionItem,
   AccordionItemHeading,
-  AccordionItemButton
+  AccordionItemButton,
+  AccordionItemPanel
 } from "react-accessible-accordion";
-import { uniqBy, orderBy } from "lodash";
-
-import backend from "../../api/backend";
-
 import "../../accordion.css";
+import "./SubmitScoreForm";
+import SubmitScoreForm from "./SubmitScoreForm";
 
-import Axios from "axios";
-
-const EditScoreForm = () => {
-    return(
-        <Accordion allowZeroExpanded={true}>
-            <AccordionItem>
-              <AccordionItemHeading>
-                <AccordionItemButton>
-                    A
-                </AccordionItemButton>
-              </AccordionItemHeading>
-
-            </AccordionItem>
-          );
+const EditScoreForm = props => {
+  return (
+    <div style={{ marginBottom: "2rem" }}>
+      <Accordion allowZeroExpanded={true}>
+        <AccordionItem>
+          <AccordionItemHeading>
+            <AccordionItemButton
+              style={{
+                fontWeight: "bold",
+                color: "white",
+                backgroundColor: "red",
+                margin: "auto"
+              }}
+            >
+              Edit Submitted Result
+            </AccordionItemButton>
+          </AccordionItemHeading>
+          <AccordionItemPanel>
+            <SubmitScoreForm
+              players={props.players}
+              type={props.type}
+              changeFixtureScore={props.changeFixtureScore}
+              editFixtureScore={props.editFixtureScore}
+              activeSeason={props.activeSeason}
+              edit={true}
+            />
+          </AccordionItemPanel>
+        </AccordionItem>
       </Accordion>
-    )
-}
+    </div>
+  );
+};
 
 export default EditScoreForm;

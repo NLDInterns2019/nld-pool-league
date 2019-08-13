@@ -20,7 +20,8 @@ router.get("/", async (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
-      .required()
+      .required(),
+    staffName: Joi.string()
   };
 
   //Validation
@@ -29,9 +30,18 @@ router.get("/", async (req, res) => {
     return;
   }
 
+  let where ={
+    type: req.query.type
+  }
+
+  //Params handling
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
+    where.staffName = req.query.staffName
+  }
+
   hall_of_fame
     .query()
-    .where({ type: req.query.type })
+    .where(where)
     .then(
       players => {
         res.json(players);
@@ -48,12 +58,12 @@ router.get("/", async (req, res) => {
 */
 router.post("/calculate", async (req, res) => {
   type = parseInt(req.body.type, 10);
+  console.log("hi");
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];
 
-  let leagues = await eight_nine_ball_leagues.query()
-  .where({
+  let leagues = await eight_nine_ball_leagues.query().where({
     type: type
   });
   if (leagues === 0) {
@@ -122,11 +132,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.highestPoints = leagues[i].points;
     }
 
-    
-    
-  
     hofRow.wins = hofRow.wins + leagues[i].win;
-    
 
     //basic calculations to aid numerous features
     hofRow.plays = hofRow.plays + leagues[i].play;
@@ -140,9 +146,8 @@ router.post("/calculate", async (req, res) => {
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = Math.trunc(hofRow.totalPoints / hofRow.plays)
+    hofRow.avgPoints = hofRow.totalPoints / hofRow.plays;
 
-    
     //update the table
     await hall_of_fame
       .query()
@@ -173,8 +178,7 @@ router.post("/calculate", async (req, res) => {
   hofAll = streakGen.calculateStreaks(fixtures, hofAll); ////////////////////////streakCalc
 
   for (let i = 0; i < hofAll.length; i++) {
-    
-      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays)
+    hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
@@ -193,30 +197,41 @@ router.post("/calculate", async (req, res) => {
     }
   }
   //patch db
-  
+
   /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
-    //check if improvement should be calculated
-    let seasons = await eight_nine_ball_seasons.query().where({
-      type: type
-    });
+  //check if improvement should be calculated
+  let seasons = await eight_nine_ball_seasons.query().where({
+    type: type
+  });
   for (let i = 0; i < leagues.length; i++) {
     hofRow = await hall_of_fame.query().findOne({
       type: type,
       staffName: leagues[i].staffName
     });
-      //change this to get users last played season if not in this one TODO
-   if (seasons.length > 1 && leagues[i].seasonId === seasons.length) { //with more than one season
-    console.log("entered")
-    hofRow.improvementRate = 
-      hofRow.improvementRate = parseInt((leagues[i].win * 100)/leagues[i].play)
-      hofRow.latestWins = parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+    //change this to get users last played season if not in this one TODO
+    if (seasons.length > 1 && leagues[i].seasonId === seasons.length) {
+      //with more than one season
+      console.log("entered");
+      hofRow.improvementRate = hofRow.improvementRate = parseInt(
+        (leagues[i].win * 100) / leagues[i].play
+      );
+      hofRow.latestWins =
+        parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
 
-      console.log(hofRow.latestWins)
-      console.log(hofRow.staffName + ": " + hofRow.improvementRate + " - " + hofRow.winRate + " = " + hofRow.latestWins)
+      console.log(hofRow.latestWins);
+      console.log(
+        hofRow.staffName +
+          ": " +
+          hofRow.improvementRate +
+          " - " +
+          hofRow.winRate +
+          " = " +
+          hofRow.latestWins
+      );
     } //this will be functional when i figure out why hofrow suddenly can't access winrate. who cares anymore
   }
   for (let v = 0; v < hofAll.length; v++) {
-    console.log(hofAll[v].winRate)
+    console.log(hofAll[v].winRate);
     await hall_of_fame
       .query()
       .findOne({
