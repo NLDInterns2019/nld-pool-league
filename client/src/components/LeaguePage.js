@@ -13,6 +13,7 @@ import FinalRankings from "./league/FinalRankings";
 import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
+import EditScoreForm from "./fixture/EditScoreForm";
 
 class App extends React.Component {
   signal = Axios.CancelToken.source();
@@ -440,6 +441,12 @@ class App extends React.Component {
                 type={this.state.type}
                 activeSeason={this.state.activeSeason}
                 applyFilter={this.applyViewFilter}
+              />
+              <EditScoreForm
+                players={this.state.players}
+                type={this.state.type}
+                changeFixtureScore={this.changeFixtureScore}
+                activeSeason={this.state.activeSeason}
               />
             </div>
             <div className="contentRight-bottom">

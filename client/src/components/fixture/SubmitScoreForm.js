@@ -78,6 +78,14 @@ class SubmitScoreForm extends Component {
       this.setState({ activePlayer: " " });
     }
 
+    if(this.props.type !== prevProps.type){
+      await this.setState({ type: this.props.type });
+    }
+
+    if (this.props.activeSeason !== prevProps.activeSeason) {
+      await this.setState({ activeSeason: this.props.activeSeason });
+    }
+
     if (
       this.state.activePlayer !== prevState.activePlayer &&
       this.props.type !== undefined
@@ -117,9 +125,10 @@ class SubmitScoreForm extends Component {
       await this.props.changeFixtureScore(this.prepareSubmitState());
       this.setState(
         {
+          unplayedFixtures: [],
           score1: "",
           score2: "",
-          players: ""
+          players: "",
         },
         () => {
           this.getFixtures();
@@ -179,7 +188,17 @@ class SubmitScoreForm extends Component {
   render() {
     return (
       <div id="submitScoreForm">
-        <h3>Submit Result</h3>
+        {this.props.edit ? (
+          <div>
+            <h3>Edit Result</h3>
+            <p style={{ color: "red" }}>
+              <strong>Warning:</strong> Only use this form to edit{" "}
+              <strong>incorrect</strong> score.
+            </p>
+          </div>
+        ) : (
+          <h3>Submit Result</h3>
+        )}
         <form>
           <label>Select your name:</label>
           <select
