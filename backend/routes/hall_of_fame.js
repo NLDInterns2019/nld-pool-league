@@ -180,6 +180,9 @@ router.post("/calculate", async (req, res) => {
 
   for (let i = 0; i < hofAll.length; i++) {
     hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    if (!(hofAll[i].winRate > 0)) {
+      hofAll[i].winRate = 0;
+    }
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
