@@ -1464,6 +1464,13 @@ tr td:last-child {
   background-image: url("./assets/chequered-flag.svg");
 }
 
+.book-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background-image: url("./assets/book.svg");
+}
+
 /* ==== Toast ==== */
 .toast {
   display: flex;
