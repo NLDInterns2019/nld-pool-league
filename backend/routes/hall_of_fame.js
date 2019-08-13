@@ -31,13 +31,13 @@ router.get("/", async (req, res) => {
     return;
   }
 
-  let where ={
+  let where = {
     type: req.query.type
-  }
+  };
 
   //Params handling
   if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
-    where.staffName = req.query.staffName
+    where.staffName = req.query.staffName;
   }
 
   hall_of_fame
@@ -59,7 +59,6 @@ router.get("/", async (req, res) => {
 */
 router.post("/calculate", async (req, res) => {
   type = parseInt(req.body.type, 10);
-  console.log("hi");
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];
@@ -71,6 +70,8 @@ router.post("/calculate", async (req, res) => {
     res.status(404).send();
     return;
   }
+
+  let i = 0;
 
   //go through all league rows relevant//
   for (let i = 0; i < leagues.length; i++) {
@@ -95,6 +96,9 @@ router.post("/calculate", async (req, res) => {
         staffName: leagues[i].staffName
       });
     }
+
+    //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
+    delete hofRow.id;
 
     //wipes values without need for extra db call loop
     //check if name has been called
@@ -144,10 +148,14 @@ router.post("/calculate", async (req, res) => {
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
-    hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
-    hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
-    hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = (hofRow.totalPoints / hofRow.plays).toFixed(2);
+    if (hofRow.plays !== 0) {
+      hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
+      hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
+      hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+      hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(
+        2
+      );
+    }
 
     //update the table
     await hall_of_fame
@@ -204,35 +212,41 @@ router.post("/calculate", async (req, res) => {
   let seasons = await eight_nine_ball_seasons.query().where({
     type: type
   });
+
   for (let i = 0; i < leagues.length; i++) {
     hofRow = await hall_of_fame.query().findOne({
       type: type,
       staffName: leagues[i].staffName
     });
+
     //change this to get users last played season if not in this one TODO
     if (seasons.length > 1 && leagues[i].seasonId === seasons.length) {
       //with more than one season
-      console.log("entered");
+      // console.log("entered");
       hofRow.improvementRate = hofRow.improvementRate = parseInt(
         (leagues[i].win * 100) / leagues[i].play
       );
       hofRow.latestWins =
         parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
 
-      console.log(hofRow.latestWins);
-      console.log(
-        hofRow.staffName +
-          ": " +
-          hofRow.improvementRate +
-          " - " +
-          hofRow.winRate +
-          " = " +
-          hofRow.latestWins
-      );
+      // console.log(hofRow.latestWins);
+      // console.log(
+      //   hofRow.staffName +
+      //     ": " +
+      //     hofRow.improvementRate +
+      //     " - " +
+      //     hofRow.winRate +
+      //     " = " +
+      //     hofRow.latestWins
+      // );
     } //this will be functional when i figure out why hofrow suddenly can't access winrate. who cares anymore
   }
+
   for (let v = 0; v < hofAll.length; v++) {
-    console.log(hofAll[v].winRate);
+    // console.log(hofAll[v].winRate);
+    //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
+    delete hofAll[v].id;
+
     await hall_of_fame
       .query()
       .findOne({
@@ -241,6 +255,7 @@ router.post("/calculate", async (req, res) => {
       })
       .patch(hofAll[v]);
   }
+
   res.json(hofAll);
 });
 
