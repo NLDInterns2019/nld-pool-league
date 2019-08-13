@@ -61,7 +61,7 @@ router.post("/calculate", async (req, res) => {
     return;
   }
 
-  //go through all league rows relevant
+  //go through all league rows relevant//
   for (let i = 0; i < leagues.length; i++) {
     hofRow = await hall_of_fame.query().findOne({
       type: type,

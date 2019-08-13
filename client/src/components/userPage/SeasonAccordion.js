@@ -74,15 +74,9 @@ class SeasonAccordion extends React.Component {
     }
     return (
       <div className="unplayed-accordian">
-        {this.state.type === "8" ? (
-          <div className="unplayedTitle">
-            <h4>Upcoming Unplayed Fixtures</h4>
-          </div>
-        ) : (
-          <div className="unplayedTitle">
-            <h4>Upcoming Unplayed Fixtures:</h4>
-          </div>
-        )}
+        <div className="unplayedTitle">
+          <h4>Unplayed Fixtures in 2 weeks time:</h4>
+        </div>
         <span
           className={`${this.state.type}-ball-icon`}
           alt={`${this.state.type}-ball`}
