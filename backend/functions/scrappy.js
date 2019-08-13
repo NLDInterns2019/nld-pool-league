@@ -3,24 +3,14 @@ const moment = require("moment")
 module.exports = {
   calculateScrappy: function(fixtures, topPlayer, hofAll, i) {
     let player1, player2 = 0;
-    let found1, found2 = false;
     for (let j = 0; j < hofAll.length; j++) {
         if (hofAll[j].staffName == fixtures[i].player1) {
           player1 = j;
-          found1 = true;
-          if (found1 && found2 === true) {
-            break;
-          }
         } else if (hofAll[j].staffName == fixtures[i].player2) {
           player2 = j;
-          found2 = true;
-          if (found1 && found2 === true) {
-            break;
-          }
         } 
       }
-    found1, found2 = false;
-    
+
     if (fixtures[i].player1 == topPlayer) { //check if the top player played in the fixture
       hofAll[player2].scrappyPlays = hofAll[player2].scrappyPlays + 1; //if so, increment suitably
       if (parseInt(fixtures[i].score2) > parseInt(fixtures[i].score1)) {
