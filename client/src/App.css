@@ -653,10 +653,18 @@ tr td:last-child {
   padding-right: 10px;
 }
 
+.achievementTable tr:nth-child(odd) .hofCell {
+  background-color: #f2f2f2;
+}
+
+.achievementTable tr:nth-child(odd) .hofCellBad {
+  background-color: #ffe4eb;
+}
+
 .hofCellBorder {
   padding-left: 10px;
   padding-right: 10px;
-  border-top: 1px solid #cacaca;
+
   background-color: #faf2f4;
 }
 
@@ -664,6 +672,10 @@ tr td:last-child {
   padding-left: 10px;
   padding-right: 10px;
   background-color: #faf2f4;
+}
+
+.achievementTable tr:nth-child(10) .hofCellBad {
+  border-top: 1px solid #cacaca;
 }
 
 .hallOfFameTitleContainer {
@@ -680,6 +692,7 @@ tr td:last-child {
 #calendarContainer {
   background-color: white;
   width: 80%;
+  min-width: 1000px;
   margin: auto;
   padding: 4rem;
   border-radius: 30px;
@@ -976,12 +989,11 @@ tr td:last-child {
 .unplayedTitle {
   display: flex;
   flex-direction: row;
-  padding-left: 18px;
+  margin-left: 18px;
 }
 
 .unplayed-accordian {
   width: 650px;
-  margin: auto;
 }
 
 /* top of page */

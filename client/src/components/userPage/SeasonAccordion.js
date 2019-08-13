@@ -25,7 +25,7 @@ class SeasonAccordion extends React.Component {
   signal = Axios.CancelToken.source();
 
   getUnplayedSeasons = async () => {
-    try{
+    try {
       const result = await backend.get("/api/89ball_fixture/all/", {
         cancelToken: this.signal.token,
         params: {
@@ -41,10 +41,9 @@ class SeasonAccordion extends React.Component {
           ["desc"]
         )
       });
-    }catch (err) {
+    } catch (err) {
       //API CALL BEING CANCELED
     }
-   
   };
 
   componentDidMount = async () => {
@@ -75,19 +74,9 @@ class SeasonAccordion extends React.Component {
     }
     return (
       <div className="unplayed-accordian">
-        {this.state.type === "8" ? (
-          <div className="unplayedTitle">
-            <h4>
-              Unplayed <strong>8-Ball</strong> Fixtures
-            </h4>
-          </div>
-        ) : (
-          <div className="unplayedTitle">
-            <h4>
-              Unplayed <strong>9-Ball</strong> Fixtures
-            </h4>
-          </div>
-        )}
+        <div className="unplayedTitle">
+          <h4>Unplayed Fixtures in 2 weeks time:</h4>
+        </div>
         <span
           className={`${this.state.type}-ball-icon`}
           alt={`${this.state.type}-ball`}

@@ -98,19 +98,19 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">
           {bestGame
             ? bestGame.highestPoints + " points in one season"
-            : "Most points in a league"}
+            : "Most points in a season"}
         </td>
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="thumbs-up-icon" alt="thumbs up" />
+        📖
         </td>
         <td className="hofCell">4.0 GPA</td>
         <td className="hofCell">{avgPoints ? avgPoints.staffName : "-"}</td>
         <td className="hofCell">
           {avgPoints
-            ? avgPoints.avgPoints + " point average"
-            : "Highest point average"}
+            ? avgPoints.avgPoints + " points per game"
+            : "Highest average PPG"}
         </td>
       </tr>
       <tr>
@@ -133,7 +133,6 @@ const itemsToBeDisplayed = props => {
           {dedicated ? dedicated.plays + " games played" : "Most games played"}
         </td>
       </tr>
-      <tr />
       <tr>
         <td className="hofCell">
           <div className="clock-icon" alt="clock" />
@@ -164,7 +163,7 @@ const itemsToBeDisplayed = props => {
         <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
         <td className="hofCell">
           {scrappy
-            ? scrappy.scrappyRate + "% wins against " + topPlayer.staffName
+            ? scrappy.scrappyRate + "% wins against " 
             : "Best win % against #1"}
         </td>
       </tr>
@@ -181,12 +180,12 @@ const itemsToBeDisplayed = props => {
         </td>
       </tr>
       <tr>
-        <td className="hofCellBorder">
+        <td className="hofCellBad">
           <div className="angry-icon" alt="angry" />
         </td>
-        <td className="hofCellBorder">Filthy Casual</td>
-        <td className="hofCellBorder">{casual ? casual.staffName : "-"}</td>
-        <td className="hofCellBorder">
+        <td className="hofCellBad">Filthy Casual</td>
+        <td className="hofCellBad">{casual ? casual.staffName : "-"}</td>
+        <td className="hofCellBad">
           {casual ? casual.lossRate + "% of games lost" : "Highest loss rate"}
         </td>
       </tr>
