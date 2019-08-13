@@ -147,7 +147,7 @@ router.post("/calculate", async (req, res) => {
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = hofRow.totalPoints / hofRow.plays;
+    hofRow.avgPoints = (hofRow.totalPoints / hofRow.plays).toFixed(2);
 
     //update the table
     await hall_of_fame
