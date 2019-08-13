@@ -1124,6 +1124,13 @@ tr td:last-child {
   margin-bottom: 4rem;
 }
 
+/* chart */
+.chart {
+  width: 500px;
+  margin: auto;
+  margin-bottom: 4rem;
+}
+
 /* ==== Icons ==== */
 .eight-ball-icon {
   vertical-align: middle;
