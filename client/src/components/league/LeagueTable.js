@@ -1,6 +1,7 @@
 import React from "react";
 import LeagueTableBody from "./LeagueTableBody";
 import LeagueTableHeader from "./LeagueTableHeader";
+import AddPlayerForm from "./AddPlayerForm";
 
 const LeagueTable = props => {
   return (
@@ -14,6 +15,7 @@ const LeagueTable = props => {
           feePaid={props.feePaid}
         />
       </table>
+      <AddPlayerForm addPlayer={props.addPlayer} />
     </div>
   );
 };

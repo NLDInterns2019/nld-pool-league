@@ -13,6 +13,7 @@ import FinalRankings from "./league/FinalRankings";
 import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
+import AddPlayerForm from "./league/AddPlayerForm";
 import EditScoreForm from "./fixture/EditScoreForm";
 
 class App extends React.Component {
@@ -479,6 +480,10 @@ class App extends React.Component {
     return <FinalStat players={this.state.players} />;
   };
 
+  addNewPlayer = player => {
+    console.log("added new player: " + player);
+  };
+
   render() {
     return (
       <div className="app">
@@ -502,7 +507,9 @@ class App extends React.Component {
               players={this.state.players}
               deletePlayer={this.deletePlayer}
               feePaid={this.feePaid}
+              addPlayer={this.addNewPlayer}
             />
+
             {/* if the season hasn't finished, show the submit score form */}
             {this.state.finished === null
               ? null

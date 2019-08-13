@@ -331,6 +331,30 @@ table td {
   display: none;
 }
 
+/* ==== Add Player Form ==== */
+.addPlayerFormButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.hiddenForm label {
+  padding-right: 0.5rem;
+}
+
+.hiddenForm select {
+  margin-bottom: 1rem;
+}
+
+.hiddenForm button {
+  margin-top: 0.5rem;
+}
+
+.addPlayerForm {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
 /* ==== Fixture and League Table positioning ==== */
 .leagueTableContainer {
   display: inline-block;
@@ -605,6 +629,7 @@ select:hover {
 .viewYourFixtures,
 #submitScoreForm,
 .app #createSeasonForm,
+.hiddenForm,
 .form-popup {
   background-color: white;
   width: 600px;
