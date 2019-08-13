@@ -15,7 +15,7 @@ const LeagueTable = props => {
           feePaid={props.feePaid}
         />
       </table>
-      <AddPlayerForm addPlayer={props.addPlayer} />
+      <AddPlayerForm addPlayer={props.addPlayer} players={props.players} />
     </div>
   );
 };
