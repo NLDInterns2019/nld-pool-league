@@ -144,10 +144,17 @@ router.post("/calculate", async (req, res) => {
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
-    hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
-    hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
-    hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = (hofRow.totalPoints / hofRow.plays).toFixed(2);
+    if (hofRow.plays > 0) {
+      hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
+      hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
+      hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+      hofRow.avgPoints = (hofRow.totalPoints / hofRow.plays).toFixed(2);
+    } else {
+      hofRow.drawRate = 0;
+      hofRow.punctRate = 0;
+      hofRow.lossRate = 0;
+      hofRow.avgPoints = 0;
+    }
 
     //update the table
     await hall_of_fame
@@ -179,7 +186,11 @@ router.post("/calculate", async (req, res) => {
   hofAll = streakGen.calculateStreaks(fixtures, hofAll); ////////////////////////streakCalc
 
   for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    if (hofAll[i].plays > 0) {
+      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    } else {
+      hofAll[i].winRate = 0;
+    }
     if (!(hofAll[i].winRate > 0)) {
       hofAll[i].winRate = 0;
     }
@@ -216,11 +227,13 @@ router.post("/calculate", async (req, res) => {
     if (seasons.length > 1 && leagues[i].seasonId === seasons.length) {
       //with more than one season
       console.log("entered");
-      hofRow.improvementRate = hofRow.improvementRate = parseInt(
-        (leagues[i].win * 100) / leagues[i].play
-      );
-      hofRow.latestWins =
-        parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+      if (leagues[i].play > 0) {
+        hofRow.improvementRate = hofRow.improvementRate = parseInt(
+          (leagues[i].win * 100) / leagues[i].play
+        );
+        hofRow.latestWins =
+          parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+      }
 
       console.log(hofRow.latestWins);
       console.log(
