@@ -12,8 +12,8 @@ const itemsToBeDisplayed = props => {
   let losingStreak = maxBy(props.players, "losingStreak");
   let streak = maxBy(props.players, "winningStreak");
   let scrappy = maxBy(props.players, "scrappyRate");
-  let improved = maxBy(props.players, "improvement");
-  let retire = minBy(props.players, "improvement");
+  let improved = maxBy(props.players, "latestWins");
+  let retire = minBy(props.players, "latestWins");
   let avgPoints = maxBy(props.players, "avgPoints");
 
   if (avgPoints !== undefined) {
