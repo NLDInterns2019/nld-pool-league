@@ -80,6 +80,7 @@ class AddPlayerForm extends Component {
           type="button"
           onClick={this.handleClick}
           ref={this.addPlayerBtn}
+          id="addPlayerBtn"
         >
           + Add New Player
         </button>

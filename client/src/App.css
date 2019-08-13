@@ -355,6 +355,10 @@ table td {
   margin-top: 2rem;
 }
 
+#addPlayerBtn {
+  margin-right: 42px;
+}
+
 /* ==== Fixture and League Table positioning ==== */
 .leagueTableContainer {
   display: inline-block;
