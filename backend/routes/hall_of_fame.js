@@ -48,6 +48,7 @@ router.get("/", async (req, res) => {
 */
 router.post("/calculate", async (req, res) => {
   type = parseInt(req.body.type, 10);
+  console.log("hi")
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];
