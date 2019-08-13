@@ -12,6 +12,8 @@ import UpcomingMatch from "./userPage/UpcomingMatch";
 
 import CurrentStats from "./userPage/CurrentStats";
 import AllTimeStats from "./userPage/AllTimeStats";
+import CanvasJSReact from "../assets/canvasjs.react";
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
@@ -27,6 +29,40 @@ class UserPage extends React.Component {
     bookings: [],
     unpaid: [],
     intialAuthentication: false
+  };
+
+  positions = [1, 3, 6, 3, 1, 1, 3, 2, 1];
+  seasonIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  prepareChart = (positions, seasonIds) => {
+    var options = {
+      width: 500,
+      height: 250,
+      axisY: {
+        title: "Finishing Position",
+        reversed: true,
+        interval: 1,
+        gridColor: "#eeeeee",
+        includeZero: false
+      },
+      axisX: {
+        title: "Season"
+      },
+      data: [
+        {
+          type: "line",
+          lineColor: "#127e5c",
+          color: "#127e5c",
+          dataPoints: []
+        }
+      ]
+    };
+
+    for (var i = 0; i < positions.length; i++) {
+      options.data[0].dataPoints.push({ x: seasonIds[i], y: positions[i] });
+    }
+
+    return options;
   };
 
   getLatestSeason = async () => {
@@ -333,6 +369,16 @@ class UserPage extends React.Component {
                       getPPG={this.getPPG()}
                       getWinPercentage={this.getWinPercentage()}
                     />
+
+                    <h2>Position History:</h2>
+                    <div className="chart">
+                      <CanvasJSChart
+                        options={this.prepareChart(
+                          this.positions,
+                          this.seasonIds
+                        )}
+                      />
+                    </div>
                   </div>
                   <SeasonAccordion type="8" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
@@ -368,6 +414,17 @@ class UserPage extends React.Component {
                       getPPG={this.getPPG()}
                       getWinPercentage={this.getWinPercentage()}
                     />
+
+                    <div className="chart">
+                      <h2>Position History:</h2>
+                      <CanvasJSChart
+                        options={this.prepareChart(
+                          this.positions,
+                          this.seasonIds
+                        )}
+                        onRef={ref => (this.chart = ref)}
+                      />
+                    </div>
                   </div>
                   <SeasonAccordion type="9" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
