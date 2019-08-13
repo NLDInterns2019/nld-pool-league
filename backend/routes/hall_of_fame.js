@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
+const knex = require("../db/knex");
 
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
@@ -81,7 +82,7 @@ router.post("/calculate", async (req, res) => {
     //if the name isn't in the hall of fame, add it
     if (typeof hofRow === "undefined") {
       staffInHoF = false;
-      await hall_of_fame.query().insert({
+      await knex("hall_of_fame").insert({
         staffName: leagues[i].staffName,
         type: type
       });
@@ -146,7 +147,7 @@ router.post("/calculate", async (req, res) => {
     hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
     hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
     hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-    hofRow.avgPoints = hofRow.totalPoints / hofRow.plays;
+    hofRow.avgPoints = (hofRow.totalPoints / hofRow.plays).toFixed(2);
 
     //update the table
     await hall_of_fame

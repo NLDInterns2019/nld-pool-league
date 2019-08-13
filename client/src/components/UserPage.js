@@ -397,8 +397,8 @@ class UserPage extends React.Component {
                       })}
                     />
                     <AllTimeStats
-                      ppg={this.state.hofStat8.avgPoints}
-                      wr={this.state.hofStat8.winRate}
+                    ppg={this.state.hofStat8 ? this.state.hofStat8.avgPoints : null}
+                    wr={this.state.hofStat8 ? this.state.hofStat8.winRate : null}
                     />
                     <h2>Position History:</h2>
                     <div className="chart">
@@ -441,8 +441,8 @@ class UserPage extends React.Component {
                       })}
                     />
                     <AllTimeStats
-                      getPPG={this.getPPG()}
-                      getWinPercentage={this.getWinPercentage()}
+                      ppg={this.state.hofStat9 ? this.state.hofStat9.avgPoints : null}
+                      wr={this.state.hofStat9 ? this.state.hofStat9.winRate : null}
                     />
 
                     <div className="chart">
