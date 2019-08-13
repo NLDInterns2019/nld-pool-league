@@ -481,6 +481,23 @@ class App extends React.Component {
 
   addNewPlayer = player => {
     console.log("added new player: " + player);
+    this.sendNewPlayerSlackMessage(player);
+  };
+
+  sendNewPlayerSlackMessage = async player => {
+    await backend
+      .post(
+        "/api/slack/newPlayer",
+        {
+          player: player,
+          type: parseInt(this.state.type),
+          seasonId: this.state.activeSeason
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
+      .then(console.log("posted"));
   };
 
   render() {
