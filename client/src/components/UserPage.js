@@ -40,15 +40,17 @@ class UserPage extends React.Component {
     var options = {
       width: 500,
       height: 250,
+      axisX: {
+        title: "Season"
+      },
       axisY: {
         title: "Finishing Position",
         reversed: true,
         interval: 1,
         gridColor: "#eeeeee",
-        includeZero: false
-      },
-      axisX: {
-        title: "Season"
+        minimum: 0,
+        maximum: this.state.players8.length,
+        viewportMinimum: 0.25
       },
       data: [
         {
@@ -397,8 +399,14 @@ class UserPage extends React.Component {
                       })}
                     />
                     <AllTimeStats
-                    ppg={this.state.hofStat8 ? this.state.hofStat8.avgPoints : null}
-                    wr={this.state.hofStat8 ? this.state.hofStat8.winRate : null}
+                      ppg={
+                        this.state.hofStat8
+                          ? this.state.hofStat8.avgPoints
+                          : null
+                      }
+                      wr={
+                        this.state.hofStat8 ? this.state.hofStat8.winRate : null
+                      }
                     />
                     <h2>Position History:</h2>
                     <div className="chart">
@@ -441,8 +449,14 @@ class UserPage extends React.Component {
                       })}
                     />
                     <AllTimeStats
-                      ppg={this.state.hofStat9 ? this.state.hofStat9.avgPoints : null}
-                      wr={this.state.hofStat9 ? this.state.hofStat9.winRate : null}
+                      ppg={
+                        this.state.hofStat9
+                          ? this.state.hofStat9.avgPoints
+                          : null
+                      }
+                      wr={
+                        this.state.hofStat9 ? this.state.hofStat9.winRate : null
+                      }
                     />
 
                     <div className="chart">

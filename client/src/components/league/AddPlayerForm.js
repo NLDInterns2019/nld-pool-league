@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { orderBy, uniq, filter } from "lodash";
+import { orderBy, filter } from "lodash";
 import auth0Client from "../../Auth";
 import backend from "../../api/backend";
 
