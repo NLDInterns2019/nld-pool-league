@@ -32,6 +32,7 @@ const EditScoreForm = props => {
               players={props.players}
               type={props.type}
               changeFixtureScore={props.changeFixtureScore}
+              editFixtureScore={props.editFixtureScore}
               activeSeason={props.activeSeason}
               edit={true}
             />

@@ -143,7 +143,11 @@ class SubmitScoreForm extends Component {
       alert("Not a valid input");
     } else {
       /* submit score */
-      await this.props.changeFixtureScore(this.prepareSubmitState());
+      if(this.props.edit){
+        await this.props.editFixtureScore(this.prepareSubmitState());
+      }else{
+        await this.props.changeFixtureScore(this.prepareSubmitState());
+      }
       this.setState(
         {
           unplayedFixtures: [],

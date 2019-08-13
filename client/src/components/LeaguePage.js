@@ -152,6 +152,71 @@ class App extends React.Component {
       });
   };
 
+  editFixtureScore = async state => {
+    //Change the fixture score
+    await backend.put(
+      "/api/89ball_fixture/edit/force",
+      {
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason,
+        player1: state.player1,
+        score1: parseInt(state.score1),
+        player2: state.player2,
+        score2: parseInt(state.score2)
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
+    //Recalculate league
+    await backend
+      .put(
+        "/api/89ball_league/recalculate",
+        {
+          type: parseInt(this.state.type),
+          seasonId: this.state.activeSeason
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
+      .then(async () => {
+        this.toastSuccess(
+          <p>
+            Result Edited!
+            <br />
+            {state.player1} {state.score1} - {state.score2} {state.player2}
+          </p>
+        );
+        this.updateData();
+        await backend.post(
+          "/api/slack/resultEdited",
+          {
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason,
+            players: state.players,
+            score1: state.score1,
+            score2: state.score2
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+      })
+      .catch(e => {
+        if (e.response.status === 401) {
+          this.toastUnauthorised();
+        } else {
+          this.toastError(
+            <div className="toast">
+              <div className="no-entry-icon" alt="no entry" />
+              <p>Something went wrong.</p>
+            </div>
+          );
+        }
+      });
+  };
+
   deletePlayer = async staffName => {
     try {
       if (this.state.finished === null) {
@@ -314,6 +379,7 @@ class App extends React.Component {
           players={this.state.players}
           type={this.state.type}
           changeFixtureScore={this.changeFixtureScore}
+          editFixtureScore={this.editFixtureScore}
           activeSeason={this.state.activeSeason}
         />
         <br />
@@ -331,6 +397,18 @@ class App extends React.Component {
           </button>
         ) : null}
       </div>
+    );
+  };
+
+  showEditResult = () => {
+    return (
+      <EditScoreForm
+        players={this.state.players}
+        type={this.state.type}
+        changeFixtureScore={this.changeFixtureScore}
+        editFixtureScore={this.editFixtureScore}
+        activeSeason={this.state.activeSeason}
+      />
     );
   };
 
@@ -442,12 +520,12 @@ class App extends React.Component {
                 activeSeason={this.state.activeSeason}
                 applyFilter={this.applyViewFilter}
               />
-              <EditScoreForm
-                players={this.state.players}
-                type={this.state.type}
-                changeFixtureScore={this.changeFixtureScore}
-                activeSeason={this.state.activeSeason}
-              />
+              {/* if the season hasn't finished, show the edit result form */}
+              {this.state.finished === null
+                ? null
+                : !this.state.finished
+                ? this.showEditResult()
+                : null}
             </div>
             <div className="contentRight-bottom">
               <FixtureList
