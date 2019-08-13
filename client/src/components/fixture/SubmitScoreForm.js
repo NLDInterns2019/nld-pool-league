@@ -25,21 +25,42 @@ class SubmitScoreForm extends Component {
   signal = axios.CancelToken.source();
 
   getFixtures = async () => {
-    try {
-      const response = await backend.get(
-        "/api/89ball_fixture/" + this.state.activeSeason,
-        {
-          cancelToken: this.signal.token,
-          params: {
-            type: this.state.type,
-            hidePlayed: true,
-            staffName: this.state.activePlayer
+    if (!this.props.edit) {
+      //GET UNPLAYED FIXTURES
+      try {
+        const response = await backend.get(
+          "/api/89ball_fixture/" + this.state.activeSeason,
+          {
+            cancelToken: this.signal.token,
+            params: {
+              type: this.state.type,
+              hidePlayed: true,
+              staffName: this.state.activePlayer
+            }
           }
-        }
-      );
-      this.setState({ unplayedFixtures: response.data });
-    } catch (err) {
-      //API CALL BEING CANCELED
+        );
+        this.setState({ unplayedFixtures: response.data });
+      } catch (err) {
+        //API CALL BEING CANCELED
+      }
+    } else {
+      //ONLY GET THE PLAYED FIXTURES
+      try {
+        const response = await backend.get(
+          "/api/89ball_fixture/" + this.state.activeSeason,
+          {
+            cancelToken: this.signal.token,
+            params: {
+              type: this.state.type,
+              onlyPlayed: true,
+              staffName: this.state.activePlayer
+            }
+          }
+        );
+        this.setState({ unplayedFixtures: response.data });
+      } catch (err) {
+        //API CALL BEING CANCELED
+      }
     }
   };
 
@@ -78,7 +99,7 @@ class SubmitScoreForm extends Component {
       this.setState({ activePlayer: " " });
     }
 
-    if(this.props.type !== prevProps.type){
+    if (this.props.type !== prevProps.type) {
       await this.setState({ type: this.props.type });
     }
 
@@ -128,7 +149,7 @@ class SubmitScoreForm extends Component {
           unplayedFixtures: [],
           score1: "",
           score2: "",
-          players: "",
+          players: ""
         },
         () => {
           this.getFixtures();

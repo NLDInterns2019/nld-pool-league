@@ -145,7 +145,7 @@ class App extends React.Component {
           this.toastError(
             <div className="toast">
               <div className="no-entry-icon" alt="no entry" />
-              <p>Something went wrong. Please try again</p>
+              <p>Something went wrong.</p>
             </div>
           );
         }

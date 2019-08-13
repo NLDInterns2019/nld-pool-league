@@ -118,7 +118,8 @@ router.get("/:seasonId", (req, res) => {
       .required(),
     staffName: Joi.string(),
     hidePlayed: Joi.string(),
-    showLess: Joi.string()
+    showLess: Joi.string(),
+    onlyPlayed: Joi.string()
   };
 
   //Validation
@@ -156,8 +157,7 @@ router.get("/:seasonId", (req, res) => {
     eight_nine_ball_fixtures
       .query()
       .where(function() {
-        this.where(where1)
-        .orWhere(where2)
+        this.where(where1).orWhere(where2);
       })
       .andWhere(
         "date",
@@ -166,6 +166,26 @@ router.get("/:seasonId", (req, res) => {
           .add(2, "weeks")
           .toISOString()
       )
+      .orderBy("player1")
+      .then(
+        fixture => {
+          res.send(fixture);
+        },
+        e => {
+          res.status(500).json(e);
+        }
+      );
+  } else if (
+    req.query.hasOwnProperty("onlyPlayed") &&
+    req.query.onlyPlayed === "true"
+  ) {
+    eight_nine_ball_fixtures
+      .query()
+      .where(function() {
+        this.where(where1).orWhere(where2);
+      })
+      .whereNotNull("score1")
+      .whereNotNull("score2")
       .orderBy("player1")
       .then(
         fixture => {
