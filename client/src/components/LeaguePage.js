@@ -13,7 +13,6 @@ import FinalRankings from "./league/FinalRankings";
 import FinalStat from "./league/FinalStat";
 
 import Axios from "axios";
-import AddPlayerForm from "./league/AddPlayerForm";
 import EditScoreForm from "./fixture/EditScoreForm";
 
 class App extends React.Component {
