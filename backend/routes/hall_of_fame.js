@@ -187,7 +187,14 @@ router.post("/calculate", async (req, res) => {
   hofAll = streakGen.calculateStreaks(fixtures, hofAll); ////////////////////////streakCalc
 
   for (let i = 0; i < hofAll.length; i++) {
-    hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    if (hofAll[i].plays > 0) {
+      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+    } else {
+      hofAll[i].winRate = 0;
+    }
+    if (!(hofAll[i].winRate > 0)) {
+      hofAll[i].winRate = 0;
+    }
   }
 
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
@@ -222,12 +229,14 @@ router.post("/calculate", async (req, res) => {
     //change this to get users last played season if not in this one TODO
     if (seasons.length > 1 && leagues[i].seasonId === seasons.length) {
       //with more than one season
-      // console.log("entered");
-      hofRow.improvementRate = hofRow.improvementRate = parseInt(
-        (leagues[i].win * 100) / leagues[i].play
-      );
-      hofRow.latestWins =
-        parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+      console.log("entered");
+      if (leagues[i].play > 0) {
+        hofRow.improvementRate = hofRow.improvementRate = parseInt(
+          (leagues[i].win * 100) / leagues[i].play
+        );
+        hofRow.latestWins =
+          parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+      }
 
       // console.log(hofRow.latestWins);
       // console.log(
