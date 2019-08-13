@@ -20,8 +20,9 @@ const EditScoreForm = props => {
               style={{
                 fontWeight: "bold",
                 color: "white",
-                backgroundColor: "red",
-                margin: "auto"
+                backgroundColor: "#e23e4b",
+                margin: "auto",
+                width: "600px"
               }}
             >
               Edit Submitted Result
