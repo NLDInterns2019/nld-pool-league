@@ -42,7 +42,13 @@ class UserPage extends React.Component {
       width: 500,
       height: 250,
       axisX: {
-        title: "Season"
+        title: "Season",
+        interval:
+          seasonIds.length > 14 && seasonIds.length < 30
+            ? 2
+            : seasonIds.length < 15
+            ? 1
+            : 3
       },
       axisY: {
         title: "Finishing Position",
@@ -92,7 +98,7 @@ class UserPage extends React.Component {
         ).map(player => player.position)
       });
 
-      const nine = await backend.get("/api/89ball_fixture/all/", {
+      const nine = await backend.get("/api/position_history/", {
         cancelToken: this.signal.token,
         params: {
           type: 9,
