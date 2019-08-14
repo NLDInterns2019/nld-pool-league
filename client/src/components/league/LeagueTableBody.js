@@ -39,7 +39,8 @@ const LeagueTableBody = props => {
           </td>
         )}
         {auth0Client.isAuthenticated() &&
-        auth0Client.getProfile().nickname === "admin" ? (
+        auth0Client.getProfile().nickname === "admin" &&
+        !props.hasFinished ? (
           <td style={{ backgroundColor: "#DBE9E2" }}>
             <span
               className="delete-icon"

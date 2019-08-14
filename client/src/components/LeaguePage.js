@@ -493,8 +493,8 @@ class App extends React.Component {
       }
     );
 
-     //Generate fixture
-     await backend.post(
+    //Generate fixture
+    await backend.post(
       "/api/89ball_fixture/generate/",
       {
         type: parseInt(this.state.type),
@@ -506,7 +506,7 @@ class App extends React.Component {
       }
     );
 
-    this.updateData()
+    this.updateData();
 
     this.sendNewPlayerSlackMessage(player);
   };
@@ -551,6 +551,7 @@ class App extends React.Component {
               deletePlayer={this.deletePlayer}
               feePaid={this.feePaid}
               addPlayer={this.addNewPlayer}
+              hasFinished={this.state.finished}
             />
 
             {/* if the season hasn't finished, show the submit score form */}
