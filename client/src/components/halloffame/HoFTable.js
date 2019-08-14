@@ -82,7 +82,9 @@ const itemsToBeDisplayed = props => {
           <div className="trophy-icon" alt="trophy" />
         </td>
         <td className="hofCell">Top Player</td>
-        <td className="hofCell">{topPlayer ? topPlayer.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {topPlayer ? topPlayer.staffName : "-"}
+        </td>
         <td className="hofCell">
           {topPlayer
             ? topPlayer.winRate + "% games won"
@@ -94,7 +96,9 @@ const itemsToBeDisplayed = props => {
           <div className="thumbs-up-icon" alt="thumbs up" />
         </td>
         <td className="hofCell">Best Season</td>
-        <td className="hofCell">{bestGame ? bestGame.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {bestGame ? bestGame.staffName : "-"}
+        </td>
         <td className="hofCell">
           {bestGame
             ? bestGame.highestPoints + " points in one season"
@@ -106,7 +110,9 @@ const itemsToBeDisplayed = props => {
           <div className="book-icon" alt="book" />
         </td>
         <td className="hofCell">4.0 GPA</td>
-        <td className="hofCell">{avgPoints ? avgPoints.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {avgPoints ? avgPoints.staffName : "-"}
+        </td>
         <td className="hofCell">
           {avgPoints
             ? avgPoints.avgPoints + " points per game"
@@ -118,7 +124,9 @@ const itemsToBeDisplayed = props => {
           <div className="scales-icon" alt="scales" />
         </td>
         <td className="hofCell">Average</td>
-        <td className="hofCell">{draw ? draw.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {draw ? draw.staffName : "-"}
+        </td>
         <td className="hofCell">
           {draw ? draw.drawRate + "% of games drawn" : "Best average draw rate"}
         </td>
@@ -128,7 +136,9 @@ const itemsToBeDisplayed = props => {
           <div className="weightlifting-icon" alt="weightlifting" />
         </td>
         <td className="hofCell">Dedicated</td>
-        <td className="hofCell">{dedicated ? dedicated.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {dedicated ? dedicated.staffName : "-"}
+        </td>
         <td className="hofCell">
           {dedicated ? dedicated.plays + " games played" : "Most games played"}
         </td>
@@ -138,7 +148,9 @@ const itemsToBeDisplayed = props => {
           <div className="clock-icon" alt="clock" />
         </td>
         <td className="hofCell">Dr. Punctual</td>
-        <td className="hofCell">{onTime ? onTime.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {onTime ? onTime.staffName : "-"}
+        </td>
         <td className="hofCell">
           {slacker
             ? onTime.punctRate + "% punctuality"
@@ -150,7 +162,9 @@ const itemsToBeDisplayed = props => {
           <div className="train-icon" alt="train" />
         </td>
         <td className="hofCell">The Train</td>
-        <td className="hofCell">{streak ? streak.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {streak ? streak.staffName : "-"}
+        </td>
         <td className="hofCell">
           {streak ? streak.winningStreak + " win streak" : "Longest win streak"}
         </td>
@@ -160,7 +174,9 @@ const itemsToBeDisplayed = props => {
           <div className="boxing-icon" alt="boxing" />
         </td>
         <td className="hofCell">Scrappy</td>
-        <td className="hofCell">{scrappy ? scrappy.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {scrappy ? scrappy.staffName : "-"}
+        </td>
         <td className="hofCell">
           {scrappy
             ? scrappy.scrappyRate + "% wins against "
@@ -172,7 +188,9 @@ const itemsToBeDisplayed = props => {
           <div className="graph-icon" alt="graph" />
         </td>
         <td className="hofCell">Improver</td>
-        <td className="hofCell">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCell" style={{ fontWeight: "bold" }}>
+          {improved ? improved.staffName : "-"}
+        </td>
         <td className="hofCell">
           {improved
             ? improved.improvement + "% improvement"
@@ -184,7 +202,9 @@ const itemsToBeDisplayed = props => {
           <div className="angry-icon" alt="angry" />
         </td>
         <td className="hofCellBad">Filthy Casual</td>
-        <td className="hofCellBad">{casual ? casual.staffName : "-"}</td>
+        <td className="hofCellBad" style={{ fontWeight: "bold" }}>
+          {casual ? casual.staffName : "-"}
+        </td>
         <td className="hofCellBad">
           {casual ? casual.lossRate + "% of games lost" : "Highest loss rate"}
         </td>
@@ -194,7 +214,9 @@ const itemsToBeDisplayed = props => {
           <div className="snail-icon" alt="snail" />
         </td>
         <td className="hofCellBad">Slacker</td>
-        <td className="hofCellBad">{slacker ? slacker.staffName : "-"}</td>
+        <td className="hofCellBad" style={{ fontWeight: "bold" }}>
+          {slacker ? slacker.staffName : "-"}
+        </td>
         <td className="hofCellBad">
           {slacker ? slacker.punctRate + "% games late" : "Most late fixtures"}
         </td>
@@ -205,7 +227,7 @@ const itemsToBeDisplayed = props => {
           <div className="falling-man-icon" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
-        <td className="hofCellBad">
+        <td className="hofCellBad" style={{ fontWeight: "bold" }}>
           {losingStreak ? losingStreak.staffName : "-"}
         </td>
         <td className="hofCellBad">
@@ -219,7 +241,9 @@ const itemsToBeDisplayed = props => {
           <div className="downward-graph-icon" alt="downward-graph" />
         </td>
         <td className="hofCellBad">Time to Retire</td>
-        <td className="hofCellBad">{improved ? improved.staffName : "-"}</td>
+        <td className="hofCellBad" style={{ fontWeight: "bold" }}>
+          {improved ? improved.staffName : "-"}
+        </td>
         <td className="hofCellBad">
           {retire ? retire.improvement + "% improvement" : "Biggest decline"}
         </td>
