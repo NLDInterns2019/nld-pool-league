@@ -71,7 +71,7 @@ router.post("/calculate", async (req, res) => {
   knex('hall_of_fame')
   .where('type', 9)
   .del()
-
+/*
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];
@@ -290,7 +290,7 @@ router.post("/calculate", async (req, res) => {
       .patch(hofAll[v]);
   }
 
-  res.json(hofAll);
+  res.json(hofAll);*/
 });
 
 module.exports = router;
