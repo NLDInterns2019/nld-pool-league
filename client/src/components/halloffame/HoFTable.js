@@ -15,10 +15,24 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "latestWins");
   let retire = minBy(props.players, "latestWins");
   let avgPoints = maxBy(props.players, "avgPoints");
+  let bestImp = maxBy(props.players, "latestWins")
+  let worstImp = minBy(props.players, "latestWins")
 
   if (avgPoints !== undefined) {
     if (avgPoints.avgPoints === 0) {
       avgPoints = null;
+    }
+  }
+
+  if (improved !== undefined) {
+    if (improved.latestWins === 0) {
+      improved = null;
+    }
+  }
+
+  if (retire !== undefined) {
+    if (retire.latestWins === 0) {
+      retire = null;
     }
   }
 
@@ -57,12 +71,7 @@ const itemsToBeDisplayed = props => {
       streak = null;
     }
   }
-  if (improved !== undefined) {
-    if (improved.improvement === 0) {
-      improved = null;
-      retire = null;
-    }
-  }
+ 
   if (dedicated !== undefined) {
     if (dedicated === undedicated) {
       dedicated = null;
@@ -193,7 +202,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">
           {improved
-            ? improved.improvement + "% improvement"
+            ? improved.latestWins + "% improvement"
             : "Greatest improvement"}
         </td>
       </tr>
@@ -242,10 +251,10 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCellBad">Time to Retire</td>
         <td className="hofCellBad" style={{ fontWeight: "bold" }}>
-          {improved ? improved.staffName : "-"}
+          {retire ? retire.staffName : "-"}
         </td>
         <td className="hofCellBad">
-          {retire ? retire.improvement + "% improvement" : "Biggest decline"}
+          {retire ? retire.latestWins + "% improvement" : "Biggest decline"}
         </td>
       </tr>
     </tbody>
