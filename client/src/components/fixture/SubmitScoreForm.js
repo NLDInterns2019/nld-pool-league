@@ -20,6 +20,10 @@ class SubmitScoreForm extends Component {
     };
 
     this.state = this.initialState;
+
+    this.player1won = React.createRef();
+    this.player2won = React.createRef();
+    this.draw = React.createRef();
   }
 
   signal = axios.CancelToken.source();
@@ -143,9 +147,9 @@ class SubmitScoreForm extends Component {
       alert("Not a valid input");
     } else {
       /* submit score */
-      if(this.props.edit){
+      if (this.props.edit) {
         await this.props.editFixtureScore(this.prepareSubmitState());
-      }else{
+      } else {
         await this.props.changeFixtureScore(this.prepareSubmitState());
       }
       this.setState(
@@ -180,10 +184,10 @@ class SubmitScoreForm extends Component {
   }
 
   handleRadioClick() {
-    if (this.refs.player1won.checked) {
+    if (this.player1won.current.checked) {
       this.setScore1(2);
       this.setScore2(0);
-    } else if (this.refs.player2won.checked) {
+    } else if (this.player2won.current.checked) {
       this.setScore1(0);
       this.setScore2(2);
     } else {
@@ -205,9 +209,9 @@ class SubmitScoreForm extends Component {
   }
 
   clearRadioButtons() {
-    this.refs.player1won.checked = false;
-    this.refs.player2won.checked = false;
-    this.refs.draw.checked = false;
+    this.player1won.current.checked = false;
+    this.player2won.current.checked = false;
+    this.draw.current.checked = false;
   }
 
   render() {
@@ -217,7 +221,7 @@ class SubmitScoreForm extends Component {
           <div>
             <h3>Edit Result</h3>
             <p style={{ color: "red" }}>
-              <strong>Warning:</strong> Only use this form to edit{" "}
+              <strong>Warning:</strong> Only use this form to edit&nbsp;
               <strong>incorrect</strong> score.
             </p>
           </div>
@@ -269,7 +273,7 @@ class SubmitScoreForm extends Component {
             <label className="radioContainer">
               <input
                 id="player1won"
-                ref="player1won"
+                ref={this.player1won}
                 type="radio"
                 name="result"
                 value="player1"
@@ -280,7 +284,7 @@ class SubmitScoreForm extends Component {
             <label className="radioContainer">
               <input
                 id="draw"
-                ref="draw"
+                ref={this.draw}
                 type="radio"
                 name="result"
                 value="draw"
@@ -291,7 +295,7 @@ class SubmitScoreForm extends Component {
             <label className="radioContainer">
               <input
                 id="player2won"
-                ref="player2won"
+                ref={this.player2won}
                 type="radio"
                 name="result"
                 value="player2"
