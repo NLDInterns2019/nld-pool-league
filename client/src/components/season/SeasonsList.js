@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import auth0Client from "../../Auth";
 
 const SeasonsList = props => {
   const listToBeDisplayed = props.seasons.map(season => {
@@ -8,12 +9,12 @@ const SeasonsList = props => {
         <li>
           {season.finished ? (
             <Link
-            to={{
-              pathname: `/${props.type}-ball/overview/${season.seasonId}`
-            }}
-          >
-            Season {season.seasonId} 🏁
-          </Link>
+              to={{
+                pathname: `/${props.type}-ball/overview/${season.seasonId}`
+              }}
+            >
+              Season {season.seasonId} 🏁
+            </Link>
           ) : (
             <Link
               to={{
@@ -23,18 +24,20 @@ const SeasonsList = props => {
               Season {season.seasonId}
             </Link>
           )}
-
-          <div
-            id={"remove" + season.seasonId}
-            className="delete-icon"
-            alt="delete season"
-            onClick={() => {
-              if (
-                window.confirm("Are you sure you want to delete this season?")
-              )
-                props.deleteSeason(season.seasonId);
-            }}
-          />
+          {auth0Client.isAuthenticated() &&
+          auth0Client.getProfile().nickname === "admin" ? (
+            <div
+              id={"remove" + season.seasonId}
+              className="delete-icon"
+              alt="delete season"
+              onClick={() => {
+                if (
+                  window.confirm("Are you sure you want to delete this season?")
+                )
+                  props.deleteSeason(season.seasonId);
+              }}
+            />
+          ) : null}
         </li>
         <br />
       </div>
