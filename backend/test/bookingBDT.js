@@ -105,6 +105,7 @@ describe("Bookings", () => {
         .send({
           start: start,
           end: end,
+          type: 8,
           player1: "Michael",
           player2: "Matthew",
           title: "Michael VS Matthew"
@@ -121,6 +122,7 @@ describe("Bookings", () => {
               res.body.should.include.something.like({
                 start: start,
                 end: end,
+                type: 8,
                 player1: "Michael",
                 player2: "Matthew",
                 title: "Michael VS Matthew"
