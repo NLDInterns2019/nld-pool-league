@@ -114,7 +114,8 @@ router.post("/add/player", auth.checkJwt, (req, res) => {
     .insert({
       type: req.body.type,
       seasonId: req.body.seasonId,
-      staffName: req.body.staffName
+      staffName: req.body.staffName,
+      form: "-----"
     })
     .then(
       player => {

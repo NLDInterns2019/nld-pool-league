@@ -45,7 +45,7 @@ describe("Seasons", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
-          res.body.length.should.be.eql(3);
+          res.body.length.should.be.eql(4);
           res.body.should.include.something.like({
             seasonId: 2019
           });
@@ -54,6 +54,9 @@ describe("Seasons", () => {
           });
           res.body.should.include.something.like({
             seasonId: 2021
+          });
+          res.body.should.include.something.like({
+            seasonId: 2222
           });
           done();
         });
@@ -69,12 +72,15 @@ describe("Seasons", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");
-          res.body.length.should.be.eql(2);
+          res.body.length.should.be.eql(3);
           res.body.should.include.something.like({
             seasonId: 2019
           });
           res.body.should.include.something.like({
             seasonId: 2020
+          });
+          res.body.should.include.something.like({
+            seasonId: 2222
           });
           done();
         });
@@ -130,7 +136,7 @@ describe("Seasons", () => {
           res.body.should.be.a("array");
           res.body.length.should.be.eql(1);
           res.body.should.include.something.like({
-            seasonId: 2021
+            seasonId: 2222
           });
           done();
         });
@@ -148,7 +154,7 @@ describe("Seasons", () => {
           res.body.should.be.a("array");
           res.body.length.should.be.eql(1);
           res.body.should.include.something.like({
-            seasonId: 2020
+            seasonId: 2222
           });
           done();
         });

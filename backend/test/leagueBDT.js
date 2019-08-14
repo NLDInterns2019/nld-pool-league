@@ -282,10 +282,10 @@ describe("League", () => {
         .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 8,
-          seasonId: 2222,
+          seasonId: 1,
           staffs: [
-            { type: 8, seasonId: 2222, staffName: "Michael", form:"-----" },
-            { type: 8, seasonId: 2222, staffName: "Matthew", form:"-----" }
+            { type: 8, seasonId: 1, staffName: "Michael", form:"-----" },
+            { type: 8, seasonId: 1, staffName: "Matthew", form:"-----" }
           ]
         })
         .end((err, res) => {
@@ -298,13 +298,13 @@ describe("League", () => {
               res.body.should.be.a("array");
               res.body.should.include.something.like({
                 type: 8,
-                seasonId: 2222,
+                seasonId: 1,
                 staffName: "Michael",
                 form:"-----"
               });
               res.body.should.include.something.like({
                 type: 8,
-                seasonId: 2222,
+                seasonId: 1,
                 staffName: "Matthew",
                 form:"-----"
               });
@@ -319,10 +319,10 @@ describe("League", () => {
         .set("authorization", `Bearer ${bearerToken}`)
         .send({
           type: 9,
-          seasonId: 2222,
+          seasonId: 1,
           staffs: [
-            { type: 9, seasonId: 2222, staffName: "Michael", form:"-----" },
-            { type: 9, seasonId: 2222, staffName: "Matthew", form:"-----"}
+            { type: 9, seasonId: 1, staffName: "Michael", form:"-----" },
+            { type: 9, seasonId: 1, staffName: "Matthew", form:"-----"}
           ]
         })
         .end((err, res) => {
@@ -335,13 +335,13 @@ describe("League", () => {
               res.body.should.be.a("array");
               res.body.should.include.something.like({
                 type: 9,
-                seasonId: 2222,
+                seasonId: 1,
                 staffName: "Michael",
                 form:"-----"
               });
               res.body.should.include.something.like({
                 type: 9,
-                seasonId: 2222,
+                seasonId: 1,
                 staffName: "Matthew",
                 form:"-----"
               });
