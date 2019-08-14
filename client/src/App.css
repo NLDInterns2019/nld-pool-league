@@ -1033,11 +1033,15 @@ tr td:last-child {
 /* unpaid seasons */
 .unpaid-seasons-message,
 .unpaid-season-title,
-.unpaid-seasons-list,
 .unpaid-eight-ball,
 .unpaid-nine-ball {
   display: flex;
   align-items: center;
+}
+
+.unpaid-eight-ball {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .unpaid-seasons-message {
@@ -1056,6 +1060,14 @@ tr td:last-child {
 .unpaid-total {
   font-size: 17pt;
   margin-left: 1rem;
+}
+
+.unpaid-season-title {
+  min-width: 300px;
+}
+
+.unpaid-total {
+  min-width: 200px;
 }
 
 .unpaid-season-title h3 {
