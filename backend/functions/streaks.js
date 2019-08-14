@@ -16,6 +16,7 @@ module.exports = {
         } //TODO can't break because that gives a sexy little error
       }
 
+      console.log(fixtures[i].player1 + " vs " + fixtures[i].player2)
       /////////////////////////////////////////////////////////////////////////   LONGEST LOSING/STREAK
       //update streak or reset as necessary. scrappyRate: streak temp. winRate: losingStreak temp.
       //draws do not break streak, but also do not add to it

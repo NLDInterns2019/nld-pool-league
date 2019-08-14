@@ -162,17 +162,15 @@ router.post("/calculate", async (req, res) => {
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
+
     let seasons = await eight_nine_ball_seasons.query().where({type: type});
 
     if (hofRow.plays !== 0) {
       hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
       hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
       hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-      hofRow.avgPoints = parseFloat(hofRow.totalPoints / seasons.length).toFixed(
-        2
-      );
     }
-
+    hofRow.avgPoints = parseFloat(hofRow.totalPoints / seasons.length).toFixed(2);
     //update the table
     await hall_of_fame
       .query()
