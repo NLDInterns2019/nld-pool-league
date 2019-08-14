@@ -479,8 +479,35 @@ class App extends React.Component {
     return <FinalStat players={this.state.players} />;
   };
 
-  addNewPlayer = player => {
-    console.log("added new player: " + player);
+  addNewPlayer = async player => {
+    //Add new player to the league
+    await backend.post(
+      "/api/89ball_league/add/player",
+      {
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason,
+        staffName: player
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
+
+     //Generate fixture
+     await backend.post(
+      "/api/89ball_fixture/generate/",
+      {
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason,
+        staffName: player
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
+
+    this.updateData()
+
     this.sendNewPlayerSlackMessage(player);
   };
 

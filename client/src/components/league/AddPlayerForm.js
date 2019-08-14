@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { orderBy, filter } from "lodash";
 import auth0Client from "../../Auth";
 import backend from "../../api/backend";
+import Axios from "axios";
 
 class AddPlayerForm extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class AddPlayerForm extends Component {
     this.initialState = {
       auth0Players: [],
       playersName: [],
-      isAuthenticated: false
+      isAuthenticated: false,
     };
 
     this.state = this.initialState;
@@ -21,10 +22,13 @@ class AddPlayerForm extends Component {
     this.inputPlayer = React.createRef();
   }
 
+  signal = Axios.CancelToken.source();
+
   getPlayers = async () => {
     try {
       await backend
         .get("/api/89ball_season/playersdb", {
+          cancelToken: this.signal.token,
           params: {},
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
@@ -34,20 +38,14 @@ class AddPlayerForm extends Component {
             playersName: orderBy(this.props.players, ["staffName"], ["asc"])
               .filter(player => player.staffName !== "admin")
               .map(player => player.staffName),
-            isAuthenticated: true
           });
         });
     } catch (e) {
-      if (e.response.status === 401) {
-        this.toastUnauthorised();
-      }
-      if (e.response.status === 400) {
-        this.toastError("Something went wrong. Please try again");
-      }
+          //API CALL BEING CANCELED
     }
   };
 
-  handleClick = event => {
+  handleClick = async(event) => {
     if (this.hiddenForm.current.style.display === "none") {
       this.hiddenForm.current.style = {
         display: "flex",
@@ -62,15 +60,22 @@ class AddPlayerForm extends Component {
       };
       if (event.target === this.confirmBtn.current) {
         var player = this.inputPlayer.current.value;
-        this.props.addPlayer(player);
+        await this.props.addPlayer(player);
+        this.getPlayers()
       }
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
+
+  componentDidMount(){
     if (this.state.isAuthenticated === false && auth0Client.isAuthenticated()) {
+      this.setState({isAuthenticated: true})
       this.getPlayers();
     }
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel("");
   }
 
   render() {

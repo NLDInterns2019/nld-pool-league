@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { orderBy, uniq, filter } from "lodash";
 import auth0Client from "../../Auth";
 import backend from "../../api/backend";
+import Axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -13,16 +14,18 @@ class CreateSeasonForm extends Component {
       auth0Players: [],
       playersName: [],
       seasonName: "",
-      isAuthenticated: false,
+      isAuthenticated: false
     };
 
     this.state = this.initialState;
   }
+  signal = Axios.CancelToken.source();
 
   getPlayers = async () => {
     try {
       await backend
         .get("/api/89ball_season/playersdb", {
+          cancelToken: this.signal.token,
           params: {},
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
@@ -30,25 +33,24 @@ class CreateSeasonForm extends Component {
           this.setState({
             auth0Players: orderBy(res.data, ["username"], ["asc"]),
             playersName: orderBy(res.data, ["username"], ["asc"])
-            .filter(player => player.nickname !== "admin")
-            .map(player => player.nickname),
+              .filter(player => player.nickname !== "admin")
+              .map(player => player.nickname),
             isAuthenticated: true
           });
         });
     } catch (e) {
-      if (e.response.status === 401) {
-        this.toastUnauthorised();
-      }
-      if (e.response.status === 400) {
-        this.toastError("Something went wrong. Please try again");
-      }
+      //API CALL BEING CANCELED
     }
   };
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.state.isAuthenticated === false && auth0Client.isAuthenticated()){
-      this.getPlayers()
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isAuthenticated === false && auth0Client.isAuthenticated()) {
+      this.getPlayers();
     }
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel("");
   }
 
   addPlayer() {

@@ -29,6 +29,11 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact component={LandingPage} />
           <Route
+            path="/:type(8|9)-ball/overview/"
+            exact
+            component={NotFound}
+          />
+          <Route
             path="/:type(8|9)-ball/overview/:seasonId?"
             component={LeaguePage}
           />
