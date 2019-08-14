@@ -229,7 +229,6 @@ router.post("/calculate", async (req, res) => {
     //change this to get users last played season if not in this one TODO
     if (seasons.length > 1 && leagues[i].seasonId === seasons.length) {
       //with more than one season
-      console.log("entered");
       if (leagues[i].play > 0) {
         hofRow.improvementRate = hofRow.improvementRate = parseInt(
           (leagues[i].win * 100) / leagues[i].play
