@@ -101,8 +101,8 @@ schedule.scheduleJob(
       .where("date", "<", new Date().toISOString())
       .where({ score1: null })
       .then(fixtures => {
-        let eightBallMessage = ":8ball: Eight Ball :8ball:\n";
-        let nineBallMessage = "\n:9ball: Nine Ball :9ball:\n";
+        let eightBallMessage = ":8ball: *Eight Ball* :8ball:\n";
+        let nineBallMessage = "\n:9ball: *Nine Ball* :9ball:\n";
         let finalMessage = "";
         if (fixtures.length) {
           fixtures.map(fixture => {
