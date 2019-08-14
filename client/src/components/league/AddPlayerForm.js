@@ -111,13 +111,14 @@ class AddPlayerForm extends Component {
           </select>
 
           <div className="addPlayerFormButtons">
-            <button type="button" onClick={this.handleClick}>
+            <button type="button" onClick={this.handleClick} id="cancelBtn">
               Cancel
             </button>
             <button
               type="button"
               onClick={event => this.handleClick(event)}
               ref={this.confirmBtn}
+              id="confirmBtn"
             >
               Confirm
             </button>
