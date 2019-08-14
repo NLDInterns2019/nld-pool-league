@@ -120,22 +120,24 @@ schedule.scheduleJob(
             eightBallMessage.concat(nineBallMessage)
           );
         } else {
-          finalMessage = "Well done! There are no overdue fixtures";
+          finalMessage = "";
         }
 
-        axios.post(
-          "https://hooks.slack.com/services/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",
-          {
-            attachments: [
-              {
-                mrkdwn_in: ["text"],
-                color: "#e23e4b",
-                pretext: "*Overdue Fixtures:*",
-                text: finalMessage
-              }
-            ]
-          }
-        );
+        if (finalMessage !== "") {
+          axios.post(
+            "https://hooks.slack.com/services/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",
+            {
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: "#e23e4b",
+                  pretext: "*Overdue Fixtures:*",
+                  text: finalMessage
+                }
+              ]
+            }
+          );
+        }
       });
   }
 );
