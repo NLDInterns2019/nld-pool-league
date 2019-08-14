@@ -53,6 +53,9 @@ class HoFPage extends React.Component {
     await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
+    await this.createHoF();
+    await this.createHoF9();
+
     const HoF8 = await backend.get("/api/hall_of_fame?type=8", {});
 
     this.setState({ HoF8: HoF8.data });
@@ -60,9 +63,6 @@ class HoFPage extends React.Component {
     const HoF9 = await backend.get("/api/hall_of_fame?type=9", {});
 
     this.setState({ HoF9: HoF9.data });
-
-    await this.createHoF();
-    await this.createHoF9();
   };
 
   createHoF = async () => {
@@ -82,9 +82,6 @@ class HoFPage extends React.Component {
             headers: headers
           }
         )
-        .then(result => {
-          this.setState({ HoF8: result.data });
-        });
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
@@ -109,9 +106,6 @@ class HoFPage extends React.Component {
             headers: headers
           }
         )
-        .then(result => {
-          this.setState({ HoF9: result.data });
-        });
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();

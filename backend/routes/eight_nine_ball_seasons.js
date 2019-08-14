@@ -2,12 +2,15 @@ var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
+const knex = require("../db/knex");
 const auth = require("../auth");
 var token = require("../test/function/token");
-var axios = require("axios")
+var axios = require("axios");
 
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
-const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures")
+const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues")
+const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
+const position_history = require("../models/position_history");
 
 /* 
   GET handler for /api/89ball_season
@@ -72,6 +75,46 @@ router.get("/unplayed", (req, res) => {
 });
 
 /* 
+  GET handler for /api/89ball_season/finished
+  Function: To get all the 8/9 ball seasons
+*/
+router.get("/finished", (req, res) => {
+  req.query.type = parseInt(req.query.type, 10);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let where = {
+    type: req.query.type
+  }
+
+  //Params handling
+  if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
+    where.staffName = req.query.staffName
+  }
+
+  position_history
+    .query()
+    .where(where)
+    .then(
+      seasons => {
+        res.json(seasons);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
+
+/* 
   GET handler for /api/89ball_season/latest
   Function: To get all the latest season
 */
@@ -108,9 +151,9 @@ router.get("/latest", (req, res) => {
   Function: To get players from auth0 db
 */
 router.get("/playersdb", auth.checkJwt, (req, res) => {
-  token()
-  .then(result=> {
-    axios
+  token().then(
+    result => {
+      axios
         .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
           params: {
             search_engine: "v3"
@@ -118,11 +161,13 @@ router.get("/playersdb", auth.checkJwt, (req, res) => {
           headers: { Authorization: `Bearer ${result}` }
         })
         .then(players => {
-          res.json(players.data)
+          res.json(players.data);
         });
-  }, e=> {
-    res.status(400).send()
-  })
+    },
+    e => {
+      res.status(400).send();
+    }
+  );
 });
 
 /* 
@@ -170,7 +215,7 @@ router.delete("/delete", auth.checkJwt, (req, res) => {
   PUT handler for /api/89ball_season/close
   Function: To close a season
 */
-router.put("/close", auth.checkJwt, (req, res) => {
+router.put("/close", auth.checkJwt, async(req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
@@ -186,7 +231,8 @@ router.put("/close", auth.checkJwt, (req, res) => {
     return;
   }
 
-  eight_nine_ball_seasons
+  //close season
+  await eight_nine_ball_seasons
     .query()
     .findOne({ type: req.body.type, seasonId: req.body.seasonId })
     .patch({ finished: true })
@@ -196,19 +242,55 @@ router.put("/close", auth.checkJwt, (req, res) => {
           res.status(404).send();
           return;
         }
-        eight_nine_ball_fixtures.query()
-        .where({type: req.body.type, seasonId: req.body.seasonId, score1: null, score2: null})
-        .patch({score1: 1, score2: 1})
-        .then((result) => {
-          res.json(result)
-        }, e=> {
-          res.status(400).json(e)
-        })
+        eight_nine_ball_fixtures
+          .query()
+          .where({
+            type: req.body.type,
+            seasonId: req.body.seasonId,
+            score1: null,
+            score2: null
+          })
+          .patch({ score1: 1, score2: 1 })
+          .catch((e) => {
+            es.status(400).json(e);
+          })
       },
       e => {
         res.status(400).json(e);
       }
     );
+
+    //Update position history
+    let positions = []
+    eight_nine_ball_leagues.query()
+    .where({type: req.body.type, seasonId: req.body.seasonId})
+    .orderBy("points", "desc")
+    .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
+    .orderBy("win", "desc")
+    .then(players => {
+      players.map((player, i) => {
+        positions = [...positions, {
+          type: player.type,
+          staffName: player.staffName,
+          seasonId: player.seasonId,
+          position: i+1
+        }]
+      })
+      // Batch insert
+      knex.batchInsert("position_history", positions, 100).then(
+        result => {
+          if (result) {
+            res.status(200).send();
+          }
+        },
+        e => {
+          res.status(400).send(e);
+        }
+      );
+    }, e => {
+      res.status(400).json(e);
+    });
 });
 
 /* 
@@ -233,10 +315,10 @@ router.get("/:seasonId", (req, res) => {
 
   eight_nine_ball_seasons
     .query()
-    .where({ type: req.query.type, seasonId: seasonId})
+    .where({ type: req.query.type, seasonId: seasonId })
     .then(
       season => {
-        if(season.lenght === 0){
+        if (season.lenght === 0) {
           res.status(404).json(e);
         }
         res.json(season);
