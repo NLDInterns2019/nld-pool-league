@@ -391,7 +391,7 @@ router.put("/edit/force", auth.checkJwt, async (req, res) => {
     type: req.body.type,
     seasonId: req.body.seasonId,
     player1: req.body.player1,
-    player2: req.body.player2,
+    player2: req.body.player2
   };
 
   //UPDATE FIXTURE TABLE
@@ -433,7 +433,8 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       .required(),
     seasonId: Joi.number()
       .integer()
-      .required()
+      .required(),
+    staffName: Joi.string()
   };
 
   if (Joi.validate(req.body, schema, { convert: false }).error) {
@@ -455,21 +456,49 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
     res.status(500).send();
     return;
   }
-  var playerCount = players.length;
-  let fixture = [];
-  let exCount = 1;
-  if (playerCount % 2 > 0) {
-    exCount = 0;
-  }
-  //this gets a fixture and puts it into fixtSets
-  for (var j = 0; j < playerCount - exCount; j++) {
-    fixture = fixturegen.fixtureCalc(
-      type,
-      players,
-      seasonId,
-      group,
-      aesDate.toISOString()
-    ); //this represents the fixture rows
+
+  if (req.body.hasOwnProperty("staffName") && req.body.staffName !== " ") {
+    //Only add a single new player
+
+    //Remove the new player from players
+    players = players.filter(player => player.staffName !== req.body.staffName);
+    //Shuffle just to randomise
+    players = fixture_split.polygonShuffle(players);
+
+    //Get first date of the first old fixture group
+    let initialDate;
+    await eight_nine_ball_fixtures
+      .query()
+      .where({ type: req.body.type, seasonId: req.body.seasonId })
+      .orderBy("group", "asc")
+      .then(
+        fixtures => {
+          initialDate = fixtures[0].date;
+        },
+        e => {
+          res.status(400).send(e);
+        }
+      );
+
+    let fixture = [];
+    for (let i = 0; i < players.length; i++) {
+      fixture = [
+        ...fixture,
+        {
+          type: req.body.type,
+          seasonId: req.body.seasonId,
+          player1: req.body.staffName,
+          player2: players[i].staffName,
+          group: i,
+          date: moment(initialDate).toISOString()
+        }
+      ];
+      //Increment due date
+      initialDate = moment(initialDate)
+        .add(1, "week")
+        .toISOString();
+    }
+
     knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
       result => {
         if (result) {
@@ -477,13 +506,40 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
         }
       },
       e => {
-        res.status(400).send();
+        res.status(400).send(e);
       }
     );
-    group++;
-    aesDate = aesDate.add(1, "week");
+  } else {
+    var playerCount = players.length;
+    let fixture = [];
+    let exCount = 1;
+    if (playerCount % 2 > 0) {
+      exCount = 0;
+    }
+    //this gets a fixture and puts it into fixtSets
+    for (var j = 0; j < playerCount - exCount; j++) {
+      fixture = fixturegen.fixtureCalc(
+        type,
+        players,
+        seasonId,
+        group,
+        aesDate.toISOString()
+      ); //this represents the fixture rows
+      knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
+        result => {
+          if (result) {
+            res.status(200).send();
+          }
+        },
+        e => {
+          res.status(400).send();
+        }
+      );
+      group++;
+      aesDate = aesDate.add(1, "week");
 
-    players = fixture_split.polygonShuffle(players); //rotate players for next fixture
+      players = fixture_split.polygonShuffle(players); //rotate players for next fixture
+    }
   }
 });
 

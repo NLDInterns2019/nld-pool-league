@@ -110,27 +110,15 @@ router.post("/add/player", auth.checkJwt, (req, res) => {
     return;
   }
 
-  knex("eight_nine_ball_seasons")
+  knex("eight_nine_ball_leagues")
     .insert({
       type: req.body.type,
-      seasonId: req.body.seasonId
+      seasonId: req.body.seasonId,
+      staffName: req.body.staffName
     })
     .then(
-      () => {
-        knex("eight_nine_ball_leagues")
-          .insert({
-            type: req.body.type,
-            seasonId: req.body.seasonId,
-            staffName: req.body.staffName
-          })
-          .then(
-            player => {
-              res.json(player);
-            },
-            e => {
-              res.status(400).json(e);
-            }
-          );
+      player => {
+        res.json(player);
       },
       e => {
         res.status(400).json(e);
