@@ -235,7 +235,7 @@ router.post("/calculate", async (req, res) => {
           (leagues[i].win * 100) / leagues[i].play
         );
         hofRow.latestWins =
-          parseInt(hofRow.improvementRate) - parseInt(hofRow.winRate);
+        parseInt(hofRow.improvementRate) - parseInt((hofRow.wins * 100)/hofRow.plays);
       }
 
       // console.log(hofRow.latestWins);

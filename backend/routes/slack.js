@@ -320,6 +320,96 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
 });
 
 /* 
+  POST handler for /api/slack/hallOfFameUpdate
+  Function: To send hall of fame update message
+*/
+router.post("/hallOfFameUpdate", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    player: Joi.string().required(),
+    achievement: Joi.string().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") + " *Hall of Fame Updated:*",
+          text:
+            req.body.player + " has achieved: *" + req.body.achievement + "*"
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
+  POST handler for /api/slack/newPlayer
+  Function: To send new player update message
+*/
+router.post("/newPlayer", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    player: Joi.string().required(),
+    seasonId: Joi.number().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = await web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "TYPE ERROR") + " *Player Added:*",
+          text:
+            req.body.player + " has been added to Season " + req.body.seasonId
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+});
+
+/* 
   POST handler for /api/slack/resultSubmitted
   Function: To send score submitted message
 */

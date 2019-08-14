@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { orderBy, uniq, filter } from "lodash";
+import { orderBy, filter } from "lodash";
 import auth0Client from "../../Auth";
 import backend from "../../api/backend";
 
@@ -80,6 +80,7 @@ class AddPlayerForm extends Component {
           type="button"
           onClick={this.handleClick}
           ref={this.addPlayerBtn}
+          id="addPlayerBtn"
         >
           + Add New Player
         </button>

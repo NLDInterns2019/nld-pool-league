@@ -32,18 +32,32 @@ class HoFPage extends React.Component {
     });
   };
 
+  sendHallOfFameUpdateSlackMessage = async (type, playerName, achievement) => {
+    await backend
+      .post(
+        "/api/slack/hallOfFameUpdate",
+        {
+          type: type,
+          player: playerName,
+          achievement: achievement
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      )
+      .then(console.log("posted"));
+  };
+
   componentDidMount = async () => {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
-    const HoF8  = await backend.get("/api/hall_of_fame?type=8", {
-    });
+    const HoF8 = await backend.get("/api/hall_of_fame?type=8", {});
 
     this.setState({ HoF8: HoF8.data });
 
-    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {
-    });
+    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {});
 
     this.setState({ HoF9: HoF9.data });
 
@@ -58,17 +72,19 @@ class HoFPage extends React.Component {
         Authorization: `Bearer ${auth0Client.getIdToken()}`
       };
 
-      await backend.post(
-        "/api/hall_of_fame/calculate",
-        {
-          type: 8
-        },
-        {
-          headers: headers
-        }
-      ).then((result) => {
-        this.setState({HoF8: result.data})
-      })
+      await backend
+        .post(
+          "/api/hall_of_fame/calculate",
+          {
+            type: 8
+          },
+          {
+            headers: headers
+          }
+        )
+        .then(result => {
+          this.setState({ HoF8: result.data });
+        });
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
@@ -83,17 +99,19 @@ class HoFPage extends React.Component {
         Authorization: `Bearer ${auth0Client.getIdToken()}`
       };
 
-      await backend.post(
-        "/api/hall_of_fame/calculate",
-        {
-          type: 9
-        },
-        {
-          headers: headers
-        }
-      ).then((result) => {
-        this.setState({HoF9: result.data})
-      })
+      await backend
+        .post(
+          "/api/hall_of_fame/calculate",
+          {
+            type: 9
+          },
+          {
+            headers: headers
+          }
+        )
+        .then(result => {
+          this.setState({ HoF9: result.data });
+        });
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();

@@ -2,6 +2,7 @@ import React from "react";
 import LeagueTableBody from "./LeagueTableBody";
 import LeagueTableHeader from "./LeagueTableHeader";
 import AddPlayerForm from "./AddPlayerForm";
+import auth0Client from "../../Auth";
 
 const LeagueTable = props => {
   return (
@@ -15,7 +16,10 @@ const LeagueTable = props => {
           feePaid={props.feePaid}
         />
       </table>
-      <AddPlayerForm addPlayer={props.addPlayer} players={props.players} />
+      {auth0Client.isAuthenticated() &&
+      auth0Client.getProfile().nickname === "admin" ? (
+        <AddPlayerForm addPlayer={props.addPlayer} players={props.players} />
+      ) : null}
     </div>
   );
 };

@@ -355,6 +355,10 @@ table td {
   margin-top: 2rem;
 }
 
+#addPlayerBtn {
+  margin-right: 42px;
+}
+
 /* ==== Fixture and League Table positioning ==== */
 .leagueTableContainer {
   display: inline-block;
@@ -1462,6 +1466,13 @@ tr td:last-child {
   width: 100px;
   height: 100px;
   background-image: url("./assets/chequered-flag.svg");
+}
+
+.book-icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background-image: url("./assets/book.svg");
 }
 
 /* ==== Toast ==== */
