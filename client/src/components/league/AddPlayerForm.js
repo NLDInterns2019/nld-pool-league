@@ -11,7 +11,7 @@ class AddPlayerForm extends Component {
     this.initialState = {
       auth0Players: [],
       playersName: [],
-      isAuthenticated: false,
+      isAuthenticated: false
     };
 
     this.state = this.initialState;
@@ -37,15 +37,15 @@ class AddPlayerForm extends Component {
             auth0Players: orderBy(res.data, ["username"], ["asc"]),
             playersName: orderBy(this.props.players, ["staffName"], ["asc"])
               .filter(player => player.staffName !== "admin")
-              .map(player => player.staffName),
+              .map(player => player.staffName)
           });
         });
     } catch (e) {
-          //API CALL BEING CANCELED
+      //API CALL BEING CANCELED
     }
   };
 
-  handleClick = async(event) => {
+  handleClick = async event => {
     if (this.hiddenForm.current.style.display === "none") {
       this.hiddenForm.current.style = {
         display: "flex",
@@ -61,15 +61,14 @@ class AddPlayerForm extends Component {
       if (event.target === this.confirmBtn.current) {
         var player = this.inputPlayer.current.value;
         await this.props.addPlayer(player);
-        this.getPlayers()
+        this.getPlayers();
       }
     }
   };
 
-
-  componentDidMount(){
+  componentDidMount() {
     if (this.state.isAuthenticated === false && auth0Client.isAuthenticated()) {
-      this.setState({isAuthenticated: true})
+      this.setState({ isAuthenticated: true });
       this.getPlayers();
     }
   }
