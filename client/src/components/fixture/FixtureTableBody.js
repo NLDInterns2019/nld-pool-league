@@ -34,7 +34,6 @@ const score2CellStyle = (fixtureDate, score) => {
 
 const isOverdue = fixtureDate => {
   return moment(fixtureDate).isBefore(today);
-  //return fixtureDate < today;
 };
 
 const isNotFinished = score => {

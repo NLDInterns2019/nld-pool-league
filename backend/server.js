@@ -9,6 +9,7 @@ const moment = require("moment-timezone");
 const schedule = require("node-schedule");
 const bookingsDB = require("./models/bookings");
 const leaguesDB = require("./models/eight_nine_ball_leagues");
+const fixturesDB = require("./models/eight_nine_ball_fixtures");
 
 //Define routes
 let eight_nine_ball_season = require("./routes/eight_nine_ball_seasons"),
@@ -82,6 +83,55 @@ schedule.scheduleJob(
                 color: "#e23e4b",
                 pretext: "*Today's Fixtures:*",
                 text: message
+              }
+            ]
+          }
+        );
+      });
+  }
+);
+
+// Send overdue fixtures reminder every monday at 7am after the fixture date
+schedule.scheduleJob(
+  "Overdue Fixtures Reminder",
+  { hour: 7, minute: 0, dayOfWeek: 1 }, // UTC
+  () => {
+    fixturesDB
+      .query()
+      .where("date", "<", new Date().toISOString())
+      .where({ score1: null })
+      .then(fixtures => {
+        let eightBallMessage = ":8ball: Eight Ball :8ball:\n";
+        let nineBallMessage = "\n:9ball: Nine Ball :9ball:\n";
+        let finalMessage = "";
+        if (fixtures.length) {
+          fixtures.map(fixture => {
+            if (fixture.type === 8) {
+              eightBallMessage = eightBallMessage.concat(
+                fixture.player1 + " vs " + fixture.player2 + "\n"
+              );
+            } else if (fixture.type === 9) {
+              nineBallMessage = nineBallMessage.concat(
+                fixture.player1 + " vs " + fixture.player2 + "\n"
+              );
+            }
+          });
+          finalMessage = finalMessage.concat(
+            eightBallMessage.concat(nineBallMessage)
+          );
+        } else {
+          finalMessage = "Well done! There are no overdue fixtures";
+        }
+
+        axios.post(
+          "https://hooks.slack.com/services/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",
+          {
+            attachments: [
+              {
+                mrkdwn_in: ["text"],
+                color: "#e23e4b",
+                pretext: "*Overdue Fixtures:*",
+                text: finalMessage
               }
             ]
           }
