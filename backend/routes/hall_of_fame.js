@@ -68,9 +68,9 @@ router.post("/calculate", async (req, res) => {
   })
   console.log("deleted " + numberOfDeletedRows + " rows.")
 
-  //knex('hall_of_fame')
-  //.where('type', 9)
-  //.del()
+  knex('hall_of_fame')
+  .where('type', 9)
+  .del()
 
   let staffInHoF = true;
   let start = true;
