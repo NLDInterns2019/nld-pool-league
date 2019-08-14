@@ -463,7 +463,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
     //Remove the new player from players
     players = players.filter(player => player.staffName !== req.body.staffName);
     //Shuffle just to randomise
-    players = fixture_split.polygonShuffle(players);
+    players = _.shuffle(players)
 
     //Get first date of the first old fixture group
     let initialDate;
