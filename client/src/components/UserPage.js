@@ -89,7 +89,7 @@ class UserPage extends React.Component {
           uniqBy(eight.data, "seasonId"),
           ["seasonId"],
           ["asc"]
-        ).map(player => player.position),
+        ).map(player => player.position)
       });
 
       const nine = await backend.get("/api/89ball_fixture/all/", {
@@ -109,7 +109,7 @@ class UserPage extends React.Component {
           uniqBy(nine.data, "seasonId"),
           ["seasonId"],
           ["asc"]
-        ).map(player => player.position),
+        ).map(player => player.position)
       });
     } catch (err) {
       //API CALL BEING CANCELED
