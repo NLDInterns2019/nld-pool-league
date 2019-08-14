@@ -84,6 +84,7 @@ const itemsToBeDisplayed = props => {
     }
   }
 
+  console.log(retire)
   return (
     <tbody>
       <tr>
@@ -202,8 +203,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">
           {improved
-            ? improved.latestWins + "% improvement"
-            : "Greatest improvement"}
+            ? improved.latestWins + "% improvement" : "Greatest improvement"}
         </td>
       </tr>
       <tr>
