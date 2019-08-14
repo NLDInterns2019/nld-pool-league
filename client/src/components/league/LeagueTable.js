@@ -14,10 +14,12 @@ const LeagueTable = props => {
           deletePlayer={props.deletePlayer}
           players={props.players}
           feePaid={props.feePaid}
+          hasFinished={props.hasFinished}
         />
       </table>
       {auth0Client.isAuthenticated() &&
-      auth0Client.getProfile().nickname === "admin" ? (
+      auth0Client.getProfile().nickname === "admin" &&
+      !props.hasFinished ? (
         <AddPlayerForm addPlayer={props.addPlayer} players={props.players} />
       ) : null}
     </div>
