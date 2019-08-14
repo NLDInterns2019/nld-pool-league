@@ -214,7 +214,7 @@ router.post("/calculate", async (req, res) => {
   let topPlayer = _.maxBy(hofAll, "winRate"); //get top player
 
   //this is terrible. i should be fired for writing this
-  for (let i = 0; i < fixtures.length; i++) {
+  //for (let i = 0; i < fixtures.length; i++) {
     //need a new loop for scrappy so you know who the top player is
     /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
     if (topPlayer != null) {
@@ -225,7 +225,7 @@ router.post("/calculate", async (req, res) => {
         i
       ); //calculate scrappy
     }
-  }
+  //}
   //patch db
 
   /////////////////////////////////////////////////////////////////////////   MOST IMPROVED
@@ -250,7 +250,6 @@ router.post("/calculate", async (req, res) => {
         hofRow.latestWins =
         parseInt(hofRow.improvementRate) - parseInt((hofRow.wins * 100)/hofRow.plays);
 
-        console.log(hofRow.latestWins + " latest wins")
         delete hofRow.id;
         await hall_of_fame
         .query()
@@ -260,18 +259,7 @@ router.post("/calculate", async (req, res) => {
         })
         .patch(hofRow);
       }
-
-      // console.log(hofRow.latestWins);
-      // console.log(
-      //   hofRow.staffName +
-      //     ": " +
-      //     hofRow.improvementRate +
-      //     " - " +
-      //     hofRow.winRate +
-      //     " = " +
-      //     hofRow.latestWins
-      // );
-    } //this will be functional when i figure out why hofrow suddenly can't access winrate. who cares anymore
+    }
   }
 
   for (let v = 0; v < hofAll.length; v++) {
