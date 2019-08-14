@@ -18,7 +18,8 @@ let eight_nine_ball_season = require("./routes/eight_nine_ball_seasons"),
   hall_of_fame = require("./routes/hall_of_fame"),
   bookings = require("./routes/bookings"),
   slack = require("./routes/slack"),
-  kitty = require("./routes/kitty.js");
+  kitty = require("./routes/kitty"),
+  position_history = require("./routes/position_history");
 
 const PORT = process.env.PORT || 8080;
 
@@ -34,6 +35,7 @@ app.use("/api/hall_of_fame", hall_of_fame);
 app.use("/api/booking", bookings);
 app.use("/api/slack", slack);
 app.use("/api/kitty", kitty);
+app.use("/api/position_history", position_history)
 
 // Serve the static files from the production build of the client
 app.use(express.static(path.join(__dirname, "..", "client", "build")));

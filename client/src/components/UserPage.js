@@ -3,7 +3,7 @@ import backend from "../api/backend";
 import auth0Client from "../Auth";
 import { ToastContainer, toast } from "react-toastify";
 import Axios from "axios";
-import { find, findIndex } from "lodash";
+import { find, findIndex, orderBy, uniqBy } from "lodash";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
@@ -19,6 +19,10 @@ class UserPage extends React.Component {
   signal = Axios.CancelToken.source();
   state = {
     player: " ",
+    seasons8: [],
+    positions8: [],
+    seasons9: [],
+    positions9: [],
     hofStat8: [],
     hofStat9: [],
     players8: [],
@@ -32,9 +36,6 @@ class UserPage extends React.Component {
     unpaid: [],
     intialAuthentication: false
   };
-
-  positions = [1, 3, 6, 3, 1, 1, 3, 2, 1];
-  seasonIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   prepareChart = (positions, seasonIds) => {
     var options = {
@@ -67,6 +68,52 @@ class UserPage extends React.Component {
     }
 
     return options;
+  };
+
+  getSeasons = async () => {
+    try {
+      const eight = await backend.get("/api/position_history/", {
+        cancelToken: this.signal.token,
+        params: {
+          type: 8,
+          staffName: this.state.player
+        }
+      });
+      this.setState({
+        seasons8: orderBy(
+          uniqBy(eight.data, "seasonId"),
+          ["seasonId"],
+          ["asc"]
+        ).map(season => season.seasonId),
+        positions8: orderBy(
+          uniqBy(eight.data, "seasonId"),
+          ["seasonId"],
+          ["asc"]
+        ).map(player => player.position),
+      });
+
+      const nine = await backend.get("/api/89ball_fixture/all/", {
+        cancelToken: this.signal.token,
+        params: {
+          type: 9,
+          staffName: this.state.player
+        }
+      });
+      this.setState({
+        seasons9: orderBy(
+          uniqBy(nine.data, "seasonId"),
+          ["seasonId"],
+          ["asc"]
+        ).map(season => season.seasonId),
+        positions9: orderBy(
+          uniqBy(nine.data, "seasonId"),
+          ["seasonId"],
+          ["asc"]
+        ).map(player => player.position),
+      });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   getLatestSeason = async () => {
@@ -205,6 +252,7 @@ class UserPage extends React.Component {
           this.getBookings();
           this.getPlayers();
           this.getPlayerStat();
+          this.getSeasons();
         }
       );
     }
@@ -342,16 +390,6 @@ class UserPage extends React.Component {
     }
   };
 
-  /* calculate average points per game */
-  getPPG = () => {
-    return <h4>-</h4>;
-  };
-
-  /* calculate win percentage */
-  getWinPercentage = () => {
-    return <h4>-</h4>;
-  };
-
   render() {
     return (
       <div className="app">
@@ -412,8 +450,8 @@ class UserPage extends React.Component {
                     <div className="chart">
                       <CanvasJSChart
                         options={this.prepareChart(
-                          this.positions,
-                          this.seasonIds
+                          this.state.positions8,
+                          this.state.seasons8
                         )}
                       />
                     </div>
@@ -463,8 +501,8 @@ class UserPage extends React.Component {
                       <h2>Position History:</h2>
                       <CanvasJSChart
                         options={this.prepareChart(
-                          this.positions,
-                          this.seasonIds
+                          this.state.positions9,
+                          this.state.seasons9
                         )}
                         onRef={ref => (this.chart = ref)}
                       />
