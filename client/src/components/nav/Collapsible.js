@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import auth0Client from "../../Auth";
 
 class Collapsible extends Component {
+  constructor() {
+    super();
+    this.collapsible = React.createRef();
+  }
+
   toggleMenu() {
-    if (this.refs.collapsible.style.display === "none") {
-      this.refs.collapsible.style.display = "block";
+    if (this.collapsible.current.style.display === "none") {
+      this.collapsible.current.style.display = "block";
     } else {
-      this.refs.collapsible.style.display = "none";
+      this.collapsible.current.style.display = "none";
     }
   }
 
@@ -21,7 +26,7 @@ class Collapsible extends Component {
         />
         <ul
           className="collapsible"
-          ref="collapsible"
+          ref={this.collapsible}
           style={{ display: "none" }}
         >
           <li>
