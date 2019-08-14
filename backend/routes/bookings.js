@@ -20,6 +20,11 @@ router.get("/", (req, res) => {
     where2.player2 = req.query.staffName;
   }
 
+  if (req.query.hasOwnProperty("type") && req.query.type !== "") {
+    where1.type = parseInt(req.query.type);
+    where2.type = parseInt(req.query.type);
+  }
+
   bookings
     .query()
     .where(where1)
@@ -46,6 +51,11 @@ router.get("/upcoming", (req, res) => {
   if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
     where1.player1 = req.query.staffName;
     where2.player2 = req.query.staffName;
+  }
+
+  if (req.query.hasOwnProperty("type") && req.query.type !== "") {
+    where1.type = parseInt(req.query.type);
+    where2.type = parseInt(req.query.type);
   }
 
   bookings
@@ -92,6 +102,7 @@ router.post("/add", auth.checkJwt, (req, res) => {
   const schema = {
     start: Joi.string(),
     end: Joi.string(),
+    type: Joi.number(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
     title: Joi.string().required()
@@ -108,6 +119,7 @@ router.post("/add", auth.checkJwt, (req, res) => {
     .insert({
       start: req.body.start,
       end: req.body.end,
+      type: req.body.type,
       player1: req.body.player1,
       player2: req.body.player2,
       title: req.body.title
