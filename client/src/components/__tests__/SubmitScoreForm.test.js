@@ -14,7 +14,6 @@ const submitScoreBtn = wrapper.find("#submitScoreBtn");
 const player1RadioBtn = wrapper.find("#player1won");
 const player2RadioBtn = wrapper.find("#player2won");
 const drawRadioBtn = wrapper.find("#draw");
-
 /* ================================================================================================== */
 
 describe("Rendering", () => {
@@ -95,10 +94,16 @@ describe("Clicking a radio button", () => {
   });
 
   it("should set the score correctly when player 1 wins", () => {
-    wrapper.instance().refs = {
-      player1won: { checked: true },
-      draw: { checked: false },
-      player2won: { checked: false }
+    wrapper.instance().player1won = {
+      current: { checked: true }
+    };
+
+    wrapper.instance().player2won = {
+      current: { checked: false }
+    };
+
+    wrapper.instance().draw = {
+      current: { checked: false }
     };
 
     wrapper.instance().handleRadioClick();
@@ -108,10 +113,16 @@ describe("Clicking a radio button", () => {
   });
 
   it("should set the score correctly when player 2 wins", () => {
-    wrapper.instance().refs = {
-      player1won: { checked: false },
-      draw: { checked: false },
-      player2won: { checked: true }
+    wrapper.instance().player1won = {
+      current: { checked: false }
+    };
+
+    wrapper.instance().player2won = {
+      current: { checked: true }
+    };
+
+    wrapper.instance().draw = {
+      current: { checked: false }
     };
 
     wrapper.instance().handleRadioClick();
@@ -121,10 +132,16 @@ describe("Clicking a radio button", () => {
   });
 
   it("should set the score correctly when it's a draw", () => {
-    wrapper.instance().refs = {
-      player1won: { checked: false },
-      draw: { checked: true },
-      player2won: { checked: false }
+    wrapper.instance().player1won = {
+      current: { checked: false }
+    };
+
+    wrapper.instance().player2won = {
+      current: { checked: false }
+    };
+
+    wrapper.instance().draw = {
+      current: { checked: true }
     };
 
     wrapper.instance().handleRadioClick();
@@ -136,17 +153,23 @@ describe("Clicking a radio button", () => {
 
 describe("Clearing radio buttons", () => {
   it("should clear radio buttons when clearRadioButtons() is called", () => {
-    wrapper.instance().refs = {
-      player1won: { checked: false },
-      draw: { checked: true },
-      player2won: { checked: false }
+    wrapper.instance().player1won = {
+      current: { checked: false }
+    };
+
+    wrapper.instance().player2won = {
+      current: { checked: false }
+    };
+
+    wrapper.instance().draw = {
+      current: { checked: true }
     };
 
     wrapper.instance().clearRadioButtons();
 
-    expect(wrapper.instance().refs.player1won.checked).to.be.false;
-    expect(wrapper.instance().refs.draw.checked).to.be.false;
-    expect(wrapper.instance().refs.player2won.checked).to.be.false;
+    expect(wrapper.instance().player1won.current.checked).to.be.false;
+    expect(wrapper.instance().draw.current.checked).to.be.false;
+    expect(wrapper.instance().player2won.current.checked).to.be.false;
   });
 });
 
