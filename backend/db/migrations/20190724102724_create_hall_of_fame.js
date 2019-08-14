@@ -27,7 +27,7 @@ exports.up = function(knex) {
     table.integer("curLosingStreak").defaultTo(0);
     table.integer("totalPoints").defaultTo(0);
     table.float("avgPoints",2).defaultTo(0);
-    table.integer("latestWins").defaultTo(0);
+    table.float("latestWins",2).defaultTo(0);
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());

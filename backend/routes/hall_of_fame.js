@@ -59,6 +59,19 @@ router.get("/", async (req, res) => {
 */
 router.post("/calculate", async (req, res) => {
   type = parseInt(req.body.type, 10);
+
+  const numberOfDeletedRows = await hall_of_fame
+  .query()
+  .delete()
+  .where({
+    type: type
+  })
+  console.log("deleted " + numberOfDeletedRows + " rows.")
+
+  knex('hall_of_fame')
+  .where('type', 9)
+  .del()
+
   let staffInHoF = true;
   let start = true;
   let names = ["", ""];
@@ -128,6 +141,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.curStreak = 0;
       hofRow.curLosingStreak = 0;
       hofRow.totalPoints = 0;
+      hofRow.latestWins = 0;
       start = false;
     }
 
@@ -235,6 +249,16 @@ router.post("/calculate", async (req, res) => {
         );
         hofRow.latestWins =
         parseInt(hofRow.improvementRate) - parseInt((hofRow.wins * 100)/hofRow.plays);
+
+        console.log(hofRow.latestWins + " latest wins")
+        delete hofRow.id;
+        await hall_of_fame
+        .query()
+        .findOne({
+          type: type,
+          staffName: hofRow.staffName
+        })
+        .patch(hofRow);
       }
 
       // console.log(hofRow.latestWins);
@@ -254,6 +278,7 @@ router.post("/calculate", async (req, res) => {
     // console.log(hofAll[v].winRate);
     //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
     delete hofAll[v].id;
+    delete hofAll[v].latestWins;
 
     await hall_of_fame
       .query()
