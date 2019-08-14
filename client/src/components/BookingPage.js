@@ -179,6 +179,7 @@ class FixturesPage extends Component {
         {
           start: this.state.start,
           end: this.state.end,
+          type: parseInt(this.state.type, 10),
           player1: player1,
           player2: player2,
           title: `${player1} VS ${player2}`

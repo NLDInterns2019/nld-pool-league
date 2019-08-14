@@ -1,15 +1,15 @@
 exports.up = function(knex) {
     return knex.schema.createTable("position_history", table => {
       table.increments();
-      table.unique(["type","staffName","seasonId"]);
+      table.unique(["type","seasonId","staffName"]);
+      table.integer("seasonId").notNullable();
       table.integer("type").notNullable();
       table.string("staffName").notNullable();
-      table.integer("seasonId").notNullable();
       table.integer("position");
 
       table
-      .foreign(["type","staffName", "seasonId"])
-      .references(["type","staffName", "seasonId"])
+      .foreign(["type", "seasonId", "staffName"])
+      .references(["type", "seasonId", "staffName"])
       .inTable("eight_nine_ball_leagues")
       .onDelete("CASCADE");
   

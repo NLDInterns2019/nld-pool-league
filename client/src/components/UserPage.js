@@ -32,7 +32,8 @@ class UserPage extends React.Component {
     latestSeason9: "",
     type: "",
     groupCount: 0,
-    bookings: [],
+    bookings8: [],
+    bookings9: [],
     unpaid: [],
     intialAuthentication: false
   };
@@ -89,7 +90,7 @@ class UserPage extends React.Component {
           uniqBy(eight.data, "seasonId"),
           ["seasonId"],
           ["asc"]
-        ).map(player => player.position),
+        ).map(player => player.position)
       });
 
       const nine = await backend.get("/api/89ball_fixture/all/", {
@@ -109,7 +110,7 @@ class UserPage extends React.Component {
           uniqBy(nine.data, "seasonId"),
           ["seasonId"],
           ["asc"]
-        ).map(player => player.position),
+        ).map(player => player.position)
       });
     } catch (err) {
       //API CALL BEING CANCELED
@@ -148,7 +149,10 @@ class UserPage extends React.Component {
         }
       });
 
-      this.setState({ bookings: bookings.data });
+      this.setState({
+        bookings8: bookings.data.filter(booking => booking.type === 8),
+        bookings9: bookings.data.filter(booking => booking.type === 9)
+      });
     } catch (err) {
       //API CALL BEING CANCELED
     }
@@ -458,9 +462,9 @@ class UserPage extends React.Component {
                   </div>
                   <SeasonAccordion type="8" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
-                    {this.state.bookings.length ? (
+                    {this.state.bookings8.length ? (
                       <UpcomingMatch
-                        bookings={this.state.bookings}
+                        bookings={this.state.bookings8}
                         player={this.state.player}
                       />
                     ) : (
@@ -510,9 +514,9 @@ class UserPage extends React.Component {
                   </div>
                   <SeasonAccordion type="9" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
-                    {this.state.bookings.length ? (
+                    {this.state.bookings9.length ? (
                       <UpcomingMatch
-                        bookings={this.state.bookings}
+                        bookings={this.state.bookings9}
                         player={this.state.player}
                       />
                     ) : (
