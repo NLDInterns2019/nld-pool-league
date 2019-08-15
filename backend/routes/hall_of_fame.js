@@ -66,7 +66,7 @@ router.post("/calculate", async (req, res) => {
   .where({
     type: type
   })
-  // console.log("deleted " + numberOfDeletedRows + " rows.")
+   console.log("deleted " + numberOfDeletedRows + " rows.")
 
   knex('hall_of_fame')
   .where('type', 9)
@@ -286,7 +286,7 @@ router.post("/calculate", async (req, res) => {
   POST handler for /api/89ball_league/hall_of_fame/calculate
   Function: To add a fixture to the HoF table for consideration
 */
-router.post("/addhof", async (req, res) => {
+router.post("/updatehof", async (req, res) => {
   type = parseInt(req.body.type, 10);
   //this is the fixture to be added into consideration
   score1 = parseInt(req.body.score1)
@@ -294,30 +294,80 @@ router.post("/addhof", async (req, res) => {
   player1 = req.body.player1
   player2 = req.body.player2
 
-  //no delete function here: make it it's own thing!
+  let hof1, hof2;
 
-  //check if p1 is already in the HoF. If not, add them
+  //no delete function here: make it it's own thing!
+  //well there is, but only for testing
+  const numberOfDeletedRows = await hall_of_fame
+  .query()
+  .delete()
+  .where({
+    type: type
+  })
+   console.log("deleted " + numberOfDeletedRows + " rows.")
+   
+  //check if p1 is already in the HoF. If not, add them. Set their values.
   const p1Present = await hall_of_fame.query().where({staffName: player1})
   if (p1Present.length === 0) {
     await knex("hall_of_fame").insert({
       staffName: player1,
       type: type
     });
+    hof1 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player1
+    });
+
+    hof1.wins = 0;
+    hof1.plays = 0;
+  } else {
+    hof1 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player1
+    });
   }
 
-  //check if p2 is already in the HoF. If not, add them
+  //check if p2 is already in the HoF. If not, add them. Set their values.
   const p2Present = await hall_of_fame.query().where({staffName: player2})
   if (p2Present.length === 0) {
     await knex("hall_of_fame").insert({
       staffName: player2,
       type: type
     });
-  }
-  let hofAll = await hall_of_fame.query().where({
-    type: type
-  });
+    hof2 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player2
+    });
 
-  res.json(hofAll);
+    hof2.wins = 0;
+    hof2.plays = 0;
+  } else {
+    hof2 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player2
+    });
+  }
+  
+  //make sure values have been found
+  if (hof1.length === 0 || hof2.length === 0) {
+    res.status(404).send();
+    return;
+  }
+  
+  //increment for ach:dedicated
+  hof1.plays++;
+  hof2.plays++;
+
+  //increment for wins
+  if (score1 > score2) {
+    hof1.wins = hof1.wins + 1;
+  } else if (score2 > score1) {
+    hof2.wins = hof2.wins + 1;
+  }
+  
+  console.log(hof1.wins)
+  console.log(hof2.wins)
+  res.json(hof1);
 });
 
 module.exports = router;
