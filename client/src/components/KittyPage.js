@@ -21,12 +21,9 @@ class KittyPage extends React.Component {
   };
 
   getUnpaid = async () => {
-    try {
-      const unpaid = await backend
-        .get("/api/kitty/allUnpaid")
-        .then(console.log("done"));
-      this.setState({ unpaid: unpaid.data });
-    } catch (err) {}
+    const unpaid = await backend.get("/api/kitty/allUnpaid");
+
+    this.setState({ unpaid: unpaid.data });
   };
 
   getLatestSeason = async () => {
@@ -92,6 +89,40 @@ class KittyPage extends React.Component {
     this.getKitty();
   };
 
+  payJoiningFee = async (name, type, seasonId) => {
+    if (window.confirm("Are you sure " + name + " has paid?")) {
+      await backend.put(
+        "/api/89ball_league/paid",
+        {
+          type: type,
+          seasonId: seasonId,
+          staffName: name
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
+
+      await backend.post(
+        "/api/kitty/transaction",
+        {
+          type: type,
+          seasonId: seasonId,
+          staffName: name,
+          description: `Joining fee`,
+          //JOINING FEE
+          value: 1
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
+
+      await this.getKitty();
+      await this.getUnpaid();
+    }
+  };
+
   toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
@@ -117,7 +148,10 @@ class KittyPage extends React.Component {
             <div className="contentLeft">
               {auth0Client.isAuthenticated() &&
               auth0Client.getProfile().nickname === "admin" ? (
-                <OverduePayments unpaid={this.state.unpaid} />
+                <OverduePayments
+                  unpaid={this.state.unpaid}
+                  payJoiningFee={this.payJoiningFee}
+                />
               ) : null}
             </div>
             <div className="contentRight">
