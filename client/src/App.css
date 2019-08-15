@@ -1671,49 +1671,18 @@ tr td:last-child {
     cursor: pointer;
   }
 
-  .leagueTable {
-    font-size: 12pt;
-  }
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;
     margin-bottom: 10px;
   }
 
-  .leagueTable .win-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/win-small.svg");
-  }
-
-  .leagueTable .draw-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/draw-small.svg");
-  }
-
-  .leagueTable .loss-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/loss-small.svg");
-  }
-
-  .leagueTable .no-game-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/no-game-small.svg");
-  }
-
-  .tick-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/tick-small.svg");
-  }
-
-  .cross-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/cross-small.svg");
+  .leagueTableWin,
+  .leagueTableDraw,
+  .leagueTableLose,
+  .leagueTableFor,
+  .leagueTableAgainst {
+    display: none;
   }
 
   .kittyTableDesc,
@@ -1738,52 +1707,20 @@ tr td:last-child {
 }
 
 @media only screen and (min-width: 1551px) {
+  .leagueTableWin,
+  .leagueTableDraw,
+  .leagueTableLose,
+  .leagueTableFor,
+  .leagueTableAgainst {
+    display: table-cell;
+  }
+
   .kittyTableDesc,
   .kittyTableDate {
-    display: block;
+    display: table-cell;
   }
 
   .kittyTable {
     min-width: 946px;
-  }
-
-  .leagueTable {
-    font-size: 18pt;
-  }
-
-  .leagueTable .win-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/win.svg");
-  }
-
-  .leagueTable .draw-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/draw.svg");
-  }
-
-  .leagueTable .loss-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/loss.svg");
-  }
-
-  .leagueTable .no-game-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/no-game.svg");
-  }
-
-  .tick-icon {
-    width: 32px;
-    height: 32px;
-    background-image: url("./assets/tick.svg");
-  }
-
-  .cross-icon {
-    width: 32px;
-    height: 32px;
-    background-image: url("./assets/cross.svg");
   }
 }
