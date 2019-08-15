@@ -15,11 +15,13 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "latestWins");
   let retire = minBy(props.players, "latestWins");
   let avgPointsSeason = maxBy(props.players, "avgPointsSeason");
-  let test = orderBy(props.players, ["draws"], ["asc"])
+  let test = orderBy(props.players, ["plays"], ["asc"])
 console.log(test)
-let trueDraw = "";
+let trueDraw = test[0];
 for (let i = 0; i < test.length; i++) {
-  //if test[i].drawRate
+  if (test[i].drawRate === test[0]) {
+
+  }
 }
   if (avgPointsSeason !== undefined) {
     if (avgPointsSeason.avgPointsSeason === 0) {
@@ -75,11 +77,11 @@ for (let i = 0; i < test.length; i++) {
     }
   }
  
-  if (dedicated !== undefined) {
-    if (dedicated === undedicated) {
-      dedicated = null;
-    }
-  }
+  //if (dedicated !== undefined) {
+  //  if (dedicated === undedicated) {
+  //   dedicated = null;
+  //  }
+ // }
 
   if (slacker !== undefined) {
     if (slacker.punctRate === 0) {
