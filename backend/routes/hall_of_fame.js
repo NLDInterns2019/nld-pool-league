@@ -282,4 +282,42 @@ router.post("/calculate", async (req, res) => {
   res.json(hofAll);
 });
 
+/* 
+  POST handler for /api/89ball_league/hall_of_fame/calculate
+  Function: To add a fixture to the HoF table for consideration
+*/
+router.post("/addhof", async (req, res) => {
+  type = parseInt(req.body.type, 10);
+  //this is the fixture to be added into consideration
+  score1 = parseInt(req.body.score1)
+  score2 = parseInt(req.body.score2)
+  player1 = req.body.player1
+  player2 = req.body.player2
+
+  //no delete function here: make it it's own thing!
+
+  //check if p1 is already in the HoF. If not, add them
+  const p1Present = await hall_of_fame.query().where({staffName: player1})
+  if (p1Present.length === 0) {
+    await knex("hall_of_fame").insert({
+      staffName: player1,
+      type: type
+    });
+  }
+
+  //check if p2 is already in the HoF. If not, add them
+  const p2Present = await hall_of_fame.query().where({staffName: player2})
+  if (p2Present.length === 0) {
+    await knex("hall_of_fame").insert({
+      staffName: player2,
+      type: type
+    });
+  }
+  let hofAll = await hall_of_fame.query().where({
+    type: type
+  });
+
+  res.json(hofAll);
+});
+
 module.exports = router;
