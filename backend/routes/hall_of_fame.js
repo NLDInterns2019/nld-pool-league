@@ -170,7 +170,7 @@ router.post("/calculate", async (req, res) => {
       hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
       hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
     }
-    hofRow.avgPoints = parseFloat(hofRow.totalPoints / seasons.length).toFixed(2);
+    hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(2); //seasons.length
     //update the table
     await hall_of_fame
       .query()
