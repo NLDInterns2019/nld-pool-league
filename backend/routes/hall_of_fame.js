@@ -66,7 +66,7 @@ router.post("/calculate", async (req, res) => {
   .where({
     type: type
   })
-  console.log("deleted " + numberOfDeletedRows + " rows.")
+  // console.log("deleted " + numberOfDeletedRows + " rows.")
 
   knex('hall_of_fame')
   .where('type', 9)
@@ -169,8 +169,9 @@ router.post("/calculate", async (req, res) => {
       hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
       hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
       hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+      hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(2); //seasons.length
     }
-    hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(2); //seasons.length
+    
     //update the table
     await hall_of_fame
       .query()
