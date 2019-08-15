@@ -101,7 +101,8 @@ class KittyPage extends React.Component {
           type={this.state.type}
         />
         <div className="kittyContent">
-          {auth0Client.isAuthenticated() ? (
+          {auth0Client.isAuthenticated() &&
+          auth0Client.getProfile().nickname === "admin" ? (
             <TransactionForm submitTransaction={this.submitTransaction} />
           ) : null}
           <div className="kittyTableContainer">
