@@ -1,9 +1,9 @@
 import React from "react";
-import { maxBy, minBy } from "lodash";
+import { maxBy, orderBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
   let topPlayer = maxBy(props.players, "winRate");
   let casual = maxBy(props.players, "lossRate");
-  let draw = maxBy(props.players, "draws");
+  let draw = maxBy(props.players, "drawRate");
   let dedicated = maxBy(props.players, "plays");
   let undedicated = minBy(props.players, "plays");
   let onTime = minBy(props.players, "punctRate");
@@ -15,9 +15,12 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "latestWins");
   let retire = minBy(props.players, "latestWins");
   let avgPointsSeason = maxBy(props.players, "avgPointsSeason");
-  let bestImp = maxBy(props.players, "latestWins")
-  let worstImp = minBy(props.players, "latestWins")
-
+  let test = orderBy(props.players, ["draws"], ["asc"])
+console.log(test)
+let trueDraw = "";
+for (let i = 0; i < test.length; i++) {
+  //if test[i].drawRate
+}
   if (avgPointsSeason !== undefined) {
     if (avgPointsSeason.avgPointsSeason === 0) {
       avgPointsSeason = null;
