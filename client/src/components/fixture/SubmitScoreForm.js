@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import backend from "../../api/backend";
 import axios from "axios";
 import auth0Client from "../../Auth";
-import { some, orderBy } from "lodash";
+import { some, orderBy, find } from "lodash";
 
 class SubmitScoreForm extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class SubmitScoreForm extends Component {
       type: "",
       activeSeason: "",
       activePlayer: " ",
-      unplayedFixtures: []
+      fixtures: []
     };
 
     this.state = this.initialState;
@@ -43,7 +43,7 @@ class SubmitScoreForm extends Component {
             }
           }
         );
-        this.setState({ unplayedFixtures: response.data });
+        this.setState({ fixtures: response.data });
       } catch (err) {
         //API CALL BEING CANCELED
       }
@@ -61,7 +61,7 @@ class SubmitScoreForm extends Component {
             }
           }
         );
-        this.setState({ unplayedFixtures: response.data });
+        this.setState({ fixtures: response.data });
       } catch (err) {
         //API CALL BEING CANCELED
       }
@@ -93,6 +93,7 @@ class SubmitScoreForm extends Component {
       await this.setState({
         allPlayers: orderBy(this.props.players, ["staffName"], ["asc"])
       });
+      this.getFixtures()
     }
 
     //Handle deletion
@@ -154,7 +155,7 @@ class SubmitScoreForm extends Component {
       }
       this.setState(
         {
-          unplayedFixtures: [],
+          fixtures: [],
           score1: "",
           score2: "",
           players: ""
@@ -181,6 +182,23 @@ class SubmitScoreForm extends Component {
 
   setScore2(score) {
     this.setState({ score2: score });
+  }
+
+  handleFixturesChange = (event) => {
+    this.setState({ players: event.target.value }, () => {
+      let arr = this.state.players.split(" ");
+      let p1 = arr[0];
+      let p2 = arr[1];
+      
+      let fixtures = find(this.state.fixtures, {player1: p1, player2: p2})
+      if(fixtures.score1 === 2){
+        this.player1won.current.checked = true;
+      }else if(fixtures.score2 === 2){
+        this.player2won.current.checked = true;
+      }else if(fixtures.score1 === 1 && fixtures.score2 === 1){
+        this.draw.current.checked = true;
+      }
+    })
   }
 
   handleRadioClick() {
@@ -249,12 +267,12 @@ class SubmitScoreForm extends Component {
           <select
             id="selectFixture"
             value={this.state.players}
-            onChange={e => this.setState({ players: e.target.value })}
+            onChange={this.handleFixturesChange}
           >
             <option disabled value={""}>
               PLAYER1 &nbsp;&nbsp;VS&nbsp;&nbsp; PLAYER 2
             </option>
-            {this.state.unplayedFixtures.map(fixture => {
+            {this.state.fixtures.map(fixture => {
               let player1 = fixture.player1;
               let player2 = fixture.player2;
               return (
