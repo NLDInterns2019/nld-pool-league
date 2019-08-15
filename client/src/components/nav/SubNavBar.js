@@ -125,6 +125,7 @@ const SubNavBar = props => {
             </span>
           );
         } else {
+          //LATEST SEASON EXIST
           return (
             <span>
               <li>
@@ -167,6 +168,7 @@ const SubNavBar = props => {
           );
         }
       } else {
+        //ACTIVE SEASON
         return (
           <span>
             <li>
@@ -226,31 +228,18 @@ const SubNavBar = props => {
         </h2>
         <ul className="main-items">
           <li>
-            {props.type !== "Billiards" ? (
-              <Link
-                to={`/${props.type}-ball/seasons`}
-                style={seasonsCurrentStyle}
-                id="seasonsLink"
-              >
-                All Seasons
-              </Link>
-            ) : (
-              <Link
-                to={`/${props.type}/seasons`}
-                style={seasonsCurrentStyle}
-                id="seasonsLink"
-              >
-                All Seasons
-              </Link>
-            )}
+            <Link
+              to={`/${props.type}-ball/seasons`}
+              style={seasonsCurrentStyle}
+              id="seasonsLink"
+            >
+              All Seasons
+            </Link>
           </li>
-          {props.type !== "Billiards"
-            ? seasonFixtureLink(`${props.type}-ball`)
-            : seasonFixtureLink(`Billiards`)}
-
+          {seasonFixtureLink(`${props.type}-ball`)}
           <li>
-            {!auth0Client.isAuthenticated() ? null : props.type !==
-              "Billiards" ? (
+            {auth0Client.isAuthenticated() &&
+            auth0Client.getProfile().nickname !== "admin" ? (
               <Link
                 to={`/${props.type}-ball/dashboard`}
                 style={dashboardCurrentStyle}
@@ -258,15 +247,7 @@ const SubNavBar = props => {
               >
                 My Dashboard
               </Link>
-            ) : (
-              <Link
-                to={`/${props.type}/dashboard`}
-                style={dashboardCurrentStyle}
-                id="seasonsLink"
-              >
-                My Dashboard
-              </Link>
-            )}
+            ) : null}
           </li>
         </ul>
       </div>

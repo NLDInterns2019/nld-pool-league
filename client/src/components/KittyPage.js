@@ -115,10 +115,14 @@ class KittyPage extends React.Component {
         <div className="kittyContent">
           <div className="content">
             <div className="contentLeft">
-              <OverduePayments unpaid={this.state.unpaid} />
+              {auth0Client.isAuthenticated() &&
+              auth0Client.getProfile().nickname === "admin" ? (
+                <OverduePayments unpaid={this.state.unpaid} />
+              ) : null}
             </div>
             <div className="contentRight">
-              {auth0Client.isAuthenticated() ? (
+              {auth0Client.isAuthenticated() &&
+              auth0Client.getProfile().nickname === "admin" ? (
                 <TransactionForm submitTransaction={this.submitTransaction} />
               ) : null}
             </div>
