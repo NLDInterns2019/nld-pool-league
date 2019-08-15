@@ -75,7 +75,9 @@ class SeasonAccordion extends React.Component {
     return (
       <div className="unplayed-accordian">
         <div className="unplayedTitle">
-          <h4 style={{fontWeight:"bold"}}>Unplayed Fixtures due in the next 2 weeks:</h4>
+          <h2 style={{ fontWeight: "bold" }}>
+            Unplayed Fixtures due in the next 2 weeks:
+          </h2>
         </div>
         <span
           className={`${this.state.type}-ball-icon`}
