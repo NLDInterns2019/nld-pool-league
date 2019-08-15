@@ -17,7 +17,7 @@ class TransactionForm extends React.Component {
   signal = Axios.CancelToken.source();
 
   getSeasonsList = async () => {
-    try{
+    try {
       const response = await backend.get("/api/89ball_season", {
         cancelToken: this.signal.token,
         params: {
@@ -25,10 +25,9 @@ class TransactionForm extends React.Component {
         }
       });
       this.setState({ seasons: response.data });
-    }catch (err) {
+    } catch (err) {
       //API CALL BEING CANCELED
     }
-    
   };
 
   componentDidMount() {
@@ -172,7 +171,9 @@ class TransactionForm extends React.Component {
             {this.state.transactionType === "CREDIT" ? (
               <label>Value: £</label>
             ) : (
-              <label>Value: <span style={{color:"red"}}>£-</span></label>
+              <label>
+                Value: <span style={{ color: "red" }}>£-</span>
+              </label>
             )}
             <input
               style={{ textAlign: "right" }}
@@ -189,11 +190,14 @@ class TransactionForm extends React.Component {
           </div>
         </form>
         <br />
-        {(this.isFormValid() && this.isValueValid()) ? (
+        {this.isFormValid() && this.isValueValid() ? (
           <button type="button" onClick={this.submitTransaction}>
             Submit
           </button>
         ) : null}
+        <button type="button" onClick={this.props.closeForm}>
+          Cancel
+        </button>
         <button
           type="button"
           onClick={() =>

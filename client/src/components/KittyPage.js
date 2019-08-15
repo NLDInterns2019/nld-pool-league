@@ -20,6 +20,9 @@ class KittyPage extends React.Component {
     unpaid: []
   };
 
+  transactionForm = React.createRef();
+  makeTransactionBtn = React.createRef();
+
   getUnpaid = async () => {
     const unpaid = await backend.get("/api/kitty/allUnpaid");
 
@@ -134,6 +137,16 @@ class KittyPage extends React.Component {
     });
   };
 
+  showTransactionForm = () => {
+    this.transactionForm.current.style.display = "block";
+    this.makeTransactionBtn.current.style.display = "none";
+  };
+
+  closeForm = () => {
+    this.makeTransactionBtn.current.style.display = "block";
+    this.transactionForm.current.style.display = "none";
+  };
+
   render() {
     return (
       <div className="app">
@@ -159,10 +172,27 @@ class KittyPage extends React.Component {
                 {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
                 <KittyTable kitty={this.state.kitty} />
               </div>
-              {auth0Client.isAuthenticated() &&
-              auth0Client.getProfile().nickname === "admin" ? (
-                <TransactionForm submitTransaction={this.submitTransaction} />
-              ) : null}
+              <button
+                type="button"
+                id="makeTransactionBtn"
+                ref={this.makeTransactionBtn}
+                onClick={this.showTransactionForm}
+              >
+                Make Transaction
+              </button>
+              <div
+                className="transactionFormContainer"
+                ref={this.transactionForm}
+                style={{ display: "none" }}
+              >
+                {auth0Client.isAuthenticated() &&
+                auth0Client.getProfile().nickname === "admin" ? (
+                  <TransactionForm
+                    submitTransaction={this.submitTransaction}
+                    closeForm={this.closeForm}
+                  />
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

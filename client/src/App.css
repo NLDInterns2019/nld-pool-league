@@ -393,7 +393,7 @@ table td {
 
 .kittyTableContainer {
   min-width: 946px;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 #balance {
@@ -410,6 +410,16 @@ table td {
 .kittyTitle h3 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.kittyContent .contentRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#makeTransactionBtn {
+  width: fit-content;
 }
 
 .kittyTransactionContainer form {
