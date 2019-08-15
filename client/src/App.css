@@ -199,6 +199,14 @@ ul {
   height: 100%;
 }
 
+.kittyContent .contentLeft {
+  width: 35%;
+}
+
+.kittyContent .contentRight {
+  width: 65%;
+}
+
 #seasonsListContainer {
   margin-top: 0rem;
 }
@@ -1586,9 +1594,18 @@ tr td:last-child {
     text-align: left;
   }
 
-  .kittyTableContainer {
-    order: 2;
-    align-self: center;
+  .kittyContent .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kittyContent .contentLeft {
+    width: 100%;
+  }
+
+  .kittyContent .contentRight {
+    width: 100%;
   }
 
   .contentLeft {
@@ -1698,6 +1715,16 @@ tr td:last-child {
     height: 18px;
     background-image: url("./assets/cross-small.svg");
   }
+
+  .kittyTableDesc,
+  .kittyTableDate {
+    display: none;
+  }
+
+  .kittyTable {
+    min-width: 700px;
+    width: 700px;
+  }
 }
 
 @media only screen and (min-width: 1455px) {
@@ -1711,6 +1738,15 @@ tr td:last-child {
 }
 
 @media only screen and (min-width: 1551px) {
+  .kittyTableDesc,
+  .kittyTableDate {
+    display: block;
+  }
+
+  .kittyTable {
+    min-width: 946px;
+  }
+
   .leagueTable {
     font-size: 18pt;
   }

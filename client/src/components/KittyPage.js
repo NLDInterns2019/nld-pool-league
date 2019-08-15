@@ -155,15 +155,15 @@ class KittyPage extends React.Component {
               ) : null}
             </div>
             <div className="contentRight">
+              <div className="kittyTableContainer">
+                {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
+                <KittyTable kitty={this.state.kitty} />
+              </div>
               {auth0Client.isAuthenticated() &&
               auth0Client.getProfile().nickname === "admin" ? (
                 <TransactionForm submitTransaction={this.submitTransaction} />
               ) : null}
             </div>
-          </div>
-          <div className="kittyTableContainer">
-            {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
-            <KittyTable kitty={this.state.kitty} />
           </div>
         </div>
       </div>
