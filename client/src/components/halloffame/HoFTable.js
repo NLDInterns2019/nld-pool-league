@@ -1,9 +1,9 @@
 import React from "react";
-import { maxBy, minBy } from "lodash";
+import { maxBy, orderBy, minBy } from "lodash";
 const itemsToBeDisplayed = props => {
   let topPlayer = maxBy(props.players, "winRate");
   let casual = maxBy(props.players, "lossRate");
-  let draw = maxBy(props.players, "draws");
+  let draw = maxBy(props.players, "drawRate");
   let dedicated = maxBy(props.players, "plays");
   let undedicated = minBy(props.players, "plays");
   let onTime = minBy(props.players, "punctRate");
@@ -14,13 +14,18 @@ const itemsToBeDisplayed = props => {
   let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "latestWins");
   let retire = minBy(props.players, "latestWins");
-  let avgPoints = maxBy(props.players, "avgPoints");
-  let bestImp = maxBy(props.players, "latestWins")
-  let worstImp = minBy(props.players, "latestWins")
+  let avgPointsSeason = maxBy(props.players, "avgPointsSeason");
+  let test = orderBy(props.players, ["plays"], ["asc"])
+console.log(test)
+let trueDraw = test[0];
+for (let i = 0; i < test.length; i++) {
+  if (test[i].drawRate === test[0]) {
 
-  if (avgPoints !== undefined) {
-    if (avgPoints.avgPoints === 0) {
-      avgPoints = null;
+  }
+}
+  if (avgPointsSeason !== undefined) {
+    if (avgPointsSeason.avgPointsSeason === 0) {
+      avgPointsSeason = null;
     }
   }
 
@@ -72,11 +77,11 @@ const itemsToBeDisplayed = props => {
     }
   }
  
-  if (dedicated !== undefined) {
-    if (dedicated === undedicated) {
-      dedicated = null;
-    }
-  }
+  //if (dedicated !== undefined) {
+  //  if (dedicated === undedicated) {
+  //   dedicated = null;
+  //  }
+ // }
 
   if (slacker !== undefined) {
     if (slacker.punctRate === 0) {
@@ -121,12 +126,12 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">4.0 GPA</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
-          {avgPoints ? avgPoints.staffName : "-"}
+          {avgPointsSeason ? avgPointsSeason.staffName : "-"}
         </td>
         <td className="hofCell">
-          {avgPoints
-            ? avgPoints.avgPoints + " points per game"
-            : "Highest average PPG"}
+          {avgPointsSeason
+            ? avgPointsSeason.avgPointsSeason + " points per season"
+            : "Highest average PPS"}
         </td>
       </tr>
       <tr>
