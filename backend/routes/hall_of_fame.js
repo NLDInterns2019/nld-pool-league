@@ -66,7 +66,7 @@ router.post("/calculate", async (req, res) => {
   .where({
     type: type
   })
-  // console.log("deleted " + numberOfDeletedRows + " rows.")
+   console.log("deleted " + numberOfDeletedRows + " rows.")
 
   knex('hall_of_fame')
   .where('type', 9)
@@ -280,6 +280,118 @@ router.post("/calculate", async (req, res) => {
   }
 
   res.json(hofAll);
+});
+
+/* 
+  POST handler for /api/89ball_league/hall_of_fame/calculate
+  Function: To add a fixture to the HoF table for consideration
+  MUST BE RAN AFTER LEAGUE CALCULATION
+*/
+router.post("/updatehof", async (req, res) => {
+  //key:
+  //ac:topPlayer = code helpful to topPlayer
+  //ach:topPlayer = code directly generating topPlayer
+
+  type = parseInt(req.body.type, 10);
+  //this is the fixture to be added into consideration
+  score1 = parseInt(req.body.score1)
+  score2 = parseInt(req.body.score2)
+  player1 = req.body.player1
+  player2 = req.body.player2
+  seasonId = req.body.seasonId
+
+  let hof1, hof2;
+
+  //no delete function here: make it it's own thing!
+  //well there is, but only for testing
+  const numberOfDeletedRows = await hall_of_fame
+  .query()
+  .delete()
+  .where({
+    type: type
+  })
+   console.log("deleted " + numberOfDeletedRows + " rows.")
+
+  //check if p1 is already in the HoF. If not, add them. Set their values.
+  const p1Present = await hall_of_fame.query().where({staffName: player1})
+  if (p1Present.length === 0) {
+    await knex("hall_of_fame").insert({
+      staffName: player1,
+      type: type
+    });
+    hof1 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player1
+    });
+
+    hof1.wins = 0;
+    hof1.plays = 0;
+  } else {
+    hof1 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player1
+    });
+  }
+
+  //check if p2 is already in the HoF. If not, add them. Set their values.
+  const p2Present = await hall_of_fame.query().where({staffName: player2})
+  if (p2Present.length === 0) {
+    await knex("hall_of_fame").insert({
+      staffName: player2,
+      type: type
+    });
+    hof2 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player2
+    });
+
+    hof2.wins = 0;
+    hof2.plays = 0;
+  } else {
+    hof2 = await hall_of_fame.query().where({
+      type: type,
+      staffName: player2
+    });
+  }
+  
+  //make sure values have been found
+  if (hof1.length === 0 || hof2.length === 0) {
+    res.status(404).send();
+    return;
+  }
+  
+  //increment for ac:dedicated
+  hof1.plays++;
+  hof2.plays++;
+
+  //increment for ac:topPlayer
+  if (score1 > score2) {
+    hof1.wins++;
+  } else if (score2 > score1) {
+    hof2.wins++;
+  }
+  
+  currentLeague1 = await hall_of_fame.query().where({
+    type: type,
+    staffName: player1,
+    seasonId: seasonId
+  });
+  currentLeague2 = await hall_of_fame.query().where({
+    type: type,
+    staffName: player2,
+    seasonId: seasonId
+  });
+  
+  //check the current league and add scores for ac:bestSeason
+  if (currentLeague1.points > hof1.highestPoints) {
+    hof1.highestPoints = currentLeague1.points
+  }
+  if (currentLeague2.points > hof2.highestPoints) {
+    hof2.highestPoints = currentLeague2.points
+  }
+  
+
+  res.json(hof1);
 });
 
 module.exports = router;
