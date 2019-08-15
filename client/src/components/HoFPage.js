@@ -20,6 +20,16 @@ class HoFPage extends React.Component {
     };
   }
 
+  getHOF = async() => {
+    const HoF8 = await backend.get("/api/hall_of_fame?type=8", {});
+
+    this.setState({ HoF8: HoF8.data });
+
+    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {});
+
+    this.setState({ HoF9: HoF9.data });
+  }
+
   getLatestSeason = async () => {
     const latest = await backend.get("/api/89ball_season/latest", {
       params: {
@@ -53,16 +63,18 @@ class HoFPage extends React.Component {
     await this.getLatestSeason();
     // when component mounted, start a GET request
     // to specified URL
+
+    //GET
+    await this.getHOF();
+
+    //CALC
     await this.createHoF();
     await this.createHoF9();
 
-    const HoF8 = await backend.get("/api/hall_of_fame?type=8", {});
+    //GET
+    await this.getHOF();
 
-    this.setState({ HoF8: HoF8.data });
-
-    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {});
-
-    this.setState({ HoF9: HoF9.data });
+    
   };
 
   createHoF = async () => {
