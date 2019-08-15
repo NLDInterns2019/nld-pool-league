@@ -200,11 +200,11 @@ ul {
 }
 
 .kittyContent .contentLeft {
-  width: 35%;
+  width: 40%;
 }
 
 .kittyContent .contentRight {
-  width: 65%;
+  width: 60%;
 }
 
 #seasonsListContainer {
@@ -1640,7 +1640,7 @@ tr td:last-child {
   }
 
   .overduePaymentsTable {
-    width: 650px;
+    width: 500px;
   }
 }
 
