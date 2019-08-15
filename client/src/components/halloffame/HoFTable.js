@@ -17,10 +17,10 @@ const itemsToBeDisplayed = props => {
   let avgPointsSeason = maxBy(props.players, "avgPointsSeason");
   let test = orderBy(props.players, ["plays"], ["asc"])
 console.log(test)
-let trueDraw = test[0];
+let truePlay = test;
 for (let i = 0; i < test.length; i++) {
   if (test[i].drawRate === test[0]) {
-
+    truePlay.push(test[i])
   }
 }
   if (avgPointsSeason !== undefined) {
