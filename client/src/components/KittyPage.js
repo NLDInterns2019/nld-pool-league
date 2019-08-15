@@ -6,6 +6,7 @@ import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
 import TransactionForm from "./kitty/TransactionForm";
 import KittyTable from "./kitty/KittyTable";
+import OverduePayments from "./kitty/OverduePayments";
 
 import Axios from "axios";
 import auth0Client from "../Auth";
@@ -15,7 +16,17 @@ class KittyPage extends React.Component {
   state = {
     latestSeason: "",
     type: "",
-    kitty: []
+    kitty: [],
+    unpaid: []
+  };
+
+  getUnpaid = async () => {
+    try {
+      const unpaid = await backend
+        .get("/api/kitty/allUnpaid")
+        .then(console.log("done"));
+      this.setState({ unpaid: unpaid.data });
+    } catch (err) {}
   };
 
   getLatestSeason = async () => {
@@ -50,6 +61,7 @@ class KittyPage extends React.Component {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
     await this.getKitty();
+    await this.getUnpaid();
   };
 
   componentWillUnmount() {
@@ -101,9 +113,16 @@ class KittyPage extends React.Component {
           type={this.state.type}
         />
         <div className="kittyContent">
-          {auth0Client.isAuthenticated() ? (
-            <TransactionForm submitTransaction={this.submitTransaction} />
-          ) : null}
+          <div className="content">
+            <div className="contentLeft">
+              <OverduePayments unpaid={this.state.unpaid} />
+            </div>
+            <div className="contentRight">
+              {auth0Client.isAuthenticated() ? (
+                <TransactionForm submitTransaction={this.submitTransaction} />
+              ) : null}
+            </div>
+          </div>
           <div className="kittyTableContainer">
             {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
             <KittyTable kitty={this.state.kitty} />

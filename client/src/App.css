@@ -423,6 +423,25 @@ table td {
   margin-bottom: 1rem;
 }
 
+.overduePaymentsTable {
+  font-size: 18pt;
+}
+
+.overduePaymentsTitle {
+  display: flex;
+  justify-content: center;
+}
+
+.overduePaymentsTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.overduePaymentsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 /* ==== Labels in Create Season and Submit Score Forms ==== */
 #createSeasonForm label,
 #submitScoreForm label {
@@ -651,7 +670,7 @@ select:hover {
 .kittyTransactionContainer {
   background-color: white;
   width: 600px;
-  margin: auto;
+  margin: 0 auto;
   padding: 1rem;
   margin-bottom: 4rem;
   border-radius: 15px;

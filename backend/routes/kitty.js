@@ -112,4 +112,30 @@ router.get("/unpaid", (req, res) => {
     );
 });
 
+/* 
+  GET handler for /api/kitty/allUnpaid?staffName
+  Function: To get all the kitty details
+*/
+router.get("/allUnpaid", (req, res) => {
+  //Validation
+  // if (Joi.validate(req.query, schema, { convert: false }).error) {
+  //   res.status(400).json({ status: "error", error: "Invalid data" });
+  //   return;
+  // }
+
+  eight_nine_ball_leagues
+    .query()
+    .where({ paid: 0 })
+    .orderBy("type", "asc")
+    .orderBy("seasonId", "desc")
+    .then(
+      unpaid => {
+        res.json(unpaid);
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
+});
+
 module.exports = router;
