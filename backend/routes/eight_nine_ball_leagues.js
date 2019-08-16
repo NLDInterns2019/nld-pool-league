@@ -3,6 +3,7 @@ var router = express.Router();
 const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
+const _ = require("lodash");
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
@@ -369,6 +370,80 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
         res.status(500).send(e);
       }
     );
+});
+
+/* 
+  GET handler for /api/89ball_league/check_draw
+  Function: To find draws
+*/
+router.get("/:seasonId/check_draw", async (req, res) => {
+  req.query.type = parseInt(req.query.type);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let seasonId = parseInt(req.params.seasonId, 10);
+
+  let players = await eight_nine_ball_leagues
+    .query()
+    .where({ type: req.query.type, seasonId: seasonId })
+    .orderBy("points", "desc")
+    .catch(e => {
+      res.status(400).send(e);
+    });
+
+  let uniquePoints = _.uniqBy(players, "points").map(res => res.points);
+
+  let draw = [];
+
+  let competitionForFirstHighestScore = 1;
+  let competitionForSecondHighestScore = 1;
+  let competitionForThirdHighestScore = 1;
+
+  if (uniquePoints.length >= 1) {
+    competitionForFirstHighestScore = _.filter(
+      players,
+      p => p.points === uniquePoints[0]
+    ).length;
+    if (uniquePoints.length >= 2) {
+      competitionForSecondHighestScore = _.filter(
+        players,
+        p => p.points === uniquePoints[1]
+      ).length;
+      if (uniquePoints.length >= 3) {
+        competitionForThirdHighestScore = _.filter(
+          players,
+          p => p.points === uniquePoints[2]
+        ).length;
+      }
+    }
+  }
+
+  console.log(competitionForFirstHighestScore)
+  console.log(competitionForSecondHighestScore)
+  console.log(competitionForThirdHighestScore)
+
+  // if(competitionForFirstHighestScore >= 3){
+  //   draw = [uniquePoints[0]]
+  // } else if(competitionForSecondHighestScore === 1 && competitionForSecondHighestScore >=2){
+  //   draw = [uniquePoints[1]]
+  // } else if((competitionForFirstHighestScore + competitionForSecondHighestScore === 2) && competitionForThirdHighestScore >=1) {
+  //   draw = [uniquePoints[2]]
+  // } else if(competitionForFirstHighestScore === 2 && competitionForSecondHighestScore >=2){
+  //   draw = [uniquePoints[0], uniquePoints[1]]
+  // }
+
+  let count = 0
+
+  console.log(draw);
 });
 
 /* 

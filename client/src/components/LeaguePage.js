@@ -26,7 +26,8 @@ class App extends React.Component {
     activePlayer: " ",
     groupCount: 0,
     hidePlayed: true,
-    finished: null
+    finished: null,
+    drawPoints: []
   };
 
   updateData = async () => {
@@ -40,7 +41,6 @@ class App extends React.Component {
           }
         }
       );
-
       this.setState({ players: response.data });
 
       const fixtures = await backend.get(
@@ -81,6 +81,18 @@ class App extends React.Component {
       this.setState({
         finished: season.data[0].finished
       });
+
+      if (this.state.finished) {
+        const result = await backend.get(
+          `/api/89ball_league/${this.state.activeSeason}/check_draw`,
+          {
+            params: {
+              type: parseInt(this.state.type)
+            }
+          }
+        );
+        this.setState({ drawPoints: result.data.map(result => result.points) });
+      }
     } catch (err) {
       //API CALL BEING CANCELED
     }
@@ -466,6 +478,19 @@ class App extends React.Component {
     }
   };
 
+  showPlayoffRequired = () => {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div className="seasonClosed">
+          <div className="chequered-flag-icon" alt="chequered flag" />
+          <h1 style={{ fontSize: "40pt" }}>Playoff Required</h1>
+          <div className="chequered-flag-icon" alt="chequered flag" />
+        </div>
+        <button>START PLAYOFF</button>
+      </div>
+    );
+  };
+
   showFinalRankings = () => {
     return (
       <FinalRankings
@@ -536,10 +561,11 @@ class App extends React.Component {
           type={this.state.type}
           activeSeason={this.state.activeSeason}
         />
-
         {/* if the season has finished, display the final rankings */}
         {this.state.finished === null
           ? null
+          : this.state.finished && this.state.drawPoints
+          ? this.showPlayoffRequired()
           : this.state.finished
           ? this.showFinalRankings()
           : null}
