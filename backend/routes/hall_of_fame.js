@@ -374,10 +374,17 @@ router.post("/updatehof", async (req, res) => {
     res.status(404).send();
     return;
   }
-  
-  //function for: ach:dedicated, ach:topPlayer, ach:drawRate
-  hof1 = windrawGen.calcWinDraw(score1, score2, hof1);
-  hof2 = windrawGen.calcWinDraw(score2, score1, hof2);
+
+  let seasons = await eight_nine_ball_seasons.query().where({
+    type: type
+  });
+  if (seasons === 0) {
+    res.status(404).send();
+  }
+
+  //function for: ach:dedicated, ach:topPlayer, ach:drawRate, ach:avgPointsSeason, avgPoints
+  hof1 = windrawGen.calcWinDraw(score1, score2, hof1, seasons.length);
+  hof2 = windrawGen.calcWinDraw(score2, score1, hof2, seasons.length);
 
   currentLeague1 = await eight_nine_ball_leagues.query().where({
     type: type,
@@ -393,6 +400,7 @@ router.post("/updatehof", async (req, res) => {
     res.status(404).send();
     return;
   }
+
   //check the current league and add scores for ach:bestSeason
   if (currentLeague1.points > hof1.highestPoints) {
     hof1.highestPoints = currentLeague1.points
@@ -402,22 +410,12 @@ router.post("/updatehof", async (req, res) => {
   }
 
   //get seasons: needed for ac:GPA
-  let seasons = await eight_nine_ball_seasons.query().where({
-    type: type
-  });
+  
 
   //get the latest winrate needed for ach:improver and ach:timeToRetire
   if (seasons.length > 1) {//TODO also need to check if this is the last fixture
 
   }
-
-  //increment totalPoints and divide for ach:GPA and avgPoints in dashboard
-  hof1.totalPoints = hof1.totalPoints + score1;
-  hof2.totalPoints = hof2.totalPoints + score2;
-  hof1.avgPointsSeason = hof1.totalPoints/seasons;
-  hof2.avgPointsSeason = hof2.totalPoints/seasons;
-  hof1.avgPoints = hof1.totalPoints/hof1.plays;
-  hof2.avgPoints = hof2.totalPoints/hof2.plays;
 
   //calculations for ac:scrappy
   let newTopPlayer = _.maxBy(hofAll, "winRate"); //get top player
