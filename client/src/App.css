@@ -316,29 +316,6 @@ table td {
   border-left: solid 2px #127e5c;
 }
 
-#hasNotPaid {
-  transition: background-color 0.3s linear;
-  background-color: white;
-}
-
-#hasNotPaid:hover {
-  cursor: pointer;
-  background-color: #127e5c;
-  color: white;
-}
-
-#hasNotPaid:hover .cross-icon {
-  display: none;
-}
-
-#hasNotPaid:hover #pay-overlay {
-  display: block;
-}
-
-#pay-overlay {
-  display: none;
-}
-
 /* ==== Add Player Form ==== */
 .addPlayerFormButtons {
   display: flex;
@@ -382,7 +359,6 @@ table td {
 .kittyTable {
   font-size: 18pt;
   margin: auto;
-  min-width: 946px;
   max-width: 80vh;
 }
 
@@ -391,25 +367,52 @@ table td {
   text-align: center;
 }
 
+.kittyTable .lateRow {
+  display: none;
+}
+
 .kittyTableContainer {
-  min-width: 946px;
+  min-width: 700px;
+  width: 900px;
   margin-bottom: 2rem;
 }
 
-#balance {
-  border-left: solid 2px #127e5c;
-  font-weight: bold;
+.kittyTableContainerNoSignIn {
+  width: 900px;
+  font-size: 18pt;
+  margin-bottom: 4rem;
+}
+
+.kittyTableNoSignIn {
+  width: 900px;
+}
+
+.showRow td {
+  width: inherit;
+  background-color: #127e5c;
+  color: white;
+  opacity: 0.75;
+}
+
+.showRow td:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+#balanceTracker {
+  margin-left: auto;
+  background-color: #127e5c;
+  color: white;
+  width: fit-content;
+  padding: 5px 15px 5px 15px;
+  border-radius: 10px;
 }
 
 .kittyTitle {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-.kittyTitle h3 {
-  padding-left: 2rem;
-  padding-right: 2rem;
+  align-items: flex-end;
 }
 
 .kittyContent .contentRight {
@@ -420,6 +423,7 @@ table td {
 
 #makeTransactionBtn {
   width: fit-content;
+  margin-bottom: 2rem;
 }
 
 .kittyTransactionContainer form {
@@ -1642,6 +1646,16 @@ tr td:last-child {
   .overduePaymentsTable {
     width: 500px;
   }
+
+  .kittyTable {
+    min-width: 900px;
+    width: 900px;
+  }
+
+  .kittyTableContainer {
+    min-width: 900px;
+    width: 900px;
+  }
 }
 
 @media only screen and (min-width: 1365px) {
@@ -1704,6 +1718,11 @@ tr td:last-child {
     min-width: 700px;
     width: 700px;
   }
+
+  .kittyTableContainer {
+    min-width: 700px;
+    width: 700px;
+  }
 }
 
 @media only screen and (min-width: 1455px) {
@@ -1731,6 +1750,11 @@ tr td:last-child {
   }
 
   .kittyTable {
-    min-width: 946px;
+    min-width: 900px;
+  }
+
+  .kittyTableContainer {
+    min-width: 900px;
+    width: 900px;
   }
 }

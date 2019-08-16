@@ -120,7 +120,17 @@ class KittyPage extends React.Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       );
-
+      await backend.post(
+        "/api/slack/feePaid",
+        {
+          staffName: name,
+          type: type,
+          seasonId: seasonId
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
       await this.getKitty();
       await this.getUnpaid();
     }
@@ -147,6 +157,61 @@ class KittyPage extends React.Component {
     this.transactionForm.current.style.display = "none";
   };
 
+  showContent = () => {
+    if (
+      auth0Client.isAuthenticated() &&
+      auth0Client.getProfile().nickname === "admin"
+    ) {
+      return (
+        <div className="content">
+          <div className="contentLeft">
+            {this.state.unpaid.length > 0 ? (
+              <OverduePayments
+                unpaid={this.state.unpaid}
+                payJoiningFee={this.payJoiningFee}
+              />
+            ) : (
+              <h3>There are no overdue payments</h3>
+            )}
+          </div>
+          <div className="contentRight">
+            <div className="kittyTableContainer">
+              {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
+              <KittyTable kitty={this.state.kitty} />
+            </div>
+            <button
+              type="button"
+              id="makeTransactionBtn"
+              ref={this.makeTransactionBtn}
+              onClick={this.showTransactionForm}
+            >
+              Make Transaction
+            </button>
+            <div
+              className="transactionFormContainer"
+              ref={this.transactionForm}
+              style={{ display: "none" }}
+            >
+              <TransactionForm
+                submitTransaction={this.submitTransaction}
+                closeForm={this.closeForm}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="content">
+          <div className="kittyTableContainerNoSignIn">
+            {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
+            <KittyTable kitty={this.state.kitty} />
+          </div>
+        </div>
+      );
+    }
+  };
+
   render() {
     return (
       <div className="app">
@@ -156,46 +221,7 @@ class KittyPage extends React.Component {
           latestSeason={this.state.latestSeason}
           type={this.state.type}
         />
-        <div className="kittyContent">
-          <div className="content">
-            <div className="contentLeft">
-              {auth0Client.isAuthenticated() &&
-              auth0Client.getProfile().nickname === "admin" ? (
-                <OverduePayments
-                  unpaid={this.state.unpaid}
-                  payJoiningFee={this.payJoiningFee}
-                />
-              ) : null}
-            </div>
-            <div className="contentRight">
-              <div className="kittyTableContainer">
-                {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
-                <KittyTable kitty={this.state.kitty} />
-              </div>
-              <button
-                type="button"
-                id="makeTransactionBtn"
-                ref={this.makeTransactionBtn}
-                onClick={this.showTransactionForm}
-              >
-                Make Transaction
-              </button>
-              <div
-                className="transactionFormContainer"
-                ref={this.transactionForm}
-                style={{ display: "none" }}
-              >
-                {auth0Client.isAuthenticated() &&
-                auth0Client.getProfile().nickname === "admin" ? (
-                  <TransactionForm
-                    submitTransaction={this.submitTransaction}
-                    closeForm={this.closeForm}
-                  />
-                ) : null}
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="kittyContent">{this.showContent()}</div>
       </div>
     );
   }
