@@ -11,6 +11,7 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 
 const score = require("../functions/score");
+const playoff = require("../functions/playoffscore");
 const fixture_split = require("../functions/polygonshuffle");
 const fixturegen = require("../functions/fixturegen");
 
@@ -227,7 +228,8 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
     player1: Joi.string().required(),
     score1: Joi.number().required(),
     player2: Joi.string().required(),
-    score2: Joi.number().required()
+    score2: Joi.number().required(),
+    playoff: Joi.any()
   };
 
   if (Joi.validate(req.body, schema, { convert: false }).error) {
@@ -296,20 +298,41 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  /* LEAGUE ALGORITHM */
-  try {
-    const players = score.calculateScore(
-      player1,
-      player2,
-      req.body.score1,
-      req.body.score2,
-      fixture.date
-    );
-    player1 = _.cloneDeep(players.player1);
-    player2 = _.cloneDeep(players.player2);
-  } catch (e) {
-    res.status(500).send();
-    return;
+  /* PLAYOFF LEAGUE ALGORITHM */
+  if (
+    req.body.hasOwnProperty("playoff") &&
+    (req.body.playoff === true || req.body.playoff === 1)
+  ) {
+    try {
+      const players = playoff.calculateScore(
+        player1,
+        player2,
+        req.body.score1,
+        req.body.score2,
+        fixture.date
+      );
+      player1 = _.cloneDeep(players.player1);
+      player2 = _.cloneDeep(players.player2);
+    } catch (e) {
+      res.status(500).send();
+      return;
+    }
+  } else {
+  /* NORMAL LEAGUE ALGORITHM */
+    try {
+      const players = score.calculateScore(
+        player1,
+        player2,
+        req.body.score1,
+        req.body.score2,
+        fixture.date
+      );
+      player1 = _.cloneDeep(players.player1);
+      player2 = _.cloneDeep(players.player2);
+    } catch (e) {
+      res.status(500).send();
+      return;
+    }
   }
 
   //UPDATE FIXTURE TABLE
@@ -417,7 +440,7 @@ router.put("/edit/force", auth.checkJwt, async (req, res) => {
 });
 
 /* 
-  POST handler for /api/89ball_fixture/generate/. 
+  POST handler for /api/89ball_fixture/generate/ 
   Function: Handles fixture generation and fixture splitting
 */
 router.post("/generate", auth.checkJwt, async (req, res) => {
@@ -457,13 +480,14 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  /* GENERATE FIXTURE FOR NEW PLAYER */
   if (req.body.hasOwnProperty("staffName") && req.body.staffName !== " ") {
     //Only add a single new player
 
     //Remove the new player from players
     players = players.filter(player => player.staffName !== req.body.staffName);
     //Shuffle just to randomise
-    players = _.shuffle(players)
+    players = _.shuffle(players);
 
     //Get first date of the first old fixture group
     let initialDate;
@@ -510,6 +534,7 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       }
     );
   } else {
+    /* NORMAL FIXTURE GEN */
     var playerCount = players.length;
     let fixture = [];
     let exCount = 1;
@@ -537,6 +562,117 @@ router.post("/generate", auth.checkJwt, async (req, res) => {
       );
       group++;
       aesDate = aesDate.add(1, "week");
+
+      players = fixture_split.polygonShuffle(players); //rotate players for next fixture
+    }
+  }
+});
+
+/* 
+  POST handler for /api/89ball_fixture/playoff
+  Function: generates playoff fixtures
+*/
+router.post("/playoff", auth.checkJwt, async (req, res) => {
+  aesDate = moment().add(1, "week");
+  let seasonId = req.body.seasonId;
+  let type = req.body.type;
+
+  //take the seasonid and see if it's acceptable
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    seasonId: Joi.number()
+      .integer()
+      .required(),
+    draws: Joi.array().required()
+  };
+
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  //Reopen the season
+  await eight_nine_ball_seasons
+    .query()
+    .findOne({ type: req.body.type, seasonId: req.body.seasonId })
+    .patch({ finished: false, playoff: true })
+    .catch(e => {
+      res.status(400).send(e);
+      return;
+    });
+
+  //Get last date of the last old fixture group
+  let lastDate;
+  let group;
+  await eight_nine_ball_fixtures
+    .query()
+    .where({ type: req.body.type, seasonId: req.body.seasonId })
+    .orderBy("group", "desc")
+    .then(
+      fixtures => {
+        lastDate = fixtures[0].date;
+        group = fixtures[0].group + 1;
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
+
+  //GET PLAYERS FOR THE PLAYOFF
+  for (let i = 0; i < req.body.draws.length; i++) {
+    let players = await eight_nine_ball_leagues
+      .query()
+      .where({
+        type: type,
+        seasonId: seasonId,
+        points: req.body.draws[i].points,
+        goalsFor: req.body.draws[i].goalsFor,
+        goalsAgainst: req.body.draws[i].goalsAgainst
+      })
+      .catch(e => {
+        res.status(400).send(e);
+        return;
+      });
+
+    //Generate PLAYOFF FIXTURE
+    var playerCount = players.length;
+    let fixture = [];
+    let exCount = 1;
+    if (playerCount % 2 !== 0) {
+      exCount = 0;
+    }
+
+    for (var j = 0; j < playerCount - exCount; j++) {
+      fixture = fixturegen.fixtureCalc(
+        type,
+        players,
+        seasonId,
+        group,
+        moment(lastDate)
+          .add(1, "week")
+          .toISOString()
+      ); //this represents the fixture rows
+
+      knex.batchInsert("eight_nine_ball_fixtures", fixture, 100).then(
+        result => {
+          if (result) {
+            res.status(200).send();
+          }
+        },
+        e => {
+          res.status(400).send(e);
+        }
+      );
+
+      //Increment due date
+      lastDate = moment(lastDate)
+        .add(1, "week")
+        .toISOString();
+
+      //Increment group
+      group++;
 
       players = fixture_split.polygonShuffle(players); //rotate players for next fixture
     }

@@ -8,7 +8,7 @@ var token = require("../test/function/token");
 var axios = require("axios");
 
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
-const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues")
+const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const position_history = require("../models/position_history");
 
@@ -94,11 +94,11 @@ router.get("/finished", (req, res) => {
 
   let where = {
     type: req.query.type
-  }
+  };
 
   //Params handling
   if (req.query.hasOwnProperty("staffName") && req.query.staffName !== " ") {
-    where.staffName = req.query.staffName
+    where.staffName = req.query.staffName;
   }
 
   position_history
@@ -215,14 +215,15 @@ router.delete("/delete", auth.checkJwt, (req, res) => {
   PUT handler for /api/89ball_season/close
   Function: To close a season
 */
-router.put("/close", auth.checkJwt, async(req, res) => {
+router.put("/close", auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number()
       .integer()
       .required(),
     seasonId: Joi.number()
       .integer()
-      .required()
+      .required(),
+    playoff: Joi.any()
   };
 
   //Validation
@@ -235,62 +236,77 @@ router.put("/close", auth.checkJwt, async(req, res) => {
   await eight_nine_ball_seasons
     .query()
     .findOne({ type: req.body.type, seasonId: req.body.seasonId })
-    .patch({ finished: true })
+    .patch({ finished: true, playoff: false })
     .then(
-      result => {
+      async result => {
         if (result === 0) {
           res.status(404).send();
           return;
         }
-        eight_nine_ball_fixtures
-          .query()
-          .where({
-            type: req.body.type,
-            seasonId: req.body.seasonId,
-            score1: null,
-            score2: null
-          })
-          .patch({ score1: 1, score2: 1 })
-          .catch((e) => {
-            es.status(400).json(e);
-          })
+        if (req.body.playoff === false || req.body.playoff === 0) {
+          await eight_nine_ball_fixtures
+            .query()
+            .where({
+              type: req.body.type,
+              seasonId: req.body.seasonId,
+              score1: null,
+              score2: null
+            })
+            .patch({ score1: 1, score2: 1 })
+        }
       },
       e => {
         res.status(400).json(e);
       }
     );
 
-    //Update position history
-    let positions = []
-    eight_nine_ball_leagues.query()
-    .where({type: req.body.type, seasonId: req.body.seasonId})
+  //delete position history (reset)
+  position_history
+    .query()
+    .delete()
+    .where({ type: req.body.type, seasonId: req.body.seasonId })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+
+  //Update position history
+  let positions = [];
+  eight_nine_ball_leagues
+    .query()
+    .where({ type: req.body.type, seasonId: req.body.seasonId })
     .orderBy("points", "desc")
     .orderBy("goalsFor", "desc")
     .orderBy("goalsAgainst", "asc")
     .orderBy("win", "desc")
-    .then(players => {
-      players.map((player, i) => {
-        positions = [...positions, {
-          type: player.type,
-          staffName: player.staffName,
-          seasonId: player.seasonId,
-          position: i+1
-        }]
-      })
-      // Batch insert
-      knex.batchInsert("position_history", positions, 100).then(
-        result => {
-          if (result) {
-            res.status(200).send();
+    .then(
+      players => {
+        players.map((player, i) => {
+          positions = [
+            ...positions,
+            {
+              type: player.type,
+              staffName: player.staffName,
+              seasonId: player.seasonId,
+              position: i + 1
+            }
+          ];
+        });
+        // Batch insert
+        knex.batchInsert("position_history", positions, 100).then(
+          result => {
+            if (result) {
+              res.status(200).send();
+            }
+          },
+          e => {
+            res.status(400).send(e);
           }
-        },
-        e => {
-          res.status(400).send(e);
-        }
-      );
-    }, e => {
-      res.status(400).json(e);
-    });
+        );
+      },
+      e => {
+        res.status(400).json(e);
+      }
+    );
 });
 
 /* 

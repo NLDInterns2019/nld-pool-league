@@ -396,33 +396,39 @@ router.get("/:seasonId/check_draw", async (req, res) => {
     .query()
     .where({ type: req.query.type, seasonId: seasonId })
     .orderBy("points", "desc")
+    .orderBy("goalsFor", "desc")
+    .orderBy("goalsAgainst", "asc")
     .catch(e => {
       res.status(400).send(e);
     });
 
-  let uniquePoints = _.uniqBy(players, "points").map(player => player.points);
+  let uniquePoints = _.uniqBy(players, p => [p.points, p.goalsFor, p.goalsAgainst].join()).map(player => {
+    return {
+      points: player.points,
+      goalsFor: player.goalsFor,
+      goalsAgainst: player.goalsAgainst
+    };
+  });
 
   let draw = [];
   let competition = [];
 
   if (uniquePoints.length >= 1) {
     competition[0] = _.filter(
-      players,
-      p => p.points === uniquePoints[0]
+      players, uniquePoints[0]
     ).length;
     if (uniquePoints.length >= 2) {
       competition[1] = _.filter(
-        players,
-        p => p.points === uniquePoints[1]
+        players, uniquePoints[1]
       ).length;
       if (uniquePoints.length >= 3) {
         competition[2] = _.filter(
-          players,
-          p => p.points === uniquePoints[2]
+          players, uniquePoints[2]
         ).length;
       }
     }
   }
+
   let count = 0;
 
   //ALGORITHM
@@ -434,8 +440,7 @@ router.get("/:seasonId/check_draw", async (req, res) => {
       }
     }
   }
-
-  res.json(draw)
+  res.json(draw);
 });
 
 /* 

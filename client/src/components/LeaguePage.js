@@ -27,6 +27,7 @@ class App extends React.Component {
     groupCount: 0,
     hidePlayed: true,
     finished: null,
+    playoff: false,
     drawPoints: ""
   };
 
@@ -79,7 +80,8 @@ class App extends React.Component {
         }
       );
       this.setState({
-        finished: season.data[0].finished
+        finished: season.data[0].finished,
+        playoff: season.data[0].playoff
       });
 
       if (this.state.finished) {
@@ -91,7 +93,7 @@ class App extends React.Component {
             }
           }
         );
-        this.setState({ drawPoints: result.data.map(result => result.points) });
+        this.setState({ drawPoints: result.data });
       }
     } catch (err) {
       //API CALL BEING CANCELED
@@ -121,7 +123,8 @@ class App extends React.Component {
           player1: state.player1,
           score1: parseInt(state.score1),
           player2: state.player2,
-          score2: parseInt(state.score2)
+          score2: parseInt(state.score2),
+          playoff: this.state.playoff
         },
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -291,14 +294,15 @@ class App extends React.Component {
         "/api/89ball_season/close",
         {
           type: parseInt(this.state.type),
-          seasonId: this.state.activeSeason
+          seasonId: this.state.activeSeason,
+          playoff: this.state.playoff
         },
         {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       );
-      await backend
-        .put(
+      if (this.state.playoff === false || this.state.playoff === 0) {
+        await backend.put(
           "/api/89ball_league/recalculate",
           {
             type: parseInt(this.state.type),
@@ -307,16 +311,16 @@ class App extends React.Component {
           {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
-        )
-        .then(() => {
-          this.toastSuccess(
-            <div className="toast">
-              <div className="lock-icon-small" alt="lock" />
-              <p>Season closed</p>
-            </div>
-          );
-          this.updateData();
-        });
+        );
+      }
+
+      this.toastSuccess(
+        <div className="toast">
+          <div className="lock-icon-small" alt="lock" />
+          <p>Season closed</p>
+        </div>
+      );
+      this.updateData();
       await backend.post(
         "/api/slack/seasonClosed",
         {
@@ -393,6 +397,7 @@ class App extends React.Component {
           changeFixtureScore={this.changeFixtureScore}
           editFixtureScore={this.editFixtureScore}
           activeSeason={this.state.activeSeason}
+          isPlayoff={this.state.playoff}
         />
         <br />
         <br />
@@ -486,7 +491,7 @@ class App extends React.Component {
           <h1 style={{ fontSize: "40pt" }}>Playoff Required</h1>
           <div className="chequered-flag-icon" alt="chequered flag" />
         </div>
-        <button>START PLAYOFF</button>
+        <button onClick={this.arrangePlayoff}>START PLAYOFF</button>
       </div>
     );
   };
@@ -534,6 +539,21 @@ class App extends React.Component {
     this.updateData();
 
     this.sendNewPlayerSlackMessage(player);
+  };
+
+  arrangePlayoff = async () => {
+    await backend.post(
+      "/api/89ball_fixture/playoff",
+      {
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason,
+        draws: this.state.drawPoints
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
+    this.updateData();
   };
 
   sendNewPlayerSlackMessage = async player => {

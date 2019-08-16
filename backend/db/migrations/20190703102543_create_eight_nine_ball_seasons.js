@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.integer("type").notNullable()
     table.integer("seasonId").notNullable();
     table.boolean("finished").notNullable().defaultTo(false);
+    table.boolean("playoff").notNullable().defaultTo(false);
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
