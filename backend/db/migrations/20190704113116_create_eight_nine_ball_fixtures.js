@@ -1,7 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable("eight_nine_ball_fixtures", table => {
     table.increments();
-    table.unique(["type","seasonId", "player1", "player2"]);
+    table.unique(["type","seasonId", "player1", "player2", "group"]);
     table.integer("type").notNullable();
     table.integer("seasonId").notNullable();
     table.string("player1").notNullable();

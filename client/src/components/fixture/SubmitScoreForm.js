@@ -93,7 +93,7 @@ class SubmitScoreForm extends Component {
       await this.setState({
         allPlayers: orderBy(this.props.players, ["staffName"], ["asc"])
       });
-      this.getFixtures()
+      this.getFixtures();
     }
 
     //Handle deletion
@@ -184,22 +184,22 @@ class SubmitScoreForm extends Component {
     this.setState({ score2: score });
   }
 
-  handleFixturesChange = (event) => {
+  handleFixturesChange = event => {
     this.setState({ players: event.target.value }, () => {
       let arr = this.state.players.split(" ");
       let p1 = arr[0];
       let p2 = arr[1];
-      
-      let fixtures = find(this.state.fixtures, {player1: p1, player2: p2})
-      if(fixtures.score1 === 2){
+
+      let fixtures = find(this.state.fixtures, { player1: p1, player2: p2 });
+      if (fixtures.score1 === 2) {
         this.player1won.current.checked = true;
-      }else if(fixtures.score2 === 2){
+      } else if (fixtures.score2 === 2) {
         this.player2won.current.checked = true;
-      }else if(fixtures.score1 === 1 && fixtures.score2 === 1){
+      } else if (fixtures.score1 === 1 && fixtures.score2 === 1) {
         this.draw.current.checked = true;
       }
-    })
-  }
+    });
+  };
 
   handleRadioClick() {
     if (this.player1won.current.checked) {
@@ -229,7 +229,10 @@ class SubmitScoreForm extends Component {
   clearRadioButtons() {
     this.player1won.current.checked = false;
     this.player2won.current.checked = false;
-    this.draw.current.checked = false;
+    if(this.props.playoff === false || this.props.playoff === 0){
+      this.draw.current.checked = false;
+    }
+    
   }
 
   render() {
@@ -299,17 +302,19 @@ class SubmitScoreForm extends Component {
               />
               {this.state.players.split(" ")[0]}
             </label>
-            <label className="radioContainer">
-              <input
-                id="draw"
-                ref={this.draw}
-                type="radio"
-                name="result"
-                value="draw"
-                onClick={this.handleRadioClick.bind(this)}
-              />
-              DRAW
-            </label>
+            {this.props.isPlayoff ? null : (
+              <label className="radioContainer">
+                <input
+                  id="draw"
+                  ref={this.draw}
+                  type="radio"
+                  name="result"
+                  value="draw"
+                  onClick={this.handleRadioClick.bind(this)}
+                />
+                DRAW
+              </label>
+            )}
             <label className="radioContainer">
               <input
                 id="player2won"
