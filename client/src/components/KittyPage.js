@@ -6,6 +6,7 @@ import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
 import TransactionForm from "./kitty/TransactionForm";
 import KittyTable from "./kitty/KittyTable";
+import OverduePayments from "./kitty/OverduePayments";
 
 import Axios from "axios";
 import auth0Client from "../Auth";
@@ -15,7 +16,17 @@ class KittyPage extends React.Component {
   state = {
     latestSeason: "",
     type: "",
-    kitty: []
+    kitty: [],
+    unpaid: []
+  };
+
+  transactionForm = React.createRef();
+  makeTransactionBtn = React.createRef();
+
+  getUnpaid = async () => {
+    const unpaid = await backend.get("/api/kitty/allUnpaid");
+
+    this.setState({ unpaid: unpaid.data });
   };
 
   getLatestSeason = async () => {
@@ -50,6 +61,7 @@ class KittyPage extends React.Component {
     await this.setState({ type: this.props.match.params.type });
     await this.getLatestSeason();
     await this.getKitty();
+    await this.getUnpaid();
   };
 
   componentWillUnmount() {
@@ -80,6 +92,40 @@ class KittyPage extends React.Component {
     this.getKitty();
   };
 
+  payJoiningFee = async (name, type, seasonId) => {
+    if (window.confirm("Are you sure " + name + " has paid?")) {
+      await backend.put(
+        "/api/89ball_league/paid",
+        {
+          type: type,
+          seasonId: seasonId,
+          staffName: name
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
+
+      await backend.post(
+        "/api/kitty/transaction",
+        {
+          type: type,
+          seasonId: seasonId,
+          staffName: name,
+          description: `Joining fee`,
+          //JOINING FEE
+          value: 1
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
+
+      await this.getKitty();
+      await this.getUnpaid();
+    }
+  };
+
   toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
@@ -89,6 +135,16 @@ class KittyPage extends React.Component {
       pauseOnHover: true,
       draggable: true
     });
+  };
+
+  showTransactionForm = () => {
+    this.transactionForm.current.style.display = "block";
+    this.makeTransactionBtn.current.style.display = "none";
+  };
+
+  closeForm = () => {
+    this.makeTransactionBtn.current.style.display = "block";
+    this.transactionForm.current.style.display = "none";
   };
 
   render() {
@@ -101,13 +157,43 @@ class KittyPage extends React.Component {
           type={this.state.type}
         />
         <div className="kittyContent">
-          {auth0Client.isAuthenticated() &&
-          auth0Client.getProfile().nickname === "admin" ? (
-            <TransactionForm submitTransaction={this.submitTransaction} />
-          ) : null}
-          <div className="kittyTableContainer">
-            {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
-            <KittyTable kitty={this.state.kitty} />
+          <div className="content">
+            <div className="contentLeft">
+              {auth0Client.isAuthenticated() &&
+              auth0Client.getProfile().nickname === "admin" ? (
+                <OverduePayments
+                  unpaid={this.state.unpaid}
+                  payJoiningFee={this.payJoiningFee}
+                />
+              ) : null}
+            </div>
+            <div className="contentRight">
+              <div className="kittyTableContainer">
+                {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
+                <KittyTable kitty={this.state.kitty} />
+              </div>
+              <button
+                type="button"
+                id="makeTransactionBtn"
+                ref={this.makeTransactionBtn}
+                onClick={this.showTransactionForm}
+              >
+                Make Transaction
+              </button>
+              <div
+                className="transactionFormContainer"
+                ref={this.transactionForm}
+                style={{ display: "none" }}
+              >
+                {auth0Client.isAuthenticated() &&
+                auth0Client.getProfile().nickname === "admin" ? (
+                  <TransactionForm
+                    submitTransaction={this.submitTransaction}
+                    closeForm={this.closeForm}
+                  />
+                ) : null}
+              </div>
+            </div>
           </div>
         </div>
       </div>

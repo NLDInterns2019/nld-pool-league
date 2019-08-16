@@ -6,7 +6,7 @@ const KittyTable = props => {
     return (
       <tr key={k.id}>
         <td>{k.id}</td>
-        <td>{moment(k.date).format("DD-MM-YY")}</td>
+        <td className="kittyTableDate">{moment(k.date).format("DD-MM-YY")}</td>
         <td>
           {k.type === 8 ? (
             <div className="eight-ball-icon-20" alt="eight ball" />
@@ -18,7 +18,7 @@ const KittyTable = props => {
         </td>
         <td>{k.seasonId}</td>
         <td>{k.staffName}</td>
-        <td>{k.description}</td>
+        <td className="kittyTableDesc">{k.description}</td>
         {k.value < 0 ? (
           <td style={{ color: "Red" }} align="center">
             £{k.value.toFixed(2)}
@@ -48,11 +48,11 @@ const KittyTable = props => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Date</th>
+            <th className="kittyTableDate">Date</th>
             <th>Type</th>
             <th>Season</th>
             <th>Name</th>
-            <th>Description</th>
+            <th className="kittyTableDesc">Description</th>
             <th>Value</th>
             <th>Balance</th>
           </tr>

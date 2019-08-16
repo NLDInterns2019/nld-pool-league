@@ -11,11 +11,21 @@ const LeagueTableBody = props => {
           {player.staffName}
         </td>
         <td align="center">{player.play}</td>
-        <td align="center">{player.win}</td>
-        <td align="center">{player.draw}</td>
-        <td align="center">{player.lose}</td>
-        <td align="center">{player.goalsFor}</td>
-        <td align="center">{player.goalsAgainst}</td>
+        <td align="center" className="leagueTableWin">
+          {player.win}
+        </td>
+        <td align="center" className="leagueTableDraw">
+          {player.draw}
+        </td>
+        <td align="center" className="leagueTableLose">
+          {player.lose}
+        </td>
+        <td align="center" className="leagueTableFor">
+          {player.goalsFor}
+        </td>
+        <td align="center" className="leagueTableAgainst">
+          {player.goalsAgainst}
+        </td>
         <td align="center" className="leagueTableForm">
           <Forms form={player.form} />
         </td>

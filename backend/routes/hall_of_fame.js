@@ -285,14 +285,20 @@ router.post("/calculate", async (req, res) => {
 /* 
   POST handler for /api/89ball_league/hall_of_fame/calculate
   Function: To add a fixture to the HoF table for consideration
+  MUST BE RAN AFTER LEAGUE CALCULATION
 */
 router.post("/updatehof", async (req, res) => {
+  //key:
+  //ac:topPlayer = code helpful to topPlayer
+  //ach:topPlayer = code directly generating topPlayer
+
   type = parseInt(req.body.type, 10);
   //this is the fixture to be added into consideration
   score1 = parseInt(req.body.score1)
   score2 = parseInt(req.body.score2)
   player1 = req.body.player1
   player2 = req.body.player2
+  seasonId = req.body.seasonId
 
   let hof1, hof2;
 
@@ -305,7 +311,7 @@ router.post("/updatehof", async (req, res) => {
     type: type
   })
    console.log("deleted " + numberOfDeletedRows + " rows.")
-   
+
   //check if p1 is already in the HoF. If not, add them. Set their values.
   const p1Present = await hall_of_fame.query().where({staffName: player1})
   if (p1Present.length === 0) {
@@ -320,6 +326,8 @@ router.post("/updatehof", async (req, res) => {
 
     hof1.wins = 0;
     hof1.plays = 0;
+    hof1.highestPoints = 0;
+    hof1.totalPoints = 0;
   } else {
     hof1 = await hall_of_fame.query().where({
       type: type,
@@ -341,6 +349,8 @@ router.post("/updatehof", async (req, res) => {
 
     hof2.wins = 0;
     hof2.plays = 0;
+    hof2.highestPoints = 0;
+    hof2.totalPoints = 0
   } else {
     hof2 = await hall_of_fame.query().where({
       type: type,
@@ -354,19 +364,60 @@ router.post("/updatehof", async (req, res) => {
     return;
   }
   
-  //increment for ach:dedicated
+  //increment for ac:dedicated
   hof1.plays++;
   hof2.plays++;
 
-  //increment for wins
+  //increment for ac:topPlayer
   if (score1 > score2) {
-    hof1.wins = hof1.wins + 1;
+    hof1.wins++;
   } else if (score2 > score1) {
-    hof2.wins = hof2.wins + 1;
+    hof2.wins++;
+  } else {
+    hof1.draws++;
+    hof2.draws++;
   }
   
-  console.log(hof1.wins)
-  console.log(hof2.wins)
+  //calc for ach:topPlayer and ach:drawRate
+  hof1.winRate = hof1.wins/hof1.plays;
+  hof2.winRate = hof2.wins/hof2.plays;
+  hof1.drawRate = hof1.draws/hof1.plays;
+  hof2.drawRate = hof2.draws/hof2.plays;
+
+  currentLeague1 = await eight_nine_ball_leagues.query().where({
+    type: type,
+    staffName: player1,
+    seasonId: seasonId
+  });
+  currentLeague2 = await eight_nine_ball_leagues.query().where({
+    type: type,
+    staffName: player2,
+    seasonId: seasonId
+  });
+  if (currentLeague1.length === 0 || currentLeague2.length === 0) {
+    res.status(404).send();
+    return;
+  }
+  //check the current league and add scores for ach:bestSeason
+  if (currentLeague1.points > hof1.highestPoints) {
+    hof1.highestPoints = currentLeague1.points
+  }
+  if (currentLeague2.points > hof2.highestPoints) {
+    hof2.highestPoints = currentLeague2.points
+  }
+
+  //get seasons: needed for ac:GPA
+  let seasons = await eight_nine_ball_seasons.query().where({
+    type: type
+  });
+
+  //increment totalPoints and divide for ach:GPA and avgPoints in dashboard
+  hof1.totalPoints = hof1.totalPoints + score1;
+  hof2.totalPoints = hof2.totalPoints + score2;
+  hof1.avgPointsSeason = hof1.totalPoints/seasons;
+  hof2.avgPointsSeason = hof2.totalPoints/seasons;
+  hof1.avgPoints = hof1.totalPoints/hof1.plays;
+  hof2.avgPoints = hof2.totalPoints/hof2.plays;
   res.json(hof1);
 });
 

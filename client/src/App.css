@@ -199,6 +199,14 @@ ul {
   height: 100%;
 }
 
+.kittyContent .contentLeft {
+  width: 40%;
+}
+
+.kittyContent .contentRight {
+  width: 60%;
+}
+
 #seasonsListContainer {
   margin-top: 0rem;
 }
@@ -385,7 +393,7 @@ table td {
 
 .kittyTableContainer {
   min-width: 946px;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 #balance {
@@ -402,6 +410,16 @@ table td {
 .kittyTitle h3 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.kittyContent .contentRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#makeTransactionBtn {
+  width: fit-content;
 }
 
 .kittyTransactionContainer form {
@@ -421,6 +439,40 @@ table td {
 
 .kittyTransactionContainer select {
   margin-bottom: 1rem;
+}
+
+.overduePaymentsTable {
+  font-size: 18pt;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.overduePaymentsTable td {
+  padding: 5px 15px 5px 15px;
+}
+
+.overduePaymentsTitle {
+  display: flex;
+  justify-content: center;
+}
+
+.overduePaymentsTitle h3 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.overduePaymentsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4rem;
+}
+
+.overduePaymentsTable tr:hover td {
+  background-color: #eeeeee;
+}
+
+.overduePaymentsTable tr:hover {
+  cursor: pointer;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */
@@ -651,7 +703,7 @@ select:hover {
 .kittyTransactionContainer {
   background-color: white;
   width: 600px;
-  margin: auto;
+  margin: 0 auto;
   padding: 1rem;
   margin-bottom: 4rem;
   border-radius: 15px;
@@ -1552,9 +1604,18 @@ tr td:last-child {
     text-align: left;
   }
 
-  .kittyTableContainer {
-    order: 2;
-    align-self: center;
+  .kittyContent .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kittyContent .contentLeft {
+    width: 100%;
+  }
+
+  .kittyContent .contentRight {
+    width: 100%;
   }
 
   .contentLeft {
@@ -1576,6 +1637,10 @@ tr td:last-child {
     width: 700px;
     margin: auto;
     margin-bottom: 4rem;
+  }
+
+  .overduePaymentsTable {
+    width: 500px;
   }
 }
 
@@ -1616,49 +1681,28 @@ tr td:last-child {
     cursor: pointer;
   }
 
-  .leagueTable {
-    font-size: 12pt;
-  }
   .contentRight-bottom {
     align-self: stretch;
     flex-shrink: 10;
     margin-bottom: 10px;
   }
 
-  .leagueTable .win-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/win-small.svg");
+  .leagueTableWin,
+  .leagueTableDraw,
+  .leagueTableLose,
+  .leagueTableFor,
+  .leagueTableAgainst {
+    display: none;
   }
 
-  .leagueTable .draw-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/draw-small.svg");
+  .kittyTableDesc,
+  .kittyTableDate {
+    display: none;
   }
 
-  .leagueTable .loss-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/loss-small.svg");
-  }
-
-  .leagueTable .no-game-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/no-game-small.svg");
-  }
-
-  .tick-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/tick-small.svg");
-  }
-
-  .cross-icon {
-    width: 18px;
-    height: 18px;
-    background-image: url("./assets/cross-small.svg");
+  .kittyTable {
+    min-width: 700px;
+    width: 700px;
   }
 }
 
@@ -1673,43 +1717,20 @@ tr td:last-child {
 }
 
 @media only screen and (min-width: 1551px) {
-  .leagueTable {
-    font-size: 18pt;
+  .leagueTableWin,
+  .leagueTableDraw,
+  .leagueTableLose,
+  .leagueTableFor,
+  .leagueTableAgainst {
+    display: table-cell;
   }
 
-  .leagueTable .win-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/win.svg");
+  .kittyTableDesc,
+  .kittyTableDate {
+    display: table-cell;
   }
 
-  .leagueTable .draw-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/draw.svg");
-  }
-
-  .leagueTable .loss-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/loss.svg");
-  }
-
-  .leagueTable .no-game-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url("./assets/no-game.svg");
-  }
-
-  .tick-icon {
-    width: 32px;
-    height: 32px;
-    background-image: url("./assets/tick.svg");
-  }
-
-  .cross-icon {
-    width: 32px;
-    height: 32px;
-    background-image: url("./assets/cross.svg");
+  .kittyTable {
+    min-width: 946px;
   }
 }
