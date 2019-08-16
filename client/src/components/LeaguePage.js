@@ -27,7 +27,7 @@ class App extends React.Component {
     groupCount: 0,
     hidePlayed: true,
     finished: null,
-    drawPoints: []
+    drawPoints: ""
   };
 
   updateData = async () => {
@@ -564,9 +564,9 @@ class App extends React.Component {
         {/* if the season has finished, display the final rankings */}
         {this.state.finished === null
           ? null
-          : this.state.finished && this.state.drawPoints
+          : this.state.finished && this.state.drawPoints.length > 0
           ? this.showPlayoffRequired()
-          : this.state.finished
+          : this.state.finished && this.state.drawPoints !== ""
           ? this.showFinalRankings()
           : null}
         <div className="content">

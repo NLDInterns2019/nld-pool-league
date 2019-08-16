@@ -400,50 +400,42 @@ router.get("/:seasonId/check_draw", async (req, res) => {
       res.status(400).send(e);
     });
 
-  let uniquePoints = _.uniqBy(players, "points").map(res => res.points);
+  let uniquePoints = _.uniqBy(players, "points").map(player => player.points);
 
   let draw = [];
-
-  let competitionForFirstHighestScore = 1;
-  let competitionForSecondHighestScore = 1;
-  let competitionForThirdHighestScore = 1;
+  let competition = [];
 
   if (uniquePoints.length >= 1) {
-    competitionForFirstHighestScore = _.filter(
+    competition[0] = _.filter(
       players,
       p => p.points === uniquePoints[0]
     ).length;
     if (uniquePoints.length >= 2) {
-      competitionForSecondHighestScore = _.filter(
+      competition[1] = _.filter(
         players,
         p => p.points === uniquePoints[1]
       ).length;
       if (uniquePoints.length >= 3) {
-        competitionForThirdHighestScore = _.filter(
+        competition[2] = _.filter(
           players,
           p => p.points === uniquePoints[2]
         ).length;
       }
     }
   }
+  let count = 0;
 
-  console.log(competitionForFirstHighestScore)
-  console.log(competitionForSecondHighestScore)
-  console.log(competitionForThirdHighestScore)
+  //ALGORITHM
+  for (let i = 0; i < competition.length; i++) {
+    if (count < 3) {
+      count = count + competition[i];
+      if (competition[i] > 1) {
+        draw = [...draw, uniquePoints[i]];
+      }
+    }
+  }
 
-  // if(competitionForFirstHighestScore >= 3){
-  //   draw = [uniquePoints[0]]
-  // } else if(competitionForSecondHighestScore === 1 && competitionForSecondHighestScore >=2){
-  //   draw = [uniquePoints[1]]
-  // } else if((competitionForFirstHighestScore + competitionForSecondHighestScore === 2) && competitionForThirdHighestScore >=1) {
-  //   draw = [uniquePoints[2]]
-  // } else if(competitionForFirstHighestScore === 2 && competitionForSecondHighestScore >=2){
-  //   draw = [uniquePoints[0], uniquePoints[1]]
-  // }
-
-  let count = 0
-
-  console.log(draw);
+  res.json(draw)
 });
 
 /* 
