@@ -158,7 +158,6 @@ class KittyPage extends React.Component {
   };
 
   render() {
-    console.log(this.state.kitty);
     return (
       <div className="app">
         <ToastContainer />
