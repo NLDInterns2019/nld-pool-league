@@ -367,10 +367,25 @@ table td {
   text-align: center;
 }
 
+.kittyTable .lateRow {
+  display: none;
+}
+
 .kittyTableContainer {
   min-width: 700px;
   width: 900px;
   margin-bottom: 2rem;
+}
+
+.showRow td {
+  width: inherit;
+  background-color: #127e5c;
+  color: white;
+}
+
+.showRow td:hover {
+  cursor: pointer;
+  font-weight: bold;
 }
 
 #balanceTracker {
@@ -386,6 +401,7 @@ table td {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: flex-end;
 }
 
 .kittyContent .contentRight {
@@ -396,6 +412,7 @@ table td {
 
 #makeTransactionBtn {
   width: fit-content;
+  margin-bottom: 2rem;
 }
 
 .kittyTransactionContainer form {

@@ -120,7 +120,17 @@ class KittyPage extends React.Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       );
-
+      await backend.post(
+        "/api/slack/feePaid",
+        {
+          staffName: name,
+          type: type,
+          seasonId: seasonId
+        },
+        {
+          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+        }
+      );
       await this.getKitty();
       await this.getUnpaid();
     }
@@ -148,7 +158,6 @@ class KittyPage extends React.Component {
   };
 
   render() {
-    console.log(this.state.kitty);
     return (
       <div className="app">
         <ToastContainer />
