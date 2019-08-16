@@ -316,29 +316,6 @@ table td {
   border-left: solid 2px #127e5c;
 }
 
-#hasNotPaid {
-  transition: background-color 0.3s linear;
-  background-color: white;
-}
-
-#hasNotPaid:hover {
-  cursor: pointer;
-  background-color: #127e5c;
-  color: white;
-}
-
-#hasNotPaid:hover .cross-icon {
-  display: none;
-}
-
-#hasNotPaid:hover #pay-overlay {
-  display: block;
-}
-
-#pay-overlay {
-  display: none;
-}
-
 /* ==== Add Player Form ==== */
 .addPlayerFormButtons {
   display: flex;

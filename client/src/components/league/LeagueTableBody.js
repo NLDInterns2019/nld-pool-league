@@ -35,16 +35,7 @@ const LeagueTableBody = props => {
             <div className="tick-icon" alt="tick" />
           </td>
         ) : (
-          <td
-            className="leagueTablePaymentCol"
-            id="hasNotPaid"
-            align="center"
-            onClick={() => {
-              if (window.confirm(`Are you sure ${player.staffName} has paid?`))
-                props.feePaid(player.staffName);
-            }}
-          >
-            <div id="pay-overlay">Pay</div>
+          <td className="leagueTablePaymentCol" id="hasNotPaid" align="center">
             <div className="cross-icon" alt="cross" />
           </td>
         )}
