@@ -300,6 +300,16 @@ router.post("/updatehof", async (req, res) => {
   player2 = req.body.player2
   seasonId = req.body.seasonId
 
+  let hofAll = await hall_of_fame.query().where({
+    type: type
+  });
+  if (hofAll === 0) {
+    res.status(404).send();
+    return;
+  }
+
+  let topPlayer = _.maxBy(hofAll, "winRate"); //get top player now to see if they change
+
   let hof1, hof2;
 
   //no delete function here: make it it's own thing!
@@ -364,7 +374,7 @@ router.post("/updatehof", async (req, res) => {
     return;
   }
   
-  //increment for ac:dedicated
+  //increment for ach:dedicated
   hof1.plays++;
   hof2.plays++;
 
@@ -411,6 +421,11 @@ router.post("/updatehof", async (req, res) => {
     type: type
   });
 
+  //get the latest winrate needed for ach:improver and ach:timeToRetire
+  if (seasons.length > 1) {//TODO also need to check if this is the last fixture
+
+  }
+
   //increment totalPoints and divide for ach:GPA and avgPoints in dashboard
   hof1.totalPoints = hof1.totalPoints + score1;
   hof2.totalPoints = hof2.totalPoints + score2;
@@ -418,7 +433,84 @@ router.post("/updatehof", async (req, res) => {
   hof2.avgPointsSeason = hof2.totalPoints/seasons;
   hof1.avgPoints = hof1.totalPoints/hof1.plays;
   hof2.avgPoints = hof2.totalPoints/hof2.plays;
+
+  //calculations for ac:scrappy
+  let newTopPlayer = _.maxBy(hofAll, "winRate"); //get top player
+  //if the topplayer is the same you just need to count the new values
+  if (newTopPlayer === topPlayer) {
+    if (player1 === topPlayer) {
+      hof2.scrappyPlays++;
+      if (score2 > score1) {
+        hof2.scrappy++;
+      }
+    } else if (player2 === topPlayer) {
+      hof1.scrappyPlays++;
+      if (score1 > score2) {
+        hof1.scrappy++;
+      }
+    }
+  } else { //else, go through and recalculate everything
+    let fixtures = await eight_nine_ball_fixtures.query().where({
+      type: type
+    });
+    if (fixtures === 0) {
+      res.status(404).send;
+    }
+
+    for (let i = 0; i < fixtures.length; i++) {
+      let hofAll = await hall_of_fame.query().where({
+        type: type,
+      });
+      loc1, loc2 = 0;
+
+      //if player1 is the same as topPlayer, get its location and increment as necessary
+      if (player1 === topPlayer) {
+        for (let j = 0; j < hofAll.length; j++) {
+          if (j === player2) {
+            loc2 = j;
+            break;
+          }
+        }
+        //increment plays, then check if you should inc scrappy
+        hofAll[loc2].scrappyPlays++;
+        if (score2 > score1) {
+          hofAll[loc2].scrappy++;
+        }
+      } else if (player2 === topPlayer) {
+        for (let j = 0; j < hofAll.length; j++) {
+          if (j === player1) {
+            loc1 = j;
+            break;
+          }
+        }
+        hofAll[loc1].scrappyPlays++;
+        if (score1 > score2) {
+          hofAll[loc1].scrappy++;
+        }
+      }
+    }
+    
+    //add the values to the database. don't forget to calculate scrappyRate for ach:scrappy
+    for (let i = 0; i < hofAll.length; i++) {
+      delete hofAll[i].id;
+      hofAll[i].scrappyRate = (hofAll[i].scrappy * 100) / hofAll[i].scrappyPlays;
+      await hall_of_fame
+        .query()
+        .findOne({
+          type: type,
+          staffName: hofAll[i].staffName
+        })
+        .patch(hofAll[i]);
+    }
+  }
+
+
   res.json(hof1);
 });
-
+//dr punctual
+//train
+//filthy casual
+//slacker
+//slump
+//time to retire
 module.exports = router;
