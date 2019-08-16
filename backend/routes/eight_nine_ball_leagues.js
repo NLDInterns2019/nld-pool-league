@@ -3,6 +3,7 @@ var router = express.Router();
 const Joi = require("joi");
 const knex = require("../db/knex");
 const auth = require("../auth");
+const _ = require("lodash");
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
@@ -369,6 +370,72 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
         res.status(500).send(e);
       }
     );
+});
+
+/* 
+  GET handler for /api/89ball_league/check_draw
+  Function: To find draws
+*/
+router.get("/:seasonId/check_draw", async (req, res) => {
+  req.query.type = parseInt(req.query.type);
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required()
+  };
+
+  //Validation
+  if (Joi.validate(req.query, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let seasonId = parseInt(req.params.seasonId, 10);
+
+  let players = await eight_nine_ball_leagues
+    .query()
+    .where({ type: req.query.type, seasonId: seasonId })
+    .orderBy("points", "desc")
+    .catch(e => {
+      res.status(400).send(e);
+    });
+
+  let uniquePoints = _.uniqBy(players, "points").map(player => player.points);
+
+  let draw = [];
+  let competition = [];
+
+  if (uniquePoints.length >= 1) {
+    competition[0] = _.filter(
+      players,
+      p => p.points === uniquePoints[0]
+    ).length;
+    if (uniquePoints.length >= 2) {
+      competition[1] = _.filter(
+        players,
+        p => p.points === uniquePoints[1]
+      ).length;
+      if (uniquePoints.length >= 3) {
+        competition[2] = _.filter(
+          players,
+          p => p.points === uniquePoints[2]
+        ).length;
+      }
+    }
+  }
+  let count = 0;
+
+  //ALGORITHM
+  for (let i = 0; i < competition.length; i++) {
+    if (count < 3) {
+      count = count + competition[i];
+      if (competition[i] > 1) {
+        draw = [...draw, uniquePoints[i]];
+      }
+    }
+  }
+
+  res.json(draw)
 });
 
 /* 

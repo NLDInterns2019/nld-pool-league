@@ -28,10 +28,14 @@ const FinalRankings = props => {
         </div>
         <div className="finalRankingsItem">
           <div className="bronze-medal-icon-large" alt="third place" />
-          <h1 style={{ fontSize: "36pt" }}>
-            {props.players[2].staffName} &nbsp;&nbsp; {props.players[2].points}{" "}
-            pts
-          </h1>
+          {props.players[2] ? (
+            <h1 style={{ fontSize: "36pt" }}>
+              {props.players[2].staffName} &nbsp;&nbsp;{" "}
+              {props.players[2].points} pts
+            </h1>
+          ) : (
+            <h1 style={{ fontSize: "36pt" }}>-</h1>
+          )}
         </div>
       </div>
     </div>
