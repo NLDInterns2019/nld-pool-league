@@ -165,6 +165,10 @@ describe("Clearing radio buttons", () => {
       current: { checked: true }
     };
 
+    wrapper.instance().props = {
+      playoff: false
+    };
+
     wrapper.instance().clearRadioButtons();
 
     expect(wrapper.instance().player1won.current.checked).to.be.false;
