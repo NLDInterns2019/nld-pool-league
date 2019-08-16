@@ -172,7 +172,7 @@ class TransactionForm extends React.Component {
               <label>Value: £</label>
             ) : (
               <label>
-                Value: <span style={{ color: "red" }}>£-</span>
+                Value: <span style={{ color: "red" }}>-£</span>
               </label>
             )}
             <input

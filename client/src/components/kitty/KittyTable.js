@@ -64,11 +64,11 @@ class KittyTable extends Component {
             </td>
             {k.value < 0 ? (
               <td style={{ color: "Red" }} align="center">
-                £{k.value.toFixed(2)}
+                -£{Math.abs(k.value).toFixed(2)}
               </td>
             ) : (
               <td style={{ color: "Green" }} align="center">
-                £{k.value.toFixed(2)}
+                +£{k.value.toFixed(2)}
               </td>
             )}
           </tr>
@@ -110,11 +110,11 @@ class KittyTable extends Component {
             </td>
             {k.value < 0 ? (
               <td style={{ color: "Red" }} align="center">
-                £{k.value.toFixed(2)}
+                -£{Math.abs(k.value).toFixed(2)}
               </td>
             ) : (
               <td style={{ color: "Green" }} align="center">
-                £{k.value.toFixed(2)}
+                +£{k.value.toFixed(2)}
               </td>
             )}
           </tr>
