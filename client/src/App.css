@@ -377,15 +377,26 @@ table td {
   margin-bottom: 2rem;
 }
 
+.kittyTableContainerNoSignIn {
+  width: 900px;
+  font-size: 18pt;
+  margin-bottom: 4rem;
+}
+
+.kittyTableNoSignIn {
+  width: 900px;
+}
+
 .showRow td {
   width: inherit;
   background-color: #127e5c;
   color: white;
+  opacity: 0.75;
 }
 
 .showRow td:hover {
   cursor: pointer;
-  font-weight: bold;
+  opacity: 1;
 }
 
 #balanceTracker {

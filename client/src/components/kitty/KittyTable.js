@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import auth0Client from "../../Auth";
 
 class KittyTable extends Component {
   constructor(props) {
@@ -30,7 +31,14 @@ class KittyTable extends Component {
         return (
           <tr key={k.id} className="lateRow" ref={"lateRow" + index}>
             <td>{k.id}</td>
-            <td className="kittyTableDate">
+            <td
+              className={
+                auth0Client.isAuthenticated() &&
+                auth0Client.getProfile().nickname === "admin"
+                  ? "kittyTableDate"
+                  : null
+              }
+            >
               {moment(k.date).format("DD-MM-YY")}
             </td>
             <td>
@@ -44,7 +52,16 @@ class KittyTable extends Component {
             </td>
             <td>{k.seasonId}</td>
             <td>{k.staffName}</td>
-            <td className="kittyTableDesc">{k.description}</td>
+            <td
+              className={
+                auth0Client.isAuthenticated() &&
+                auth0Client.getProfile().nickname === "admin"
+                  ? "kittyTableDesc"
+                  : null
+              }
+            >
+              {k.description}
+            </td>
             {k.value < 0 ? (
               <td style={{ color: "Red" }} align="center">
                 £{k.value.toFixed(2)}
@@ -60,7 +77,14 @@ class KittyTable extends Component {
         return (
           <tr key={k.id}>
             <td>{k.id}</td>
-            <td className="kittyTableDate">
+            <td
+              className={
+                auth0Client.isAuthenticated() &&
+                auth0Client.getProfile().nickname === "admin"
+                  ? "kittyTableDate"
+                  : null
+              }
+            >
               {moment(k.date).format("DD-MM-YY")}
             </td>
             <td>
@@ -74,7 +98,16 @@ class KittyTable extends Component {
             </td>
             <td>{k.seasonId}</td>
             <td>{k.staffName}</td>
-            <td className="kittyTableDesc">{k.description}</td>
+            <td
+              className={
+                auth0Client.isAuthenticated() &&
+                auth0Client.getProfile().nickname === "admin"
+                  ? "kittyTableDesc"
+                  : null
+              }
+            >
+              {k.description}
+            </td>
             {k.value < 0 ? (
               <td style={{ color: "Red" }} align="center">
                 £{k.value.toFixed(2)}
@@ -104,29 +137,58 @@ class KittyTable extends Component {
           </h3>
         </div>
 
-        <table cellSpacing="0" className="kittyTable">
+        <table
+          cellSpacing="0"
+          className={
+            auth0Client.isAuthenticated() &&
+            auth0Client.getProfile().nickname === "admin"
+              ? "kittyTable"
+              : "kittyTableNoSignIn"
+          }
+        >
           <thead>
             <tr>
               <th>#</th>
-              <th className="kittyTableDate">Date</th>
+              <th
+                className={
+                  auth0Client.isAuthenticated() &&
+                  auth0Client.getProfile().nickname === "admin"
+                    ? "kittyTableDate"
+                    : null
+                }
+              >
+                Date
+              </th>
               <th>Type</th>
               <th>Season</th>
               <th>Name</th>
-              <th className="kittyTableDesc">Description</th>
+              <th
+                className={
+                  auth0Client.isAuthenticated() &&
+                  auth0Client.getProfile().nickname === "admin"
+                    ? "kittyTableDesc"
+                    : null
+                }
+              >
+                Description
+              </th>
               <th>Value</th>
             </tr>
           </thead>
           <tbody>
             {toBeDisplayed}
-            <tr className="showRow">
-              <td
-                colSpan="2"
-                style={{ width: "inherit" }}
-                onClick={this.toggleShow}
-              >
-                {this.state.showText}
-              </td>
-            </tr>
+            {auth0Client.isAuthenticated() &&
+            auth0Client.getProfile().nickname === "admin" ? (
+              <tr className="showRow">
+                <td
+                  colSpan="2"
+                  style={{ width: "inherit" }}
+                  onClick={this.toggleShow}
+                >
+                  {this.state.showText}
+                </td>
+              </tr>
+            ) : null}
           </tbody>
         </table>
       </div>
