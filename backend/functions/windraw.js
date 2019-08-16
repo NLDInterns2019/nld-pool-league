@@ -1,7 +1,7 @@
 const moment = require("moment")
 
 module.exports = {
-  calcWinDraw: function(score, oppScore, hof) {
+  calcWinDraw: function(score, oppScore, hof, seasons) {
     //increment for ach:dedicated
     hof.plays++;
     
@@ -12,6 +12,16 @@ module.exports = {
       hof.loss++;
     } else {
       hof.draws++;
+    }
+
+    //add for ac:avgPoints
+    hof.totalPoints = hof.totalPoints + score;
+
+    hof.avgPointsSeason = hof.totalPoints/seasons;
+    if (hof.plays > 0) {
+      hof.avgPoints = hof.totalPoints/hof.plays;
+    } else {
+      hof.avgPoints = 0;
     }
 
     //calc for ach:topPlayer and ach:drawRate
