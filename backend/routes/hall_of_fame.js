@@ -11,6 +11,7 @@ const hall_of_fame = require("../models/hall_of_fame");
 
 const scrappyGen = require("../functions/scrappy");
 const streakGen = require("../functions/streaks");
+const windrawGen = require("../functions/windraw");
 
 /* 
   GET handler for /api/89ball_league/hall_of_fame 
@@ -374,25 +375,9 @@ router.post("/updatehof", async (req, res) => {
     return;
   }
   
-  //increment for ach:dedicated
-  hof1.plays++;
-  hof2.plays++;
-
-  //increment for ac:topPlayer
-  if (score1 > score2) {
-    hof1.wins++;
-  } else if (score2 > score1) {
-    hof2.wins++;
-  } else {
-    hof1.draws++;
-    hof2.draws++;
-  }
-  
-  //calc for ach:topPlayer and ach:drawRate
-  hof1.winRate = hof1.wins/hof1.plays;
-  hof2.winRate = hof2.wins/hof2.plays;
-  hof1.drawRate = hof1.draws/hof1.plays;
-  hof2.drawRate = hof2.draws/hof2.plays;
+  //function for: ach:dedicated, ach:topPlayer, ach:drawRate
+  hof1 = windrawGen.calcWinDraw(score1, score2, hof1);
+  hof2 = windrawGen.calcWinDraw(score2, score1, hof2);
 
   currentLeague1 = await eight_nine_ball_leagues.query().where({
     type: type,
