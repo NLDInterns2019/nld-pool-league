@@ -359,7 +359,6 @@ table td {
 .kittyTable {
   font-size: 18pt;
   margin: auto;
-  min-width: 946px;
   max-width: 80vh;
 }
 
@@ -369,24 +368,24 @@ table td {
 }
 
 .kittyTableContainer {
-  min-width: 946px;
+  min-width: 700px;
+  width: 900px;
   margin-bottom: 2rem;
 }
 
-#balance {
-  border-left: solid 2px #127e5c;
-  font-weight: bold;
+#balanceTracker {
+  margin-left: auto;
+  background-color: #127e5c;
+  color: white;
+  width: fit-content;
+  padding: 5px 15px 5px 15px;
+  border-radius: 10px;
 }
 
 .kittyTitle {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-.kittyTitle h3 {
-  padding-left: 2rem;
-  padding-right: 2rem;
 }
 
 .kittyContent .contentRight {
@@ -1619,6 +1618,16 @@ tr td:last-child {
   .overduePaymentsTable {
     width: 500px;
   }
+
+  .kittyTable {
+    min-width: 900px;
+    width: 900px;
+  }
+
+  .kittyTableContainer {
+    min-width: 900px;
+    width: 900px;
+  }
 }
 
 @media only screen and (min-width: 1365px) {
@@ -1681,6 +1690,11 @@ tr td:last-child {
     min-width: 700px;
     width: 700px;
   }
+
+  .kittyTableContainer {
+    min-width: 700px;
+    width: 700px;
+  }
 }
 
 @media only screen and (min-width: 1455px) {
@@ -1708,6 +1722,11 @@ tr td:last-child {
   }
 
   .kittyTable {
-    min-width: 946px;
+    min-width: 900px;
+  }
+
+  .kittyTableContainer {
+    min-width: 900px;
+    width: 900px;
   }
 }

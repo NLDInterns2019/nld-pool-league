@@ -148,6 +148,7 @@ class KittyPage extends React.Component {
   };
 
   render() {
+    console.log(this.state.kitty);
     return (
       <div className="app">
         <ToastContainer />
@@ -161,10 +162,14 @@ class KittyPage extends React.Component {
             <div className="contentLeft">
               {auth0Client.isAuthenticated() &&
               auth0Client.getProfile().nickname === "admin" ? (
-                <OverduePayments
-                  unpaid={this.state.unpaid}
-                  payJoiningFee={this.payJoiningFee}
-                />
+                this.state.unpaid.length > 0 ? (
+                  <OverduePayments
+                    unpaid={this.state.unpaid}
+                    payJoiningFee={this.payJoiningFee}
+                  />
+                ) : (
+                  <h3>There are no overdue payments</h3>
+                )
               ) : null}
             </div>
             <div className="contentRight">

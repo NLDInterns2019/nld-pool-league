@@ -28,7 +28,6 @@ const KittyTable = props => {
             £{k.value.toFixed(2)}
           </td>
         )}
-        <td id="balance">£{k.total.toFixed(2)}</td>
       </tr>
     );
   });
@@ -39,9 +38,13 @@ const KittyTable = props => {
   return (
     <div>
       <div className="kittyTitle">
-        <div className="money-icon" alt="money" />
-        <h3>Kitty</h3>
-        <div className="money-icon" alt="money" />
+        <h3>Statement:</h3>
+
+        <h3 id="balanceTracker">
+          {props.kitty.length
+            ? "Balance: £" + props.kitty[0].total.toFixed(2)
+            : null}
+        </h3>
       </div>
 
       <table cellSpacing="0" className="kittyTable">
@@ -54,7 +57,6 @@ const KittyTable = props => {
             <th>Name</th>
             <th className="kittyTableDesc">Description</th>
             <th>Value</th>
-            <th>Balance</th>
           </tr>
         </thead>
         <tbody>{toBeDisplayed}</tbody>
