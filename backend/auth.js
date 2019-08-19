@@ -7,12 +7,12 @@ module.exports = {
       cache: true,
       rateLimit: true,
       jwksRequestsPerMinute: 5,
-      jwksUri: `https://dev-q70ogh1b.eu.auth0.com/.well-known/jwks.json`
+      jwksUri: `https://nonlinear.eu.auth0.com/.well-known/jwks.json`
     }),
 
     // Validate the audience and the issuer.
-    aud: "https://dev-q70ogh1b.eu.auth0.com/api/v2/",
-    issuer: `https://dev-q70ogh1b.eu.auth0.com/`,
+    aud: "https://nonlinear.eu.auth0.com/api/v2/",
+    issuer: `https://nonlinear.eu.auth0.com/`,
     algorithms: ["RS256"]
   })
 };
