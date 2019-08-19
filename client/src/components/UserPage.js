@@ -61,6 +61,7 @@ class UserPage extends React.Component {
       data: [
         {
           type: "line",
+          toolTipContent: "Season {x}: {y}",
           lineColor: "#127e5c",
           color: "#127e5c",
           dataPoints: []
