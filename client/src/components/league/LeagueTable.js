@@ -7,7 +7,11 @@ import auth0Client from "../../Auth";
 const LeagueTable = props => {
   return (
     <div className="leagueTableContainer">
-      <h3>{"Season " + props.activeSeason}: League Table</h3>
+      {props.isPlayoff ? (
+        <h3>Season {props.activeSeason} League Table (Playoff Underway)</h3>
+      ) : (
+        <h3>Season {props.activeSeason} League Table</h3>
+      )}
       <table className="leagueTable" cellSpacing="0">
         <LeagueTableHeader />
         <LeagueTableBody
