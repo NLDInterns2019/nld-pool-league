@@ -500,11 +500,13 @@ class App extends React.Component {
     return (
       <div style={{ textAlign: "center" }}>
         <div className="seasonClosed">
-          <div className="chequered-flag-icon" alt="chequered flag" />
+          <div className="playoff-icon-100-left" alt="playoff" />
           <h1 style={{ fontSize: "40pt" }}>Playoff Required</h1>
-          <div className="chequered-flag-icon" alt="chequered flag" />
+          <div className="playoff-icon-100-right" alt="playoff" />
         </div>
-        <button onClick={this.arrangePlayoff}>START PLAYOFF</button>
+        <button onClick={this.arrangePlayoff} style={{ marginBottom: "4rem" }}>
+          START PLAYOFF
+        </button>
       </div>
     );
   };

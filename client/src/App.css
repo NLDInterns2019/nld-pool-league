@@ -1561,6 +1561,20 @@ tr td:last-child {
   background-image: url("./assets/playoff.svg");
 }
 
+.playoff-icon-100-left {
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  background-image: url("./assets/playoff-100-left.svg");
+}
+
+.playoff-icon-100-right {
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  background-image: url("./assets/playoff-100-right.svg");
+}
+
 .book-icon {
   vertical-align: middle;
   width: 24px;
