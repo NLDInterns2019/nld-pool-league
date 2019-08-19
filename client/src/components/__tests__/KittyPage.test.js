@@ -15,3 +15,57 @@ describe("KittyPage component", () => {
     expect(wrapper.exists()).to.be.true;
   });
 });
+
+describe("showTransactionForm", () => {
+  it("should open transaction form when function run", () => {
+    wrapper.instance().transactionForm = {
+      current: {
+        style: {
+          display: "none"
+        }
+      }
+    };
+    wrapper.instance().makeTransactionBtn = {
+      current: {
+        style: {
+          display: "block"
+        }
+      }
+    };
+
+    wrapper.instance().showTransactionForm();
+
+    expect(wrapper.instance().transactionForm.current.style.display).to.equal(
+      "block"
+    );
+    expect(
+      wrapper.instance().makeTransactionBtn.current.style.display
+    ).to.equal("none");
+  });
+
+  it("should close transaction form when function run", () => {
+    wrapper.instance().transactionForm = {
+      current: {
+        style: {
+          display: "block"
+        }
+      }
+    };
+    wrapper.instance().makeTransactionBtn = {
+      current: {
+        style: {
+          display: "none"
+        }
+      }
+    };
+
+    wrapper.instance().closeForm();
+
+    expect(wrapper.instance().transactionForm.current.style.display).to.equal(
+      "none"
+    );
+    expect(
+      wrapper.instance().makeTransactionBtn.current.style.display
+    ).to.equal("block");
+  });
+});
