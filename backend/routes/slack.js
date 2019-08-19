@@ -87,7 +87,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
   await getToken().then(
     async result => {
       await axios
-        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+        .get("https://nonlinear.eu.auth0.com/api/v2/users", {
           params: {
             search_engine: "v3"
           },
@@ -176,7 +176,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
   await getToken().then(
     async result => {
       await axios
-        .get("https://dev-q70ogh1b.eu.auth0.com/api/v2/users", {
+        .get("https://nonlinear.eu.auth0.com/api/v2/users", {
           params: {
             search_engine: "v3"
           },

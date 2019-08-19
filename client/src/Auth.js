@@ -4,9 +4,9 @@ class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
-      domain: 'dev-q70ogh1b.eu.auth0.com',
-      audience: 'https://dev-q70ogh1b.eu.auth0.com/userinfo',
-      clientID: '33YrQE03f8FWXKFzLl9RXvKj1XszVCab',
+      domain: 'nonlinear.eu.auth0.com',
+      audience: 'https://nonlinear.eu.auth0.com/userinfo',
+      clientID: '37zkvPcf7imqkiL2KnFHdwh95YN17jH3',
       redirectUri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}/callback`,
       responseType: 'id_token',
       scope: 'openid profile'
@@ -66,7 +66,7 @@ class Auth {
     this.expiresAt = null;
     this.auth0.logout({
       returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
-      client_id: '33YrQE03f8FWXKFzLl9RXvKj1XszVCab'
+      client_id: '37zkvPcf7imqkiL2KnFHdwh95YN17jH3'
     })   
   }
 
