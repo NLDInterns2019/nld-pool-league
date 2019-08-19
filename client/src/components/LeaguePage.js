@@ -28,7 +28,8 @@ class App extends React.Component {
     hidePlayed: true,
     finished: null,
     playoff: false,
-    drawPoints: ""
+    drawPoints: "",
+    isPlayoffButtonDisabled: false
   };
 
   updateData = async () => {
@@ -491,7 +492,12 @@ class App extends React.Component {
           <h1 style={{ fontSize: "40pt" }}>Playoff Required</h1>
           <div className="chequered-flag-icon" alt="chequered flag" />
         </div>
-        <button onClick={this.arrangePlayoff}>START PLAYOFF</button>
+        <button
+          onClick={this.arrangePlayoff}
+          disabled={this.state.isPlayoffButtonDisabled}
+        >
+          START PLAYOFF
+        </button>
       </div>
     );
   };
@@ -542,6 +548,10 @@ class App extends React.Component {
   };
 
   arrangePlayoff = async () => {
+    if (this.state.isPlayoffButtonDisabled) {
+      return;
+    }
+    this.setState({ isPlayoffButtonDisabled: true });
     await backend.post(
       "/api/89ball_fixture/playoff",
       {
@@ -553,7 +563,8 @@ class App extends React.Component {
         headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
       }
     );
-    this.updateData();
+    await this.updateData();
+    this.setState({isPlayoffButtonDisabled: false})
   };
 
   sendNewPlayerSlackMessage = async player => {
