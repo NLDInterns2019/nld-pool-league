@@ -320,17 +320,30 @@ class App extends React.Component {
           <p>Season closed</p>
         </div>
       );
-      this.updateData();
-      await backend.post(
-        "/api/slack/seasonClosed",
-        {
-          type: parseInt(this.state.type, 10),
-          seasonId: this.state.activeSeason
-        },
-        {
-          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-        }
-      );
+      await this.updateData();
+      if (!this.state.drawPoints.length) {
+        await backend.post(
+          "/api/slack/seasonClosed",
+          {
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+      } else {
+        await backend.post(
+          "/api/slack/playoff",
+          {
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+      }
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();

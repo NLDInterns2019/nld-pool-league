@@ -28,7 +28,7 @@ class KittyTable extends Component {
 
   render() {
     const toBeDisplayed = this.props.kitty.map((k, index) => {
-      this.state.noOfRows = index;
+      this.setState({ noOfRows: index });
       if (index > 7) {
         return (
           <tr key={k.id} className="lateRow" ref={"lateRow" + index}>
