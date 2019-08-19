@@ -410,6 +410,69 @@ router.post("/newPlayer", auth.checkJwt, async (req, res) => {
 });
 
 /* 
+  POST handler for /api/slack/playoffResultSubmitted
+  Function: To send playoff score submitted message
+*/
+router.post("/playoffResultSubmitted", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required(),
+    players: Joi.string().required(),
+    score1: Joi.number().required(),
+    score2: Joi.number().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  getLeagueTable(req.body.type, req.body.seasonId).then(async players => {
+    const table = createConsoleTable(players);
+    const response = await web.chat
+      .postMessage({
+        channel: channel,
+        /* post a message saying 'emoji PLAYER1 X - X PLAYER2' */
+        attachments: [
+          {
+            mrkdwn_in: ["text"],
+            color: colours.results,
+            pretext:
+              (req.body.type === 8
+                ? ":8ball:"
+                : req.body.type === 9
+                ? ":9ball:"
+                : "TYPE ERROR") +
+              " *Season " +
+              req.body.seasonId +
+              " Playoff Result:*",
+            text:
+              req.body.players.split(" ")[0] +
+              "  " +
+              req.body.score1 +
+              "  -  " +
+              req.body.score2 +
+              "  " +
+              req.body.players.split(" ")[1] +
+              "\n\nUpdated League Table:\n```" +
+              table +
+              "```"
+          }
+        ]
+      })
+      .then(
+        response => {
+          res.status(200).json(response);
+        },
+        e => {
+          res.status(400).send(e);
+        }
+      );
+  });
+});
+
+/* 
   POST handler for /api/slack/resultSubmitted
   Function: To send score submitted message
 */

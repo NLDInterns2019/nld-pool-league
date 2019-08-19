@@ -140,19 +140,35 @@ class App extends React.Component {
           </p>
         );
         this.updateData();
-        await backend.post(
-          "/api/slack/resultSubmitted",
-          {
-            type: parseInt(this.state.type, 10),
-            seasonId: this.state.activeSeason,
-            players: state.players,
-            score1: state.score1,
-            score2: state.score2
-          },
-          {
-            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-          }
-        );
+        if (!this.state.playoff) {
+          await backend.post(
+            "/api/slack/resultSubmitted",
+            {
+              type: parseInt(this.state.type, 10),
+              seasonId: this.state.activeSeason,
+              players: state.players,
+              score1: state.score1,
+              score2: state.score2
+            },
+            {
+              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            }
+          );
+        } else {
+          await backend.post(
+            "/api/slack/playoffResultSubmitted",
+            {
+              type: parseInt(this.state.type, 10),
+              seasonId: this.state.activeSeason,
+              players: state.players,
+              score1: state.score1,
+              score2: state.score2
+            },
+            {
+              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            }
+          );
+        }
       })
       .catch(e => {
         if (e.response.status === 401) {
@@ -578,7 +594,7 @@ class App extends React.Component {
       }
     );
     await this.updateData();
-    this.setState({isPlayoffButtonDisabled: false})
+    this.setState({ isPlayoffButtonDisabled: false });
   };
 
   sendNewPlayerSlackMessage = async player => {
