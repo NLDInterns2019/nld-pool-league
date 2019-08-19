@@ -623,6 +623,17 @@ select:hover {
   transition: background-color 0.1s linear;
 }
 
+.seasons-list-item {
+  display: flex;
+  align-items: center;
+}
+
+.seasons-list-item p {
+  margin: 0;
+  margin-right: 1rem;
+  font-size: 20pt;
+}
+
 #seasonsList button {
   text-align: right;
 }
@@ -1534,6 +1545,20 @@ tr td:last-child {
   width: 100px;
   height: 100px;
   background-image: url("./assets/chequered-flag.svg");
+}
+
+.chequered-flag-icon-36 {
+  vertical-align: middle;
+  width: 36px;
+  height: 36px;
+  background-image: url("./assets/chequered-flag-36px.svg");
+}
+
+.playoff-icon {
+  vertical-align: middle;
+  width: 36px;
+  height: 36px;
+  background-image: url("./assets/playoff.svg");
 }
 
 .book-icon {

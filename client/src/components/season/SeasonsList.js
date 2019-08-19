@@ -13,7 +13,21 @@ const SeasonsList = props => {
                 pathname: `/${props.type}-ball/overview/${season.seasonId}`
               }}
             >
-              Season {season.seasonId} 🏁
+              <div className="seasons-list-item">
+                <p>Season {season.seasonId}</p>
+                <div className="chequered-flag-icon-36" alt="chequered flag" />
+              </div>
+            </Link>
+          ) : season.playoff ? (
+            <Link
+              to={{
+                pathname: `/${props.type}-ball/overview/${season.seasonId}`
+              }}
+            >
+              <div className="seasons-list-item">
+                <p>Season {season.seasonId}</p>
+                <div className="playoff-icon" alt="playoff" />
+              </div>
             </Link>
           ) : (
             <Link
