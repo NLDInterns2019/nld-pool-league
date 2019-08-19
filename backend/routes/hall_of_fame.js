@@ -416,9 +416,31 @@ router.post("/updatehof", async (req, res) => {
 
   //calculations for ac:scrappy
   let newTopPlayer = _.maxBy(hofAll, "winRate"); //get top player
+
+  let fixtures = await eight_nine_ball_fixtures.query().where({
+    type: type
+  });
+  if (fixtures === 0) {
+    res.status(404).send;
+  }
+
+  /*let hofAll = await hall_of_fame.query().where({
+    type: type,
+  });
+  if (hofAll === 0) {
+    res.status(404).send;
+  }*/
+
+  if (newTopPlayer === topPlayer) {
+    hof1 = scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof);
+    hof2 = scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof);
+  } else {
+    hofAll = scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof)
+  }
+  //scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof)
   //if the topplayer is the same you just need to count the new values
   if (newTopPlayer === topPlayer) {
-    if (player1 === topPlayer) {
+    /*if (player1 === topPlayer) {
       hof2.scrappyPlays++;
       if (score2 > score1) {
         hof2.scrappy++;
@@ -468,7 +490,7 @@ router.post("/updatehof", async (req, res) => {
           hofAll[loc1].scrappy++;
         }
       }
-    }
+    }*/
     
     //add the values to the database. don't forget to calculate scrappyRate for ach:scrappy
     for (let i = 0; i < hofAll.length; i++) {
