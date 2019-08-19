@@ -9,7 +9,7 @@ const axios = require("axios");
 module.exports = {
     todayBookings: schedule.scheduleJob(
         "Slack daily reminder",
-        { hour: 11, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] }, // UTC
+        { hour: 7, minute: 0, dayOfWeek: [1, 2, 3, 4, 5] }, // UTC
         () => {
           /* start of the day */
           let start = moment()
