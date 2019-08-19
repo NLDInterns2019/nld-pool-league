@@ -60,6 +60,24 @@ describe("windraw()", () => {
    expect(hof2).to.eql(hofGoal2); 
   })
 
+  it("should correctly calculate plays", async() => {
+       
+    //PREP
+   hof1 = {wins: 0, draws: 0, loss: 0, plays: 0, winRate: 0, drawRate: 0, totalPoints: 0, avgPoints: 0, avgPointsSeason: 0 }
+
+   hofGoal1 = {wins: 0, draws: 4, loss: 0, plays: 4, winRate: 0, drawRate: 100, totalPoints: 4, avgPoints: 1, avgPointsSeason: 2 }
+   score1 = 1;
+   score2 = 1;
+    //ACT
+   hof1 = windraw.calcWinDraw(score1, score2, hof1, 2);
+   hof1 = windraw.calcWinDraw(score1, score2, hof1, 2);
+   hof1 = windraw.calcWinDraw(score1, score2, hof1, 2);
+   hof1 = windraw.calcWinDraw(score1, score2, hof1, 2);
+
+   //ASSERT
+   expect(hof1).to.eql(hofGoal1); 
+  })
+
   it("should calculate average game points by a user with multiple results", async() => {
        
     //PREP
