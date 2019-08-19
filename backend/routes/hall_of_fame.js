@@ -409,9 +409,6 @@ router.post("/updatehof", async (req, res) => {
     hof2.highestPoints = currentLeague2.points
   }
 
-  //get seasons: needed for ac:GPA
-  
-
   //get the latest winrate needed for ach:improver and ach:timeToRetire
   if (seasons.length > 1) {//TODO also need to check if this is the last fixture
 
