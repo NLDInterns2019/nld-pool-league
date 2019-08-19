@@ -7,7 +7,8 @@ class KittyTable extends Component {
     super(props);
 
     this.state = {
-      showText: "Show more..."
+      showText: "Show more...",
+      noOfRows: 0
     };
   }
 
@@ -27,6 +28,7 @@ class KittyTable extends Component {
 
   render() {
     const toBeDisplayed = this.props.kitty.map((k, index) => {
+      this.state.noOfRows = index;
       if (index > 7) {
         return (
           <tr key={k.id} className="lateRow" ref={"lateRow" + index}>
@@ -178,7 +180,8 @@ class KittyTable extends Component {
           <tbody>
             {toBeDisplayed}
             {auth0Client.isAuthenticated() &&
-            auth0Client.getProfile().nickname === "admin" ? (
+            auth0Client.getProfile().nickname === "admin" &&
+            this.state.noOfRows > 7 ? (
               <tr className="showRow">
                 <td
                   colSpan="2"
