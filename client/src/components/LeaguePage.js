@@ -321,17 +321,30 @@ class App extends React.Component {
           <p>Season closed</p>
         </div>
       );
-      this.updateData();
-      await backend.post(
-        "/api/slack/seasonClosed",
-        {
-          type: parseInt(this.state.type, 10),
-          seasonId: this.state.activeSeason
-        },
-        {
-          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-        }
-      );
+      await this.updateData();
+      if (!this.state.drawPoints.length) {
+        await backend.post(
+          "/api/slack/seasonClosed",
+          {
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+      } else {
+        await backend.post(
+          "/api/slack/playoff",
+          {
+            type: parseInt(this.state.type, 10),
+            seasonId: this.state.activeSeason
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+      }
     } catch (e) {
       if (e.response.status === 401) {
         this.toastUnauthorised();
@@ -488,13 +501,14 @@ class App extends React.Component {
     return (
       <div style={{ textAlign: "center" }}>
         <div className="seasonClosed">
-          <div className="chequered-flag-icon" alt="chequered flag" />
+          <div className="playoff-icon-100-left" alt="playoff" />
           <h1 style={{ fontSize: "40pt" }}>Playoff Required</h1>
-          <div className="chequered-flag-icon" alt="chequered flag" />
+          <div className="playoff-icon-100-right" alt="playoff" />
         </div>
         <button
           onClick={this.arrangePlayoff}
           disabled={this.state.isPlayoffButtonDisabled}
+          style={{ marginBottom: "4rem" }}
         >
           START PLAYOFF
         </button>
@@ -609,6 +623,7 @@ class App extends React.Component {
               feePaid={this.feePaid}
               addPlayer={this.addNewPlayer}
               hasFinished={this.state.finished}
+              isPlayoff={this.state.playoff}
             />
 
             {/* if the season hasn't finished, show the submit score form */}

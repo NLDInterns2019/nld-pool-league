@@ -19,7 +19,8 @@ const LeagueTable = props => {
       </table>
       {auth0Client.isAuthenticated() &&
       auth0Client.getProfile().nickname === "admin" &&
-      !props.hasFinished ? (
+      !props.hasFinished &&
+      !props.isPlayoff ? (
         <AddPlayerForm addPlayer={props.addPlayer} players={props.players} />
       ) : null}
     </div>

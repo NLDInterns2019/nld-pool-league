@@ -637,7 +637,6 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
   const schema = {
     type: Joi.number().required(),
     seasonId: Joi.number().required()
-    //table: Joi.string().required()
   };
 
   //Validation
@@ -677,6 +676,49 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
         }
       );
   });
+});
+
+/* 
+  POST handler for /api/slack/playoff
+  Function: To send playoff message
+*/
+router.post("/playoff", auth.checkJwt, async (req, res) => {
+  const schema = {
+    type: Joi.number().required(),
+    seasonId: Joi.number().required()
+  };
+
+  //Validation
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  const response = web.chat
+    .postMessage({
+      channel: channel,
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.seasons,
+          pretext:
+            (req.body.type === 8
+              ? ":8ball:"
+              : req.body.type === 9
+              ? ":9ball:"
+              : "type error") + " *Playoff Required:*",
+          text: "Season " + req.body.seasonId
+        }
+      ]
+    })
+    .then(
+      response => {
+        res.status(200).json(response);
+      },
+      e => {
+        res.status(400).send(e);
+      }
+    );
 });
 
 /* 

@@ -7,9 +7,10 @@ class KittyTable extends Component {
     super(props);
 
     this.state = {
-      showText: "Show more...",
-      noOfRows: 0
+      showText: "Show more..."
     };
+
+    this.noOfRows = 0;
   }
 
   toggleShow = () => {
@@ -26,9 +27,9 @@ class KittyTable extends Component {
     }
   };
 
-  render() {
+  showKittyTable = () => {
     const toBeDisplayed = this.props.kitty.map((k, index) => {
-      this.state.noOfRows = index;
+      this.noOfRows = index;
       if (index > 7) {
         return (
           <tr key={k.id} className="lateRow" ref={"lateRow" + index}>
@@ -123,7 +124,10 @@ class KittyTable extends Component {
         );
       }
     });
+    return toBeDisplayed;
+  };
 
+  render() {
     if (this.props.kitty.length === 0) {
       return null;
     }
@@ -178,10 +182,10 @@ class KittyTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {toBeDisplayed}
+            {this.showKittyTable()}
             {auth0Client.isAuthenticated() &&
             auth0Client.getProfile().nickname === "admin" &&
-            this.state.noOfRows > 7 ? (
+            this.noOfRows > 7 ? (
               <tr className="showRow">
                 <td
                   colSpan="2"
