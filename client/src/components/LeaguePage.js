@@ -613,6 +613,7 @@ class App extends React.Component {
               feePaid={this.feePaid}
               addPlayer={this.addNewPlayer}
               hasFinished={this.state.finished}
+              isPlayoff={this.state.playoff}
             />
 
             {/* if the season hasn't finished, show the submit score form */}
