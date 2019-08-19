@@ -229,7 +229,7 @@ class SubmitScoreForm extends Component {
   clearRadioButtons() {
     this.player1won.current.checked = false;
     this.player2won.current.checked = false;
-    if (!this.props.playoff || this.props.playoff === 0) {
+    if (!this.props.isPlayoff || this.props.isPlayoff === 0) {
       this.draw.current.checked = false;
     }
   }
