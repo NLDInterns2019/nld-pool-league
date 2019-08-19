@@ -56,8 +56,6 @@ class UserPage extends React.Component {
         reversed: true,
         interval: 1,
         gridColor: "#eeeeee",
-        minimum: 0,
-        maximum: this.state.players8.length,
         viewportMinimum: 0.25
       },
       data: [
