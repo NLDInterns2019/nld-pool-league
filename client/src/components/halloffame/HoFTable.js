@@ -15,14 +15,14 @@ const itemsToBeDisplayed = props => {
   let improved = maxBy(props.players, "latestWins");
   let retire = minBy(props.players, "latestWins");
   let avgPointsSeason = maxBy(props.players, "avgPointsSeason");
-  let test = orderBy(props.players, ["plays"], ["asc"])
-console.log(test)
-let truePlay = test;
-for (let i = 0; i < test.length; i++) {
-  if (test[i].drawRate === test[0]) {
-    truePlay.push(test[i])
+  let test = orderBy(props.players, ["plays"], ["asc"]);
+  console.log(test);
+  let truePlay = test;
+  for (let i = 0; i < test.length; i++) {
+    if (test[i].drawRate === test[0]) {
+      truePlay.push(test[i]);
+    }
   }
-}
   if (avgPointsSeason !== undefined) {
     if (avgPointsSeason.avgPointsSeason === 0) {
       avgPointsSeason = null;
@@ -76,12 +76,12 @@ for (let i = 0; i < test.length; i++) {
       streak = null;
     }
   }
- 
+
   //if (dedicated !== undefined) {
   //  if (dedicated === undedicated) {
   //   dedicated = null;
   //  }
- // }
+  // }
 
   if (slacker !== undefined) {
     if (slacker.punctRate === 0) {
@@ -89,7 +89,7 @@ for (let i = 0; i < test.length; i++) {
     }
   }
 
-  console.log(retire)
+  console.log(retire);
   return (
     <tbody>
       <tr>
@@ -194,8 +194,8 @@ for (let i = 0; i < test.length; i++) {
         </td>
         <td className="hofCell">
           {scrappy
-            ? scrappy.scrappyRate + "% wins against "
-            : "Best win % against #1"}
+            ? scrappy.scrappyRate + "% wins against 1st"
+            : "Best win % against 1st"}
         </td>
       </tr>
       <tr>
@@ -208,7 +208,8 @@ for (let i = 0; i < test.length; i++) {
         </td>
         <td className="hofCell">
           {improved
-            ? improved.latestWins + "% improvement" : "Greatest improvement"}
+            ? improved.latestWins + "% improvement"
+            : "Greatest improvement"}
         </td>
       </tr>
       <tr>
@@ -259,7 +260,7 @@ for (let i = 0; i < test.length; i++) {
           {retire ? retire.staffName : "-"}
         </td>
         <td className="hofCellBad">
-          {retire ? retire.latestWins + "% improvement" : "Biggest decline"}
+          {retire ? retire.latestWins + "% deterioration" : "Biggest decline"}
         </td>
       </tr>
     </tbody>
