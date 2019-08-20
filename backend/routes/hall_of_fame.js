@@ -498,20 +498,23 @@ router.post("/calculate_v2", async (req, res) => {
   /**********
    * Scrappy *
    ***********/
-  const isPlayer1Top = req.body.player1 === topPlayer.staffName;
-  const isPlayer2Top = req.body.player2 === topPlayer.staffName;
-  if (isPlayer1Top) {
-    player2.scrappyPlays++;
-    if (req.body.score2 > req.body.score1) {
-      player2.scrappy++;
+  if(topPlayer){
+    const isPlayer1Top = req.body.player1 === topPlayer.staffName;
+    const isPlayer2Top = req.body.player2 === topPlayer.staffName;
+    if (isPlayer1Top) {
+      player2.scrappyPlays++;
+      if (req.body.score2 > req.body.score1) {
+        player2.scrappy++;
+      }
+    }
+    if (isPlayer2Top) {
+      player1.scrappyPlays++;
+      if (req.body.score1 > req.body.score2) {
+        player1.scrappy++;
+      }
     }
   }
-  if (isPlayer2Top) {
-    player1.scrappyPlays++;
-    if (req.body.score1 > req.body.score2) {
-      player1.scrappy++;
-    }
-  }
+
 
   /****************
    * Scrappy Rate *
@@ -522,6 +525,11 @@ router.post("/calculate_v2", async (req, res) => {
   player2.scrappyRate = Math.round(
     (player2.scrappy * 100) / player2.scrappyPlays
   );
+
+  /***************
+   * Improvement *
+   ***************/
+  //TODO
 
   /*************
    * PATCH HOF *
