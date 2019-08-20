@@ -7,6 +7,8 @@
     "@slack/web-api": "^5.0.1",
     "auth0-js": "^9.11.1",
     "axios": "^0.19.0",
+    "chai-as-promised": "^7.1.1",
+    "chromedriver": "^76.0.0",
     "console.table": "^0.10.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
@@ -21,6 +23,7 @@
     "react-scripts": "3.0.1",
     "react-toastify": "^5.3.2",
     "reactjs-popup": "^1.4.1",
+    "selenium-webdriver": "^4.0.0-alpha.4",
     "sinon": "^7.3.2"
   },
   "scripts": {
@@ -51,6 +54,6 @@
     "cheerio": "^1.0.0-rc.3",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.2.0"
   }
 }
