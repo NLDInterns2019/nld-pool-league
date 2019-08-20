@@ -133,9 +133,10 @@ describe("App", () => {
   });
 
   describe("Signing in", () => {
-    it("should be able to sign in", async () => {
+    beforeEach(async () => {
       await jest.setTimeout(30000);
-
+    });
+    it("should be able to sign in", async () => {
       await driver.get(homepage);
       await driver.findElement(By.id("loginBtn")).click();
       await driver.sleep(2000);
