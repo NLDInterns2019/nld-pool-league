@@ -171,11 +171,13 @@ const itemsToBeDisplayed = props => {
         maxBy(props.players, "losingStreak").losingStreak &&
       player.losingStreak !== 0
   );
-  if (losingStreak !== undefined) {
-    if (losingStreak.losingStreak === 0) {
-      losingStreak = null;
-    }
+  if (losingStreak.length) {
+    losingStreak.staffName = losingStreak.map(player => player.staffName).toString();
+    losingStreak.losingStreak = losingStreak[0].losingStreak;
+  } else {
+    losingStreak = null;
   }
+
 
   /******************
    * Time to Retire *
