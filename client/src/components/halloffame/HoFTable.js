@@ -1,94 +1,192 @@
 import React from "react";
 import { maxBy, orderBy, minBy, filter } from "lodash";
 const itemsToBeDisplayed = props => {
-  let topPlayer = maxBy(props.players, "winRate");
-  let casual = maxBy(props.players, "lossRate");
-  let draw = maxBy(props.players, "drawRate");
-  let dedicated = maxBy(props.players, "plays");
-  let onTime = minBy(props.players, "punctRate");
-  let slacker = maxBy(filter(props.players, player => player.punctRate < 100), "punctRate");
-  let bestGame = maxBy(props.players, "highestPoints");
-  let losingStreak = maxBy(props.players, "losingStreak");
-  let streak = maxBy(props.players, "winningStreak");
+  /**************
+   * Top Player *
+   **************/
+  let topPlayer = filter(
+    props.players,
+    player =>
+      player.winRate === maxBy(props.players, "winRate").winRate &&
+      player.winRate !== 0
+  );
+  if (topPlayer.length) {
+    topPlayer.staffName = topPlayer.map(player => player.staffName).toString();
+    topPlayer.winRate = topPlayer[0].winRate;
+  } else {
+    topPlayer = null;
+  }
+
+  /*************
+   * Best Season *
+   *************/
+  let bestGame = filter(
+    props.players,
+    player =>
+      player.highestPoints ===
+        maxBy(props.players, "highestPoints").highestPoints &&
+      player.highestPoints !== 0
+  );
+  if (bestGame.length) {
+    bestGame.staffName = bestGame.map(player => player.staffName).toString();
+    bestGame.highestPoints = bestGame[0].highestPoints;
+  } else {
+    bestGame = null;
+  }
+
+  /***********
+   * 4.0 GPA *
+   ***********/
+  let avgPoints = filter(
+    props.players,
+    player =>
+      player.avgPoints === maxBy(props.players, "avgPoints").avgPoints &&
+      player.avgPoints !== 0
+  );
+  if (avgPoints.length) {
+    avgPoints.staffName = avgPoints.map(player => player.staffName).toString();
+    avgPoints.avgPoints = avgPoints[0].avgPoints;
+  } else {
+    avgPoints = null;
+  }
+
+  /***********
+   * Average *
+   ***********/
+  let draw = filter(
+    props.players,
+    player =>
+      player.drawRate === maxBy(props.players, "drawRate").drawRate &&
+      player.drawRate !== 0
+  );
+  if (draw.length) {
+    draw.staffName = draw.map(player => player.staffName).toString();
+    draw.drawRate = draw[0].drawRate;
+  } else {
+    draw = null;
+  }
+
+  /*************
+   * Dedicated *
+   *************/
+  let dedicated = filter(
+    props.players,
+    player => player.plays === maxBy(props.players, "plays").plays
+  );
+  if (dedicated.length === 1) {
+    dedicated = dedicated[0];
+  } else {
+    dedicated = null;
+  }
+
+  /****************
+   * Dr. Punctual *
+   ****************/
+  let onTime = filter(
+    props.players,
+    player => player.punctRate === maxBy(props.players, "punctRate").punctRate
+  );
+  if (onTime.length === 1) {
+    onTime = dedicated[0];
+  } else {
+    onTime = null;
+  }
+
+  /*************
+   * The Train *
+   *************/
+  let streak = filter(
+    props.players,
+    player =>
+      player.winningStreak ===
+        maxBy(props.players, "winningStreak").winningStreak &&
+      player.winningStreak !== 0
+  );
+  if (streak.length) {
+    streak.staffName = streak.map(player => player.staffName).toString();
+    streak.winningStreak = streak[0].winningStreak;
+  } else {
+    streak = null;
+  }
+
+  /***********
+   * Scrappy *
+   ***********/
   let scrappy = maxBy(props.players, "scrappyRate");
-  let improved = maxBy(props.players, "latestWins");
-  let retire = minBy(props.players, "latestWins");
-  let avgPoints = maxBy(props.players, "avgPoints");
-  let test = orderBy(props.players, ["plays"], ["asc"]);
-  console.log(test);
-  let truePlay = test;
-  for (let i = 0; i < test.length; i++) {
-    if (test[i].drawRate === test[0]) {
-      truePlay.push(test[i]);
-    }
-  }
-  if (avgPoints !== undefined) {
-    if (avgPoints.avgPoints === 0) {
-      avgPoints = null;
-    }
-  }
-
-  if (improved !== undefined) {
-    if (improved.latestWins === 0) {
-      improved = null;
-    }
-  }
-
-  if (retire !== undefined) {
-    if (retire.latestWins === 0) {
-      retire = null;
-    }
-  }
-
-  if (topPlayer !== undefined) {
-    if (topPlayer.winRate === 0) {
-      topPlayer = null;
-    }
-  }
-
-  if (losingStreak !== undefined) {
-    if (losingStreak.losingStreak === 0) {
-      losingStreak = null;
-    }
-  }
-
-  if (bestGame !== undefined) {
-    if (bestGame.highestPoints === 0) {
-      bestGame = null;
-    }
-  }
-
-  if (draw !== undefined) {
-    if (draw.drawRate === 0 || draw.drawRate === null) {
-      draw = null;
-    }
-  }
-
   if (scrappy !== undefined) {
     if (scrappy.scrappyRate === 0) {
       scrappy = null;
     }
   }
 
-  if (streak !== undefined) {
-    if (streak.winningStreak === 0) {
-      streak = null;
+  /************
+   * Improver *
+   ************/
+  let improved = maxBy(props.players, "latestWins");
+  if (improved !== undefined) {
+    if (improved.latestWins === 0) {
+      improved = null;
     }
   }
 
-  //if (dedicated !== undefined) {
-  //  if (dedicated === undedicated) {
-  //   dedicated = null;
-  //  }
-  // }
+  /**********
+   * Casual *
+   **********/
+  let casual = filter(
+    props.players,
+    player =>
+      player.lossRate === maxBy(props.players, "lossRate").lossRate &&
+      player.lossRate !== 0
+  );
+  if (casual.length) {
+    casual.staffName = casual.map(player => player.staffName).toString();
+    casual.lossRate = casual[0].lossRate;
+  } else {
+    casual = null;
+  }
 
-  if (slacker !== undefined) {
-    if (slacker.punctRate === 0) {
-      slacker = null;
+  /***********
+   * Slacker *
+   ***********/
+  let slacker = filter(
+    props.players,
+    player =>
+      player.punctRate === minBy(props.players, "punctRate").punctRate &&
+      player.punctRate !== 100
+  );
+  if (slacker.length) {
+    slacker.staffName = slacker.map(player => player.staffName).toString();
+    slacker.punctRate = slacker[0].punctRate;
+  } else {
+    slacker = null;
+  }
+
+  /***********
+   * In a Slump *
+   ***********/
+  let losingStreak = filter(
+    props.players,
+    player =>
+      player.losingStreak ===
+        maxBy(props.players, "losingStreak").losingStreak &&
+      player.losingStreak !== 0
+  );
+  if (losingStreak !== undefined) {
+    if (losingStreak.losingStreak === 0) {
+      losingStreak = null;
     }
   }
 
-  console.log(retire);
+  /******************
+   * Time to Retire *
+   ******************/
+  let retire = minBy(props.players, "latestWins");
+  if (retire !== undefined) {
+    if (retire.latestWins === 0) {
+      retire = null;
+    }
+  }
+
   return (
     <tbody>
       <tr>
@@ -166,9 +264,7 @@ const itemsToBeDisplayed = props => {
           {onTime ? onTime.staffName : "-"}
         </td>
         <td className="hofCell">
-          {onTime
-            ? onTime.punctRate + "% punctuality"
-            : "Fewest late fixtures"}
+          {onTime ? onTime.punctRate + "% punctuality" : "Fewest late fixtures"}
         </td>
       </tr>
       <tr>
