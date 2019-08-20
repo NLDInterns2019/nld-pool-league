@@ -102,7 +102,6 @@ describe("App", () => {
     });
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
       await setTimeout(10000);
-      await driver.get(homepage + "/9-ball/seasons");
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
       var expected = homepage + "/";
@@ -111,11 +110,34 @@ describe("App", () => {
 
     it('should navigate to the 8-ball seasons page when "8-ball" is clicked', async () => {
       await setTimeout(10000);
-      await driver.get(homepage + "/9-ball/seasons");
       await driver.findElement(By.id("eightBallLink")).click();
       var actual = await driver.getCurrentUrl();
       var expected = homepage + "/8-ball/seasons";
       expect(actual).to.equal(expected);
+    });
+
+    it('should navigate to the 9-ball kitty when "kitty" clicked', async () => {
+      await setTimeout(10000);
+      await driver.findElement(By.id("KittyLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "/9-ball/kitty";
+      expect(actual).to.equal(expected);
+    });
+
+    it('should navigate to the hall of fame when "Hall of Fame" clicked', async () => {
+      await setTimeout(10000);
+      await driver.findElement(By.id("HoFLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "/9-ball/hall_of_fame";
+      expect(actual).to.equal(expected);
+    });
+
+    it('should navigate to the 9-ball overview when "current season" clicked', async () => {
+      await setTimeout(10000);
+      await driver.findElement(By.id("fixturesLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "/9-ball/overview/";
+      expect(actual).to.contain(expected);
       await driver.quit();
     });
   });
