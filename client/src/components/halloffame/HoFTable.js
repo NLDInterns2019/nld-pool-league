@@ -152,7 +152,7 @@ const itemsToBeDisplayed = props => {
     props.players,
     player =>
       player.punctRate === minBy(props.players, "punctRate").punctRate &&
-      player.punctRate !== 100
+      player.punctRate !== 100 && player.punctRate !== 0
   );
   if (slacker.length) {
     slacker.staffName = slacker.map(player => player.staffName).toString();
