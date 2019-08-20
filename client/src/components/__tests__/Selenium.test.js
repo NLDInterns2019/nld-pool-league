@@ -1,9 +1,8 @@
 import chai, { expect } from "chai";
 require("chromedriver");
 const { Builder, By, Key, until } = require("selenium-webdriver");
-
-chai.use(require("chai-as-promised"));
 var driver = new Builder().forBrowser("chrome").build();
+chai.use(require("chai-as-promised"));
 var homepage = "http://nldpoolleague.azurewebsites.net";
 setTimeout(30000);
 
@@ -15,29 +14,28 @@ describe("LandingPage", () => {
     expect(actual).to.equal(expected);
   });
 
-  it("should navigate to the 8-ball overview page when 8-ball is clicked", async () => {
+  it("should navigate to the 8-ball section when 8-ball is clicked", async () => {
     await driver.get(homepage);
     await driver
       .findElement(
         By.xpath("//*[@id='eightBallLink'][@class='landingPageLink']")
       )
       .click();
-    await driver.wait(until.elementIsVisible);
     var actual = await driver.getCurrentUrl();
-    var expected = homepage + "/8-ball/overview/";
+    var expected = homepage + "/8-ball/";
     expect(actual).to.contain(expected);
   });
 
-  it("should navigate to the 9-ball overview page when 9-ball is clicked", async () => {
+  it("should navigate to the 9-ball section when 9-ball is clicked", async () => {
+    var driver = new Builder().forBrowser("chrome").build();
     await driver.get(homepage);
     await driver
       .findElement(
         By.xpath("//*[@id='nineBallLink'][@class='landingPageLink']")
       )
       .click();
-    await driver.wait(until.elementIsVisible);
     var actual = await driver.getCurrentUrl();
-    var expected = homepage + "/9-ball/overview/";
+    var expected = homepage + "/9-ball/";
     expect(actual).to.contain(expected);
     await driver.quit();
   });
