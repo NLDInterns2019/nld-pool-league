@@ -1,20 +1,19 @@
 import React from "react";
-import { maxBy, orderBy, minBy } from "lodash";
+import { maxBy, orderBy, minBy, filter } from "lodash";
 const itemsToBeDisplayed = props => {
   let topPlayer = maxBy(props.players, "winRate");
   let casual = maxBy(props.players, "lossRate");
   let draw = maxBy(props.players, "drawRate");
   let dedicated = maxBy(props.players, "plays");
-  let undedicated = minBy(props.players, "plays");
   let onTime = minBy(props.players, "punctRate");
-  let slacker = maxBy(props.players, "punctRate");
+  let slacker = maxBy(filter(props.players, player => player.punctRate < 100), "punctRate");
   let bestGame = maxBy(props.players, "highestPoints");
   let losingStreak = maxBy(props.players, "losingStreak");
   let streak = maxBy(props.players, "winningStreak");
   let scrappy = maxBy(props.players, "scrappyRate");
   let improved = maxBy(props.players, "latestWins");
   let retire = minBy(props.players, "latestWins");
-  let avgPointsSeason = maxBy(props.players, "avgPointsSeason");
+  let avgPoints = maxBy(props.players, "avgPoints");
   let test = orderBy(props.players, ["plays"], ["asc"]);
   console.log(test);
   let truePlay = test;
@@ -23,9 +22,9 @@ const itemsToBeDisplayed = props => {
       truePlay.push(test[i]);
     }
   }
-  if (avgPointsSeason !== undefined) {
-    if (avgPointsSeason.avgPointsSeason === 0) {
-      avgPointsSeason = null;
+  if (avgPoints !== undefined) {
+    if (avgPoints.avgPoints === 0) {
+      avgPoints = null;
     }
   }
 
@@ -126,12 +125,12 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">4.0 GPA</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
-          {avgPointsSeason ? avgPointsSeason.staffName : "-"}
+          {avgPoints ? avgPoints.staffName : "-"}
         </td>
         <td className="hofCell">
-          {avgPointsSeason
-            ? avgPointsSeason.avgPointsSeason + " points per season"
-            : "Highest average PPS"}
+          {avgPoints
+            ? avgPoints.avgPoints + " points per game"
+            : "Highest average PPG"}
         </td>
       </tr>
       <tr>
@@ -167,7 +166,7 @@ const itemsToBeDisplayed = props => {
           {onTime ? onTime.staffName : "-"}
         </td>
         <td className="hofCell">
-          {slacker
+          {onTime
             ? onTime.punctRate + "% punctuality"
             : "Fewest late fixtures"}
         </td>
@@ -233,7 +232,7 @@ const itemsToBeDisplayed = props => {
           {slacker ? slacker.staffName : "-"}
         </td>
         <td className="hofCellBad">
-          {slacker ? slacker.punctRate + "% games late" : "Most late fixtures"}
+          {slacker ? slacker.punctRate + "% punctuality" : "Most late fixtures"}
         </td>
       </tr>
 

@@ -62,16 +62,16 @@ router.post("/calculate", async (req, res) => {
   type = parseInt(req.body.type, 10);
 
   const numberOfDeletedRows = await hall_of_fame
-  .query()
-  .delete()
-  .where({
-    type: type
-  })
-   console.log("deleted " + numberOfDeletedRows + " rows.")
+    .query()
+    .delete()
+    .where({
+      type: type
+    });
+  console.log("deleted " + numberOfDeletedRows + " rows.");
 
-  knex('hall_of_fame')
-  .where('type', 9)
-  .del()
+  knex("hall_of_fame")
+    .where("type", 9)
+    .del();
 
   let staffInHoF = true;
   let start = true;
@@ -164,16 +164,20 @@ router.post("/calculate", async (req, res) => {
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
     //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
 
-    let seasons = await eight_nine_ball_seasons.query().where({type: type});
+    let seasons = await eight_nine_ball_seasons.query().where({ type: type });
 
     if (hofRow.plays !== 0) {
       hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
       hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
       hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
-      hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(2); //seasons.length
-      hofRow.avgPointsSeason = parseFloat(hofRow.totalPoints / seasons.length).toFixed(2);
+      hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(
+        2
+      ); //seasons.length
+      hofRow.avgPointsSeason = parseFloat(
+        hofRow.totalPoints / seasons.length
+      ).toFixed(2);
     }
-    
+
     //update the table
     await hall_of_fame
       .query()
@@ -218,16 +222,16 @@ router.post("/calculate", async (req, res) => {
 
   //this is terrible. i should be fired for writing this
   //for (let i = 0; i < fixtures.length; i++) {
-    //need a new loop for scrappy so you know who the top player is
-    /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
-    if (topPlayer != null) {
-      hofAll = scrappyGen.calculateScrappy(
-        fixtures,
-        topPlayer.staffName,
-        hofAll,
-        i
-      ); //calculate scrappy
-    }
+  //need a new loop for scrappy so you know who the top player is
+  /////////////////////////////////////////////////////////////////////////////////////////////////   SCRAPPY
+  if (topPlayer != null) {
+    hofAll = scrappyGen.calculateScrappy(
+      fixtures,
+      topPlayer.staffName,
+      hofAll,
+      i
+    ); //calculate scrappy
+  }
   //}
   //patch db
 
@@ -251,16 +255,17 @@ router.post("/calculate", async (req, res) => {
           (leagues[i].win * 100) / leagues[i].play
         );
         hofRow.latestWins =
-        parseInt(hofRow.improvementRate) - parseInt((hofRow.wins * 100)/hofRow.plays);
+          parseInt(hofRow.improvementRate) -
+          parseInt((hofRow.wins * 100) / hofRow.plays);
 
         delete hofRow.id;
         await hall_of_fame
-        .query()
-        .findOne({
-          type: type,
-          staffName: hofRow.staffName
-        })
-        .patch(hofRow);
+          .query()
+          .findOne({
+            type: type,
+            staffName: hofRow.staffName
+          })
+          .patch(hofRow);
       }
     }
   }
@@ -284,6 +289,205 @@ router.post("/calculate", async (req, res) => {
 });
 
 /* 
+  POST handler for /api/89ball_league/hall_of_fame/calculate_v2
+  Function: To calculate HoF achievement
+*/
+router.post("/calculate_v2", async (req, res) => {
+  const schema = {
+    type: Joi.number()
+      .integer()
+      .required(),
+    seasonId: Joi.number().required(),
+    player1: Joi.string().required(),
+    score1: Joi.number().required(),
+    player2: Joi.string().required(),
+    score2: Joi.number().required(),
+    playoff: Joi.any()
+  };
+
+  if (Joi.validate(req.body, schema, { convert: false }).error) {
+    res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  let player1 = await hall_of_fame
+    .query()
+    .findOne({ staffName: req.body.player1, type: req.body.type });
+  //Add to DB if not exist
+  if (!player1) {
+    await knex("hall_of_fame")
+      .insert({
+        type: req.body.type,
+        staffName: req.body.player1
+      })
+      .then(async () => {
+        player1 = await hall_of_fame
+          .query()
+          .findOne({ staffName: req.body.player1, type: req.body.type });
+      });
+  }
+  //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
+  delete player1.id;
+
+  let player2 = await hall_of_fame
+    .query()
+    .findOne({ staffName: req.body.player2, type: req.body.type });
+  //Add to DB if not exist
+  if (!player2) {
+    await knex("hall_of_fame")
+      .insert({
+        type: req.body.type,
+        staffName: req.body.player2
+      })
+      .then(async () => {
+        player2 = await hall_of_fame
+          .query()
+          .findOne({ staffName: req.body.player2, type: req.body.type });
+      });
+  }
+  //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
+  delete player2.id;
+
+  /*
+   *  PLAYS
+   */
+  player1.plays++;
+  player2.plays++;
+
+  /*
+   *  WIN, LOSS, DRAW, CURRENT STREAK, CURRENT LOSS STREAK, TOTAL POINTS
+   */
+  if (req.body.score1 > req.body.score2) {
+    //PLAYER 1 WIN
+    player1.wins++;
+    player2.loss++;
+    player1.curStreak++;
+    player1.curLosingStreak = 0;
+    player2.curLosingStreak++;
+    player2.curStreak = 0;
+    player1.totalPoints += 2;
+  } else if (req.body.score2 > req.body.score1) {
+    //PLAYER 2 WIN
+    player2.wins++;
+    player1.loss++;
+    player2.curStreak++;
+    player2.curLosingStreak = 0;
+    player1.curLosingStreak++;
+    player1.curStreak = 0;
+    player2.totalPoints += 2;
+  } else {
+    //DRAW
+    player1.draws++;
+    player2.draws++;
+    player1.curStreak = 0;
+    player1.curLosingStreak = 0;
+    player2.curStreak = 0;
+    player2.curLosingStreak = 0;
+    player1.totalPoints++;
+    player2.totalPoints++;
+  }
+
+  /*
+   *  WIN RATE, LOSS RATE, DRAW RATE, AVG POINTS
+   */
+  player1.winRate = Math.trunc((player1.wins * 100) / player1.plays);
+  player1.drawRate = Math.trunc((player1.draws * 100) / player1.plays);
+  player1.lossRate = Math.trunc((player1.loss * 100) / player1.plays);
+  player1.avgPoints = parseFloat(player1.totalPoints / player1.plays).toFixed(
+    2
+  );
+
+  player2.winRate = Math.trunc((player2.wins * 100) / player2.plays);
+  player2.drawRate = Math.trunc((player2.draws * 100) / player2.plays);
+  player2.lossRate = Math.trunc((player2.loss * 100) / player2.plays);
+  player2.avgPoints = parseFloat(player2.totalPoints / player2.plays).toFixed(
+    2
+  );
+
+  /*
+   *  WIN STREAK, LOSS STREAK
+   */
+  //P1
+  if (player1.curStreak > player1.winningStreak) {
+    player1.winningStreak = player1.curStreak;
+  }
+  if (player1.curLosingStreak > player1.losingStreak) {
+    player1.losingStreak = player1.curLosingStreak;
+  }
+  //P2
+  if (player2.curStreak > player2.winningStreak) {
+    player2.winningStreak = player2.curStreak;
+  }
+  if (player2.curLosingStreak > player2.losingStreak) {
+    player2.losingStreak = player2.curLosingStreak;
+  }
+
+  /*
+   *  Highest Points
+   */
+  await eight_nine_ball_leagues
+    .query()
+    .findOne({
+      type: req.body.type,
+      staffName: req.body.player1,
+      seasonId: req.body.seasonId
+    })
+    .then(p1 => {
+      if (p1.points > player1.highestPoints) {
+        player1.highestPoints = p1.points;
+      }
+    });
+  await eight_nine_ball_leagues
+    .query()
+    .findOne({
+      type: req.body.type,
+      staffName: req.body.player2,
+      seasonId: req.body.seasonId
+    })
+    .then(p2 => {
+      if (p2.points > player2.highestPoints) {
+        player2.highestPoints = p2.points;
+      }
+    });
+
+  /*
+   *  Punctuality
+   */
+  await eight_nine_ball_leagues
+    .query()
+    .where({ staffName: req.body.player1, type: req.body.type })
+    .sum("punctuality as sum")
+    .then(points => {
+      player1.punctuality = points[0].sum;
+    });
+  await eight_nine_ball_leagues
+    .query()
+    .where({ staffName: req.body.player2, type: req.body.type })
+    .sum("punctuality as sum")
+    .then(points => {
+      player2.punctuality = points[0].sum;
+    });
+
+  /*
+   *  Punctuality Rate
+   */
+  player1.punctRate = Math.trunc((player1.punctuality * 100) / player1.plays);
+  player2.punctRate = Math.trunc((player2.punctuality * 100) / player2.plays); 
+
+  //PATCH HoF
+  await hall_of_fame
+    .query()
+    .findOne({ type: req.body.type, staffName: req.body.player1 })
+    .patch(player1);
+  await hall_of_fame
+    .query()
+    .findOne({ type: req.body.type, staffName: req.body.player2 })
+    .patch(player2);
+
+  res.status(204).send();
+});
+
+/* 
   POST handler for /api/89ball_league/hall_of_fame/calculate
   Function: To add a fixture to the HoF table for consideration
   MUST BE RAN AFTER LEAGUE CALCULATION
@@ -295,11 +499,11 @@ router.post("/updatehof", async (req, res) => {
 
   type = parseInt(req.body.type, 10);
   //this is the fixture to be added into consideration
-  score1 = parseInt(req.body.score1)
-  score2 = parseInt(req.body.score2)
-  player1 = req.body.player1
-  player2 = req.body.player2
-  seasonId = req.body.seasonId
+  score1 = parseInt(req.body.score1);
+  score2 = parseInt(req.body.score2);
+  player1 = req.body.player1;
+  player2 = req.body.player2;
+  seasonId = req.body.seasonId;
 
   let hofAll = await hall_of_fame.query().where({
     type: type
@@ -316,15 +520,15 @@ router.post("/updatehof", async (req, res) => {
   //no delete function here: make it it's own thing!
   //well there is, but only for testing
   const numberOfDeletedRows = await hall_of_fame
-  .query()
-  .delete()
-  .where({
-    type: type
-  })
-   console.log("deleted " + numberOfDeletedRows + " rows.")
+    .query()
+    .delete()
+    .where({
+      type: type
+    });
+  console.log("deleted " + numberOfDeletedRows + " rows.");
 
   //check if p1 is already in the HoF. If not, add them. Set their values.
-  const p1Present = await hall_of_fame.query().where({staffName: player1})
+  const p1Present = await hall_of_fame.query().where({ staffName: player1 });
   if (p1Present.length === 0) {
     await knex("hall_of_fame").insert({
       staffName: player1,
@@ -347,7 +551,7 @@ router.post("/updatehof", async (req, res) => {
   }
 
   //check if p2 is already in the HoF. If not, add them. Set their values.
-  const p2Present = await hall_of_fame.query().where({staffName: player2})
+  const p2Present = await hall_of_fame.query().where({ staffName: player2 });
   if (p2Present.length === 0) {
     await knex("hall_of_fame").insert({
       staffName: player2,
@@ -361,14 +565,14 @@ router.post("/updatehof", async (req, res) => {
     hof2.wins = 0;
     hof2.plays = 0;
     hof2.highestPoints = 0;
-    hof2.totalPoints = 0
+    hof2.totalPoints = 0;
   } else {
     hof2 = await hall_of_fame.query().where({
       type: type,
       staffName: player2
     });
   }
-  
+
   //make sure values have been found
   if (hof1.length === 0 || hof2.length === 0) {
     res.status(404).send();
@@ -403,15 +607,15 @@ router.post("/updatehof", async (req, res) => {
 
   //check the current league and add scores for ach:bestSeason
   if (currentLeague1.points > hof1.highestPoints) {
-    hof1.highestPoints = currentLeague1.points
+    hof1.highestPoints = currentLeague1.points;
   }
   if (currentLeague2.points > hof2.highestPoints) {
-    hof2.highestPoints = currentLeague2.points
+    hof2.highestPoints = currentLeague2.points;
   }
 
   //get the latest winrate needed for ach:improver and ach:timeToRetire
-  if (seasons.length > 1) {//TODO also need to check if this is the last fixture
-
+  if (seasons.length > 1) {
+    //TODO also need to check if this is the last fixture
   }
 
   //calculations for ac:scrappy
@@ -429,7 +633,8 @@ router.post("/updatehof", async (req, res) => {
         hof1.scrappy++;
       }
     }
-  } else { //else, go through and recalculate everything
+  } else {
+    //else, go through and recalculate everything
     let fixtures = await eight_nine_ball_fixtures.query().where({
       type: type
     });
@@ -439,9 +644,9 @@ router.post("/updatehof", async (req, res) => {
 
     for (let i = 0; i < fixtures.length; i++) {
       let hofAll = await hall_of_fame.query().where({
-        type: type,
+        type: type
       });
-      loc1, loc2 = 0;
+      loc1, (loc2 = 0);
 
       //if player1 is the same as topPlayer, get its location and increment as necessary
       if (player1 === topPlayer) {
@@ -469,11 +674,12 @@ router.post("/updatehof", async (req, res) => {
         }
       }
     }
-    
+
     //add the values to the database. don't forget to calculate scrappyRate for ach:scrappy
     for (let i = 0; i < hofAll.length; i++) {
       delete hofAll[i].id;
-      hofAll[i].scrappyRate = (hofAll[i].scrappy * 100) / hofAll[i].scrappyPlays;
+      hofAll[i].scrappyRate =
+        (hofAll[i].scrappy * 100) / hofAll[i].scrappyPlays;
       await hall_of_fame
         .query()
         .findOne({
@@ -483,7 +689,6 @@ router.post("/updatehof", async (req, res) => {
         .patch(hofAll[i]);
     }
   }
-
 
   res.json(hof1);
 });
