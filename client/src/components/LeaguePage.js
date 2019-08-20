@@ -139,22 +139,22 @@ class App extends React.Component {
             {state.player1} {state.score1} - {state.score2} {state.player2}
           </p>
         );
-        await backend.post(
-          "/api/hall_of_fame/calculate_v2",
-          {
-            type: parseInt(this.state.type),
-            seasonId: this.state.activeSeason,
-            player1: state.player1,
-            score1: parseInt(state.score1),
-            player2: state.player2,
-            score2: parseInt(state.score2),
-          },
-          {
-            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-          }
-        );
         this.updateData();
         if (!this.state.playoff) {
+          await backend.post(
+            "/api/hall_of_fame/calculate_v2",
+            {
+              type: parseInt(this.state.type),
+              seasonId: this.state.activeSeason,
+              player1: state.player1,
+              score1: parseInt(state.score1),
+              player2: state.player2,
+              score2: parseInt(state.score2),
+            },
+            {
+              headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+            }
+          );
           await backend.post(
             "/api/slack/resultSubmitted",
             {
