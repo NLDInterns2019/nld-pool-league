@@ -67,12 +67,12 @@ class HoFPage extends React.Component {
     //GET
     await this.getHOF();
 
-    //CALC
-    await this.createHoF();
-    await this.createHoF9();
+    // //CALC
+    // await this.createHoF();
+    // await this.createHoF9();
 
-    //GET
-    await this.getHOF();
+    // //GET
+    // await this.getHOF();
 
     
   };
