@@ -162,14 +162,14 @@ router.post("/calculate", async (req, res) => {
 
     //change this calculation when you look at how punctuality is actually done - aiming for a punct point per match played on time
     hofRow.punctuality = hofRow.punctuality + leagues[i].punctuality;
-    //hofRow.winRate = Math.trunc((hofRow.wins * 100) / hofRow.plays);
+    //hofRow.winRate = Math.round((hofRow.wins * 100) / hofRow.plays);
 
     let seasons = await eight_nine_ball_seasons.query().where({ type: type });
 
     if (hofRow.plays !== 0) {
-      hofRow.drawRate = Math.trunc((hofRow.draws * 100) / hofRow.plays);
-      hofRow.punctRate = Math.trunc((hofRow.punctRate * 100) / hofRow.plays);
-      hofRow.lossRate = Math.trunc((hofRow.loss * 100) / hofRow.plays);
+      hofRow.drawRate = Math.round((hofRow.draws * 100) / hofRow.plays);
+      hofRow.punctRate = Math.round((hofRow.punctRate * 100) / hofRow.plays);
+      hofRow.lossRate = Math.round((hofRow.loss * 100) / hofRow.plays);
       hofRow.avgPoints = parseFloat(hofRow.totalPoints / hofRow.plays).toFixed(
         2
       ); //seasons.length
@@ -209,7 +209,7 @@ router.post("/calculate", async (req, res) => {
 
   for (let i = 0; i < hofAll.length; i++) {
     if (hofAll[i].plays > 0) {
-      hofAll[i].winRate = Math.trunc((hofAll[i].wins * 100) / hofAll[i].plays);
+      hofAll[i].winRate = Math.round((hofAll[i].wins * 100) / hofAll[i].plays);
     } else {
       hofAll[i].winRate = 0;
     }
@@ -310,6 +310,9 @@ router.post("/calculate_v2", async (req, res) => {
     return;
   }
 
+  /************
+   * PLAYER 1 *
+   ************/
   let player1 = await hall_of_fame
     .query()
     .findOne({ staffName: req.body.player1, type: req.body.type });
@@ -329,6 +332,9 @@ router.post("/calculate_v2", async (req, res) => {
   //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
   delete player1.id;
 
+  /************
+   * PLAYER 2 *
+   ************/
   let player2 = await hall_of_fame
     .query()
     .findOne({ staffName: req.body.player2, type: req.body.type });
@@ -348,15 +354,30 @@ router.post("/calculate_v2", async (req, res) => {
   //IMPORTANT.. ID NEEDS TO BE DELETED, PATCHING ID IS NOT ALLOWED
   delete player2.id;
 
-  /*
-   *  PLAYS
-   */
+  /**************
+   * TOP PLAYER *
+   **************/
+  let topPlayer;
+  await hall_of_fame
+    .query()
+    .orderBy("winRate", "desc")
+    .orderBy("wins", "desc")
+    .first()
+    .then(player => {
+      if (player.winRate > 0) {
+        topPlayer = player;
+      }
+    });
+
+  /*********
+   * PLAYS *
+   *********/
   player1.plays++;
   player2.plays++;
 
-  /*
-   *  WIN, LOSS, DRAW, CURRENT STREAK, CURRENT LOSS STREAK, TOTAL POINTS
-   */
+  /**********************************************************************
+   * WIN, LOSS, DRAW, CURRENT STREAK, CURRENT LOSS STREAK, TOTAL POINTS *
+   **********************************************************************/
   if (req.body.score1 > req.body.score2) {
     //PLAYER 1 WIN
     player1.wins++;
@@ -365,7 +386,7 @@ router.post("/calculate_v2", async (req, res) => {
     player1.curLosingStreak = 0;
     player2.curLosingStreak++;
     player2.curStreak = 0;
-    player1.totalPoints += 2;
+    player1.totalPoints += 3;
   } else if (req.body.score2 > req.body.score1) {
     //PLAYER 2 WIN
     player2.wins++;
@@ -374,7 +395,7 @@ router.post("/calculate_v2", async (req, res) => {
     player2.curLosingStreak = 0;
     player1.curLosingStreak++;
     player1.curStreak = 0;
-    player2.totalPoints += 2;
+    player2.totalPoints += 3;
   } else {
     //DRAW
     player1.draws++;
@@ -387,26 +408,26 @@ router.post("/calculate_v2", async (req, res) => {
     player2.totalPoints++;
   }
 
-  /*
-   *  WIN RATE, LOSS RATE, DRAW RATE, AVG POINTS
-   */
-  player1.winRate = Math.trunc((player1.wins * 100) / player1.plays);
-  player1.drawRate = Math.trunc((player1.draws * 100) / player1.plays);
-  player1.lossRate = Math.trunc((player1.loss * 100) / player1.plays);
+  /**********************************************
+   * WIN RATE, LOSS RATE, DRAW RATE, AVG POINTS *
+   **********************************************/
+  player1.winRate = Math.round((player1.wins * 100) / player1.plays);
+  player1.drawRate = Math.round((player1.draws * 100) / player1.plays);
+  player1.lossRate = Math.round((player1.loss * 100) / player1.plays);
   player1.avgPoints = parseFloat(player1.totalPoints / player1.plays).toFixed(
     2
   );
 
-  player2.winRate = Math.trunc((player2.wins * 100) / player2.plays);
-  player2.drawRate = Math.trunc((player2.draws * 100) / player2.plays);
-  player2.lossRate = Math.trunc((player2.loss * 100) / player2.plays);
+  player2.winRate = Math.round((player2.wins * 100) / player2.plays);
+  player2.drawRate = Math.round((player2.draws * 100) / player2.plays);
+  player2.lossRate = Math.round((player2.loss * 100) / player2.plays);
   player2.avgPoints = parseFloat(player2.totalPoints / player2.plays).toFixed(
     2
   );
 
-  /*
-   *  WIN STREAK, LOSS STREAK
-   */
+  /***************************
+   * WIN STREAK, LOSS STREAK *
+   ***************************/
   //P1
   if (player1.curStreak > player1.winningStreak) {
     player1.winningStreak = player1.curStreak;
@@ -422,9 +443,9 @@ router.post("/calculate_v2", async (req, res) => {
     player2.losingStreak = player2.curLosingStreak;
   }
 
-  /*
-   *  Highest Points
-   */
+  /*****************
+   * Highest Points*
+   *****************/
   await eight_nine_ball_leagues
     .query()
     .findOne({
@@ -450,9 +471,9 @@ router.post("/calculate_v2", async (req, res) => {
       }
     });
 
-  /*
-   *  Punctuality
-   */
+  /***************
+   * Punctuality *
+   ***************/
   await eight_nine_ball_leagues
     .query()
     .where({ staffName: req.body.player1, type: req.body.type })
@@ -468,13 +489,43 @@ router.post("/calculate_v2", async (req, res) => {
       player2.punctuality = points[0].sum;
     });
 
-  /*
-   *  Punctuality Rate
-   */
-  player1.punctRate = Math.trunc((player1.punctuality * 100) / player1.plays);
-  player2.punctRate = Math.trunc((player2.punctuality * 100) / player2.plays); 
+  /********************
+   * Punctuality Rate *
+   ********************/
+  player1.punctRate = Math.round((player1.punctuality * 100) / player1.plays);
+  player2.punctRate = Math.round((player2.punctuality * 100) / player2.plays);
 
-  //PATCH HoF
+  /**********
+   * Scrappy *
+   ***********/
+  const isPlayer1Top = req.body.player1 === topPlayer.staffName;
+  const isPlayer2Top = req.body.player2 === topPlayer.staffName;
+  if (isPlayer1Top) {
+    player2.scrappyPlays++;
+    if (req.body.score2 > req.body.score1) {
+      player2.scrappy++;
+    }
+  }
+  if (isPlayer2Top) {
+    player1.scrappyPlays++;
+    if (req.body.score1 > req.body.score2) {
+      player1.scrappy++;
+    }
+  }
+
+  /****************
+   * Scrappy Rate *
+   ****************/
+  player1.scrappyRate = Math.round(
+    (player1.scrappy * 100) / player1.scrappyPlays
+  );
+  player2.scrappyRate = Math.round(
+    (player2.scrappy * 100) / player2.scrappyPlays
+  );
+
+  /*************
+   * PATCH HOF *
+   *************/
   await hall_of_fame
     .query()
     .findOne({ type: req.body.type, staffName: req.body.player1 })
