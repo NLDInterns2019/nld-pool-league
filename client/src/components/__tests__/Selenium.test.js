@@ -2,9 +2,12 @@ import chai, { expect } from "chai";
 require("chromedriver");
 const { Builder, By, Key, until } = require("selenium-webdriver");
 var driver = new Builder().forBrowser("chrome").build();
+driver
+  .manage()
+  .window()
+  .maximize();
 chai.use(require("chai-as-promised"));
 var homepage = "http://nldpoolleague.azurewebsites.net";
-setTimeout(100000);
 
 describe("App", () => {
   // uncomment to demonstrate
@@ -14,6 +17,7 @@ describe("App", () => {
 
   describe("LandingPage", () => {
     it("should have expected title value", async () => {
+      setTimeout(10000);
       await driver.get(homepage);
       var actual = await driver.getTitle();
       var expected = "Pool Manager";
@@ -21,6 +25,7 @@ describe("App", () => {
     });
 
     it("should navigate to the 8-ball section when 8-ball is clicked", async () => {
+      setTimeout(10000);
       await driver.get(homepage);
       await driver
         .findElement(
@@ -33,6 +38,7 @@ describe("App", () => {
     });
 
     it("should navigate to the 9-ball section when 9-ball is clicked", async () => {
+      setTimeout(10000);
       await driver.get(homepage);
       await driver
         .findElement(
@@ -46,8 +52,11 @@ describe("App", () => {
   });
 
   describe("8-ball Seasons page navigation", () => {
-    it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
+    beforeEach(async () => {
       await driver.get(homepage + "/8-ball/seasons");
+    });
+    it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
+      setTimeout(10000);
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
       var expected = homepage + "/";
@@ -55,16 +64,44 @@ describe("App", () => {
     });
 
     it('should navigate to the 9-ball seasons page when "9-ball" is clicked', async () => {
-      await driver.get(homepage + "/8-ball/seasons");
+      setTimeout(10000);
       await driver.findElement(By.id("nineBallLink")).click();
       var actual = await driver.getCurrentUrl();
       var expected = homepage + "/9-ball/seasons";
       expect(actual).to.equal(expected);
     });
+
+    it('should navigate to the 8-ball kitty when "kitty" clicked', async () => {
+      setTimeout(10000);
+      await driver.findElement(By.id("KittyLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "/8-ball/kitty";
+      expect(actual).to.equal(expected);
+    });
+
+    it('should navigate to the hall of fame when "Hall of Fame" clicked', async () => {
+      setTimeout(10000);
+      await driver.findElement(By.id("HoFLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "/8-ball/hall_of_fame";
+      expect(actual).to.equal(expected);
+    });
+
+    it('should navigate to the 8-ball overview when "current season" clicked', async () => {
+      setTimeout(10000);
+      await driver.findElement(By.id("fixturesLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "/8-ball/overview/";
+      expect(actual).to.contain(expected);
+    });
   });
 
   describe("9-ball Seasons page navigation", () => {
+    beforeEach(async () => {
+      await driver.get(homepage + "/9-ball/seasons");
+    });
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
+      setTimeout(10000);
       await driver.get(homepage + "/9-ball/seasons");
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
@@ -73,6 +110,7 @@ describe("App", () => {
     });
 
     it('should navigate to the 8-ball seasons page when "8-ball" is clicked', async () => {
+      setTimeout(10000);
       await driver.get(homepage + "/9-ball/seasons");
       await driver.findElement(By.id("eightBallLink")).click();
       var actual = await driver.getCurrentUrl();
