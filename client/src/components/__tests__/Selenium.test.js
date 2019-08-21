@@ -1,7 +1,6 @@
 import chai, { expect } from "chai";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 require("chromedriver");
-const { Builder, By, Key, until } = require("selenium-webdriver");
+const { Builder, By, Key, until, WebElement } = require("selenium-webdriver");
 var driver = new Builder().forBrowser("chrome").build();
 driver
   .manage()
@@ -94,7 +93,7 @@ describe("App", () => {
     });
 
     it('should navigate to the 8-ball overview when "current season" clicked', async () => {
-      await driver.findElement(By.id("fixturesLink")).click();
+      await driver.findElement(By.id("currentSeasonLink")).click();
       var actual = await driver.getCurrentUrl();
       var expected = homepage + "8-ball/overview/";
       expect(actual).to.contain(expected);
@@ -113,6 +112,15 @@ describe("App", () => {
         .getText();
       var expected = "9-Ball";
       expect(text).to.equal(expected);
+    });
+
+    it("should not display 'My Dashboard' in the subnav bar", async () => {
+      var actual = await driver
+        .findElements(By.xpath("//*[@class='main-items']/li"))
+        .then(elements => {
+          return elements[1].getText();
+        });
+      expect(actual).to.equal("");
     });
 
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
@@ -144,7 +152,7 @@ describe("App", () => {
     });
 
     it('should navigate to the 9-ball overview when "current season" clicked', async () => {
-      await driver.findElement(By.id("fixturesLink")).click();
+      await driver.findElement(By.id("currentSeasonLink")).click();
       var actual = await driver.getCurrentUrl();
       var expected = homepage + "9-ball/overview/";
       expect(actual).to.contain(expected);
@@ -176,32 +184,34 @@ describe("App", () => {
       expect(actual).to.equal(expected);
     });
 
-    // it("should display all the correct nav items", async () => {
-    //   await driver.get(homepage + "8-ball/seasons");
-    //   var allSeasonsText = await driver
-    //     .wait(until.elementLocated(By.id("seasonsLink")))
-    //     .then(element => {
-    //       return element.getText();
-    //     });
+    it("should display all the correct nav items", async () => {
+      await driver.get(homepage + "8-ball/seasons");
+      var allSeasonsText = await driver
+        .wait(until.elementLocated(By.id("seasonsLink")))
+        .then(element => {
+          return element.getText();
+        });
 
-    //   var currentSeasonText = await driver
-    //     .findElement(By.id("currentSeasonLink"))
-    //     .getText();
+      var currentSeasonText = await driver
+        .findElement(By.id("currentSeasonLink"))
+        .getText();
 
-    //   var arrangeFixturesText = await driver
-    //     .findElement(By.id("fixturesLink"))
-    //     .getText();
-    //   var hallOfFameText = await driver.findElement(By.id("HoFLink")).getText();
-    //   var kittyText = await driver.findElement(By.id("KittyLink")).getText();
-    //   var dashboardText = await driver.findElement(By.id("dashboardLink"));
+      var arrangeFixturesText = await driver
+        .findElement(By.id("fixturesLink"))
+        .getText();
+      var hallOfFameText = await driver.findElement(By.id("HoFLink")).getText();
+      var kittyText = await driver.findElement(By.id("KittyLink")).getText();
+      var dashboardText = await driver
+        .findElement(By.id("dashboardLink"))
+        .getText();
 
-    //   expect(allSeasonsText).to.equal("All Seasons");
-    //   expect(currentSeasonText).to.equal("Current Season");
-    //   expect(arrangeFixturesText).to.equal("Arrange Fixtures");
-    //   expect(hallOfFameText).to.equal("Hall of Fame");
-    //   expect(kittyText).to.equal("Kitty");
-    //   expect(dashboardText).to.equal("My Dashboard");
-    // });
+      expect(allSeasonsText).to.equal("All Seasons");
+      expect(currentSeasonText).to.equal("Current Season");
+      expect(arrangeFixturesText).to.equal("Arrange Fixtures");
+      expect(hallOfFameText).to.equal("Hall of Fame");
+      expect(kittyText).to.equal("Kitty");
+      expect(dashboardText).to.equal("My Dashboard");
+    });
   });
 
   describe("Dashboard", () => {
