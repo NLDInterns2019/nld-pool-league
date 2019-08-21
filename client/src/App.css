@@ -1672,10 +1672,6 @@ tr td:last-child {
     order: 4;
   }
 
-  .leagueTable {
-    font-size: 18pt;
-  }
-
   .summary-container {
     width: 700px;
     margin: auto;

@@ -131,7 +131,7 @@ const SubNavBar = props => {
                 <Link
                   to={`/${path}/overview/${props.latestSeason}`}
                   style={currentSeasonCurrentStyle}
-                  id="fixturesLink"
+                  id="currentSeasonLink"
                 >
                   Current Season
                 </Link>
