@@ -65,13 +65,6 @@ describe("App", () => {
       expect(text).to.equal(expected);
     });
 
-    // it("should display all the correct nav items", async () => {
-    //   var allSeasonsText = await driver
-    //     .findElement(By.id("seasonsLink"))
-    //     .getText();
-    //   var currentSeasonText = await driver.findElement(By.id());
-    // });
-
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
@@ -182,6 +175,33 @@ describe("App", () => {
       var expected = homepage;
       expect(actual).to.equal(expected);
     });
+
+    // it("should display all the correct nav items", async () => {
+    //   await driver.get(homepage + "8-ball/seasons");
+    //   var allSeasonsText = await driver
+    //     .wait(until.elementLocated(By.id("seasonsLink")))
+    //     .then(element => {
+    //       return element.getText();
+    //     });
+
+    //   var currentSeasonText = await driver
+    //     .findElement(By.id("currentSeasonLink"))
+    //     .getText();
+
+    //   var arrangeFixturesText = await driver
+    //     .findElement(By.id("fixturesLink"))
+    //     .getText();
+    //   var hallOfFameText = await driver.findElement(By.id("HoFLink")).getText();
+    //   var kittyText = await driver.findElement(By.id("KittyLink")).getText();
+    //   var dashboardText = await driver.findElement(By.id("dashboardLink"));
+
+    //   expect(allSeasonsText).to.equal("All Seasons");
+    //   expect(currentSeasonText).to.equal("Current Season");
+    //   expect(arrangeFixturesText).to.equal("Arrange Fixtures");
+    //   expect(hallOfFameText).to.equal("Hall of Fame");
+    //   expect(kittyText).to.equal("Kitty");
+    //   expect(dashboardText).to.equal("My Dashboard");
+    // });
   });
 
   describe("Dashboard", () => {
