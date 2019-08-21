@@ -175,7 +175,7 @@ const SubNavBar = props => {
               <Link
                 to={`/${path}/overview/${props.activeSeason}`}
                 style={currentSeasonCurrentStyle}
-                id="fixturesLink"
+                id="currentSeasonLink"
               >
                 Current Season
               </Link>
@@ -243,7 +243,7 @@ const SubNavBar = props => {
               <Link
                 to={`/${props.type}-ball/dashboard`}
                 style={dashboardCurrentStyle}
-                id="seasonsLink"
+                id="dashboardLink"
               >
                 My Dashboard
               </Link>
