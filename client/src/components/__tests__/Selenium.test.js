@@ -65,6 +65,13 @@ describe("App", () => {
       expect(text).to.equal(expected);
     });
 
+    // it("should display all the correct nav items", async () => {
+    //   var allSeasonsText = await driver
+    //     .findElement(By.id("seasonsLink"))
+    //     .getText();
+    //   var currentSeasonText = await driver.findElement(By.id());
+    // });
+
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
@@ -170,7 +177,7 @@ describe("App", () => {
           return element.sendKeys("test");
         });
       await driver.findElement(By.className("auth0-label-submit")).click();
-      await driver.sleep(3000);
+      await driver.wait(until.urlIs(homepage));
       var actual = await driver.getCurrentUrl();
       var expected = homepage;
       expect(actual).to.equal(expected);
