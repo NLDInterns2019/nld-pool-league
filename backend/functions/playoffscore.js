@@ -31,16 +31,7 @@ module.exports = {
     //Update form
     player1.form = p1FormArray.join("");
     player2.form = p2FormArray.join("");
-
-    //Calculate punctuality
-    if(moment().isSameOrBefore(dueDate)){
-      player1.punctuality++;
-      player2.punctuality++;
-    }else{
-      player1.punctuality--;
-      player2.punctuality--;
-    }
-
+    
     return { player1, player2 };
   }
 };

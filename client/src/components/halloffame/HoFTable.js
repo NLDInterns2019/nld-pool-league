@@ -1,5 +1,5 @@
 import React from "react";
-import { maxBy, orderBy, minBy, filter } from "lodash";
+import { maxBy, minBy, filter } from "lodash";
 const itemsToBeDisplayed = props => {
   /**************
    * Top Player *
@@ -73,7 +73,6 @@ const itemsToBeDisplayed = props => {
     props.players,
     player => player.plays === maxBy(props.players, "plays").plays
   );
-  console.log(dedicated)
   if (dedicated.length === 1) {
     dedicated = dedicated[0];
   } else {
