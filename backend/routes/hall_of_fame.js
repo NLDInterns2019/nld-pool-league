@@ -9,7 +9,6 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
-const scrappyGen = require("../functions/addscrappy");
 const streakGen = require("../functions/streaks");
 const windrawGen = require("../functions/windraw");
 
@@ -287,6 +286,77 @@ router.post("/calculate", async (req, res) => {
 
   res.json(hofAll);
 });
+
+/* 
+  POST handler for /api/89ball_league/hall_of_fame/calculate
+  Function: To handle achievements set when a season is closed
+*/
+router.post("/updatehof", async (req, res) => {
+  type = parseInt(req.body.type);
+  seasonId = parseInt(req.body.seasonId);
+
+  //the most recent league allows for current winrate
+  let currentLeague = await eight_nine_ball_leagues.query().where({
+    type: type,
+    seasonId: seasonId
+  });
+  if (currentLeague === 0) {
+    res.status(404).send();
+    return;
+  }
+
+  //the older leagues allow for older winrates
+  let pastLeagues = await eight_nine_ball_leagues.query().where({
+    type: type
+  })
+  .where('seasonId', '<', 'seasonId');
+  if (pastLeagues === 0) {
+    res.status(404).send();
+    return;
+  }
+
+  //allow for updates
+  let hofAll = await eight_nine_ball_leagues.query().where({
+    type: type
+  })
+  if (hofAll === 0) {
+    res.status(404).send();
+    return;
+  }
+
+  //check for all entries in hofAll
+  for (let j = 0; j < hofAll.length; j++ ) {
+    locP, locC = -1;
+    //get location of entry within hofAll
+    for (let i = 0; i < pastLeagues; i++) {
+    if (pastLeagues[i] === hofAll[j].staffName) {
+      locP = i;
+      break;
+    }
+  }F
+
+    //calculate winrate for current league
+    for (let i = 0; i < currentLeague; i++) {
+      if (currentLeague[i] === hofAll[j].staffName) {
+        locC = i;
+        break;
+      }
+    }
+    hofAll[j].latestWins = (currentLeague[locC].wins * 100) / currentLeague[locC].plays;
+    
+    //calculate avg winrate for the rest of the leagues
+    for (let i = 0; i < currentLeague; i++) {
+      if (currentLeague[i] === hofAll[j].staffName) {
+        locC = i;
+        break;
+      }
+    }
+    // hofAll[j].improvement = ()
+
+  }
+
+  
+})
 
 /* 
   POST handler for /api/89ball_league/hall_of_fame/calculate_v2
