@@ -369,7 +369,16 @@ router.post("/updatehof", async (req, res) => {
     //deduct: may want a better method of %
     hofAll[j].latestWins = hofAll[j].improvement - improvementRate;
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
-    
+
+    //patch
+    delete hofAll[j].id;
+    await hall_of_fame
+        .query()
+        .findOne({
+          type: type,
+          staffName: hofAll[j].staffName
+        })
+        .patch(hofAll[j]);
 
   }
 
