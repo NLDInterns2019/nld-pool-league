@@ -356,16 +356,20 @@ router.post("/updatehof", async (req, res) => {
     //calculate avg winrate for the rest of the leagues
     totalWins = 0;
     totalPlays = 0;
+    totalPoints = 0;
     for (let i = 0; i < pastLeagues; i++) {
       if (pastLeagues[i] === hofAll[j].staffName) {
         totalWins = totalWins + pastLeagues[i].win;
         totalPlays = totalPlays + pastLeagues[i].play;
+        totalPoints = totalPoints + pastLeagues[i].points;
       }
     }
     hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
     //deduct: may want a better method of %
-    hofAll[j].latestWins = hofAll[j].improvement = improvementRate;
+    hofAll[j].latestWins = hofAll[j].improvement - improvementRate;
+    hofAll[j].avgPointsSeason = totalPoints / seasons.length;
+    
 
   }
 
