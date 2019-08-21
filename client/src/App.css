@@ -788,7 +788,7 @@ tr td:last-child {
 #calendarContainer {
   background-color: white;
   width: 80%;
-  min-width: 1000px;
+  min-width: 600px;
   margin: auto;
   padding: 4rem;
   border-radius: 30px;

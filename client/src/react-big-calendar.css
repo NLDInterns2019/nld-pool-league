@@ -204,15 +204,26 @@ button.rbc-input::-moz-focus-inner {
   box-shadow: none;
   margin: 0;
   padding: 8px 5px;
-  /* background-color: #3174ad; */
   background-color: #127e5c;
   border-radius: 50px;
   color: #fff;
   cursor: pointer;
   width: 100%;
-  /* text-align: left; */
   text-align: center;
 }
+
+@media only screen and (max-width: 1364px) {
+  .rbc-event {
+    font-size: 10pt;
+  }
+}
+
+@media only screen and (max-width: 1115px) {
+  .rbc-event {
+    font-size: 8pt;
+  }
+}
+
 .rbc-slot-selecting .rbc-event {
   cursor: inherit;
   pointer-events: none;
