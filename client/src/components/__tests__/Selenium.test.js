@@ -159,18 +159,19 @@ describe("App", () => {
   });
 
   describe("Dashboard", () => {
-    // it("should be able to navigate to the dashboard page after signing in", async () => {
-    //   await jest.setTimeout(30000);
-    //   await driver
-    //     .findElement(
-    //       By.xpath("//*[@id='eightBallLink'][@class='landingPageLink']")
-    //     )
-    //     .click();
-    //   await driver.findElement(By.id("dashboardLink")).click();
-    //   var actual = await driver.getCurrentUrl();
-    //   var expected = homepage + "8-ball/dashboard";
-    //   expect(actual).to.equal(expected);
-    //   await driver.quit();
-    // });
+    it("should be able to navigate to the dashboard page after signing in", async () => {
+      await jest.setTimeout(30000);
+      await driver
+        .wait(until.elementLocated(By.id("eightBallLink")), 5 * 1000)
+        .then(element => {
+          return element.click();
+        });
+      await driver.findElement(By.id("dashboardLink")).click();
+      var actual = await driver.getCurrentUrl();
+      var expected = homepage + "8-ball/dashboard";
+      expect(actual).to.equal(expected);
+      await driver.sleep(1000);
+      await driver.quit();
+    });
   });
 });
