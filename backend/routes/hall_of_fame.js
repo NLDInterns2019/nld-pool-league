@@ -324,6 +324,15 @@ router.post("/updatehof", async (req, res) => {
     return;
   }
 
+  //need number of seasons
+  let seasons = await eight_nine_ball_seasons.query().where({
+    type: type
+  })
+  if (seasons === 0) {
+    res.status(404).send();
+    return;
+  }
+
   //check for all entries in hofAll
   for (let j = 0; j < hofAll.length; j++ ) {
     locP, locC = -1;
@@ -333,7 +342,7 @@ router.post("/updatehof", async (req, res) => {
       locP = i;
       break;
     }
-  }F
+  }
 
     //calculate winrate for current league
     for (let i = 0; i < currentLeague; i++) {
@@ -347,16 +356,29 @@ router.post("/updatehof", async (req, res) => {
     //calculate avg winrate for the rest of the leagues
     totalWins = 0;
     totalPlays = 0;
+    totalPoints = 0;
     for (let i = 0; i < pastLeagues; i++) {
       if (pastLeagues[i] === hofAll[j].staffName) {
         totalWins = totalWins + pastLeagues[i].win;
         totalPlays = totalPlays + pastLeagues[i].play;
+        totalPoints = totalPoints + pastLeagues[i].points;
       }
     }
     hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
     //deduct: may want a better method of %
-    hofAll[j].latestWins = hofAll[j].improvement = improvementRate;
+    hofAll[j].latestWins = hofAll[j].improvement - improvementRate;
+    hofAll[j].avgPointsSeason = totalPoints / seasons.length;
+
+    //patch
+    delete hofAll[j].id;
+    await hall_of_fame
+        .query()
+        .findOne({
+          type: type,
+          staffName: hofAll[j].staffName
+        })
+        .patch(hofAll[j]);
 
   }
 

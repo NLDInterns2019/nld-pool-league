@@ -241,7 +241,7 @@ class SubmitScoreForm extends Component {
           <div>
             <h3>Edit Result</h3>
             <p style={{ color: "red" }}>
-              <strong>Warning:</strong> Only use this form to edit&nbsp;
+              <strong>Warning:</strong> Only use this form to edit an&nbsp;
               <strong>incorrect</strong> score.
             </p>
           </div>
