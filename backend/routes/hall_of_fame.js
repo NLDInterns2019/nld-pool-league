@@ -351,7 +351,7 @@ router.post("/updatehof", async (req, res) => {
         break;
       }
     }
-    hofAll[j].improvement = ()
+    // hofAll[j].improvement = ()
 
   }
 
