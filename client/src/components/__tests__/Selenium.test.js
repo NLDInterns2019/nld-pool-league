@@ -139,7 +139,7 @@ describe("App", () => {
     it("should be able to sign in", async () => {
       await driver.get(homepage);
       await driver.findElement(By.id("loginBtn")).click();
-      await driver.sleep(2000);
+      await driver.sleep(4000);
       await driver
         .wait(until.elementLocated(By.name("username")), 5 * 1000)
         .then(element => {
@@ -151,7 +151,7 @@ describe("App", () => {
           return element.sendKeys("test");
         });
       await driver.findElement(By.className("auth0-label-submit")).click();
-      await driver.sleep(2000);
+      await driver.sleep(3000);
       var actual = await driver.getCurrentUrl();
       var expected = homepage;
       expect(actual).to.equal(expected);
