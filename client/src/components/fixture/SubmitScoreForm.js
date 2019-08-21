@@ -143,15 +143,15 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     if (!this.isValid()) {
       alert("Not a valid input");
     } else {
       /* submit score */
       if (this.props.edit) {
-        await this.props.editFixtureScore(this.prepareSubmitState());
+        this.props.editFixtureScore(this.prepareSubmitState());
       } else {
-        await this.props.changeFixtureScore(this.prepareSubmitState());
+        this.props.changeFixtureScore(this.prepareSubmitState());
       }
       this.setState(
         {
