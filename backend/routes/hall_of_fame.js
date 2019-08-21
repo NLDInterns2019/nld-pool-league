@@ -342,16 +342,21 @@ router.post("/updatehof", async (req, res) => {
         break;
       }
     }
-    hofAll[j].latestWins = (currentLeague[locC].wins * 100) / currentLeague[locC].plays;
+    hofAll[j].improvementRate = (currentLeague[locC].wins * 100) / currentLeague[locC].plays;
     
     //calculate avg winrate for the rest of the leagues
-    for (let i = 0; i < currentLeague; i++) {
-      if (currentLeague[i] === hofAll[j].staffName) {
-        locC = i;
-        break;
+    totalWins = 0;
+    totalPlays = 0;
+    for (let i = 0; i < pastLeagues; i++) {
+      if (pastLeagues[i] === hofAll[j].staffName) {
+        totalWins = totalWins + pastLeagues[i].win;
+        totalPlays = totalPlays + pastLeagues[i].play;
       }
     }
-    // hofAll[j].improvement = ()
+    hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
+    
+    //deduct: may want a better method of %
+    hofAll[j].latestWins = hofAll[j].improvement = improvementRate;
 
   }
 

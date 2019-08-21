@@ -102,7 +102,9 @@ const itemsToBeDisplayed = props => {
         maxBy(props.players, "winningStreak").winningStreak &&
       player.winningStreak !== 0
   );
-  if (streak.length) {
+  if (streak.winningStreak < 2) {
+    streak = null;
+  } else if (streak.length) {
     streak.staffName = streak.map(player => player.staffName).toString();
     streak.winningStreak = streak[0].winningStreak;
   } else {
