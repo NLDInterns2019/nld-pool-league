@@ -9,7 +9,7 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
-const scrappyGen = require("../functions/scrappy");
+const scrappyGen = require("../functions/addscrappy");
 const streakGen = require("../functions/streaks");
 const windrawGen = require("../functions/windraw");
 
@@ -670,6 +670,8 @@ router.post("/updatehof", async (req, res) => {
     hof2.highestPoints = currentLeague2.points;
   }
 
+  
+
   //get the latest winrate needed for ach:improver and ach:timeToRetire
   if (seasons.length > 1) {
     //TODO also need to check if this is the last fixture
@@ -677,6 +679,28 @@ router.post("/updatehof", async (req, res) => {
 
   //calculations for ac:scrappy
   let newTopPlayer = _.maxBy(hofAll, "winRate"); //get top player
+
+  let fixtures = await eight_nine_ball_fixtures.query().where({
+    type: type
+  });
+  if (fixtures === 0) {
+    res.status(404).send;
+  }
+
+  /*let hofAll = await hall_of_fame.query().where({
+    type: type,
+  });
+  if (hofAll === 0) {
+    res.status(404).send;
+  }*/
+
+  if (newTopPlayer === topPlayer) {
+    hof1 = scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof);
+    hof2 = scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof);
+  } else {
+    hofAll = scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof)
+  }
+  //scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof)
   //if the topplayer is the same you just need to count the new values
   if (newTopPlayer === topPlayer) {
     if (player1 === topPlayer) {
