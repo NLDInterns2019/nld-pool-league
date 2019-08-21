@@ -1,7 +1,6 @@
 import React from "react";
 import Collapsible from "./Collapsible.js";
 import { Link, matchPath } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import auth0Client from "../../Auth";
 
 const SubNavBar = props => {
@@ -215,7 +214,6 @@ const SubNavBar = props => {
 
   return (
     <div className="subnav">
-      <ToastContainer />
       {icon}
       <div className="nav">
         <h2

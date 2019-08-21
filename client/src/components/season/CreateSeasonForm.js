@@ -4,7 +4,7 @@ import auth0Client from "../../Auth";
 import backend from "../../api/backend";
 import Axios from "axios";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 class CreateSeasonForm extends Component {
   constructor(props) {
@@ -201,7 +201,6 @@ class CreateSeasonForm extends Component {
   render() {
     return (
       <div id="createSeasonForm">
-        <ToastContainer />
         <h3>Create a Season</h3>
         <form>
           <label>Season number:</label>

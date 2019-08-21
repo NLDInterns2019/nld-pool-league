@@ -73,6 +73,7 @@ const itemsToBeDisplayed = props => {
     props.players,
     player => player.plays === maxBy(props.players, "plays").plays
   );
+  console.log(dedicated)
   if (dedicated.length === 1) {
     dedicated = dedicated[0];
   } else {
@@ -87,7 +88,7 @@ const itemsToBeDisplayed = props => {
     player => player.punctRate === maxBy(props.players, "punctRate").punctRate
   );
   if (onTime.length === 1) {
-    onTime = dedicated[0];
+    onTime = onTime[0];
   } else {
     onTime = null;
   }
@@ -171,11 +172,13 @@ const itemsToBeDisplayed = props => {
         maxBy(props.players, "losingStreak").losingStreak &&
       player.losingStreak !== 0
   );
-  if (losingStreak !== undefined) {
-    if (losingStreak.losingStreak === 0) {
-      losingStreak = null;
-    }
+  if (losingStreak.length) {
+    losingStreak.staffName = losingStreak.map(player => player.staffName).toString();
+    losingStreak.losingStreak = losingStreak[0].losingStreak;
+  } else {
+    losingStreak = null;
   }
+
 
   /******************
    * Time to Retire *

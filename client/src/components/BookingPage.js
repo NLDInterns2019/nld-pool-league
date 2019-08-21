@@ -5,7 +5,7 @@ import "../react-big-calendar.css";
 import "../rbc-dnd.css";
 
 import moment from "moment";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import auth0Client from "../Auth";
 
@@ -298,7 +298,6 @@ class FixturesPage extends Component {
   render() {
     return (
       <div className="fixtures">
-        <ToastContainer />
         <Header />
         <SubNavBar
           activeSeason={this.state.activeSeason}

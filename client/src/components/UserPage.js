@@ -1,7 +1,7 @@
 import React from "react";
 import backend from "../api/backend";
 import auth0Client from "../Auth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Axios from "axios";
 import { find, findIndex, orderBy, uniqBy } from "lodash";
 
@@ -402,7 +402,6 @@ class UserPage extends React.Component {
   render() {
     return (
       <div className="app">
-        <ToastContainer />
         <Header />
         <SubNavBar
           latestSeason={
