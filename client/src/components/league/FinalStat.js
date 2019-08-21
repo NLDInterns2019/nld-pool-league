@@ -30,7 +30,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="achievementTitle">
           Most drawn
-          <span className="tooltiptext">Player with most draws</span>
+          <span className="tooltiptext">Player with the most draws</span>
         </td>
         <td className="name">{draw ? draw.staffName : "-"}</td>
       </tr>
@@ -40,7 +40,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="achievementTitle">
           Liability
-          <span className="tooltiptext">Player with most points against</span>
+          <span className="tooltiptext">Player with the most points against</span>
         </td>
         <td className="name">{firstTimer ? firstTimer.staffName : "-"}</td>
       </tr>
@@ -60,7 +60,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="achievementTitle">
           Dr. Punctual
-          <span className="tooltiptext">Player with fewest lates</span>
+          <span className="tooltiptext">Player with the fewest lates</span>
         </td>
         <td className="name">{onTime ? onTime.staffName : "-"}</td>
       </tr>
@@ -70,7 +70,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="achievementTitle">
           Slacker
-          <span className="tooltiptext">Player with most lates</span>
+          <span className="tooltiptext">Player with the most lates</span>
         </td>
         <td className="name">{late ? late.staffName : "-"}</td>
       </tr>
