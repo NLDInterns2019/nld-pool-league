@@ -1,7 +1,7 @@
 process.env.NODE_ENV = "test";
 
 const expect = require("chai").expect;
-const scrappyGen = require("../functions/scrappy");
+const scrappyGen = require("../functions/addscrappy");
 const knex = require("../db/knex");
 const _ = require("lodash");
 
@@ -23,17 +23,15 @@ describe("scrappy()", () => {
           {id: 2, type: 8, seasonId: 100 , player1: "Andy", score1: 0, player2: "Chris", score2: 2, group: 0 },
           {id: 3, type: 8, seasonId: 100 , player1: "Mal", score1: 2, player2: "Chris", score2: 0, group: 0},
           {id: 4, type: 8, seasonId: 100 , player1: "Winston", score1: 2, player2: "Andy", score2: 0, group: 0});
-          let hofAll = await hall_of_fame.query().where({
-            type: 8
-          });
+          
           hof = {wins: 0, draws: 0, loss: 0, plays: 0, winRate: 0, drawRate: 0, totalPoints: 0, avgPoints: 0, avgPointsSeason: 0 }
 
          //ACT
-         hof = scrappyGen.calculateScrappy(fixtures, hofAll, "Andy", "Andy", player1, player2, hof);
+         hof = scrappyGen.calculateScrappy("Andy", player1, player2, hof);
          let topScrappy = _.maxBy(hof, "scrappy"); 
          console.log(hof + "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
 
         //ASSERT
-        expect(topScrappy).to.eql("Chris"); 
+        expect(topScrappy.staffName).to.eql("Chris"); 
       });
 })

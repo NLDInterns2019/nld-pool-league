@@ -9,7 +9,7 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
-const scrappyGen = require("../functions/scrappy");
+const scrappyGen = require("../functions/addscrappy");
 const streakGen = require("../functions/streaks");
 const windrawGen = require("../functions/windraw");
 
@@ -409,6 +409,8 @@ router.post("/updatehof", async (req, res) => {
     hof2.highestPoints = currentLeague2.points
   }
 
+  
+
   //get the latest winrate needed for ach:improver and ach:timeToRetire
   if (seasons.length > 1) {//TODO also need to check if this is the last fixture
 
@@ -440,7 +442,7 @@ router.post("/updatehof", async (req, res) => {
   //scrappyGen.calculateScrappy(fixtures, hofAll, topPlayer.staffName, newTopPlayer.staffName, player1, player2, hof)
   //if the topplayer is the same you just need to count the new values
   if (newTopPlayer === topPlayer) {
-    /*if (player1 === topPlayer) {
+    if (player1 === topPlayer) {
       hof2.scrappyPlays++;
       if (score2 > score1) {
         hof2.scrappy++;
@@ -490,7 +492,7 @@ router.post("/updatehof", async (req, res) => {
           hofAll[loc1].scrappy++;
         }
       }
-    }*/
+    }
     
     //add the values to the database. don't forget to calculate scrappyRate for ach:scrappy
     for (let i = 0; i < hofAll.length; i++) {
