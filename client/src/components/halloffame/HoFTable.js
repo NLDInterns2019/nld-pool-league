@@ -108,11 +108,10 @@ const itemsToBeDisplayed = props => {
     player =>
       player.winningStreak ===
         maxBy(props.players, "winningStreak").winningStreak &&
-      player.winningStreak !== 0
+      player.winningStreak > 1
   );
-  if (streak.winningStreak < 2) {
-    streak = null;
-  } else if (streak.length) {
+
+  if (streak.length) {
     streak.staffName = streak.map(player => (
       <div className="hall-of-fame-item">{player.staffName}</div>
     ));
@@ -186,7 +185,7 @@ const itemsToBeDisplayed = props => {
     player =>
       player.losingStreak ===
         maxBy(props.players, "losingStreak").losingStreak &&
-      player.losingStreak !== 0
+      player.losingStreak > 1
   );
   if (losingStreak.length) {
     losingStreak.staffName = losingStreak.map(player => (
