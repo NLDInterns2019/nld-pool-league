@@ -100,11 +100,9 @@ const itemsToBeDisplayed = props => {
     player =>
       player.winningStreak ===
         maxBy(props.players, "winningStreak").winningStreak &&
-      player.winningStreak !== 0
+      player.winningStreak > 1
   );
-  if (streak.winningStreak < 2) {
-    streak = null;
-  } else if (streak.length) {
+  if (streak.length) {
     streak.staffName = streak.map(player => player.staffName).toString();
     streak.winningStreak = streak[0].winningStreak;
   } else {
@@ -154,7 +152,8 @@ const itemsToBeDisplayed = props => {
     props.players,
     player =>
       player.punctRate === minBy(props.players, "punctRate").punctRate &&
-      player.punctRate !== 100 && player.punctRate !== 0
+      player.punctRate !== 100 &&
+      player.punctRate !== 0
   );
   if (slacker.length) {
     slacker.staffName = slacker.map(player => player.staffName).toString();
@@ -171,15 +170,16 @@ const itemsToBeDisplayed = props => {
     player =>
       player.losingStreak ===
         maxBy(props.players, "losingStreak").losingStreak &&
-      player.losingStreak !== 0
+      player.losingStreak > 1
   );
   if (losingStreak.length) {
-    losingStreak.staffName = losingStreak.map(player => player.staffName).toString();
+    losingStreak.staffName = losingStreak
+      .map(player => player.staffName)
+      .toString();
     losingStreak.losingStreak = losingStreak[0].losingStreak;
   } else {
     losingStreak = null;
   }
-
 
   /******************
    * Time to Retire *
