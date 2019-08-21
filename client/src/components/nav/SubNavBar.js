@@ -1,7 +1,6 @@
 import React from "react";
 import Collapsible from "./Collapsible.js";
 import { Link, matchPath } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import auth0Client from "../../Auth";
 
 const SubNavBar = props => {
@@ -175,7 +174,7 @@ const SubNavBar = props => {
               <Link
                 to={`/${path}/overview/${props.activeSeason}`}
                 style={currentSeasonCurrentStyle}
-                id="fixturesLink"
+                id="currentSeasonLink"
               >
                 Current Season
               </Link>
@@ -215,7 +214,6 @@ const SubNavBar = props => {
 
   return (
     <div className="subnav">
-      <ToastContainer />
       {icon}
       <div className="nav">
         <h2
@@ -243,7 +241,7 @@ const SubNavBar = props => {
               <Link
                 to={`/${props.type}-ball/dashboard`}
                 style={dashboardCurrentStyle}
-                id="seasonsLink"
+                id="dashboardLink"
               >
                 My Dashboard
               </Link>

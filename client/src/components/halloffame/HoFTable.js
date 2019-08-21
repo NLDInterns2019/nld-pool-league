@@ -73,6 +73,7 @@ const itemsToBeDisplayed = props => {
     props.players,
     player => player.plays === maxBy(props.players, "plays").plays
   );
+  console.log(dedicated)
   if (dedicated.length === 1) {
     dedicated = dedicated[0];
   } else {
@@ -87,7 +88,7 @@ const itemsToBeDisplayed = props => {
     player => player.punctRate === maxBy(props.players, "punctRate").punctRate
   );
   if (onTime.length === 1) {
-    onTime = dedicated[0];
+    onTime = onTime[0];
   } else {
     onTime = null;
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import backend from "../api/backend";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Header from "./nav/Header";
 import SubNavBar from "./nav//SubNavBar";
@@ -215,7 +215,6 @@ class KittyPage extends React.Component {
   render() {
     return (
       <div className="app">
-        <ToastContainer />
         <Header />
         <SubNavBar
           latestSeason={this.state.latestSeason}

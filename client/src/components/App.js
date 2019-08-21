@@ -8,6 +8,7 @@ import HoFPage from "./HoFPage";
 import UserPage from "./UserPage";
 import NotFound from "./NotFound";
 import auth0Client from "../Auth";
+import { ToastContainer} from "react-toastify";
 
 import Callback from "../Callback";
 import KittyPage from "./KittyPage.js";
@@ -26,6 +27,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+         <ToastContainer />
         <Switch>
           <Route path="/" exact component={LandingPage} />
           <Route

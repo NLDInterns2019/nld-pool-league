@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import auth0Client from "../Auth";
@@ -188,7 +188,6 @@ class SeasonsPage extends Component {
   render() {
     return (
       <div id="seasons">
-        <ToastContainer />
         <Header />
         <SubNavBar
           latestSeason={this.state.latestSeason}
