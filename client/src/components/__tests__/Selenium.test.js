@@ -21,6 +21,7 @@ describe("App", () => {
       await jest.setTimeout(30000);
       await driver.get(homepage);
     });
+
     it("should have expected title value", async () => {
       var actual = await driver.getTitle();
       var expected = "Pool Manager";
@@ -55,6 +56,15 @@ describe("App", () => {
       await jest.setTimeout(30000);
       await driver.get(homepage + "8-ball/seasons");
     });
+
+    it('should say "8-ball" in the subnav bar', async () => {
+      var text = await driver
+        .findElement(By.xpath("//*[@class='nav']/h2"))
+        .getText();
+      var expected = "8-Ball";
+      expect(text).to.equal(expected);
+    });
+
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
@@ -96,6 +106,15 @@ describe("App", () => {
       await jest.setTimeout(30000);
       await driver.get(homepage + "9-ball/seasons");
     });
+
+    it('should say "9-ball" in the subnav bar', async () => {
+      var text = await driver
+        .findElement(By.xpath("//*[@class='nav']/h2"))
+        .getText();
+      var expected = "9-Ball";
+      expect(text).to.equal(expected);
+    });
+
     it('should navigate to the landing page when "POOL MANAGER" is clicked', async () => {
       await driver.findElement(By.xpath("//*[@class='headerLeft']/a")).click();
       var actual = await driver.getCurrentUrl();
@@ -159,8 +178,10 @@ describe("App", () => {
   });
 
   describe("Dashboard", () => {
-    it("should be able to navigate to the dashboard page after signing in", async () => {
+    beforeEach(async () => {
       await jest.setTimeout(30000);
+    });
+    it("should be able to navigate to the dashboard page after signing in", async () => {
       await driver
         .wait(until.elementLocated(By.id("eightBallLink")), 5 * 1000)
         .then(element => {
@@ -171,6 +192,14 @@ describe("App", () => {
       var expected = homepage + "8-ball/dashboard";
       expect(actual).to.equal(expected);
       await driver.sleep(1000);
+    });
+
+    it("should say the user's name at the top of the screen", async () => {
+      var text = await driver
+        .findElement(By.xpath("//*[@class='player-info']/h3"))
+        .getText();
+      var expected = "Welcome back MATTHEW";
+      expect(text).to.equal(expected);
       await driver.quit();
     });
   });
