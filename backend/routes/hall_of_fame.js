@@ -301,7 +301,7 @@ router.post("/calculate_v2", async (req, res) => {
     player1: Joi.string().required(),
     score1: Joi.number().required(),
     player2: Joi.string().required(),
-    score2: Joi.number().required(),
+    score2: Joi.number().required()
   };
 
   if (Joi.validate(req.body, schema, { convert: false }).error) {
@@ -368,10 +368,10 @@ router.post("/calculate_v2", async (req, res) => {
       }
     });
 
-    /**********
+  /**********
    * Scrappy *
    ***********/
-  if(topPlayer){
+  if (topPlayer) {
     const isPlayer1Top = req.body.player1 === topPlayer.staffName;
     const isPlayer2Top = req.body.player2 === topPlayer.staffName;
     if (isPlayer1Top) {
@@ -387,7 +387,6 @@ router.post("/calculate_v2", async (req, res) => {
       }
     }
   }
-
 
   /****************
    * Scrappy Rate *
