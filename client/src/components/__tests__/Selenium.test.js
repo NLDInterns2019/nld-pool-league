@@ -10,11 +10,6 @@ chai.use(require("chai-as-promised"));
 var homepage = "http://nldpoolleague.azurewebsites.net/";
 
 describe("App", () => {
-  // uncomment to demonstrate
-  //   afterEach(async () => {
-  //     await driver.sleep(500);
-  //   });
-
   describe("LandingPage", () => {
     beforeEach(async () => {
       await jest.setTimeout(30000);
