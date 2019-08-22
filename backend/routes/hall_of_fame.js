@@ -288,10 +288,10 @@ router.post("/calculate", async (req, res) => {
 });
 
 /* 
-  POST handler for /api/89ball_league/hall_of_fame/calculate
+  POST handler for /api/hall_of_fame/calculate
   Function: To handle achievements set when a season is closed
 */
-router.post("/updatehof", async (req, res) => {
+router.post("/updatehof2", async (req, res) => {
   type = parseInt(req.body.type);
   seasonId = parseInt(req.body.seasonId);
 
@@ -335,7 +335,7 @@ router.post("/updatehof", async (req, res) => {
 
   //check for all entries in hofAll
   for (let j = 0; j < hofAll.length; j++ ) {
-    locP, locC = -1;
+    let locP, locC = -1;
     //get location of entry within hofAll
     for (let i = 0; i < pastLeagues; i++) {
     if (pastLeagues[i] === hofAll[j].staffName) {
@@ -345,20 +345,20 @@ router.post("/updatehof", async (req, res) => {
   }
 
     //calculate winrate for current league
-    for (let i = 0; i < currentLeague; i++) {
-      if (currentLeague[i] === hofAll[j].staffName) {
+    for (let i = 0; i < currentLeague.length; i++) {
+      if (currentLeague[i].staffName === hofAll[j].staffName) {
         locC = i;
         break;
       }
     }
-    hofAll[j].improvementRate = (currentLeague[locC].wins * 100) / currentLeague[locC].plays;
+    hofAll[j].improvementRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
     
     //calculate avg winrate for the rest of the leagues
     totalWins = 0;
     totalPlays = 0;
     totalPoints = 0;
     for (let i = 0; i < pastLeagues; i++) {
-      if (pastLeagues[i] === hofAll[j].staffName) {
+      if (pastLeagues[i].staffName === hofAll[j].staffName) {
         totalWins = totalWins + pastLeagues[i].win;
         totalPlays = totalPlays + pastLeagues[i].play;
         totalPoints = totalPoints + pastLeagues[i].points;
@@ -367,13 +367,23 @@ router.post("/updatehof", async (req, res) => {
     hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
     //get % increase/decrease
-    hofAll[j].latestWins = hofAll[j].improvement - improvementRate;
+    hofAll[j].latestWins = hofAll[j].improvement - hofAll[j].improvementRate;
     hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
 
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
 
-    //patch
+    //these have to be deleted so they don't overwrite data
+    delete hofAll[j].seasonId
     delete hofAll[j].id;
+    delete hofAll[j].play;
+    delete hofAll[j].win;
+    delete hofAll[j].draw;
+    delete hofAll[j].lose;
+    delete hofAll[j].goalsFor;
+    delete hofAll[j].goalsAgainst;
+    delete hofAll[j].points;
+    delete hofAll[j].paid;
+    delete hofAll[j].form;
     await hall_of_fame
         .query()
         .findOne({
@@ -381,6 +391,8 @@ router.post("/updatehof", async (req, res) => {
           staffName: hofAll[j].staffName
         })
         .patch(hofAll[j]);
+
+        res.status(200).send();
 
   }
 
@@ -622,6 +634,11 @@ router.post("/calculate_v2", async (req, res) => {
    ********************/
   player1.punctRate = Math.round((player1.punctuality * 100) / player1.plays);
   player2.punctRate = Math.round((player2.punctuality * 100) / player2.plays);
+
+  /***************
+   * Improvement *
+   ***************/
+  //TODO
 
   /*************
    * PATCH HOF *
