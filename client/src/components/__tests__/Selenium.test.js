@@ -1,6 +1,6 @@
 import chai, { expect } from "chai";
 require("chromedriver");
-const { Builder, By, Key, until, WebElement } = require("selenium-webdriver");
+const { Builder, By, until } = require("selenium-webdriver");
 var driver = new Builder().forBrowser("chrome").build();
 driver
   .manage()
