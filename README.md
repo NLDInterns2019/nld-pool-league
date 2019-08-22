@@ -1,6 +1,36 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Pool Manager
 
-## Available Scripts
+## **About the Project**
+
+### **Background**
+
+This is an intern project created in order to gain experience in the workplace and to develop skills required for work life.
+
+The company we were working for have a pool league running in the office where employees can play each other at 8-ball and 9-ball pool and compete for the league title.
+
+### **Current System**
+
+The employees currently use a spreadsheet to record all the results, view the league table, record payments, and create new seasons. A Trello board is used to arrange fixtures, and a Slack channel is where score updates are posted manually.
+
+### **Solution**
+
+The product we have created solves the problems the users once had with their spreadsheet.
+
+One of the main problems faced was how manual each process was. After playing a match, one of the players would have to input the score into their spreadsheet, then update the league table and post a message in the relevant Slack channel to inform others of the result. With this new system, the user can input a score and everything is updated automatically; the score is available to view on the app, the league table changes automatically, and a message is posted to the Slack channel on its own.
+
+In addition to fixing the problems of the old system, this product has extra features such as achievements, stats, form, and user profiles.
+
+### **Built With:**
+
+<ul>
+    <li>React</li>
+    <li>Node JS</li>
+    <li>MSSQL</li>
+</ul>
+
+## **Getting Started**
+
+<hr />
 
 **Client**
 
@@ -76,5 +106,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-# nld-pool-league
