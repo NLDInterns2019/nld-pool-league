@@ -141,7 +141,7 @@ router.post("/updateclosed", async (req, res) => {
     //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
 
-    //these have to be deleted so they don't overwrite the data
+    //these have to be deleted so that they don't overwrite the data
     delete hofAll[j].seasonId
     delete hofAll[j].id;
     delete hofAll[j].play;
@@ -194,7 +194,7 @@ router.post("/calculate_v2", async (req, res) => {
   let player1 = await hall_of_fame
     .query()
     .findOne({ staffName: req.body.player1, type: req.body.type });
-  //Add to DB if not exist
+  //Add to DB if it doesn't exist
   if (!player1) {
     await knex("hall_of_fame")
       .insert({
