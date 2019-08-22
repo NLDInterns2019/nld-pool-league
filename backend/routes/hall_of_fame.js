@@ -288,10 +288,10 @@ router.post("/calculate", async (req, res) => {
 });
 
 /* 
-  POST handler for /api/hall_of_fame/calculate
+  POST handler for /api/hall_of_fame/updateclosed
   Function: To handle achievements set when a season is closed
 */
-router.post("/updatehof2", async (req, res) => {
+router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
   seasonId = parseInt(req.body.seasonId);
 
@@ -335,28 +335,23 @@ router.post("/updatehof2", async (req, res) => {
 
   //check for all entries in hofAll
   for (let j = 0; j < hofAll.length; j++ ) {
-    let locP, locC = -1;
-    //get location of entry within hofAll
-    for (let i = 0; i < pastLeagues; i++) {
-    if (pastLeagues[i] === hofAll[j].staffName) {
-      locP = i;
-      break;
-    }
-  }
+    let locC = -1;
 
-    //calculate winrate for current league
+    //get location of entry within currentLeague
     for (let i = 0; i < currentLeague.length; i++) {
       if (currentLeague[i].staffName === hofAll[j].staffName) {
         locC = i;
         break;
       }
     }
+
+    //calculate winrate for the current league
     hofAll[j].improvementRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
     
-    //calculate avg winrate for the rest of the leagues
     totalWins = 0;
     totalPlays = 0;
     totalPoints = 0;
+    //count relevant data for past leagues
     for (let i = 0; i < pastLeagues; i++) {
       if (pastLeagues[i].staffName === hofAll[j].staffName) {
         totalWins = totalWins + pastLeagues[i].win;
@@ -364,15 +359,17 @@ router.post("/updatehof2", async (req, res) => {
         totalPoints = totalPoints + pastLeagues[i].points;
       }
     }
+    //calculate the winrate of the past leagues
     hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
     //get % increase/decrease
     hofAll[j].latestWins = hofAll[j].improvement - hofAll[j].improvementRate;
     hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
 
+    //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
 
-    //these have to be deleted so they don't overwrite data
+    //these have to be deleted so they don't overwrite the data
     delete hofAll[j].seasonId
     delete hofAll[j].id;
     delete hofAll[j].play;
@@ -384,6 +381,8 @@ router.post("/updatehof2", async (req, res) => {
     delete hofAll[j].points;
     delete hofAll[j].paid;
     delete hofAll[j].form;
+
+    //patch database
     await hall_of_fame
         .query()
         .findOne({
@@ -392,7 +391,8 @@ router.post("/updatehof2", async (req, res) => {
         })
         .patch(hofAll[j]);
 
-        res.status(200).send();
+    //return a success
+    res.status(200).send();
 
   }
 
