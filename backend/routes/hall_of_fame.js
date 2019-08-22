@@ -113,20 +113,29 @@ router.post("/updateclosed", async (req, res) => {
     totalWins = 0;
     totalPlays = 0;
     totalPoints = 0;
+    let present = false;
+
     //count relevant data for past leagues
     for (let i = 0; i < pastLeagues; i++) {
       if (pastLeagues[i].staffName === hofAll[j].staffName) {
+        present = true;
         totalWins = totalWins + pastLeagues[i].win;
         totalPlays = totalPlays + pastLeagues[i].play;
         totalPoints = totalPoints + pastLeagues[i].points;
       }
     }
-    //calculate the winrate of the past leagues
-    hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
-    //get % increase/decrease
-    hofAll[j].latestWins = hofAll[j].improvement - hofAll[j].improvementRate;
-    hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
+    //if user has past league matches, calculate their improvement. if not, set it to 0.
+    if (present === true) {
+      //calculate the winrate of the past leagues
+      hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
+    
+      //get % increase/decrease
+      hofAll[j].latestWins = hofAll[j].improvement - hofAll[j].improvementRate;
+      hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
+    } else {
+      hofAll[j].latestWins = 0; 
+    }
 
     //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
