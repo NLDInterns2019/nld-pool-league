@@ -12,7 +12,7 @@ const itemsToBeDisplayed = props => {
   );
   if (topPlayer.length) {
     topPlayer.staffName = topPlayer.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     topPlayer.winRate = topPlayer[0].winRate;
   } else {
@@ -31,7 +31,7 @@ const itemsToBeDisplayed = props => {
   );
   if (bestGame.length) {
     bestGame.staffName = bestGame.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     bestGame.highestPoints = bestGame[0].highestPoints;
   } else {
@@ -49,7 +49,7 @@ const itemsToBeDisplayed = props => {
   );
   if (avgPoints.length) {
     avgPoints.staffName = avgPoints.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     avgPoints.avgPoints = avgPoints[0].avgPoints;
   } else {
@@ -67,7 +67,7 @@ const itemsToBeDisplayed = props => {
   );
   if (draw.length) {
     draw.staffName = draw.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     draw.drawRate = draw[0].drawRate;
   } else {
@@ -113,7 +113,7 @@ const itemsToBeDisplayed = props => {
 
   if (streak.length) {
     streak.staffName = streak.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     streak.winningStreak = streak[0].winningStreak;
   } else {
@@ -151,7 +151,7 @@ const itemsToBeDisplayed = props => {
   );
   if (casual.length) {
     casual.staffName = casual.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     casual.lossRate = casual[0].lossRate;
   } else {
@@ -170,7 +170,7 @@ const itemsToBeDisplayed = props => {
   );
   if (slacker.length) {
     slacker.staffName = slacker.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     slacker.punctRate = slacker[0].punctRate;
   } else {
@@ -189,7 +189,7 @@ const itemsToBeDisplayed = props => {
   );
   if (losingStreak.length) {
     losingStreak.staffName = losingStreak.map(player => (
-      <div className="hall-of-fame-item">{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
     losingStreak.losingStreak = losingStreak[0].losingStreak;
   } else {

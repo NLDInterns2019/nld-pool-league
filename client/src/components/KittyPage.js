@@ -24,9 +24,15 @@ class KittyPage extends React.Component {
   makeTransactionBtn = React.createRef();
 
   getUnpaid = async () => {
-    const unpaid = await backend.get("/api/kitty/allUnpaid");
+    try {
+      const unpaid = await backend.get("/api/kitty/allUnpaid", {
+        cancelToken: this.signal.token
+      });
 
-    this.setState({ unpaid: unpaid.data });
+      this.setState({ unpaid: unpaid.data });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
   };
 
   getLatestSeason = async () => {
