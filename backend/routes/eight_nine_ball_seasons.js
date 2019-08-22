@@ -252,7 +252,7 @@ router.put("/close", auth.checkJwt, async (req, res) => {
               score1: null,
               score2: null
             })
-            .patch({ score1: 1, score2: 1 })
+            .patch({ score1: 1, score2: 1 });
         }
       },
       e => {
@@ -281,13 +281,31 @@ router.put("/close", auth.checkJwt, async (req, res) => {
     .then(
       players => {
         players.map((player, i) => {
+          let finalPos = i + 1;
+
+          //DETEMINE POSITION EVEN IF THERE IS DRAW
+          if (i !== 0) {
+            let finalIndex = i - 1;
+
+            while (
+              finalIndex >= 0 &&
+              players[finalIndex].points !== 0 &&
+              players[finalIndex].points === player.points &&
+              players[finalIndex].goalsFor === player.goalsFor &&
+              players[finalIndex].goalsAgainst === player.goalsAgainst
+            ) {
+              finalIndex--;
+            }
+            finalPos = finalIndex + 2;
+          }
+
           positions = [
             ...positions,
             {
               type: player.type,
               staffName: player.staffName,
               seasonId: player.seasonId,
-              position: i + 1
+              position: finalPos
             }
           ];
         });

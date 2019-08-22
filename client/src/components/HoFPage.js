@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Axios from "axios";
 import auth0Client from "../Auth";
 import backend from "../api/backend";
 import SubNavBar from "./nav/SubNavBar.js";
@@ -20,15 +19,25 @@ class HoFPage extends React.Component {
     };
   }
 
-  getHOF = async() => {
-    const HoF8 = await backend.get("/api/hall_of_fame?type=8", {});
+  signal = Axios.CancelToken.source();
 
-    this.setState({ HoF8: HoF8.data });
+  getHOF = async () => {
+    try {
+      const HoF8 = await backend.get("/api/hall_of_fame?type=8", {
+        cancelToken: this.signal.token
+      });
 
-    const HoF9 = await backend.get("/api/hall_of_fame?type=9", {});
+      this.setState({ HoF8: HoF8.data });
 
-    this.setState({ HoF9: HoF9.data });
-  }
+      const HoF9 = await backend.get("/api/hall_of_fame?type=9", {
+        cancelToken: this.signal.token
+      });
+
+      this.setState({ HoF9: HoF9.data });
+    } catch (err) {
+      //API CALL BEING CANCELED
+    }
+  };
 
   getLatestSeason = async () => {
     const latest = await backend.get("/api/89ball_season/latest", {
@@ -66,75 +75,11 @@ class HoFPage extends React.Component {
 
     //GET
     await this.getHOF();
-
-    // //CALC
-    // await this.createHoF();
-    // await this.createHoF9();
-
-    // //GET
-    // await this.getHOF();
-
-    
   };
 
-  createHoF = async () => {
-    try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth0Client.getIdToken()}`
-      };
-
-      await backend
-        .post(
-          "/api/hall_of_fame/calculate",
-          {
-            type: 8
-          },
-          {
-            headers: headers
-          }
-        )
-    } catch (e) {
-      if (e.response.status === 401) {
-        this.toastUnauthorised();
-      }
-    }
-  };
-
-  createHoF9 = async () => {
-    try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth0Client.getIdToken()}`
-      };
-
-      await backend
-        .post(
-          "/api/hall_of_fame/calculate",
-          {
-            type: 9
-          },
-          {
-            headers: headers
-          }
-        )
-    } catch (e) {
-      if (e.response.status === 401) {
-        this.toastUnauthorised();
-      }
-    }
-  };
-
-  toastSuccess = message => {
-    toast.success(`✅ ${message}!`, {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
-  };
+  componentWillUnmount() {
+    this.signal.cancel("");
+  }
 
   render() {
     return (

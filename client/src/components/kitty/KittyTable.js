@@ -21,8 +21,8 @@ class KittyTable extends Component {
       }
     } else {
       this.setState({ showText: "Show more..." });
-      for (var i = 0; i < Object.keys(this.refs).length; i++) {
-        this.refs["lateRow" + (i + 8)].style.display = "none";
+      for (var j = 0; j < Object.keys(this.refs).length; j++) {
+        this.refs["lateRow" + (j + 8)].style.display = "none";
       }
     }
   };
