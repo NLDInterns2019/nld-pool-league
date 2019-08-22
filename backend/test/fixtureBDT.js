@@ -296,6 +296,59 @@ describe("Fixture", () => {
     });
   });
 
+  describe("PUT /api/89ball_fixture/edit/force", () => {
+    it("should update the fixture score", done => {
+      chai
+        .request(server)
+        .put("/api/89ball_fixture/edit/force")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2020,
+          player1: "Michael",
+          player2: "Matthew",
+          score1: 1,
+          score2: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+            .request(server)
+            .get("/api/89ball_fixture/2020?type=8")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.length.should.be.eql(3);
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2020,
+                score1: 1,
+                score2: 1,
+                player1: "Michael",
+                player2: "Matthew"
+              });
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2020,
+                score1: null,
+                score2: null,
+                player1: "Michael",
+                player2: "Natalie"
+              });
+              res.body.should.include.something.like({
+                type: 8,
+                seasonId: 2020,
+                score1: null,
+                score2: null,
+                player1: "Matthew",
+                player2: "Natalie"
+              });
+              done();
+            });
+        });
+    });
+  });
+
   //need to set up fixturegen with some data where it can generate current date
   describe("POST /api/89ball_fixture/generate", () => {
     it("should generate fixtures for a season", done => {
