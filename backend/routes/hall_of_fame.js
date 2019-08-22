@@ -56,6 +56,7 @@ router.get("/", async (req, res) => {
 router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
   seasonId = parseInt(req.body.seasonId);
+  let oldWinRate, currentWinRate = 0;
 
   //the most recent league allows for current winrate
   let currentLeague = await eight_nine_ball_leagues.query().where({
@@ -108,25 +109,34 @@ router.post("/updateclosed", async (req, res) => {
     }
 
     //calculate winrate for the current league
-    hofAll[j].improvementRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
+    currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
     
     totalWins = 0;
     totalPlays = 0;
     totalPoints = 0;
+    let present = false;
+
     //count relevant data for past leagues
     for (let i = 0; i < pastLeagues; i++) {
       if (pastLeagues[i].staffName === hofAll[j].staffName) {
+        present = true;
         totalWins = totalWins + pastLeagues[i].win;
         totalPlays = totalPlays + pastLeagues[i].play;
         totalPoints = totalPoints + pastLeagues[i].points;
       }
     }
-    //calculate the winrate of the past leagues
-    hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
-    //get % increase/decrease
-    hofAll[j].latestWins = hofAll[j].improvement - hofAll[j].improvementRate;
-    hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
+    //if user has past league matches, calculate their improvement. if not, set it to 0.
+    if (present === true) {
+      //calculate the winrate of the past leagues hofAll.improvement = oldWinRate
+      oldWinRate =  ((totalWins * 100) / totalPlays);
+    
+      //get % increase/decrease
+      hofAll[j].improvement = oldWinRate - currentWinRate;
+      hofAll[j].improvement = hofAll[j].improvement/(oldWinRate * 100)
+    } else {
+      hofAll[j].improvement = 0; 
+    }
 
     //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
@@ -153,9 +163,8 @@ router.post("/updateclosed", async (req, res) => {
         })
         .patch(hofAll[j]);
   }
-  //return a success
+  //success!
   res.status(200).send();
-
 })
 
 /* 
@@ -393,11 +402,6 @@ router.post("/calculate_v2", async (req, res) => {
    ********************/
   player1.punctRate = Math.round((player1.punctuality * 100) / player1.plays);
   player2.punctRate = Math.round((player2.punctuality * 100) / player2.plays);
-
-  /***************
-   * Improvement *
-   ***************/
-  //TODO
 
   /*************
    * PATCH HOF *
