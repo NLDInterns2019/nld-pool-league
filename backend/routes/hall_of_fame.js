@@ -366,8 +366,10 @@ router.post("/updatehof", async (req, res) => {
     }
     hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
     
-    //deduct: may want a better method of %
+    //get % increase/decrease
     hofAll[j].latestWins = hofAll[j].improvement - improvementRate;
+    hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
+
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
 
     //patch

@@ -725,6 +725,14 @@ select:hover {
 }
 
 /* ==== Hall Of Fame ==== */
+.hall-of-fame-item:first-child {
+  margin-top: 0.5rem;
+}
+
+.hall-of-fame-item {
+  margin-bottom: 0.5rem;
+}
+
 .hofContainer {
   align-content: center;
   border-radius: 15px;
