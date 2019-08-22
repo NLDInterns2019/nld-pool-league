@@ -267,7 +267,14 @@ const itemsToBeDisplayed = props => {
           <div className="weightlifting-icon" alt="weightlifting" />
         </td>
         <td className="hofCell">Dedicated</td>
-        <td className="hofCell" style={{ fontWeight: "bold" }}>
+        <td
+          className="hofCell"
+          style={{
+            fontWeight: "bold",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem"
+          }}
+        >
           {dedicated ? dedicated.staffName : "-"}
         </td>
         <td className="hofCell">
@@ -279,7 +286,14 @@ const itemsToBeDisplayed = props => {
           <div className="clock-icon" alt="clock" />
         </td>
         <td className="hofCell">Dr. Punctual</td>
-        <td className="hofCell" style={{ fontWeight: "bold" }}>
+        <td
+          className="hofCell"
+          style={{
+            fontWeight: "bold",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem"
+          }}
+        >
           {onTime ? onTime.staffName : "-"}
         </td>
         <td className="hofCell">
@@ -303,7 +317,14 @@ const itemsToBeDisplayed = props => {
           <div className="boxing-icon" alt="boxing" />
         </td>
         <td className="hofCell">Scrappy</td>
-        <td className="hofCell" style={{ fontWeight: "bold" }}>
+        <td
+          className="hofCell"
+          style={{
+            fontWeight: "bold",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem"
+          }}
+        >
           {scrappy ? scrappy.staffName : "-"}
         </td>
         <td className="hofCell">
@@ -317,7 +338,14 @@ const itemsToBeDisplayed = props => {
           <div className="graph-icon" alt="graph" />
         </td>
         <td className="hofCell">Improver</td>
-        <td className="hofCell" style={{ fontWeight: "bold" }}>
+        <td
+          className="hofCell"
+          style={{
+            fontWeight: "bold",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem"
+          }}
+        >
           {improved ? improved.staffName : "-"}
         </td>
         <td className="hofCell">
@@ -370,7 +398,14 @@ const itemsToBeDisplayed = props => {
           <div className="downward-graph-icon" alt="downward-graph" />
         </td>
         <td className="hofCellBad">Time to Retire</td>
-        <td className="hofCellBad" style={{ fontWeight: "bold" }}>
+        <td
+          className="hofCellBad"
+          style={{
+            fontWeight: "bold",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem"
+          }}
+        >
           {retire ? retire.staffName : "-"}
         </td>
         <td className="hofCellBad">
