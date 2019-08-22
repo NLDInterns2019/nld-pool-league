@@ -56,6 +56,7 @@ router.get("/", async (req, res) => {
 router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
   seasonId = parseInt(req.body.seasonId);
+  let oldWinRate, currentWinRate = 0;
 
   //the most recent league allows for current winrate
   let currentLeague = await eight_nine_ball_leagues.query().where({
@@ -108,7 +109,7 @@ router.post("/updateclosed", async (req, res) => {
     }
 
     //calculate winrate for the current league
-    hofAll[j].improvementRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
+    currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
     
     totalWins = 0;
     totalPlays = 0;
@@ -127,14 +128,14 @@ router.post("/updateclosed", async (req, res) => {
     
     //if user has past league matches, calculate their improvement. if not, set it to 0.
     if (present === true) {
-      //calculate the winrate of the past leagues
-      hofAll[j].improvement =  ((totalWins * 100) / totalPlays);
+      //calculate the winrate of the past leagues hofAll.improvement = oldWinRate
+      oldWinRate =  ((totalWins * 100) / totalPlays);
     
       //get % increase/decrease
-      hofAll[j].latestWins = hofAll[j].improvement - hofAll[j].improvementRate;
-      hofAll[j].latestWins = hofAll[j].latestWins/(hofAll[j].improvement * 100)
+      hofAll[j].improvement = oldWinRate - currentWinRate;
+      hofAll[j].improvement = hofAll[j].improvement/(oldWinRate * 100)
     } else {
-      hofAll[j].latestWins = 0; 
+      hofAll[j].improvement = 0; 
     }
 
     //get avg points per season
@@ -162,9 +163,8 @@ router.post("/updateclosed", async (req, res) => {
         })
         .patch(hofAll[j]);
   }
-  //return a success
+  //success!
   res.status(200).send();
-
 })
 
 /* 
