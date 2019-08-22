@@ -1,6 +1,6 @@
 import chai, { expect } from "chai";
 require("chromedriver");
-const { Builder, By, Key, until, WebElement } = require("selenium-webdriver");
+const { Builder, By, until } = require("selenium-webdriver");
 var driver = new Builder().forBrowser("chrome").build();
 driver
   .manage()
@@ -10,11 +10,6 @@ chai.use(require("chai-as-promised"));
 var homepage = "http://nldpoolleague.azurewebsites.net/";
 
 describe("App", () => {
-  // uncomment to demonstrate
-  //   afterEach(async () => {
-  //     await driver.sleep(500);
-  //   });
-
   describe("LandingPage", () => {
     beforeEach(async () => {
       await jest.setTimeout(30000);
