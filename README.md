@@ -4,18 +4,13 @@
 
 <hr />
 
-<ul>
-    <li><a href="#about-the-project">About the Project</a>
-        <ul>
-            <li><a href="#background">Background</a></li>
-            <li><a href="#current-system">Current System</a></li>
-            <li><a href="#solution">Solution</a></li>
-            <li><a href="#built-with">Built With</a></li>
-        </ul>
-    </li>
-    <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-</ul>
+- About the Project
+  - Background
+  - Current System
+  - Solution
+  - Built With
+- Getting Started
+- Acknowledgements
 
 ## **About the Project**
 
