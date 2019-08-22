@@ -4,12 +4,9 @@ const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
 
-const eight_nine_ball_fixtures = require("../models/eight_nine_ball_fixtures");
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
-const hall_of_fame = require("../models/hall_of_fame");
-
-const windrawGen = require("../functions/windraw");
+const hall_of_fame = require("../models/hall_of_fame")
 
 /* 
   GET handler for /api/89ball_league/hall_of_fame 
