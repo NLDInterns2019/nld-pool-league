@@ -3,20 +3,31 @@ import auth0Client from "../../Auth";
 import Forms from "./Forms";
 
 const LeagueTableBody = props => {
+  const position = (players, player, index) => {
+    if (index === 0) {
+      return index + 1;
+    }
+
+    let finalIndex = index-1;
+
+    while (
+      finalIndex >=0 &&
+      players[finalIndex].points !== 0 &&
+      players[finalIndex].points === player.points &&
+      players[finalIndex].goalsFor === player.goalsFor &&
+      players[finalIndex].goalsAgainst === player.goalsAgainst
+    ) {
+      finalIndex--;
+    }
+
+    return finalIndex + 2;
+  };
+
   const itemsToBeDisplayed = props.players.map((player, index) => {
     return (
       <tr key={player.seasonId + player.staffName}>
         <td align="center">
-          {index === 0
-            ? index + 1
-            : props.players[index - 1].points !== 0 &&
-              props.players[index - 1].points === props.players[index].points &&
-              props.players[index - 1].goalsFor ===
-                props.players[index].goalsFor &&
-              props.players[index - 1].goalsAgainst ===
-                props.players[index].goalsAgainst
-            ? index
-            : index + 1}
+          {position(props.players, player, index)}
         </td>
         <td align="center" id="leagueTablePlayerName">
           {player.staffName}

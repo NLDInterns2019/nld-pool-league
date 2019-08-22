@@ -9,6 +9,8 @@ const SeasonsList = props => {
         <li>
           {season.finished ? (
             <Link
+              id={"season" + season.seasonId}
+              className="season-list-item"
               to={{
                 pathname: `/${props.type}-ball/overview/${season.seasonId}`
               }}
@@ -20,6 +22,8 @@ const SeasonsList = props => {
             </Link>
           ) : season.playoff ? (
             <Link
+              id={"season" + season.seasonId}
+              className="season-list-item"
               to={{
                 pathname: `/${props.type}-ball/overview/${season.seasonId}`
               }}
@@ -31,6 +35,8 @@ const SeasonsList = props => {
             </Link>
           ) : (
             <Link
+              id={"season" + season.seasonId}
+              className="season-list-item"
               to={{
                 pathname: `/${props.type}-ball/overview/${season.seasonId}`
               }}
