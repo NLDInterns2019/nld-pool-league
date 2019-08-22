@@ -6,7 +6,18 @@ const LeagueTableBody = props => {
   const itemsToBeDisplayed = props.players.map((player, index) => {
     return (
       <tr key={player.seasonId + player.staffName}>
-        <td align="center">{index + 1}</td>
+        <td align="center">
+          {index === 0
+            ? index + 1
+            : props.players[index - 1].points !== 0 &&
+              props.players[index - 1].points === props.players[index].points &&
+              props.players[index - 1].goalsFor ===
+                props.players[index].goalsFor &&
+              props.players[index - 1].goalsAgainst ===
+                props.players[index].goalsAgainst
+            ? index
+            : index + 1}
+        </td>
         <td align="center" id="leagueTablePlayerName">
           {player.staffName}
         </td>
