@@ -390,13 +390,10 @@ router.post("/updateclosed", async (req, res) => {
           staffName: hofAll[j].staffName
         })
         .patch(hofAll[j]);
-
-    //return a success
-    res.status(200).send();
-
   }
+  //return a success
+  res.status(200).send();
 
-  
 })
 
 /* 
