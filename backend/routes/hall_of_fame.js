@@ -621,11 +621,6 @@ router.post("/calculate_v2", async (req, res) => {
   player1.punctRate = Math.round((player1.punctuality * 100) / player1.plays);
   player2.punctRate = Math.round((player2.punctuality * 100) / player2.plays);
 
-  /***************
-   * Improvement *
-   ***************/
-  //TODO
-
   /*************
    * PATCH HOF *
    *************/
