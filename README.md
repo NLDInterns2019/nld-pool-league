@@ -2,6 +2,8 @@
 
 ## **About the Project**
 
+<hr />
+
 ### **Background**
 
 This is an intern project created in order to gain experience in the workplace and to develop skills required for work life.
