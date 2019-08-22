@@ -2,7 +2,7 @@
 
 ## **Table of Contents**
 
-<hr />
+---
 
 - About the Project
   - Background
@@ -14,7 +14,7 @@
 
 ## **About the Project**
 
-<hr />
+---
 
 ### **Background**
 
@@ -36,15 +36,13 @@ In addition to fixing the problems of the old system, this product has extra fea
 
 ### **Built With:**
 
-<ul>
-    <li>React</li>
-    <li>Node JS</li>
-    <li>MSSQL</li>
-</ul>
+- React
+- Node JS
+- MSSQL
 
 ## **Getting Started**
 
-<hr />
+---
 
 In order to run the application on localhost, the following will need to be run from the terminal in both the client and backend directories:
 
@@ -54,14 +52,12 @@ A browser should open at [http://localhost:3000](http://localhost:3000) and the 
 
 ## **Acknowledgements**
 
-<hr />
+---
 
-<ul>
-    <li>Flat Icon</li>
-    <li>Canvas JS</li>
-    <li>Knex JS</li>
-    <li>Moment JS</li>
-    <li>Chai JS</li>
-    <li>Selenium Web Driver</li>
-    <li>React Big Calendar</li>
-</ul>
+- Flat Icon
+- Canvas JS
+- Knex JS
+- Moment JS
+- Chai JS
+- Selenium Web Driver
+- React Big Calendar
