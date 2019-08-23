@@ -80,6 +80,8 @@ router.post("/updateclosed", async (req, res) => {
     return;
   }
 
+  console.log(seasonId)
+  console.log(currentLeague)
   //the older leagues allow for older winrates
   let pastLeagues = await eight_nine_ball_leagues.query().where({
     type: type
