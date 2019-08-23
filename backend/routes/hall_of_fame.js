@@ -194,7 +194,7 @@ router.post("/calculate_v2", async (req, res) => {
   let player1 = await hall_of_fame
     .query()
     .findOne({ staffName: req.body.player1, type: req.body.type });
-  //Add to DB if it doesn't exist
+  //Add player to the DB if they doesn't exist
   if (!player1) {
     await knex("hall_of_fame")
       .insert({
