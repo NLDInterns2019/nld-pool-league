@@ -341,7 +341,7 @@ describe("App", () => {
       await driver.sleep(500);
       await driver.findElement(By.id("addPlayerBtn")).click();
       await driver.findElement(By.id("confirmBtn")).click();
-      await driver.sleep(1000);
+      await driver.sleep(2000);
       var noOfPlayersAfter = await driver
         .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
         .then(elements => {
