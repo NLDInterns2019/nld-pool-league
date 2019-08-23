@@ -1,5 +1,4 @@
 import React from "react";
-import { maxBy, minBy, filter } from "lodash";
 const itemsToBeDisplayed = props => {
   /**************
    * Top Player *

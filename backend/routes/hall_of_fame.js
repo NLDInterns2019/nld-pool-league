@@ -1,8 +1,11 @@
+//import maxBy from "lodash";
+
 var express = require("express");
 var router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
+
 
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
@@ -55,14 +58,23 @@ router.get("/", async (req, res) => {
 */
 router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
-  seasonId = parseInt(req.body.seasonId);
   let oldWinRate, currentWinRate = 0;
 
-  //the most recent league allows for current winrate
+  //the most recent league allows for current winrate: find it's ID
+  let getIds = await eight_nine_ball_leagues.query().where({
+    type: type,
+  })
+  .orderBy("seasonId", "desc")
+  if (getIds === 0) {
+    res.status(404).send();
+    return;
+  }
+  seasonId = getIds[0].seasonId;
+
   let currentLeague = await eight_nine_ball_leagues.query().where({
     type: type,
     seasonId: seasonId
-  });
+  })
   if (currentLeague === 0) {
     res.status(404).send();
     return;
@@ -95,8 +107,7 @@ router.post("/updateclosed", async (req, res) => {
     res.status(404).send();
     return;
   }
-
-  //check for all entries in hofAll
+  
   for (let j = 0; j < hofAll.length; j++ ) {
     let locC = -1;
 
@@ -107,7 +118,7 @@ router.post("/updateclosed", async (req, res) => {
         break;
       }
     }
-    
+
     //calculate winrate for the current league
     currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
     
