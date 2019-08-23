@@ -7,7 +7,7 @@ driver
   .window()
   .maximize();
 chai.use(require("chai-as-promised"));
-var homepage = `http://localhost:${process.env.PORT}/`;
+var homepage = `http://localhost:3000/`;
 
 describe("App", () => {
   describe("LandingPage", () => {
