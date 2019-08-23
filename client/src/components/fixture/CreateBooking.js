@@ -95,6 +95,7 @@ class CreateBooking extends React.Component {
       if (this.state.activeSeason !== undefined) {
         if (this.state.friendlyMatch) {
           this.getAllPlayers();
+          this.setState({ activeOpponent: " " });
         } else {
           this.getPlayers();
           this.getUnplayedFixtures();
@@ -228,7 +229,7 @@ class CreateBooking extends React.Component {
             name="hidePlayed"
             checked={this.state.friendlyMatch}
             onChange={e => {
-              this.setState({ friendlyMatch: e.target.checked });
+              this.setState({ friendlyMatch: e.target.checked, activePlayer: " " });
             }}
           />
           <div id="arrangeFixtureBtn">
