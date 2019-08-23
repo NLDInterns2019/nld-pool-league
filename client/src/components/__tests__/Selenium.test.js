@@ -17,6 +17,7 @@ describe("App", () => {
     });
 
     it("should have expected title value", async () => {
+      await driver.sleep(500);
       var actual = await driver.getTitle();
       var expected = "Pool Manager";
       expect(actual).to.equal(expected);
