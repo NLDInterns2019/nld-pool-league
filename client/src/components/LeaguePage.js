@@ -149,7 +149,7 @@ class App extends React.Component {
               player1: state.player1,
               score1: parseInt(state.score1),
               player2: state.player2,
-              score2: parseInt(state.score2),
+              score2: parseInt(state.score2)
             },
             {
               headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
@@ -344,7 +344,6 @@ class App extends React.Component {
           }
         );
       }
-
       this.toastSuccess(
         <div className="toast">
           <div className="lock-icon-small" alt="lock" />
@@ -353,7 +352,16 @@ class App extends React.Component {
       );
       await this.updateData();
       if (!this.state.drawPoints.length) {
-        await backend.post(
+         backend.post(
+          "/api/hall_of_fame/updateclosed",
+          {
+            type: parseInt(this.state.type, 10),
+          },
+          {
+            headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+          }
+        );
+        backend.post(
           "/api/slack/seasonClosed",
           {
             type: parseInt(this.state.type, 10),
@@ -364,7 +372,7 @@ class App extends React.Component {
           }
         );
       } else {
-        await backend.post(
+        backend.post(
           "/api/slack/playoff",
           {
             type: parseInt(this.state.type, 10),
