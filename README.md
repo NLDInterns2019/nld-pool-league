@@ -44,6 +44,18 @@ In addition to fixing the problems of the old system, this product has extra fea
 
 ---
 
+### **Prequisities**
+
+To run the application the following is required:
+
+- npm 6.9.0 or later
+
+If you have already have npm installed, you can update by typing the following into your terminal:
+
+### `npm install npm@latest -g`
+
+### **Running the Application**
+
 In order to run the application on localhost, the following will need to be run from the terminal in both the client and backend directories:
 
 ### `npm start`
