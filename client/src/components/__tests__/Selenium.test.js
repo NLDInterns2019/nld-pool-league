@@ -306,7 +306,7 @@ describe("App", () => {
     });
   });
 
-  describe("Deleting a player", () => {
+  describe("Editing number of players", () => {
     /* affects database */
     it("should be able to delete a player from a season", async () => {
       await jest.setTimeout(30000);
@@ -328,6 +328,26 @@ describe("App", () => {
           return elements.length;
         });
       expect(noOfPlayersAfter).to.equal(noOfPlayers - 1);
+    });
+
+    it("should be able to add a player to a season", async () => {
+      await jest.setTimeout(30000);
+      var noOfPlayers = await driver
+        .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.navigate().refresh();
+      await driver.sleep(500);
+      await driver.findElement(By.id("addPlayerBtn")).click();
+      await driver.findElement(By.id("confirmBtn")).click();
+      await driver.sleep(1000);
+      var noOfPlayersAfter = await driver
+        .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
+        .then(elements => {
+          return elements.length;
+        });
+      expect(noOfPlayersAfter).to.equal(noOfPlayers + 1);
     });
   });
 
