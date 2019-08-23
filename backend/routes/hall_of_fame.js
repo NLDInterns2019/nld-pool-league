@@ -146,8 +146,16 @@ router.post("/updateclosed", async (req, res) => {
       oldWinRate =  ((totalWins * 100) / totalPlays);
     
       //get % increase/decrease
+      console.log(hofAll[j].improvement + " I")
+      console.log(oldWinRate + " O")
+      console.log(currentWinRate + " C")
+
       hofAll[j].improvement = oldWinRate - currentWinRate;
-      hofAll[j].improvement = hofAll[j].improvement/(oldWinRate * 100)
+      console.log(hofAll[j].improvement + " = " + oldWinRate + " - " + currentWinRate)
+      console.log(hofAll[j].improvement + " / " + oldWinRate + " * 100 = ")
+
+      hofAll[j].improvement = (hofAll[j].improvement/oldWinRate) * 100
+      console.log(hofAll[j].improvement)
     } else {
       hofAll[j].improvement = 0; 
     }
