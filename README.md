@@ -4,13 +4,17 @@
 
 ---
 
-- About the Project
-  - Background
-  - Current System
-  - Solution
-  - Built With
-- Getting Started
-- Acknowledgements
+- [About the Project](#about-the-project)
+  - [Background](#background)
+  - [Current System](#current-system)
+  - [Solution](#solution)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prequisities](#prequisities)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Acknowledgements](#acknowledgements)
 
 ## **About the Project**
 
@@ -54,6 +58,12 @@ If you have already have npm installed, you can update by typing the following i
 
 ### `npm install npm@latest -g`
 
+### **Installation**
+
+1. Install npm packages
+
+   ### `npm install`
+
 ### **Running the Application**
 
 In order to run the application on localhost, the following will need to be run from the terminal in both the client and backend directories:
@@ -61,6 +71,10 @@ In order to run the application on localhost, the following will need to be run 
 ### `npm start`
 
 A browser should open at [http://localhost:3000](http://localhost:3000) and the app should load
+
+## **Usage**
+
+---
 
 ## **Acknowledgements**
 
