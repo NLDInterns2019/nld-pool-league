@@ -107,7 +107,7 @@ router.post("/updateclosed", async (req, res) => {
         break;
       }
     }
-
+    
     //calculate winrate for the current league
     currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
     
