@@ -356,6 +356,7 @@ class App extends React.Component {
           "/api/hall_of_fame/updateclosed",
           {
             type: parseInt(this.state.type, 10),
+            seasonId: parseInt(this.state.activeSeason, 10)
           },
           {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
