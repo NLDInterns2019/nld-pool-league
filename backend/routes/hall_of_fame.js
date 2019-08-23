@@ -57,21 +57,9 @@ router.get("/", async (req, res) => {
 */
 router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
+  seasonId = parseInt(req.body.seasonId);
   let oldWinRate,
     currentWinRate = 0;
-
-  //the most recent league allows for current winrate: find it's ID
-  let getIds = await eight_nine_ball_leagues
-    .query()
-    .where({
-      type: type
-    })
-    .orderBy("seasonId", "desc");
-  if (getIds === 0) {
-    res.status(404).send();
-    return;
-  }
-  seasonId = getIds[0].seasonId;
 
   let currentLeague = await eight_nine_ball_leagues.query().where({
     type: type,
@@ -88,7 +76,7 @@ router.post("/updateclosed", async (req, res) => {
     .where({
       type: type
     })
-    .where("seasonId", "<", "seasonId");
+    .where("seasonId", "<", seasonId);
   if (pastLeagues === 0) {
     res.status(404).send();
     return;
@@ -123,60 +111,63 @@ router.post("/updateclosed", async (req, res) => {
       }
     }
 
-    console.log(currentLeague[locC].play + " DDDDDDDDDDD");
-    //calculate winrate for the current league
-    currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].play;
+    //GUARD
+    if (locC >= 0) {
+      //calculate winrate for the current league
+      currentWinRate =
+        (currentLeague[locC].win * 100) / currentLeague[locC].play;
 
-    totalWins = 0;
-    totalPlays = 0;
-    totalPoints = 0;
-    let present = false;
+      totalWins = 0;
+      totalPlays = 0;
+      totalPoints = 0;
+      let present = false;
 
-    //count relevant data for past leagues
-    for (let i = 0; i < pastLeagues.length; i++) {
-      if (pastLeagues[i].staffName === hofAll[j].staffName) {
-        present = true;
-        totalWins = totalWins + pastLeagues[i].win;
-        totalPlays = totalPlays + pastLeagues[i].play;
-        totalPoints = totalPoints + pastLeagues[i].points;
+      //count relevant data for past leagues
+      for (let i = 0; i < pastLeagues.length; i++) {
+        if (pastLeagues[i].staffName === hofAll[j].staffName) {
+          present = true;
+          totalWins = totalWins + pastLeagues[i].win;
+          totalPlays = totalPlays + pastLeagues[i].play;
+          totalPoints = totalPoints + pastLeagues[i].points;
+        }
       }
+
+      //if user has past league matches, calculate their improvement. if not, set it to 0.
+      if (present === true) {
+        //calculate the winrate of the past leagues hofAll.improvement = oldWinRate
+        oldWinRate = (totalWins * 100) / totalPlays;
+
+        //get % increase/decrease
+        hofAll[j].improvement = currentWinRate - oldWinRate;
+      } else {
+        hofAll[j].improvement = 0;
+      }
+
+      //get avg points per season
+      hofAll[j].avgPointsSeason = totalPoints / seasons.length;
+
+      //these have to be deleted so that they don't overwrite the data
+      delete hofAll[j].seasonId;
+      delete hofAll[j].id;
+      delete hofAll[j].play;
+      delete hofAll[j].win;
+      delete hofAll[j].draw;
+      delete hofAll[j].lose;
+      delete hofAll[j].goalsFor;
+      delete hofAll[j].goalsAgainst;
+      delete hofAll[j].points;
+      delete hofAll[j].paid;
+      delete hofAll[j].form;
+
+      //patch database
+      await hall_of_fame
+        .query()
+        .findOne({
+          type: type,
+          staffName: hofAll[j].staffName
+        })
+        .patch(hofAll[j]);
     }
-
-    //if user has past league matches, calculate their improvement. if not, set it to 0.
-    if (present === true) {
-      //calculate the winrate of the past leagues hofAll.improvement = oldWinRate
-      oldWinRate = (totalWins * 100) / totalPlays;
-
-      //get % increase/decrease
-      hofAll[j].improvement = currentWinRate - oldWinRate;
-    } else {
-      hofAll[j].improvement = 0;
-    }
-
-    //get avg points per season
-    hofAll[j].avgPointsSeason = totalPoints / seasons.length;
-
-    //these have to be deleted so that they don't overwrite the data
-    delete hofAll[j].seasonId;
-    delete hofAll[j].id;
-    delete hofAll[j].play;
-    delete hofAll[j].win;
-    delete hofAll[j].draw;
-    delete hofAll[j].lose;
-    delete hofAll[j].goalsFor;
-    delete hofAll[j].goalsAgainst;
-    delete hofAll[j].points;
-    delete hofAll[j].paid;
-    delete hofAll[j].form;
-
-    //patch database
-    await hall_of_fame
-      .query()
-      .findOne({
-        type: type,
-        staffName: hofAll[j].staffName
-      })
-      .patch(hofAll[j]);
   }
   //success!
   res.status(200).send();
