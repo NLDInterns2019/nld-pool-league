@@ -8,10 +8,10 @@ const LeagueTableBody = props => {
       return index + 1;
     }
 
-    let finalIndex = index-1;
+    let finalIndex = index - 1;
 
     while (
-      finalIndex >=0 &&
+      finalIndex >= 0 &&
       players[finalIndex].points !== 0 &&
       players[finalIndex].points === player.points &&
       players[finalIndex].goalsFor === player.goalsFor &&
@@ -26,9 +26,7 @@ const LeagueTableBody = props => {
   const itemsToBeDisplayed = props.players.map((player, index) => {
     return (
       <tr key={player.seasonId + player.staffName}>
-        <td align="center">
-          {position(props.players, player, index)}
-        </td>
+        <td align="center">{position(props.players, player, index)}</td>
         <td align="center" id="leagueTablePlayerName">
           {player.staffName}
         </td>
@@ -67,6 +65,7 @@ const LeagueTableBody = props => {
           <td style={{ backgroundColor: "#DBE9E2" }}>
             <span
               className="delete-icon"
+              id={"delete-" + player.staffName}
               onClick={() => {
                 if (
                   window.confirm(
