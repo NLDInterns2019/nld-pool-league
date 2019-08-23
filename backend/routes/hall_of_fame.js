@@ -76,10 +76,12 @@ router.post("/updateclosed", async (req, res) => {
     seasonId: seasonId
   })
   if (currentLeague === 0) {
-    res.status(404).send();
+    res.status(404).send();   
     return;
   }
 
+  console.log(seasonId)
+  console.log(currentLeague)
   //the older leagues allow for older winrates
   let pastLeagues = await eight_nine_ball_leagues.query().where({
     type: type
@@ -119,8 +121,9 @@ router.post("/updateclosed", async (req, res) => {
       }
     }
 
+    console.log(currentLeague[locC].play + " DDDDDDDDDDD")
     //calculate winrate for the current league
-    currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].plays;
+    currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].play;
     
     totalWins = 0;
     totalPlays = 0;
@@ -128,7 +131,7 @@ router.post("/updateclosed", async (req, res) => {
     let present = false;
 
     //count relevant data for past leagues
-    for (let i = 0; i < pastLeagues; i++) {
+    for (let i = 0; i < pastLeagues.length; i++) {
       if (pastLeagues[i].staffName === hofAll[j].staffName) {
         present = true;
         totalWins = totalWins + pastLeagues[i].win;
@@ -143,8 +146,18 @@ router.post("/updateclosed", async (req, res) => {
       oldWinRate =  ((totalWins * 100) / totalPlays);
     
       //get % increase/decrease
-      hofAll[j].improvement = oldWinRate - currentWinRate;
-      hofAll[j].improvement = hofAll[j].improvement/(oldWinRate * 100)
+      console.log(hofAll[j].improvement + " I")
+      console.log(oldWinRate + " O")
+      console.log(currentWinRate + " C")
+      ((current- old) / old) * 100
+      //hofAll[j].improvement = ((currentWinRate - oldWinRate) / oldWinRate) * 100
+      hofAll[j].improvement = currentWinRate - oldWinRate;
+      //hofAll[j].improvement = oldWinRate - currentWinRate;
+      console.log(hofAll[j].improvement + " = " + oldWinRate + " - " + currentWinRate)
+      console.log(hofAll[j].improvement + " / " + oldWinRate + " * 100 = ")
+
+      //hofAll[j].improvement = (hofAll[j].improvement/oldWinRate) * 100
+      console.log(hofAll[j].improvement)
     } else {
       hofAll[j].improvement = 0; 
     }

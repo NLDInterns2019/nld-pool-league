@@ -1,4 +1,5 @@
 import React from "react";
+import { maxBy, minBy, filter } from "lodash";
 const itemsToBeDisplayed = props => {
   /**************
    * Top Player *
@@ -132,9 +133,9 @@ const itemsToBeDisplayed = props => {
   /************
    * Improver *
    ************/
-  let improved = maxBy(props.players, "latestWins");
+  let improved = maxBy(props.players, "improvement");
   if (improved !== undefined) {
-    if (improved.latestWins === 0) {
+    if (improved.improvement === 0) {
       improved = null;
     }
   }
@@ -198,9 +199,9 @@ const itemsToBeDisplayed = props => {
   /******************
    * Time to Retire *
    ******************/
-  let retire = minBy(props.players, "latestWins");
+  let retire = minBy(props.players, "improvement");
   if (retire !== undefined) {
-    if (retire.latestWins === 0) {
+    if (retire.improvement === 0) {
       retire = null;
     }
   }
