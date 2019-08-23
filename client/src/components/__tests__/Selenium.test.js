@@ -293,8 +293,20 @@ describe("App", () => {
       expect(noOfSeasonsAfter).to.equal(noOfSeasons + 1);
     });
 
+    it("should navigate to the current season screen when the new season is selected", async () => {
+      await driver.findElement(By.id("season5000")).click();
+      await driver.sleep(1000);
+      var text = await driver
+        .findElement(By.xpath("//*[@class='leagueTableContainer']/h3"))
+        .getText();
+      var expected = "Season 5000 League Table";
+      expect(text).to.equal(expected);
+    });
+
     /* affects database */
     it("should be able to delete a season", async () => {
+      await driver.get(homepage + "8-ball/seasons");
+      await driver.sleep(1000);
       var noOfSeasons = await driver
         .findElements(By.className("season-list-item"))
         .then(elements => {
