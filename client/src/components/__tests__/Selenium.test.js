@@ -171,7 +171,7 @@ describe("App", () => {
       await driver
         .wait(until.elementLocated(By.name("password")), 5 * 1000)
         .then(element => {
-          return element.sendKeys("test");
+          return element.sendKeys(process.env.TEST_PASSWORD);
         });
       await driver.findElement(By.className("auth0-label-submit")).click();
       await driver.wait(until.urlIs(homepage));
@@ -257,7 +257,7 @@ describe("App", () => {
       await driver
         .wait(until.elementLocated(By.name("password")), 5 * 1000)
         .then(element => {
-          return element.sendKeys("admin");
+          return element.sendKeys(process.env.ADMIN_PASSWORD);
         });
       await driver.findElement(By.className("auth0-label-submit")).click();
       await driver.wait(until.urlIs(homepage));
@@ -267,53 +267,53 @@ describe("App", () => {
     });
   });
 
-  // describe("Creating a season", () => {
-  //   beforeEach(async () => {
-  //     await jest.setTimeout(30000);
-  //   });
+  describe("Creating a season", () => {
+    beforeEach(async () => {
+      await jest.setTimeout(30000);
+    });
 
-  //   /* affects database */
-  //   it("should be able to create a season", async () => {
-  //     await driver.get(homepage + "8-ball/seasons");
-  //     var noOfSeasons = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
-  //     await driver.findElement(By.id("addSeasonBtn")).click();
-  //     await driver.findElement(By.id("inputSeasonNo")).sendKeys("5000");
-  //     await driver.sleep(1000);
-  //     await driver.findElement(By.id("createSeasonBtn")).click();
-  //     await driver.sleep(2000);
-  //     var noOfSeasonsAfter = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
-  //     expect(noOfSeasonsAfter).to.equal(noOfSeasons + 1);
-  //   });
+    /* affects database */
+    it("should be able to create a season", async () => {
+      await driver.get(homepage + "8-ball/seasons");
+      var noOfSeasons = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.findElement(By.id("addSeasonBtn")).click();
+      await driver.findElement(By.id("inputSeasonNo")).sendKeys("5000");
+      await driver.sleep(1000);
+      await driver.findElement(By.id("createSeasonBtn")).click();
+      await driver.sleep(2000);
+      var noOfSeasonsAfter = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+      expect(noOfSeasonsAfter).to.equal(noOfSeasons + 1);
+    });
 
-  //   /* affects database */
-  //   it("should be able to delete a season", async () => {
-  //     var noOfSeasons = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
-  //     await driver.findElement(By.id("remove5000")).click();
-  //     await driver
-  //       .switchTo()
-  //       .alert()
-  //       .accept();
-  //     await driver.sleep(2000);
-  //     var noOfSeasonsAfter = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
+    /* affects database */
+    it("should be able to delete a season", async () => {
+      var noOfSeasons = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.findElement(By.id("remove5000")).click();
+      await driver
+        .switchTo()
+        .alert()
+        .accept();
+      await driver.sleep(2000);
+      var noOfSeasonsAfter = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
 
-  //     expect(noOfSeasonsAfter).to.equal(noOfSeasons - 1);
-  //     await driver.quit();
-  //   });
-  // });
+      expect(noOfSeasonsAfter).to.equal(noOfSeasons - 1);
+      await driver.quit();
+    });
+  });
 });
