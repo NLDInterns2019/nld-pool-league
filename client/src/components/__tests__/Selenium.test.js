@@ -7,8 +7,7 @@ driver
   .window()
   .maximize();
 chai.use(require("chai-as-promised"));
-var homepage = "http://nldpoolleague.azurewebsites.net/";
-// var homepage = "http://localhost:3000/";
+var homepage = "http://localhost:3000/";
 
 describe("App", () => {
   describe("LandingPage", () => {
@@ -18,6 +17,7 @@ describe("App", () => {
     });
 
     it("should have expected title value", async () => {
+      await driver.sleep(500);
       var actual = await driver.getTitle();
       var expected = "Pool Manager";
       expect(actual).to.equal(expected);
