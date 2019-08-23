@@ -127,11 +127,10 @@ router.post("/updateclosed", async (req, res) => {
     totalWins = 0;
     totalPlays = 0;
     totalPoints = 0;
-    let present = true;
+    let present = false;
 
     //count relevant data for past leagues
-    for (let i = 0; i < pastLeagues; i++) {
-
+    for (let i = 0; i < pastLeagues.length; i++) {
       if (pastLeagues[i].staffName === hofAll[j].staffName) {
         present = true;
         totalWins = totalWins + pastLeagues[i].win;
