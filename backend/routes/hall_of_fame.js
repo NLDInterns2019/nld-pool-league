@@ -6,10 +6,9 @@ const _ = require("lodash");
 const Joi = require("joi");
 const knex = require("../db/knex");
 
-
 const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
-const hall_of_fame = require("../models/hall_of_fame")
+const hall_of_fame = require("../models/hall_of_fame");
 
 /* 
   GET handler for /api/89ball_league/hall_of_fame 
@@ -58,13 +57,16 @@ router.get("/", async (req, res) => {
 */
 router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
-  let oldWinRate, currentWinRate = 0;
+  let oldWinRate,
+    currentWinRate = 0;
 
   //the most recent league allows for current winrate: find it's ID
-  let getIds = await eight_nine_ball_leagues.query().where({
-    type: type,
-  })
-  .orderBy("seasonId", "desc")
+  let getIds = await eight_nine_ball_leagues
+    .query()
+    .where({
+      type: type
+    })
+    .orderBy("seasonId", "desc");
   if (getIds === 0) {
     res.status(404).send();
     return;
@@ -74,19 +76,19 @@ router.post("/updateclosed", async (req, res) => {
   let currentLeague = await eight_nine_ball_leagues.query().where({
     type: type,
     seasonId: seasonId
-  })
+  });
   if (currentLeague === 0) {
-    res.status(404).send();   
+    res.status(404).send();
     return;
   }
 
-  console.log(seasonId)
-  console.log(currentLeague)
   //the older leagues allow for older winrates
-  let pastLeagues = await eight_nine_ball_leagues.query().where({
-    type: type
-  })
-  .where('seasonId', '<', 'seasonId');
+  let pastLeagues = await eight_nine_ball_leagues
+    .query()
+    .where({
+      type: type
+    })
+    .where("seasonId", "<", "seasonId");
   if (pastLeagues === 0) {
     res.status(404).send();
     return;
@@ -95,7 +97,7 @@ router.post("/updateclosed", async (req, res) => {
   //allow for updates
   let hofAll = await eight_nine_ball_leagues.query().where({
     type: type
-  })
+  });
   if (hofAll === 0) {
     res.status(404).send();
     return;
@@ -104,13 +106,13 @@ router.post("/updateclosed", async (req, res) => {
   //need number of seasons
   let seasons = await eight_nine_ball_seasons.query().where({
     type: type
-  })
+  });
   if (seasons === 0) {
     res.status(404).send();
     return;
   }
-  
-  for (let j = 0; j < hofAll.length; j++ ) {
+
+  for (let j = 0; j < hofAll.length; j++) {
     let locC = -1;
 
     //get location of entry within currentLeague
@@ -121,10 +123,10 @@ router.post("/updateclosed", async (req, res) => {
       }
     }
 
-    console.log(currentLeague[locC].play + " DDDDDDDDDDD")
+    console.log(currentLeague[locC].play + " DDDDDDDDDDD");
     //calculate winrate for the current league
     currentWinRate = (currentLeague[locC].win * 100) / currentLeague[locC].play;
-    
+
     totalWins = 0;
     totalPlays = 0;
     totalPoints = 0;
@@ -139,34 +141,23 @@ router.post("/updateclosed", async (req, res) => {
         totalPoints = totalPoints + pastLeagues[i].points;
       }
     }
-    
+
     //if user has past league matches, calculate their improvement. if not, set it to 0.
     if (present === true) {
       //calculate the winrate of the past leagues hofAll.improvement = oldWinRate
-      oldWinRate =  ((totalWins * 100) / totalPlays);
-    
-      //get % increase/decrease
-      console.log(hofAll[j].improvement + " I")
-      console.log(oldWinRate + " O")
-      console.log(currentWinRate + " C")
-      ((current- old) / old) * 100
-      //hofAll[j].improvement = ((currentWinRate - oldWinRate) / oldWinRate) * 100
-      hofAll[j].improvement = currentWinRate - oldWinRate;
-      //hofAll[j].improvement = oldWinRate - currentWinRate;
-      console.log(hofAll[j].improvement + " = " + oldWinRate + " - " + currentWinRate)
-      console.log(hofAll[j].improvement + " / " + oldWinRate + " * 100 = ")
+      oldWinRate = (totalWins * 100) / totalPlays;
 
-      //hofAll[j].improvement = (hofAll[j].improvement/oldWinRate) * 100
-      console.log(hofAll[j].improvement)
+      //get % increase/decrease
+      hofAll[j].improvement = currentWinRate - oldWinRate;
     } else {
-      hofAll[j].improvement = 0; 
+      hofAll[j].improvement = 0;
     }
 
     //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
 
     //these have to be deleted so that they don't overwrite the data
-    delete hofAll[j].seasonId
+    delete hofAll[j].seasonId;
     delete hofAll[j].id;
     delete hofAll[j].play;
     delete hofAll[j].win;
@@ -180,16 +171,16 @@ router.post("/updateclosed", async (req, res) => {
 
     //patch database
     await hall_of_fame
-        .query()
-        .findOne({
-          type: type,
-          staffName: hofAll[j].staffName
-        })
-        .patch(hofAll[j]);
+      .query()
+      .findOne({
+        type: type,
+        staffName: hofAll[j].staffName
+      })
+      .patch(hofAll[j]);
   }
   //success!
   res.status(200).send();
-})
+});
 
 /* 
   POST handler for /api/89ball_league/hall_of_fame/calculate_v2

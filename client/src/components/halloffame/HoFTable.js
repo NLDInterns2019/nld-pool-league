@@ -350,7 +350,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">
           {improved
-            ? improved.latestWins + "% improvement"
+            ? improved.improvement.toFixed(2) + "% improvement"
             : "Greatest improvement"}
         </td>
       </tr>
@@ -409,7 +409,7 @@ const itemsToBeDisplayed = props => {
           {retire ? retire.staffName : "-"}
         </td>
         <td className="hofCellBad">
-          {retire ? retire.latestWins + "% deterioration" : "Biggest decline"}
+          {retire ? retire.improvement.toFixed(2) + "% deterioration" : "Biggest decline"}
         </td>
       </tr>
     </tbody>
