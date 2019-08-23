@@ -7,8 +7,7 @@ driver
   .window()
   .maximize();
 chai.use(require("chai-as-promised"));
-var homepage = "http://nldpoolleague.azurewebsites.net/";
-// var homepage = "http://localhost:3000/";
+var homepage = "http://localhost:3000/";
 
 describe("App", () => {
   describe("LandingPage", () => {
