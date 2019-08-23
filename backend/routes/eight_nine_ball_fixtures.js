@@ -38,7 +38,6 @@ router.get("/group/:seasonId", (req, res) => {
   eight_nine_ball_fixtures
     .query()
     .where({ type: req.query.type, seasonId: seasonId })
-    //.countDistinct("group as count") Source of ERROR
     .max("group as count")
     .then(
       count => {
@@ -237,6 +236,7 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  //these will be amended to the DB
   const leagueAttributes = {
     type: req.body.type,
     seasonId: req.body.seasonId,
@@ -258,7 +258,7 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
     staffName: req.body.player2
   };
 
-  //Check if fixture exist and score is still null (means fixture hasnt been played)
+  //Check if fixture exist and score is still null (thus fixture is unplayed)
   let fixture;
   try {
     fixture = await eight_nine_ball_fixtures.query().findOne(leagueAttributes);
@@ -383,7 +383,7 @@ router.put("/edit", auth.checkJwt, async (req, res) => {
     return;
   }
 
-  //EVERYTHING SUCCEED
+  //EVERYTHING SUCCEEDED
   res.status(200).send();
 });
 
