@@ -310,6 +310,7 @@ describe("App", () => {
     /* affects database */
     it("should be able to delete a player from a season", async () => {
       await jest.setTimeout(30000);
+      await driver.sleep(3000);
       var noOfPlayers = await driver
         .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
         .then(elements => {
