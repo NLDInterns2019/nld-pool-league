@@ -244,9 +244,6 @@ router.put("/recalculate", auth.checkJwt, async (req, res) => {
       }
     }
 
-    //const pVal1 = _.find(leagues, league => league.staffName === fixtures[i].player1)
-    //const pVal2= _.find(leagues, league => league.staffName === fixtures[i].player2)
-
     if (fixtures[i].score1 == 2) {
       //p1 won
       leagues[pVal1].win++;
