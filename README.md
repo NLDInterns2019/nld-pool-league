@@ -198,7 +198,7 @@ Achievements are located on the 'Hall of Fame' page. This is where you can view 
 
 - Top Player (Highest win percentage)
 - Best Season (Most points in one season)
-- 4.0 GPA (Highest points per game)
+- 4.0 GPA (Highest points per season)
 - Average (Highest draw percentage)
 - Dedicated (Most games played)
 - Dr. Punctual (Fewest late fixtures)
