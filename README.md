@@ -14,8 +14,18 @@
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
 - [Usage](#usage)
-  - [Creating a Season](#creating-a-season)
-  - [Submitting a Result](#submitting-a-result)
+  - [Creating a New Season](#creating-a-new-season)
+  - [Submitting Results](#submitting-results)
+  - [Editing a Submitted Result](#editing-a-submitted-results)
+  - [Adding a Player During a Season](#adding-a-player-during-a-season)
+  - [Removing a Player During a Season](#removing-a-player-during-a-season)
+  - [Viewing Current League Tables and Results](#viewing-current-league-tables-and-results)
+  - [Arranging Fixtures](#arranging-fixtures)
+  - [Tracking Joining Fees and Declaring Payments](#tracking-joining-fees-and-declaring-payments)
+  - [Achievements](#achievements)
+  - [Viewing Your Personalised Stats for Current and Past Seasons](#viewing-your-personalised-stats-for-current-and-past-seasons)
+  - [Closing a Season](#closing-a-season)
+  - [Playoffs](#playoffs)
 - [General Information](#general-information)
   - [League Table](#league-table)
   - [Results](#results)
@@ -96,7 +106,7 @@ The web application can be used to perform many tasks:
 - Closing a season
 - Playoffs
 
-### **Creating a Season**
+### **Creating a New Season**
 
 This can be done my first signing into your account and then navigating to either 8-Ball or 9-Ball depending on which season you would like to create.
 
