@@ -87,8 +87,6 @@ If you have already have npm installed, you can update by typing the following i
       - `CLIENT_ID = 6mN88Bs0BTSCHVPYzyWW1pXyrgehH7n4`
       - `CLIENT_SECRET = zQnSA-sxaUgb7cPU0x5qpc5FGcduaHJHPuX1c9BXtD_aw2VZLictvavWyF7_pSum`
       - `DOMAIN = dev-q70ogh1b.eu.auth0.com`
-      - `token = xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e`
-      - `channel = CLB0QN8JY`
 
 ### **Running the Application**
 
