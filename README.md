@@ -85,6 +85,7 @@ The web application can be used to perform many tasks:
 
 - Creating a new season
 - Submitting results
+- Editing a submitted result
 - Adding a player during a season
 - Removing a player during a season
 - Viewing current league tables and results
@@ -114,6 +115,14 @@ This is done after a fixture has been played and is achieved by navigating to th
 From here, you will find a 'Submit Result' section in the lower left where you can select your name if it hasn't been already, and the fixture you wish to submit a result for. After selecting a fixture, three result options will appear, two for the two players involved, and one draw.
 
 When you are happy with the details, click 'Submit Result' and this will update the league table and fixtures.
+
+### **Editing a Submitted Result**
+
+Editing a result can be done though the 'Current Season' by clicking on the large red button on the right saying 'Edit Submitted Result'.
+
+When this is clicked, a form will appear with your name in the first drop-down list selected. However, if you are signed into an admin account, this drop-down list will have 'ALL' selected. The fixture drop-down below it contains all the played fixtures; simply click the fixture you wish to edit the result of and the previous result will appear below. To edit the result just click another radio button.
+
+After this, click 'Submit Result' and the league table will be updated accordingly. Unfortunately, the form doesn't update when a result has been edited. However, the positioning in the legaue table will still work as expected.
 
 ### **Adding a Player During a Season**
 
