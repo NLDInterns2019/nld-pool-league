@@ -15,6 +15,7 @@
   - [Running the Application](#running-the-application)
 - [Usage](#usage)
   - [Creating a New Season](#creating-a-new-season)
+  - [Deleting a Season](#deleting-a-season)
   - [Submitting Results](#submitting-results)
   - [Editing a Submitted Result](#editing-a-submitted-results)
   - [Adding a Player During a Season](#adding-a-player-during-a-season)
@@ -94,6 +95,7 @@ A browser should open at [http://localhost:3000](http://localhost:3000) and the 
 The web application can be used to perform many tasks:
 
 - Creating a new season
+- Deleting a season
 - Submitting results
 - Editing a submitted result
 - Adding a player during a season
@@ -118,6 +120,14 @@ To add a player to the list, click 'Add player' and a new drop-down menu will ap
 
 Once you are satisfied with the details of the new season, click 'Create season' to finalise. The pop up window will close and your newly created season will now be visible in the list. A league table and fixtures are created automatically and can be viewed by clicking on the season in the list or by visiting the 'Current Season' tab.
 
+### **Deleting a Season**
+
+Deleting a season requires an **admin** account.
+
+To delete a season, navigate to the 'All Seasons' page where you can see all created seasons.
+
+Next to each season is a small cross. Click this to delete the corresponding season. An alert will appear asking for you to confirm your actions, click 'OK' and the season will be deleted along with all the joining fees for that season.
+
 ### **Submitting Results**
 
 This is done after a fixture has been played and is achieved by navigating to the relevant season through the 'All Seasons' tab. If the season you are submitting a result for is the most recent season in that particular game type, you can just click 'Current Season' and this will take you to the correct view.
@@ -136,7 +146,7 @@ After this, click 'Submit Result' and the league table will be updated according
 
 ### **Adding a Player During a Season**
 
-Adding a player requires an admin account.
+Adding a player requires an **admin** account.
 
 To add a player, navigate to an active season and you will see an 'add new player' button underneath the league table. When this is clicked a small form will appear with a drop-down list. In this list are all the registered profiles that are not in the current season. Once you have found the player who you would like to add, select them and click 'Confirm'.
 
@@ -144,7 +154,7 @@ This process will automatically generate new fixtures to include the new player.
 
 ### **Removing a Player During a Season**
 
-Removing a player requires an admin account.
+Removing a player requires an **admin** account.
 
 When hovering over a row in the league table of an active season, you will be able to see a small cross in a circle at the end of the row. Clicking this bring up an alert asking for confirmation.
 
