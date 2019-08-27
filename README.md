@@ -196,7 +196,34 @@ The graph only shows positions for closed seasons.
 
 ### **Closing a season**
 
-To close a season, you must be signed is as admin
+To close a season, you must be signed in as admin and are able to close a season via the 'Current Season' page. Click the 'Close Season' button on the lower left; an alert will appear asking if you are sure you want to close the season, if so, click 'OK' and the season will not be playable anymore unless a playoff is required.
+
+**CAUTION: This process cannot be undone. Once a season is closed, it cannot be re-opened**
+
+If the season isn't finished and the season is closed, all remaining unplayed games will be resulted as 1-1 draws. After closing a season, if there are players on equal points in the top three, a playoff will be required.
+
+Once a season is closed, viewing the season becomes very different as now when visiting that season, the top three players from the season are displayed at the top of the page with the final league table on the left, and the honourable mentions and fixtures on the right.
+
+The honourable mentions are playoffs that have achieved certain accomplishments through the season. These acheivements consist of:
+
+- Undefeated (player without any losses)
+- Most drawn (player with most draws)
+- Liability (player with most points against)
+- Zero win (player without any wins)
+- Dr. Punctual (player with fewest lates)
+- Slacker (player with most lates)
+
+When a season is closed, two crossed chequered flags are displayed next to the season name on the 'All Seasons' page.
+
+### **Playoffs**
+
+When the top three positions cannot be decided due to players being on equal points with someone else, a playoff is required to decide the final standings. If this is the case, when the season is closed, a heading saying 'playoff required' will appear at the top of the screen with a 'start playoff' button underneath.
+
+When this button is clicked, the playoff begins and new fixtures are calculated and displayed on the right. A playoff icon will also appear next to the season name in the 'All Seasons' page.
+
+Submitting results is the same as a regular season game except that there are no draws in a playoff game.
+
+Once all playoff games have been played, the season can be closed as usual.
 
 ## **General Information**
 
@@ -216,11 +243,18 @@ The form is displayed with the most recent submitted result on the left.
 
 ### **Results**
 
-There are only three results possible:
+There are only three results possible in a regular season game:
 
 - 2-0 win
 - 1-1 draw
 - 2-0 loss
+
+In a playoff, there are only two results possible:
+
+- 2-0 win
+- 2-0 loss
+
+No draws are possible in a playoff match and tennis rules apply where a player must win by a two game gap (e.g. 4-2, 7-5). However, when submitted, the result will only affect the points for and against in the league table and the result will go down as 2-0.
 
 ## **Acknowledgements**
 
