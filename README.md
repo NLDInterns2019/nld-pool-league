@@ -85,12 +85,15 @@ The web application can be used to perform many tasks:
 
 - Creating a new season
 - Submitting results
+- Adding a player during a season
+- Removing a player during a season
 - Viewing current league tables and results
 - Arranging fixtures
 - Tracking joining fees and declaring payments
 - Achievements
 - Viewing your personalised stats for current and past seasons
 - Closing a season
+- Playoffs
 
 ### **Creating a Season**
 
@@ -111,6 +114,22 @@ This is done after a fixture has been played and is achieved by navigating to th
 From here, you will find a 'Submit Result' section in the lower left where you can select your name if it hasn't been already, and the fixture you wish to submit a result for. After selecting a fixture, three result options will appear, two for the two players involved, and one draw.
 
 When you are happy with the details, click 'Submit Result' and this will update the league table and fixtures.
+
+### **Adding a Player During a Season**
+
+Adding a player requires an admin account.
+
+To add a player, navigate to an active season and you will see an 'add new player' button underneath the league table. When this is clicked a small form will appear with a drop-down list. In this list are all the registered profiles that are not in the current season. Once you have found the player who you would like to add, select them and click 'Confirm'.
+
+This process will automatically generate new fixtures to include the new player. However, this is slightly buggy as certain players may now be scheduled to play two games in one round.
+
+### **Removing a Player During a Season**
+
+Removing a player requires an admin account.
+
+When hovering over a row in the league table of an active season, you will be able to see a small cross in a circle at the end of the row. Clicking this bring up an alert asking for confirmation.
+
+Once you confirm, the player will be removed from the season and all points given from the removed player's played fixtures will be removed. The player's fixtures will also no longer show in the 'view fixtures' section on the right of the page.
 
 ### **Viewing League Table**
 
