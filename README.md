@@ -111,6 +111,22 @@ From here, you will find a 'Submit Result' section in the lower left where you c
 
 When you are happy with the details, click 'Submit Result' and this will update the league table and fixtures.
 
+### **Viewing League Table**
+
+This is positioned on the upper left of the 'Current Season' page. It contains all players involved in the current season and is also where a player can see if others have paid their joining fee. The columns from left to right are:
+
+- Position
+- Name
+- Number of games played
+- Number of wins
+- Number of draws
+- Number of losses
+- Points for
+- Points against
+- Form for the last five matches
+- Points
+- Indicator to show if the player has paid their joining fee
+
 ### **Viewing Fixtures**
 
 You can find this on the right hand side of the 'Current Season' page. By default, the fixtures visible are your own unplayed fixtures.
@@ -120,6 +136,18 @@ To see someone else's or everyone's fixtures, select either someone else's name 
 To toggle whether the played fixtures are visible, click the 'Show played fixtures' checkbox and they will appear with the unplayed fixtures.
 
 You can reset the filters to their original state by clicking the 'Clear' button
+
+### **Arranging Fixtures**
+
+This is located on the 'Arrange Fixtures' page. When on the page, you will be presented with a calendar with days along the top and hours split in two down the left.
+
+To book the pool table for a half hour time slot, click in the rectangle corresponding to the time slot you would like.
+
+You will presented with a pop-up form to fill in. This form tells you which time slot you will be booking for at the top. Fill in the form by selecting your name and your opponent's name from the respective drop-down menus. You also have the ability to book the table for games outside of the pool leagues currently running. To book a friendly or a billiards match, check the 'Friendly/Billiard' checkbox. However, if you are arranging a match that is taking place in the pool leagues, leave this box unchecked.
+
+Once you are happy with the details of the fixture, click 'Confirm' and you will see your scheduled fixture appear in the calendar. A slack message will also be sent to your Slack channel to notify others of the match.
+
+If you would like to change the time of a fixture you have scheduled, you can drag and drop the event to another time slot. Once dropped, the event may flash back to its original position briefly. This is expected and it will finish in its new position. A new Slack message will also be sent to notify others of the change.
 
 ### **Viewing Your Personalised Stats**
 
