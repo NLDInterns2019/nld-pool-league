@@ -161,6 +161,8 @@ When a player pays their joining fee, the admin can click on the corresponding t
 
 To make a transaction such as buying medals, click the 'Make Transaction' button on the lower right. You will be presented with a transaction form. Select whether the transaction is credit (adding money) or debit (spending money), the type, season, enter a brief description, and the value the transaction is for. When you are happy with the details, click 'Submit' and this transaction will automatically appear in the statement.
 
+To reset the transaction form, click 'Clear' and to close the form without submitting, click 'Cancel'.
+
 ### **Viewing Your Personalised Stats**
 
 If you are signed into an account that is not admin, you can view your very own stats by navigating to the 'My Dashboard' tab.
