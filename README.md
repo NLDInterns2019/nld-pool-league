@@ -88,8 +88,9 @@ The web application can be used to perform many tasks:
 - Viewing current league tables and results
 - Arranging fixtures
 - Tracking joining fees and declaring payments
-- Receiving Achievements
+- Achievements
 - Viewing your personalised stats for current and past seasons
+- Closing a season
 
 ### **Creating a Season**
 
@@ -163,6 +164,28 @@ To make a transaction such as buying medals, click the 'Make Transaction' button
 
 To reset the transaction form, click 'Clear' and to close the form without submitting, click 'Cancel'.
 
+### **Achievements**
+
+Achievements are located on the 'Hall of Fame' page. This is where you can view which player has been awarded each achievement. The tables are split into eight and nine ball and have the following achievements:
+
+- Top Player (Highest win percentage)
+- Best Season (Most points in one season)
+- 4.0 GPA (Highest points per game)
+- Average (Highest draw percentage)
+- Dedicated (Most games played)
+- Dr. Punctual (Fewest late fixtures)
+- The Train (Longest winning streak)
+- Scrappy (Most wins against first place)
+- Improver (Greatest improvement)
+- Filthy Casual (Highest loss percentage)
+- Slacker (Most late fixtures)
+- In a Slump (Longest losing streak)
+- Time to Retire (Biggest decline)
+
+It is possible for more than one player to hold an achievement due to people potantially having the same statistics.
+
+These tables are updated when a new result is submitted.
+
 ### **Viewing Your Personalised Stats**
 
 If you are signed into an account that is not admin, you can view your very own stats by navigating to the 'My Dashboard' tab.
@@ -170,6 +193,10 @@ If you are signed into an account that is not admin, you can view your very own 
 This is where you can see if you are behind on payments, your unplayed and arranged fixtures, your stats for the current season, and your all-time stats including a graph showing your position history.
 
 The graph only shows positions for closed seasons.
+
+### **Closing a season**
+
+To close a season, you must be signed is as admin
 
 ## **General Information**
 
