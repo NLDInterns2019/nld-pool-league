@@ -244,7 +244,9 @@ The graph only shows positions for closed seasons.
 
 ### **Closing a season**
 
-To close a season, you must be signed in as admin and are able to close a season via the 'Current Season' page. Click the 'Close Season' button on the lower left; an alert will appear asking if you are sure you want to close the season, if so, click 'OK' and the season will not be playable anymore unless a playoff is required.
+Closing a season requires an **admin** account.
+
+You are able to close a season via the 'Current Season' page. Click the 'Close Season' button on the lower left; an alert will appear asking if you are sure you want to close the season, if so, click 'OK' and the season will not be playable anymore unless a playoff is required.
 
 **CAUTION: This process cannot be undone. Once a season is closed, it cannot be re-opened**
 
@@ -264,6 +266,8 @@ The honourable mentions are playoffs that have achieved certain accomplishments 
 When a season is closed, two crossed chequered flags are displayed next to the season name on the 'All Seasons' page.
 
 ### **Playoffs**
+
+Starting a playoff requires an **admin** account.
 
 When the top three positions cannot be decided due to players being on equal points with someone else, a playoff is required to decide the final standings. If this is the case, when the season is closed, a heading saying 'playoff required' will appear at the top of the screen with a 'start playoff' button underneath.
 
