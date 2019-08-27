@@ -149,6 +149,18 @@ Once you are happy with the details of the fixture, click 'Confirm' and you will
 
 If you would like to change the time of a fixture you have scheduled, you can drag and drop the event to another time slot. Once dropped, the event may flash back to its original position briefly. This is expected and it will finish in its new position. A new Slack message will also be sent to notify others of the change.
 
+### **Tracking Joining Fees and Declaring Payments**
+
+When you are either not signed in or you are signed in as non-admin, you are able to view the statement in incoming and outgoing money from the kitty 'Kitty' page.
+
+The overall balance is displayed at the top of the page and this changes with every transaction made. The table also displays the date a transaction was made, the exact season it relates to, the user behind it, a brief description, and the value the transaction was for.
+
+If you are signed in as admin, you are able to view outstanding payments on the left where all the people who haven't paid are shown with which seasons' fees are outstanding. The statement also looks slightly different to if you are not admin; it only shows the eight most recent transactions. The table can be expanded by clicking 'Show more...' and then collapsed with 'Show less...'.
+
+When a player pays their joining fee, the admin can click on the corresponding table row to confirm that player has paid. An alert will appear asking to confirm that person has paid; click 'OK' to finalise. This new payment will automatically appear in the statement on the right and the balance will update.
+
+To make a transaction such as buying medals, click the 'Make Transaction' button on the lower right. You will be presented with a transaction form. Select whether the transaction is credit (adding money) or debit (spending money), the type, season, enter a brief description, and the value the transaction is for. When you are happy with the details, click 'Submit' and this transaction will automatically appear in the statement.
+
 ### **Viewing Your Personalised Stats**
 
 If you are signed into an account that is not admin, you can view your very own stats by navigating to the 'My Dashboard' tab.
