@@ -80,6 +80,16 @@ If you have already have npm installed, you can update by typing the following i
 
    ### `npm install`
 
+1. Set environment variables
+   1. Type "env" into the start menu and click "edit environment variables for your account"
+   1. Click 'New...'
+   1. Create the following variables:
+      - `CLIENT_ID = 6mN88Bs0BTSCHVPYzyWW1pXyrgehH7n4`
+      - `CLIENT_SECRET = zQnSA-sxaUgb7cPU0x5qpc5FGcduaHJHPuX1c9BXtD_aw2VZLictvavWyF7_pSum`
+      - `DOMAIN = dev-q70ogh1b.eu.auth0.com`
+      - `token = xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e`
+      - `channel = CLB0QN8JY`
+
 ### **Running the Application**
 
 In order to run the application on localhost, the following will need to be run from the terminal in both the client and backend directories:
