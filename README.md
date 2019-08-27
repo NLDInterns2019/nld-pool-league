@@ -220,7 +220,7 @@ Achievements are located on the 'Hall of Fame' page. This is where you can view 
 - In a Slump (Longest losing streak)
 - Time to Retire (Biggest decline)
 
-It is possible for more than one player to hold an achievement due to people potantially having the same statistics.
+In the case of identical best records, it is possible for users to share an achievement. Both names will be displayed.
 
 These tables are updated when a new result is submitted.
 
