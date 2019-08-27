@@ -7,8 +7,7 @@ driver
   .window()
   .maximize();
 chai.use(require("chai-as-promised"));
-var homepage = "http://nldpoolleague.azurewebsites.net/";
-// var homepage = "http://localhost:3000/";
+var homepage = `http://localhost:3000/`;
 
 describe("App", () => {
   describe("LandingPage", () => {
@@ -18,6 +17,7 @@ describe("App", () => {
     });
 
     it("should have expected title value", async () => {
+      await driver.sleep(500);
       var actual = await driver.getTitle();
       var expected = "Pool Manager";
       expect(actual).to.equal(expected);
@@ -171,7 +171,7 @@ describe("App", () => {
       await driver
         .wait(until.elementLocated(By.name("password")), 5 * 1000)
         .then(element => {
-          return element.sendKeys("test");
+          return element.sendKeys(process.env.TEST_PASSWORD);
         });
       await driver.findElement(By.className("auth0-label-submit")).click();
       await driver.wait(until.urlIs(homepage));
@@ -257,7 +257,7 @@ describe("App", () => {
       await driver
         .wait(until.elementLocated(By.name("password")), 5 * 1000)
         .then(element => {
-          return element.sendKeys("admin");
+          return element.sendKeys(process.env.ADMIN_PASSWORD);
         });
       await driver.findElement(By.className("auth0-label-submit")).click();
       await driver.wait(until.urlIs(homepage));
@@ -267,53 +267,116 @@ describe("App", () => {
     });
   });
 
-  // describe("Creating a season", () => {
-  //   beforeEach(async () => {
-  //     await jest.setTimeout(30000);
-  //   });
+  describe("Creating a season", () => {
+    beforeEach(async () => {
+      await jest.setTimeout(30000);
+    });
 
-  //   /* affects database */
-  //   it("should be able to create a season", async () => {
-  //     await driver.get(homepage + "8-ball/seasons");
-  //     var noOfSeasons = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
-  //     await driver.findElement(By.id("addSeasonBtn")).click();
-  //     await driver.findElement(By.id("inputSeasonNo")).sendKeys("5000");
-  //     await driver.sleep(1000);
-  //     await driver.findElement(By.id("createSeasonBtn")).click();
-  //     await driver.sleep(2000);
-  //     var noOfSeasonsAfter = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
-  //     expect(noOfSeasonsAfter).to.equal(noOfSeasons + 1);
-  //   });
+    /* affects database */
+    it("should be able to create a season", async () => {
+      await driver.get(homepage + "8-ball/seasons");
+      await driver.sleep(500);
+      var noOfSeasons = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.findElement(By.id("addSeasonBtn")).click();
+      await driver.sleep(1000);
+      await driver.findElement(By.id("inputSeasonNo")).sendKeys("5000");
+      await driver.sleep(1000);
+      await driver.findElement(By.id("createSeasonBtn")).click();
+      await driver.sleep(2000);
+      var noOfSeasonsAfter = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+      expect(noOfSeasonsAfter).to.equal(noOfSeasons + 1);
+    });
 
-  //   /* affects database */
-  //   it("should be able to delete a season", async () => {
-  //     var noOfSeasons = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
-  //     await driver.findElement(By.id("remove5000")).click();
-  //     await driver
-  //       .switchTo()
-  //       .alert()
-  //       .accept();
-  //     await driver.sleep(2000);
-  //     var noOfSeasonsAfter = await driver
-  //       .findElements(By.className("season-list-item"))
-  //       .then(elements => {
-  //         return elements.length;
-  //       });
+    it("should navigate to the current season screen when the new season is selected", async () => {
+      await driver.findElement(By.id("season5000")).click();
+      await driver.sleep(1000);
+      var text = await driver
+        .findElement(By.xpath("//*[@class='leagueTableContainer']/h3"))
+        .getText();
+      var expected = "Season 5000 League Table";
+      expect(text).to.equal(expected);
+    });
+  });
 
-  //     expect(noOfSeasonsAfter).to.equal(noOfSeasons - 1);
-  //     await driver.quit();
-  //   });
-  // });
+  describe("Editing number of players", () => {
+    /* affects database */
+    it("should be able to delete a player from a season", async () => {
+      await jest.setTimeout(30000);
+      await driver.sleep(3000);
+      var noOfPlayers = await driver
+        .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.findElement(By.id("delete-chrisp")).click();
+      await driver.sleep(500);
+      await driver
+        .switchTo()
+        .alert()
+        .accept();
+      await driver.sleep(1000);
+      var noOfPlayersAfter = await driver
+        .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
+        .then(elements => {
+          return elements.length;
+        });
+      expect(noOfPlayersAfter).to.equal(noOfPlayers - 1);
+    });
+
+    it("should be able to add a player to a season", async () => {
+      await jest.setTimeout(30000);
+      var noOfPlayers = await driver
+        .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.navigate().refresh();
+      await driver.sleep(500);
+      await driver.findElement(By.id("addPlayerBtn")).click();
+      await driver.findElement(By.id("confirmBtn")).click();
+      await driver.sleep(2000);
+      var noOfPlayersAfter = await driver
+        .findElements(By.xpath("//*[@class='leagueTable']/tbody/tr"))
+        .then(elements => {
+          return elements.length;
+        });
+      expect(noOfPlayersAfter).to.equal(noOfPlayers + 1);
+    });
+  });
+
+  describe("Deleting a season", () => {
+    /* affects database */
+    it("should be able to delete a season", async () => {
+      await jest.setTimeout(30000);
+      await driver.get(homepage + "8-ball/seasons");
+      await driver.sleep(1000);
+      var noOfSeasons = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+      await driver.findElement(By.id("remove5000")).click();
+      await driver
+        .switchTo()
+        .alert()
+        .accept();
+      await driver.sleep(2000);
+      var noOfSeasonsAfter = await driver
+        .findElements(By.className("season-list-item"))
+        .then(elements => {
+          return elements.length;
+        });
+
+      expect(noOfSeasonsAfter).to.equal(noOfSeasons - 1);
+      await driver.quit();
+    });
+  });
 });

@@ -41,19 +41,19 @@ const itemsToBeDisplayed = props => {
   /***********
    * 4.0 GPA *
    ***********/
-  let avgPoints = filter(
+  let avgPointsSeason = filter(
     props.players,
     player =>
-      player.avgPoints === maxBy(props.players, "avgPoints").avgPoints &&
-      player.avgPoints !== 0
+      player.avgPointsSeason === maxBy(props.players, "avgPointsSeason").avgPointsSeason &&
+      player.avgPointsSeason !== 0
   );
-  if (avgPoints.length) {
-    avgPoints.staffName = avgPoints.map(player => (
+  if (avgPointsSeason.length) {
+    avgPointsSeason.staffName = avgPointsSeason.map(player => (
       <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
     ));
-    avgPoints.avgPoints = avgPoints[0].avgPoints;
+    avgPointsSeason.avgPointsSeason = avgPointsSeason[0].avgPointsSeason;
   } else {
-    avgPoints = null;
+    avgPointsSeason = null;
   }
 
   /***********
@@ -133,9 +133,9 @@ const itemsToBeDisplayed = props => {
   /************
    * Improver *
    ************/
-  let improved = maxBy(props.players, "latestWins");
+  let improved = maxBy(props.players, "improvement");
   if (improved !== undefined) {
-    if (improved.latestWins === 0) {
+    if (improved.improvement === 0) {
       improved = null;
     }
   }
@@ -199,9 +199,9 @@ const itemsToBeDisplayed = props => {
   /******************
    * Time to Retire *
    ******************/
-  let retire = minBy(props.players, "latestWins");
+  let retire = minBy(props.players, "improvement");
   if (retire !== undefined) {
-    if (retire.latestWins === 0) {
+    if (retire.improvement === 0) {
       retire = null;
     }
   }
@@ -242,12 +242,12 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">4.0 GPA</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
-          {avgPoints ? avgPoints.staffName : "-"}
+          {avgPointsSeason ? avgPointsSeason.staffName : "-"}
         </td>
         <td className="hofCell">
-          {avgPoints
-            ? avgPoints.avgPoints + " points per game"
-            : "Highest average PPG"}
+          {avgPointsSeason
+            ? avgPointsSeason.avgPointsSeason.toFixed(2) + " average PPS"
+            : "Highest average PPS"}
         </td>
       </tr>
       <tr>
@@ -350,7 +350,7 @@ const itemsToBeDisplayed = props => {
         </td>
         <td className="hofCell">
           {improved
-            ? improved.latestWins + "% improvement"
+            ? improved.improvement.toFixed(2) + "% improvement"
             : "Greatest improvement"}
         </td>
       </tr>
@@ -409,7 +409,7 @@ const itemsToBeDisplayed = props => {
           {retire ? retire.staffName : "-"}
         </td>
         <td className="hofCellBad">
-          {retire ? retire.latestWins + "% deterioration" : "Biggest decline"}
+          {retire ? retire.improvement.toFixed(2) + "% deterioration" : "Biggest decline"}
         </td>
       </tr>
     </tbody>
