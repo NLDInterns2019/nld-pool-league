@@ -18,6 +18,7 @@
   - [Submitting a Result](#submitting-a-result)
 - [General Information](#general-information)
   - [League Table](#league-table)
+  - [Results](#results)
 - [Acknowledgements](#acknowledgements)
 
 ## **About the Project**
@@ -106,9 +107,27 @@ Once you are satisfied with the details of the new season, click 'Create season'
 
 This is done after a fixture has been played and is achieved by navigating to the relevant season through the 'All Seasons' tab. If the season you are submitting a result for is the most recent season in that particular game type, you can just click 'Current Season' and this will take you to the correct view.
 
-From here, you will find a 'Submit Result' section in the lower left where you can select your name if it hasn't been already, and the fixture you wish to submit a result for. After selecting a fixture, three result options will appear, two for the two players involved, and one draw. A win rewards the winner with a 2-0 victory, and a draw rewards both players with a 1-1 draw.
+From here, you will find a 'Submit Result' section in the lower left where you can select your name if it hasn't been already, and the fixture you wish to submit a result for. After selecting a fixture, three result options will appear, two for the two players involved, and one draw.
 
 When you are happy with the details, click 'Submit Result' and this will update the league table and fixtures.
+
+### **Viewing Fixtures**
+
+You can find this on the right hand side of the 'Current Season' page. By default, the fixtures visible are your own unplayed fixtures.
+
+To see someone else's or everyone's fixtures, select either someone else's name or 'ALL' from the name drop-down list.
+
+To toggle whether the played fixtures are visible, click the 'Show played fixtures' checkbox and they will appear with the unplayed fixtures.
+
+You can reset the filters to their original state by clicking the 'Clear' button
+
+### **Viewing Your Personalised Stats**
+
+If you are signed into an account that is not admin, you can view your very own stats by navigating to the 'My Dashboard' tab.
+
+This is where you can see if you are behind on payments, your unplayed and arranged fixtures, your stats for the current season, and your all-time stats including a graph showing your position history.
+
+The graph only shows positions for closed seasons.
 
 ## **General Information**
 
@@ -119,12 +138,20 @@ When you are happy with the details, click 'Submit Result' and this will update 
 The league table is ordered in the following manner:
 
 1. Most points (3 for a win, 1 for a draw, 0 for a loss)
-2. Most goals for
-3. Fewest goals against
+1. Most goals for
+1. Fewest goals against
 
 In the event that all the above are equal between multiple parties, the players involved will share the position until the end of the regular season where if there are still shared positions affecting the top three, a playoff will be required.
 
 The form is displayed with the most recent submitted result on the left.
+
+### **Results**
+
+There are only three results possible:
+
+- 2-0 win
+- 1-1 draw
+- 2-0 loss
 
 ## **Acknowledgements**
 
