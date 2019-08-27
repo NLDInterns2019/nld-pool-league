@@ -2,11 +2,12 @@ import auth0 from 'auth0-js';
 
 class Auth {
   constructor() {
+    console.log(process.env.REACT_APP_DOMAIN)
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
-      domain: 'nonlinear.eu.auth0.com',
-      audience: 'https://nonlinear.eu.auth0.com/userinfo',
-      clientID: '37zkvPcf7imqkiL2KnFHdwh95YN17jH3',
+      domain: process.env.REACT_APP_DOMAIN,
+      audience: `https://${process.env.REACT_APP_DOMAIN}/userinfo`,
+      clientID: process.env.REACT_APP_CLIENT_ID,
       redirectUri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}/callback`,
       responseType: 'id_token',
       scope: 'openid profile'
@@ -66,7 +67,7 @@ class Auth {
     this.expiresAt = null;
     this.auth0.logout({
       returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
-      client_id: '37zkvPcf7imqkiL2KnFHdwh95YN17jH3'
+      client_id: process.env.REACT_APP_CLIENT_ID
     })   
   }
 

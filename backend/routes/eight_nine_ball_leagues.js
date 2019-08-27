@@ -370,7 +370,7 @@ router.delete("/delete/player", auth.checkJwt, (req, res) => {
 });
 
 /* 
-  GET handler for /api/89ball_league/check_draw
+  GET handler for /api/89ball_league/:seasonId/check_draw
   Function: To find draws
 */
 router.get("/:seasonId/check_draw", async (req, res) => {
