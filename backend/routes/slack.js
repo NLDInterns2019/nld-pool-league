@@ -1024,7 +1024,7 @@ router.post("/poolCommand", async (req, res) => {
     }
   } else {
     const response = {
-      response_type: "in_channel",
+      response_type: "ephemeral",
       attachments: [
         {
           mrkdwn_in: ["text"],
