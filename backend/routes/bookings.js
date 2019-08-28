@@ -174,7 +174,7 @@ router.put("/add/message_id", auth.checkJwt, (req, res) => {
 router.put("/edit", auth.checkJwt, (req, res) => {
   const schema = {
     id: Joi.number().required(),
-    messageId: Joi.string().required(),
+    messageId: Joi.string(),
     start: Joi.string().required(),
     end: Joi.string().required()
   };
@@ -185,14 +185,19 @@ router.put("/edit", auth.checkJwt, (req, res) => {
     return;
   }
 
+  let patch = {
+    start: req.body.start,
+    end: req.body.end
+  };
+
+  if (req.body.hasOwnProperty("messageId") && req.body.messageId) {
+    patch.messageId = req.body.messageId;
+  }
+
   bookings
     .query()
     .where({ id: req.body.id })
-    .patch({
-      messageId: req.body.messageId,
-      start: req.body.start,
-      end: req.body.end
-    })
+    .patch(patch)
     .then(
       result => {
         if (res === 0) {

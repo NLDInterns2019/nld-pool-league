@@ -173,13 +173,16 @@ class FixturesPage extends Component {
       Authorization: `Bearer ${auth0Client.getIdToken()}`
     };
 
+    let type = parseInt(this.state.type, 10);
+    if (isFriendly) type = 0;
+
     await backend
       .post(
         "/api/booking/add",
         {
           start: this.state.start,
           end: this.state.end,
-          type: parseInt(this.state.type, 10),
+          type: type,
           player1: player1,
           player2: player2,
           title: `${player1} VS ${player2}`
@@ -195,11 +198,10 @@ class FixturesPage extends Component {
         backend.post(
           "/api/slack/booking",
           {
-            type: parseInt(this.state.type, 10),
+            type: type,
             start: this.state.start,
             player1: player1,
-            player2: player2,
-            isFriendly: isFriendly
+            player2: player2
           },
           {
             headers: headers
@@ -210,11 +212,10 @@ class FixturesPage extends Component {
           .post(
             "/api/slack/booking/reminder",
             {
-              type: parseInt(this.state.type, 10),
+              type: type,
               start: this.state.start,
               player1: player1,
-              player2: player2,
-              isFriendly: isFriendly
+              player2: player2
             },
             {
               headers: headers

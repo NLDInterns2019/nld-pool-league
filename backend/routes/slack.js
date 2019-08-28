@@ -73,13 +73,17 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     type: Joi.number().required(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
-    start: Joi.string().required(),
-    isFriendly: Joi.boolean().required()
+    start: Joi.string().required()
   };
 
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 
@@ -130,7 +134,7 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
           mrkdwn_in: ["text"],
           color: colours.bookings,
           pretext:
-            (req.body.isFriendly
+            (req.body.type === 0
               ? "*Friendly/Billiards*"
               : req.body.type === 8
               ? ":8ball:"
@@ -167,13 +171,17 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     type: Joi.number().required(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
-    start: Joi.string().required(),
-    isFriendly: Joi.boolean().required()
+    start: Joi.string().required()
   };
 
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(204).send();
     return;
   }
 
@@ -226,7 +234,7 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
           mrkdwn_in: ["text"],
           color: colours.reminders,
           pretext:
-            (req.body.isFriendly
+            (req.body.type === 0
               ? "*Friendly/Billiards*"
               : req.body.type === 8
               ? ":8ball:"
@@ -257,13 +265,8 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
   Function: To delete scheduled reminder
 */
 router.delete("/booking/reminder", auth.checkJwt, async (req, res) => {
-  const schema = {
-    messageId: Joi.string().required()
-  };
-
-  //Validation
-  if (Joi.validate(req.body, schema, { convert: false }).error) {
-    res.status(400).json({ status: "error", error: "Invalid data" });
+  if (token === undefined || !req.body.messageId) {
+    res.status(200).send();
     return;
   }
 
@@ -295,6 +298,11 @@ router.post("/newSeason", auth.checkJwt, async (req, res) => {
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 
@@ -339,6 +347,11 @@ router.post("/hallOfFameUpdate", auth.checkJwt, async (req, res) => {
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 
@@ -387,6 +400,11 @@ router.post("/newPlayer", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  if (token === undefined) {
+    res.status(200).send();
+    return;
+  }
+
   const response = await web.chat
     .postMessage({
       channel: channel,
@@ -431,6 +449,11 @@ router.post("/playoffResultSubmitted", auth.checkJwt, async (req, res) => {
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 
@@ -497,6 +520,11 @@ router.post("/resultSubmitted", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  if (token === undefined) {
+    res.status(200).send();
+    return;
+  }
+
   getLeagueTable(req.body.type, req.body.seasonId).then(async players => {
     const table = createConsoleTable(players);
     const response = await web.chat
@@ -557,6 +585,11 @@ router.post("/resultEdited", auth.checkJwt, async (req, res) => {
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 
@@ -621,6 +654,11 @@ router.post("/feePaid", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  if (token === undefined) {
+    res.status(200).send();
+    return;
+  }
+
   const response = await web.chat
     .postMessage({
       channel: channel,
@@ -665,6 +703,11 @@ router.post("/playerRemoved", auth.checkJwt, async (req, res) => {
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 
@@ -714,6 +757,11 @@ router.post("/seasonClosed", auth.checkJwt, async (req, res) => {
     return;
   }
 
+  if (token === undefined) {
+    res.status(200).send();
+    return;
+  }
+
   getLeagueTable(req.body.type, req.body.seasonId).then(async players => {
     const table = createConsoleTable(players);
     const response = await web.chat
@@ -760,6 +808,11 @@ router.post("/playoff", auth.checkJwt, async (req, res) => {
   //Validation
   if (Joi.validate(req.body, schema, { convert: false }).error) {
     res.status(400).json({ status: "error", error: "Invalid data" });
+    return;
+  }
+
+  if (token === undefined) {
+    res.status(200).send();
     return;
   }
 

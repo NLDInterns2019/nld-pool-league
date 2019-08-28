@@ -1,16 +1,15 @@
-import auth0 from 'auth0-js';
+import auth0 from "auth0-js";
 
 class Auth {
   constructor() {
-    console.log(process.env.REACT_APP_DOMAIN)
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
       domain: process.env.REACT_APP_DOMAIN,
       audience: `https://${process.env.REACT_APP_DOMAIN}/userinfo`,
       clientID: process.env.REACT_APP_CLIENT_ID,
       redirectUri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}/callback`,
-      responseType: 'id_token',
-      scope: 'openid profile'
+      responseType: "id_token",
+      scope: "openid profile"
     });
 
     this.getProfile = this.getProfile.bind(this);
@@ -33,11 +32,11 @@ class Auth {
   }
 
   signIn() {
-    this.auth0.authorize(({
+    this.auth0.authorize({
       appState: {
         url: window.location.pathname
-      },
-    }));
+      }
+    });
   }
 
   handleAuthentication() {
@@ -50,7 +49,7 @@ class Auth {
         this.setSession(authResult);
         resolve(authResult.appState.url);
       });
-    }) 
+    });
   }
 
   setSession(authResult) {
@@ -68,7 +67,7 @@ class Auth {
     this.auth0.logout({
       returnTo: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
       client_id: process.env.REACT_APP_CLIENT_ID
-    })   
+    });
   }
 
   silentAuth() {

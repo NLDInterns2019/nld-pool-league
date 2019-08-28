@@ -52,19 +52,17 @@ class HoFPage extends React.Component {
   };
 
   sendHallOfFameUpdateSlackMessage = async (type, playerName, achievement) => {
-    await backend
-      .post(
-        "/api/slack/hallOfFameUpdate",
-        {
-          type: type,
-          player: playerName,
-          achievement: achievement
-        },
-        {
-          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-        }
-      )
-      .then(console.log("posted"));
+    await backend.post(
+      "/api/slack/hallOfFameUpdate",
+      {
+        type: type,
+        player: playerName,
+        achievement: achievement
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
   };
 
   componentDidMount = async () => {

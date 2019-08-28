@@ -352,7 +352,7 @@ class App extends React.Component {
       );
       await this.updateData();
       if (!this.state.drawPoints.length) {
-         backend.post(
+        backend.post(
           "/api/hall_of_fame/updateclosed",
           {
             type: parseInt(this.state.type, 10),
@@ -621,19 +621,17 @@ class App extends React.Component {
   };
 
   sendNewPlayerSlackMessage = async player => {
-    await backend
-      .post(
-        "/api/slack/newPlayer",
-        {
-          player: player,
-          type: parseInt(this.state.type),
-          seasonId: this.state.activeSeason
-        },
-        {
-          headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
-        }
-      )
-      .then(console.log("posted"));
+    await backend.post(
+      "/api/slack/newPlayer",
+      {
+        player: player,
+        type: parseInt(this.state.type),
+        seasonId: this.state.activeSeason
+      },
+      {
+        headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
+      }
+    );
   };
 
   render() {
