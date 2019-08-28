@@ -156,7 +156,7 @@ describe("Fixture", () => {
   });
 
   describe("GET /api/89ball_fixture/:seasonId", () => {
-    it("should get all the players in the specific fixtures", done => {
+    it("should get all the fixtures in a specific season", done => {
       chai
         .request(server)
         .get("/api/89ball_fixture/2020?type=8")
@@ -195,6 +195,31 @@ describe("Fixture", () => {
       chai
         .request(server)
         .get("/api/89ball_fixture/2077?type=8")
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(0);
+          done();
+        });
+    });
+  });
+
+  describe("GET /api/89ball_fixture/:seasonId?onlyPlayed=true", () => {
+    it("should get all the played fixtures in a specific seasons", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_fixture/2020?type=8&onlyPlayed=true")
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(0);
+          done();
+        });
+    });
+    it("should not get any player for a nonexistent fixture", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_fixture/2077?type=8&onlyPlayed=true")
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("array");

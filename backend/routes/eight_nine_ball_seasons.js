@@ -154,7 +154,7 @@ router.get("/playersdb", auth.checkJwt, (req, res) => {
   token().then(
     result => {
       axios
-        .get("https://nonlinear.eu.auth0.com/api/v2/users", {
+        .get(`https://${process.env.DOMAIN}/api/v2/users`, {
           params: {
             search_engine: "v3"
           },

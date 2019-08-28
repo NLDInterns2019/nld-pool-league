@@ -133,7 +133,19 @@ describe("League", () => {
           done();
         });
     });
+    it("should not get any player for a nonexistent season", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_league/2077?type=8")
+        .send({ type: 8 })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
 
+  describe("GET /api/89ball_league/:seasonId", () => {
     it("should get all the players in the specific season in the 8 league", done => {
       chai
         .request(server)
@@ -194,6 +206,55 @@ describe("League", () => {
       chai
         .request(server)
         .get("/api/89ball_league/2077?type=8")
+        .send({ type: 8 })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
+
+  describe("GET /api/89ball_league/:seasonId?staffName=Michael", () => {
+    it("should get specific player in the specific season in the 8 league", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_league/2019?type=8&staffName=Michael")
+        .send({ type: 8 })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            type: 8,
+            seasonId: 2019,
+            staffName: "Michael"
+          });
+          done();
+        });
+    });
+
+    it("should get specific player in the specific season in the 9 league", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_league/2019?type=9&staffName=Michael")
+        .send({ type: 9 })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            type: 9,
+            seasonId: 2019,
+            staffName: "Michael"
+          });
+          done();
+        });
+    });
+
+    it("should not get nonexistent player", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_league/2019?type=8&staffName=Thanos")
         .send({ type: 8 })
         .end((err, res) => {
           res.should.have.status(404);
@@ -284,8 +345,8 @@ describe("League", () => {
           type: 8,
           seasonId: 1,
           staffs: [
-            { type: 8, seasonId: 1, staffName: "Michael", form:"-----" },
-            { type: 8, seasonId: 1, staffName: "Matthew", form:"-----" }
+            { type: 8, seasonId: 1, staffName: "Michael", form: "-----" },
+            { type: 8, seasonId: 1, staffName: "Matthew", form: "-----" }
           ]
         })
         .end((err, res) => {
@@ -300,13 +361,13 @@ describe("League", () => {
                 type: 8,
                 seasonId: 1,
                 staffName: "Michael",
-                form:"-----"
+                form: "-----"
               });
               res.body.should.include.something.like({
                 type: 8,
                 seasonId: 1,
                 staffName: "Matthew",
-                form:"-----"
+                form: "-----"
               });
               done();
             });
@@ -321,8 +382,8 @@ describe("League", () => {
           type: 9,
           seasonId: 1,
           staffs: [
-            { type: 9, seasonId: 1, staffName: "Michael", form:"-----" },
-            { type: 9, seasonId: 1, staffName: "Matthew", form:"-----"}
+            { type: 9, seasonId: 1, staffName: "Michael", form: "-----" },
+            { type: 9, seasonId: 1, staffName: "Matthew", form: "-----" }
           ]
         })
         .end((err, res) => {
@@ -337,13 +398,13 @@ describe("League", () => {
                 type: 9,
                 seasonId: 1,
                 staffName: "Michael",
-                form:"-----"
+                form: "-----"
               });
               res.body.should.include.something.like({
                 type: 9,
                 seasonId: 1,
                 staffName: "Matthew",
-                form:"-----"
+                form: "-----"
               });
               done();
             });
@@ -357,7 +418,7 @@ describe("League", () => {
         .send({
           seasonId: 2019,
           staffName: "Michael",
-          form:"-----"
+          form: "-----"
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -468,6 +529,57 @@ describe("League", () => {
             staffName: "Natalie"
           });
           done();
+        });
+    });
+  });
+
+  //CHECK DRAW
+  describe("GET /api/89ball_league/:seasonId/check_draw", () => {
+    it("should determine if playoff is needed", done => {
+      chai
+        .request(server)
+        .get("/api/89ball_league/2021/check_draw?type=8")
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          res.body.length.should.be.eql(1);
+          res.body.should.include.something.like({
+            goalsAgainst: 0,
+            goalsFor: 0,
+            points: 0
+          });
+          done();
+        });
+    });
+  });
+
+  describe("PUT /api/89ball_league/paid", () => {
+    it("should change player joining fee status to paid", done => {
+      chai
+        .request(server)
+        .put("/api/89ball_league/paid")
+        .set("authorization", `Bearer ${bearerToken}`)
+        .send({
+          type: 8,
+          seasonId: 2019,
+          staffName: "Michael"
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          chai
+          .request(server)
+          .get("/api/89ball_league?type=8")
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("array");
+            res.body.should.not.include.something.like({
+              type: 8,
+              seasonId: 2019,
+              staffName: "Michael",
+              paid: true,
+            });
+            done();
+          });
         });
     });
   });
