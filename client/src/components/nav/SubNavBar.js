@@ -213,48 +213,51 @@ const SubNavBar = props => {
   };
 
   return (
-    <div className="subnav">
-      {icon}
-      <div className="nav">
-        <h2
-          style={{
-            width: "250px",
-            marginRight: "1.5rem"
-          }}
-        >
-          {title}
-        </h2>
-        <ul className="main-items">
-          <li>
-            <Link
-              to={`/${props.type}-ball/seasons`}
-              style={seasonsCurrentStyle}
-              id="seasonsLink"
-            >
-              All Seasons
-            </Link>
-          </li>
-          {seasonFixtureLink(`${props.type}-ball`)}
-          <li>
-            {auth0Client.isAuthenticated() &&
-            auth0Client.getProfile().nickname !== "admin" ? (
+    <div className="subnav-container">
+      <div className="subnav">
+        {icon}
+        <div className="nav">
+          <h2
+            style={{
+              width: "250px",
+              marginRight: "1.5rem"
+            }}
+          >
+            {title}
+          </h2>
+          <ul className="main-items">
+            <li>
               <Link
-                to={`/${props.type}-ball/dashboard`}
-                style={dashboardCurrentStyle}
-                id="dashboardLink"
+                to={`/${props.type}-ball/seasons`}
+                style={seasonsCurrentStyle}
+                id="seasonsLink"
               >
-                My Dashboard
+                All Seasons
               </Link>
-            ) : null}
-          </li>
-        </ul>
+            </li>
+            {seasonFixtureLink(`${props.type}-ball`)}
+            <li>
+              {auth0Client.isAuthenticated() &&
+              auth0Client.getProfile().nickname !== "admin" ? (
+                <Link
+                  to={`/${props.type}-ball/dashboard`}
+                  style={dashboardCurrentStyle}
+                  id="dashboardLink"
+                >
+                  My Dashboard
+                </Link>
+              ) : null}
+            </li>
+          </ul>
+        </div>
+        <Collapsible
+          type={props.type}
+          seasonFixtureLink={seasonFixtureLink}
+          seasonsCurrentStyle={seasonsCurrentStyle}
+          dashboardCurrentStyle={dashboardCurrentStyle}
+        />
       </div>
-      <Collapsible
-        type={props.type}
-        seasonFixtureLink={seasonFixtureLink}
-        seasonsCurrentStyle={seasonsCurrentStyle}
-        dashboardCurrentStyle={dashboardCurrentStyle}
-      />
+      <div className="subnav-fade" />
     </div>
   );
 };
