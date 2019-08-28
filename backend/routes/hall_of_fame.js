@@ -10,6 +10,9 @@ const eight_nine_ball_leagues = require("../models/eight_nine_ball_leagues");
 const eight_nine_ball_seasons = require("../models/eight_nine_ball_seasons");
 const hall_of_fame = require("../models/hall_of_fame");
 
+
+const calcImprovement = require("../functions/improvement");
+
 /* 
   GET handler for /api/89ball_league/hall_of_fame 
   Function: To get the hall of fame
@@ -364,40 +367,9 @@ router.post("/updateclosed", async (req, res) => {
 
     //GUARD
     if (loc >= 0) {
-      //////////
-      //calculate winrate for the current league
-      currentWinRate =
-        (currentLeague[loc].win * 100) / currentLeague[loc].play;
-
-      totalWins = 0;
-      totalPlays = 0;
-      totalPoints = 0;
-      let present = false;
-
-      //count relevant data for past leagues
-      for (let i = 0; i < pastLeagues.length; i++) {
-        if (pastLeagues[i].staffName === hofAll[j].staffName) {
-          present = true;
-          totalWins = totalWins + pastLeagues[i].win;
-          totalPlays = totalPlays + pastLeagues[i].play;
-          totalPoints = totalPoints + pastLeagues[i].points;
-        }
-      }
-
-      //if user has past league matches, calculate their improvement. if not, set it to 0.
-      if (present === true) {
-        //calculate the winrate of the past leagues hofAll.improvement = oldWinRate
-        oldWinRate = (totalWins * 100) / totalPlays;
-
-        //get % increase/decrease
-        hofAll[j].improvement = currentWinRate - oldWinRate;
-      } else {
-        hofAll[j].improvement = 0;
-      }
-
-      //get avg points per season
-      hofAll[j].avgPointsSeason = totalPoints / seasons.length;
-//////////////////
+      
+      hofAll = improvement.improvementCalc(currentLeague, pastLeague, hofAll);
+      
       //these have to be deleted so that they don't overwrite the data
       delete hofAll[j].seasonId;
       delete hofAll[j].id;

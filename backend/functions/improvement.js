@@ -1,17 +1,11 @@
 module.exports = {
     //calculate fixture values
-    fixtureCalc: function (currentLeague, players, seasonId, group, date) {
-       let currentWinRate, totalWins, totalPlays, totalPoints = 0;
-       let present = false;
+    improvementCalc: function (currentLeague, pastLeagues, hofAll) {
+      let currentWinRate, oldWinRate, totalWins, totalPlays, totalPoints = 0;
+      let present = false;
 
       //calculate winrate for the current league
-      currentWinRate =
-      (currentLeague[loc].win * 100) / currentLeague[loc].play;
-
-    totalWins = 0;
-    totalPlays = 0;
-    totalPoints = 0;
-    let present = false;
+      currentWinRate = (currentLeague[loc].win * 100) / currentLeague[loc].play;
 
     //count relevant data for past leagues
     for (let i = 0; i < pastLeagues.length; i++) {
@@ -36,5 +30,8 @@ module.exports = {
 
     //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
+
+    return hofAll;
     }
+
 }
