@@ -1029,9 +1029,9 @@ router.post("/poolCommand", async (req, res) => {
         {
           mrkdwn_in: ["text"],
           color: colours.info,
-          pretext: "*Here are the available functions:* :slightly_smiling_face:",
-          text:
-            "`/pool table type season_id`\n`/pool today`\n`/pool tomorrow`"
+          pretext:
+            "*Here are the available functions:* :slightly_smiling_face:",
+          text: "`/pool table type season_id`\n`/pool today`\n`/pool tomorrow`"
         }
       ]
     };
@@ -1050,7 +1050,6 @@ router.post("/poolCommand", async (req, res) => {
       ]
     };
     res.json(response);
-  }
   }
 });
 
