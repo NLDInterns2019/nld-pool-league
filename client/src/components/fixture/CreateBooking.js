@@ -193,7 +193,11 @@ class CreateBooking extends React.Component {
   };
 
   makeBooking = () => {
-    this.props.makeBooking(this.state.activePlayer, this.state.activeOpponent);
+    this.props.makeBooking(
+      this.state.activePlayer,
+      this.state.activeOpponent,
+      this.state.friendlyMatch
+    );
     this.setState(this.initialState);
   };
 
@@ -229,7 +233,10 @@ class CreateBooking extends React.Component {
             name="hidePlayed"
             checked={this.state.friendlyMatch}
             onChange={e => {
-              this.setState({ friendlyMatch: e.target.checked, activePlayer: " " });
+              this.setState({
+                friendlyMatch: e.target.checked,
+                activePlayer: " "
+              });
             }}
           />
           <div id="arrangeFixtureBtn">

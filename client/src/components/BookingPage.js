@@ -167,7 +167,7 @@ class FixturesPage extends Component {
     this.refs.container.style.display = "none";
   };
 
-  makeBooking = async (player1, player2) => {
+  makeBooking = async (player1, player2, isFriendly) => {
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${auth0Client.getIdToken()}`
@@ -198,7 +198,8 @@ class FixturesPage extends Component {
             type: parseInt(this.state.type, 10),
             start: this.state.start,
             player1: player1,
-            player2: player2
+            player2: player2,
+            isFriendly: isFriendly
           },
           {
             headers: headers
@@ -212,7 +213,8 @@ class FixturesPage extends Component {
               type: parseInt(this.state.type, 10),
               start: this.state.start,
               player1: player1,
-              player2: player2
+              player2: player2,
+              isFriendly: isFriendly
             },
             {
               headers: headers

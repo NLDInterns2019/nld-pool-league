@@ -73,7 +73,8 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
     type: Joi.number().required(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
-    start: Joi.string().required()
+    start: Joi.string().required(),
+    isFriendly: Joi.boolean().required()
   };
 
   //Validation
@@ -129,7 +130,9 @@ router.post("/booking", auth.checkJwt, async (req, res) => {
           mrkdwn_in: ["text"],
           color: colours.bookings,
           pretext:
-            (req.body.type === 8
+            (req.body.isFriendly
+              ? "*Friendly/Billiards*"
+              : req.body.type === 8
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
@@ -164,7 +167,8 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
     type: Joi.number().required(),
     player1: Joi.string().required(),
     player2: Joi.string().required(),
-    start: Joi.string().required()
+    start: Joi.string().required(),
+    isFriendly: Joi.boolean().required()
   };
 
   //Validation
@@ -222,7 +226,9 @@ router.post("/booking/reminder", auth.checkJwt, async (req, res) => {
           mrkdwn_in: ["text"],
           color: colours.reminders,
           pretext:
-            (req.body.type === 8
+            (req.body.isFriendly
+              ? "*Friendly/Billiards*"
+              : req.body.type === 8
               ? ":8ball:"
               : req.body.type === 9
               ? ":9ball:"
