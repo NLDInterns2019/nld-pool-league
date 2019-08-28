@@ -87,7 +87,7 @@ If you have already have npm installed, you can update by typing the following i
 3.  On the side nav bar go to **application** and create a new **Single Page Web Applications**
 4.  Choose **React** as the technology
 5.  Go to the setting of your new app and note down the **Client ID**
-6.  Scroll down and set:
+6.  Scroll down and set the following:
     > Allowed Callback URLs: http://localhost:3000/callback
     >
     > Allowed Web Origins: http://localhost:3000
@@ -95,7 +95,7 @@ If you have already have npm installed, you can update by typing the following i
     > Allowed Logout URLs: http://localhost:3000/
 7.  Now go to the **client** folder and open **.env** file
 8.  Set **REACT_APP_DOMAIN** to your **tenant domain** and **REACT_APP_CLIENT_ID** to your **CLIENT ID**
-    > **.env** file should look like:
+    > **.env** file should look something like this:
     >
     > REACT_APP_DOMAIN = dev-q70ogh1b.eu.auth0.com
     >
@@ -109,15 +109,17 @@ If you have already have npm installed, you can update by typing the following i
 4.  Now go back to the **Application** section and you should see **API Explorer Application** on your applications list
 5.  Click the **API Explorer Application** and go to **Settings**
 6.  Note down the **domain**, **Client ID** and **Client Secret**
-7.  Now set your machine environment variables as follow:
-    > !CASE SENSITIVE!
+7.  Navigate to the Start menu and type **env** into the search bar and clicm on **Edit environment variables for your account**
+8.  Now create the following new variables by clicking **New...**:
+    > CASE SENSITIVE!
     >
     > CLIENT_ID = Your Client ID (ex: eKibnMg57hfzscymY5b91KLeRsCPI0P1)
     >
     > CLIENT_SECRET = Your Client Secret (ex: zQnSA-eweUgb7cPU0x5qpc5FGcdioHJHPiX1c9BXtD_aw2VZLictvovWyF7_pSim)
     >
     > DOMAIN = Your Domain (ex: dev-jo-ek7-n.auth0.com)
-8.  That's it! You are all set
+9.  Restart your IDE
+10. That's it! You are all set
 
 ### **Installation**
 
@@ -129,11 +131,11 @@ If you have already have npm installed, you can update by typing the following i
 
 In order to run the application on localhost, the following will need to be run from the terminal in both the client and backend directories:
 
-> `cd .\backend\`
+> `cd ./backend`
 >
 > `npm start`
 
-> `cd .\client\`
+> `cd ./client`
 >
 > `npm start`
 
