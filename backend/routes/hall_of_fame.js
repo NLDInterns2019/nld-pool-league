@@ -364,6 +364,7 @@ router.post("/updateclosed", async (req, res) => {
 
     //GUARD
     if (loc >= 0) {
+      //////////
       //calculate winrate for the current league
       currentWinRate =
         (currentLeague[loc].win * 100) / currentLeague[loc].play;
@@ -396,7 +397,7 @@ router.post("/updateclosed", async (req, res) => {
 
       //get avg points per season
       hofAll[j].avgPointsSeason = totalPoints / seasons.length;
-
+//////////////////
       //these have to be deleted so that they don't overwrite the data
       delete hofAll[j].seasonId;
       delete hofAll[j].id;
