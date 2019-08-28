@@ -352,21 +352,21 @@ router.post("/updateclosed", async (req, res) => {
   }
 
   for (let j = 0; j < hofAll.length; j++) {
-    let locC = -1;
+    let loc = -1;
 
     //get location of entry within currentLeague
     for (let i = 0; i < currentLeague.length; i++) {
       if (currentLeague[i].staffName === hofAll[j].staffName) {
-        locC = i;
+        loc = i;
         break;
       }
     }
 
     //GUARD
-    if (locC >= 0) {
+    if (loc >= 0) {
       //calculate winrate for the current league
       currentWinRate =
-        (currentLeague[locC].win * 100) / currentLeague[locC].play;
+        (currentLeague[loc].win * 100) / currentLeague[loc].play;
 
       totalWins = 0;
       totalPlays = 0;
