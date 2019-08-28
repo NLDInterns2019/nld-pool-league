@@ -858,7 +858,7 @@ router.post("/poolCommand", async (req, res) => {
   if (func === "table" && text.split(" ").length === 3) {
     if (type !== "8" && type !== "9") {
       const response = {
-        response_type: "in_channel",
+        response_type: "ephemeral",
         attachments: [
           {
             mrkdwn_in: ["text"],
@@ -871,7 +871,7 @@ router.post("/poolCommand", async (req, res) => {
       res.json(response);
     } else if (!regex.test(seasonId)) {
       const response = {
-        response_type: "in_channel",
+        response_type: "ephemeral",
         attachments: [
           {
             mrkdwn_in: ["text"],
@@ -967,12 +967,12 @@ router.post("/poolCommand", async (req, res) => {
     if (moment().day() === 5 || moment().day() === 6) {
       // if today is a Friday or Saturday, there can't be games tomorrow
       const response = {
-        response_type: "in_channel",
+        response_type: "ephemeral",
         attachments: [
           {
             mrkdwn_in: ["text"],
             color: colours.info,
-            pretext: "*Error*",
+            pretext: "*Don't be silly* :wink:",
             text: "There are no games at the weekend"
           }
         ]
@@ -1022,6 +1022,20 @@ router.post("/poolCommand", async (req, res) => {
           res.json(response);
         });
     }
+  } else if (text === "") {
+    const response = {
+      response_type: "ephemeral",
+      attachments: [
+        {
+          mrkdwn_in: ["text"],
+          color: colours.info,
+          pretext: "*Here are the available functions:* :slightly_smiling_face:",
+          text:
+            "`/pool table type season_id`\n`/pool today`\n`/pool tomorrow`"
+        }
+      ]
+    };
+    res.json(response);
   } else {
     const response = {
       response_type: "ephemeral",
@@ -1036,6 +1050,7 @@ router.post("/poolCommand", async (req, res) => {
       ]
     };
     res.json(response);
+  }
   }
 });
 
