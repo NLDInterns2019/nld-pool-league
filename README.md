@@ -109,7 +109,7 @@ If you have already have npm installed, you can update by typing the following i
 4.  Now go back to the **Application** section and you should see **API Explorer Application** on your applications list
 5.  Click the **API Explorer Application** and go to **Settings**
 6.  Note down the **domain**, **Client ID** and **Client Secret**
-7.  Navigate to the Start menu and type **env** into the search bar and clicm on **Edit environment variables for your account**
+7.  Navigate to the Start menu and type **env** into the search bar and click on **Edit environment variables for your account**
 8.  Now create the following new variables by clicking **New...**:
     > CASE SENSITIVE!
     >
