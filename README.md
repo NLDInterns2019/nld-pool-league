@@ -74,30 +74,68 @@ If you have already have npm installed, you can update by typing the following i
 
 ### `npm install npm@latest -g`
 
+### **Auth0 Setup**
+
+```diff
+! This setup is required for all the features to work
+```
+
+##### PART 1 -CLIENT-
+
+1.  Go to https://auth0.com/ and create an account.
+2.  Create your tenant and note down your **tenant domain**. (Something like **dev-jo-ek7-n.auth0.com** )
+3.  On the side nav bar go to **application** and create a new **Single Page Web Applications**
+4.  Choose **React** as the technology
+5.  Go to the setting of your new app and note down the **Client ID**
+6.  Scroll down and set:
+    > Allowed Callback URLs: http://localhost:3000/callback
+    >
+    > Allowed Web Origins: http://localhost:3000
+    >
+    > Allowed Logout URLs: http://localhost:3000/
+7.  Now go to the **client** folder and open **.env** file
+8.  Set **REACT_APP_DOMAIN** to your **tenant domain** and **REACT_APP_CLIENT_ID** to your **CLIENT ID**
+    > **.env** file should look like:
+    >
+    > REACT_APP_DOMAIN = dev-q70ogh1b.eu.auth0.com
+    >
+    > REACT_APP_CLIENT_ID = R5L9Qjuce2d4baKs1zfiP6JK9SWjkSA5
+
+##### PART 2 -BACKEND-
+
+1.  In your Auth0 dashboard go to the **APIs** section
+2.  Click the **Auth0 Management API**
+3.  Go to the **API Explorer** and then click Create and **Authorize Test Application**
+4.  Now go back to the **Application** section and you should see **API Explorer Application** on your applications list
+5.  Click the **API Explorer Application** and go to **Settings**
+6.  Note down the **domain**, **Client ID** and **Client Secret**
+7.  Now set your machine environment variables as follow:
+    > !CASE SENSITIVE!
+    >
+    > CLIENT_ID = Your Client ID (ex: eKibnMg57hfzscymY5b91KLeRsCPI0P1)
+    >
+    > CLIENT_SECRET = Your Client Secret (ex: zQnSA-eweUgb7cPU0x5qpc5FGcdioHJHPiX1c9BXtD_aw2VZLictvovWyF7_pSim)
+    >
+    > DOMAIN = Your Domain (ex: dev-jo-ek7-n.auth0.com)
+8.  That's it! You are all set
+
 ### **Installation**
 
-1. Install npm packages
+1. Go to both **client** and **backend** folder to install npm packages
 
    ### `npm install`
-
-1. Set environment variables
-   1. Type "env" into the start menu and click "edit environment variables for your account"
-   1. Click 'New...'
-   1. Create the following variables:
-      - `CLIENT_ID = 6mN88Bs0BTSCHVPYzyWW1pXyrgehH7n4`
-      - `CLIENT_SECRET = zQnSA-sxaUgb7cPU0x5qpc5FGcduaHJHPuX1c9BXtD_aw2VZLictvavWyF7_pSum`
-      - `DOMAIN = dev-q70ogh1b.eu.auth0.com`
-      - `token = xoxp-685145909105-693344350935-691496978112-a5c73f958a992b52284cfcc86433895e`
-      - `channel = CLB0QN8JY`
-      - `SLACK_WEBHOOK = https://hooks.slack.com/services/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`
-
-The token and channel ID are for a test channel that you won't have access to. The app should be able to run with these credentials but slack posting to your own slack channel is not available at the time of writing.
 
 ### **Running the Application**
 
 In order to run the application on localhost, the following will need to be run from the terminal in both the client and backend directories:
 
-### `npm start`
+> `cd .\backend\`
+>
+> `npm start`
+
+> `cd .\client\`
+>
+> `npm start`
 
 A browser should open at [http://localhost:3000](http://localhost:3000) and the app should load
 

@@ -45,19 +45,16 @@ module.exports = {
           }
           /* if there are fixtures on the day of posting, post the message, otherwise, don't */
           if (message !== "") {
-            axios.post(
-              "https://hooks.slack.com/services/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",
-              {
-                attachments: [
-                  {
-                    mrkdwn_in: ["text"],
-                    color: "#e23e4b",
-                    pretext: "*Today's Fixtures:*",
-                    text: message
-                  }
-                ]
-              }
-            );
+            axios.post(process.env.SLACK_WEBHOOK, {
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: "#e23e4b",
+                  pretext: "*Today's Fixtures:*",
+                  text: message
+                }
+              ]
+            });
           }
         });
     }
@@ -104,19 +101,16 @@ module.exports = {
 
           /* if there are overdue fixtures, post the message, otherwise, don't */
           if (finalMessage !== "") {
-            axios.post(
-              "https://hooks.slack.com/services/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",
-              {
-                attachments: [
-                  {
-                    mrkdwn_in: ["text"],
-                    color: "#e23e4b",
-                    pretext: "*Overdue Fixtures:*",
-                    text: finalMessage
-                  }
-                ]
-              }
-            );
+            axios.post(process.env.SLACK_WEBHOOK, {
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: "#e23e4b",
+                  pretext: "*Overdue Fixtures:*",
+                  text: finalMessage
+                }
+              ]
+            });
           }
         });
     }
@@ -161,19 +155,16 @@ module.exports = {
           }
           /* if there are outstanding payments, post message, otherwise, don't */
           if (finalMessage !== "") {
-            axios.post(
-              "https://hooks.slack.com/services/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",
-              {
-                attachments: [
-                  {
-                    mrkdwn_in: ["text"],
-                    color: "#e23e4b",
-                    pretext: "*Outstanding Joining Fee Payments:*",
-                    text: finalMessage
-                  }
-                ]
-              }
-            );
+            axios.post(process.env.SLACK_WEBHOOK, {
+              attachments: [
+                {
+                  mrkdwn_in: ["text"],
+                  color: "#e23e4b",
+                  pretext: "*Outstanding Joining Fee Payments:*",
+                  text: finalMessage
+                }
+              ]
+            });
           }
         });
     }
