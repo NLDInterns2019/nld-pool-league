@@ -459,7 +459,11 @@ class App extends React.Component {
           <button
             id="closeSeason"
             onClick={() => {
-              if (window.confirm("Are you sure you want to close this season?"))
+              if (
+                window.confirm(
+                  "Are you sure you want to close this season?\nCAUTION: THIS PROCESS CANNOT BE UNDONE"
+                )
+              )
                 this.closeSeason();
             }}
           >
