@@ -458,6 +458,18 @@ table td {
   padding: 5px 15px 5px 15px;
 }
 
+.overduePaymentsPay {
+  background-color: #eeeeee;
+  color: #888888;
+  transition: background-color 0.3s ease;
+}
+
+.overduePaymentsPay:hover {
+  background-color: #127e5c;
+  color: white;
+  cursor: pointer;
+}
+
 .overduePaymentsTitle {
   display: flex;
   justify-content: center;
@@ -472,14 +484,6 @@ table td {
   display: flex;
   flex-direction: column;
   margin-bottom: 4rem;
-}
-
-.overduePaymentsTable tr:hover td {
-  background-color: #eeeeee;
-}
-
-.overduePaymentsTable tr:hover {
-  cursor: pointer;
 }
 
 /* ==== Labels in Create Season and Submit Score Forms ==== */

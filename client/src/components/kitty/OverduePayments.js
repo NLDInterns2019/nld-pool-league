@@ -3,12 +3,7 @@ import React from "react";
 const itemsToDisplay = props => {
   const itemsToDisplay = props.unpaid.map(player => {
     return (
-      <tr
-        key={player.staffName + player.type + player.seasonId}
-        onClick={() =>
-          props.payJoiningFee(player.staffName, player.type, player.seasonId)
-        }
-      >
+      <tr key={player.staffName + player.type + player.seasonId}>
         <td>{player.staffName}</td>
         <td>
           {player.type === 8 ? (
@@ -20,6 +15,14 @@ const itemsToDisplay = props => {
           )}
         </td>
         <td>{player.seasonId}</td>
+        <td
+          className="overduePaymentsPay"
+          onClick={() =>
+            props.payJoiningFee(player.staffName, player.type, player.seasonId)
+          }
+        >
+          Pay
+        </td>
       </tr>
     );
   });
