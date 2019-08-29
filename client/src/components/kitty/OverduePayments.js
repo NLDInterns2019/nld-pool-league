@@ -15,13 +15,18 @@ const itemsToDisplay = props => {
           )}
         </td>
         <td>{player.seasonId}</td>
-        <td
-          className="overduePaymentsPay"
-          onClick={() =>
-            props.payJoiningFee(player.staffName, player.type, player.seasonId)
-          }
-        >
-          Pay
+        <td className="overduePaymentsPay">
+          <div
+            className="tick-circle-icon-grey"
+            alt="tick"
+            onClick={() =>
+              props.payJoiningFee(
+                player.staffName,
+                player.type,
+                player.seasonId
+              )
+            }
+          />
         </td>
       </tr>
     );

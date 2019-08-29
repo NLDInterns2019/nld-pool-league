@@ -459,16 +459,17 @@ table td {
 }
 
 .overduePaymentsPay {
-  background-color: #eeeeee;
-  color: #888888;
-  transition: background-color 0.3s ease;
+  background-color: transparent;
+  /* color: #888888;
+  transition: background-color 0.3s ease; */
 }
 
+/*
 .overduePaymentsPay:hover {
   background-color: #127e5c;
   color: white;
   cursor: pointer;
-}
+} */
 
 .overduePaymentsTitle {
   display: flex;
@@ -1597,6 +1598,18 @@ tr td:last-child {
   width: 24px;
   height: 24px;
   background-image: url("./assets/book.svg");
+}
+
+.tick-circle-icon-grey {
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  background-image: url("./assets/tick-circle.svg");
+}
+
+.tick-circle-icon-grey:hover {
+  background-image: url("./assets/tick-circle-green.svg");
+  cursor: pointer;
 }
 
 /* ==== Toast ==== */
