@@ -233,11 +233,11 @@ class CreateSeasonForm extends Component {
                       this.state.auth0Players,
                       p => !this.state.playersName.includes(p.username)
                     ).map(player => {
-                      return (
+                      return player.username !== "admin" ? (
                         <option key={player.username} value={player.username}>
                           {player.username}
                         </option>
-                      );
+                      ) : null;
                     })}
                   </select>
                   <div
