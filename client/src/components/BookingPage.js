@@ -30,6 +30,7 @@ class FixturesPage extends Component {
     end: ""
   };
 
+  /* function for refreshing the bookings */
   getBookings = async () => {
     const bookings = await backend.get("/api/booking");
 
@@ -50,7 +51,9 @@ class FixturesPage extends Component {
     this.getBookings();
   };
 
+  /* run when an empty slot is clicked */
   handleSelect = async ({ start, end }) => {
+    /* if the time of the slot selected is after the current date and time, open the pop-up, otherwise, do nothing */
     if (moment() < moment(start)) {
       await this.setState({
         start: moment(start)
@@ -64,8 +67,10 @@ class FixturesPage extends Component {
     }
   };
 
+  /* run when a scheduled event is double clicked */
   handleDoubleClick = async event => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
+      /* delete the booking in the database */
       await backend
         .delete("/api/booking/delete/", {
           data: {
@@ -74,6 +79,7 @@ class FixturesPage extends Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         })
         .then(async () => {
+          /* if the scheduled event was in the future, delete the scheduled slack message */
           if (moment() < moment(event.start)) {
             if (event.messageId) {
               await backend.delete("api/slack/booking/reminder", {
@@ -84,7 +90,9 @@ class FixturesPage extends Component {
               });
             }
           }
+          /* provide the user with feedback */
           this.toastSuccess("Booking Deleted!");
+          /* refresh the bookings */
           this.getBookings();
         })
         .catch(e => {
@@ -95,10 +103,11 @@ class FixturesPage extends Component {
     }
   };
 
+  /* run when the user drags and drops a scheduled event to another time slot */
   handleDragAndDrop = async ({ event, start, end, allDay }) => {
     if (auth0Client.isAuthenticated()) {
       try {
-        //Delete old reminder
+        /* delete the old scheduled slack message */
         backend.delete("api/slack/booking/reminder", {
           data: {
             messageId: event.messageId
@@ -106,7 +115,7 @@ class FixturesPage extends Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         });
 
-        //Post
+        /* post a new slack message with the new date and time */
         backend.post(
           "/api/slack/booking",
           {
@@ -120,7 +129,7 @@ class FixturesPage extends Component {
           }
         );
 
-        //Schedule reminder
+        /* schedule a new reminder for 15 minutes before the fixture */
         await backend
           .post(
             "/api/slack/booking/reminder",
@@ -135,6 +144,7 @@ class FixturesPage extends Component {
             }
           )
           .then(async result => {
+            /* edit the booking details in the database */
             await backend.put(
               "/api/booking/edit",
               {
@@ -147,21 +157,25 @@ class FixturesPage extends Component {
                 headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
               }
             );
+            /* refresh the bookings */
             this.getBookings();
           });
       } catch (err) {
         console.log(err);
       }
     } else {
+      /* display feedback */
       this.toastUnauthorised();
     }
   };
 
+  /* opens the form for arranging a fixture */
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
   };
 
+  /* closes the form for arranging a fixture */
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
@@ -176,6 +190,7 @@ class FixturesPage extends Component {
     let type = parseInt(this.state.type, 10);
     if (isFriendly) type = 0;
 
+    /* adds a booking to the database */
     await backend
       .post(
         "/api/booking/add",
@@ -192,9 +207,10 @@ class FixturesPage extends Component {
         }
       )
       .then(async id => {
+        /* display feedback */
         this.toastSuccess("Booking Success!");
         this.closePopUp();
-        //POST that new booking have been made
+        /* post slack message saying that a new booking has been made */
         backend.post(
           "/api/slack/booking",
           {
@@ -207,7 +223,7 @@ class FixturesPage extends Component {
             headers: headers
           }
         );
-        //CREATE reminder
+        /* schedule a slack message to be posted 15 minutes before the fixture is due to start */
         backend
           .post(
             "/api/slack/booking/reminder",
@@ -223,7 +239,7 @@ class FixturesPage extends Component {
           )
           .then(async result => {
             if (result.status === 200) {
-              //Add message id to db
+              /* add scheduled message id to the booking in database */
               await backend.put(
                 "/api/booking/add/message_id",
                 {
@@ -234,9 +250,10 @@ class FixturesPage extends Component {
                   headers: headers
                 }
               );
+              /* refresh bookings */
               this.getBookings();
             } else {
-              //Update bookings
+              /* refresh bookings */
               this.getBookings();
             }
           });
@@ -251,6 +268,7 @@ class FixturesPage extends Component {
       });
   };
 
+  /* displays positive feedback to the user */
   toastSuccess = message => {
     toast.success(`✅ ${message}!`, {
       position: "top-center",
@@ -262,6 +280,7 @@ class FixturesPage extends Component {
     });
   };
 
+  /* displays negative feedback to the user */
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
@@ -279,6 +298,7 @@ class FixturesPage extends Component {
     );
   };
 
+  /* posts negative feedback to the user */
   toastInvalid = () => {
     toast.error(
       <div className="toast">
