@@ -21,21 +21,24 @@ class HoFPage extends React.Component {
 
   signal = Axios.CancelToken.source();
 
+  /* refreshes hall of fame tables */
   getHOF = async () => {
     try {
+      /* gets the 8-ball hall of fame */
       const HoF8 = await backend.get("/api/hall_of_fame?type=8", {
         cancelToken: this.signal.token
       });
 
       this.setState({ HoF8: HoF8.data });
 
+      /* gets the 9-ball hall of fame */
       const HoF9 = await backend.get("/api/hall_of_fame?type=9", {
         cancelToken: this.signal.token
       });
 
       this.setState({ HoF9: HoF9.data });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
@@ -51,6 +54,7 @@ class HoFPage extends React.Component {
     });
   };
 
+  /* posts a slack message saying someone has achieved an achievement (didn't get chance to properly integrate but this function does work properly) */
   sendHallOfFameUpdateSlackMessage = async (type, playerName, achievement) => {
     await backend.post(
       "/api/slack/hallOfFameUpdate",
