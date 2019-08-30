@@ -8,7 +8,7 @@ import HoFPage from "./HoFPage";
 import UserPage from "./UserPage";
 import NotFound from "./NotFound";
 import auth0Client from "../Auth";
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import Callback from "../Callback";
 import KittyPage from "./KittyPage.js";
@@ -17,7 +17,7 @@ class App extends React.Component {
   //Silent auth
   async componentDidMount() {
     if (this.props.location.pathname === "/callback") return;
-    try { 
+    try {
       await auth0Client.silentAuth();
       this.forceUpdate();
     } catch (err) {
@@ -27,14 +27,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-         <ToastContainer />
+        <ToastContainer />
         <Switch>
           <Route path="/" exact component={LandingPage} />
-          <Route
-            path="/:type(8|9)-ball/overview/"
-            exact
-            component={NotFound}
-          />
+          <Route path="/:type(8|9)-ball/overview/" exact component={NotFound} />
           <Route
             path="/:type(8|9)-ball/overview/:seasonId?"
             component={LeaguePage}

@@ -23,6 +23,7 @@ class KittyPage extends React.Component {
   transactionForm = React.createRef();
   makeTransactionBtn = React.createRef();
 
+  /* gets all the players that haven't paid their joining fee */
   getUnpaid = async () => {
     try {
       const unpaid = await backend.get("/api/kitty/allUnpaid", {
@@ -31,7 +32,7 @@ class KittyPage extends React.Component {
 
       this.setState({ unpaid: unpaid.data });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
@@ -52,6 +53,7 @@ class KittyPage extends React.Component {
     }
   };
 
+  /* function for refreshing the kitty statement */
   getKitty = async () => {
     try {
       const kitty = await backend.get("/api/kitty", {
@@ -76,9 +78,11 @@ class KittyPage extends React.Component {
 
   submitTransaction = async state => {
     let value = parseFloat(state.value);
+    /* if the transaction is spending money, change the value to negative */
     if (state.transactionType === "DEBIT") {
       value = value * -1;
     }
+    /* register transaction in kitty */
     await backend.post(
       "/api/kitty/transaction",
       {
@@ -92,14 +96,15 @@ class KittyPage extends React.Component {
         headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
       }
     );
-
+    /* display success message */
     this.toastSuccess("Transaction success");
-
+    /* refresh the kitty */
     this.getKitty();
   };
 
   payJoiningFee = async (name, type, seasonId) => {
     if (window.confirm("Are you sure " + name + " has paid?")) {
+      /* update the 'paid' column in the league table */
       await backend.put(
         "/api/89ball_league/paid",
         {
@@ -111,7 +116,7 @@ class KittyPage extends React.Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       );
-
+      /* register the transaction in the kitty */
       await backend.post(
         "/api/kitty/transaction",
         {
@@ -126,6 +131,7 @@ class KittyPage extends React.Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       );
+      /* post a message to slack saying the user has paid */
       await backend.post(
         "/api/slack/feePaid",
         {
@@ -142,6 +148,7 @@ class KittyPage extends React.Component {
     }
   };
 
+  /* posts positive feedback to the user */
   toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
@@ -153,17 +160,21 @@ class KittyPage extends React.Component {
     });
   };
 
+  /* displays transaction form */
   showTransactionForm = () => {
     this.transactionForm.current.style.display = "block";
     this.makeTransactionBtn.current.style.display = "none";
   };
 
+  /* closes transaction form */
   closeForm = () => {
     this.makeTransactionBtn.current.style.display = "block";
     this.transactionForm.current.style.display = "none";
   };
 
+  /* function for selecting which content to show depending on the user */
   showContent = () => {
+    /* if the user is signed in as admin show all content, otherwise, only show the statement */
     if (
       auth0Client.isAuthenticated() &&
       auth0Client.getProfile().nickname === "admin"
@@ -171,6 +182,7 @@ class KittyPage extends React.Component {
       return (
         <div className="content">
           <div className="contentLeft">
+            {/* if there are users who haven't paid their joining fee display the overdue payments table, otherwise, display a message instead */}
             {this.state.unpaid.length > 0 ? (
               <OverduePayments
                 unpaid={this.state.unpaid}
@@ -182,6 +194,7 @@ class KittyPage extends React.Component {
           </div>
           <div className="contentRight">
             <div className="kittyTableContainer">
+              {/* if there have been transactions at any point, display the statement, otherwise, display a message*/}
               {this.state.kitty.length ? null : <h3>Nothing to see here</h3>}
               <KittyTable kitty={this.state.kitty} />
             </div>
