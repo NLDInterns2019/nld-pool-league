@@ -585,15 +585,7 @@ button:hover {
   margin-top: 10rem;
 }
 
-.removeBtn {
-  background-color: #e23e4b;
-  margin-left: 0.5rem;
-}
-
-#signout {
-  background-color: #e23e4b;
-}
-
+#signout,
 #closeSeason {
   background-color: #e23e4b;
 }
@@ -607,10 +599,6 @@ select:hover {
 #seasons .content li {
   list-style-type: none;
   font-size: 20pt;
-}
-
-#seasons .content ul {
-  text-align: left;
 }
 
 #seasons .content a {
@@ -632,10 +620,6 @@ select:hover {
   margin: 0;
   margin-right: 1rem;
   font-size: 20pt;
-}
-
-#seasonsList button {
-  text-align: right;
 }
 
 #seasons .content a:hover {
@@ -661,10 +645,6 @@ select:hover {
   padding-top: 60px;
 }
 
-.form-popup #createSeasonForm .removeBtn {
-  background-color: #e23e4b;
-}
-
 .form-popup #createSeasonForm {
   margin-top: 0rem;
   text-align: center;
@@ -673,6 +653,7 @@ select:hover {
 .form-popup button {
   margin-top: 0.5rem;
 }
+
 .form-popup {
   margin-bottom: 150px;
 }
@@ -954,17 +935,6 @@ tr td:last-child {
   padding: 1rem;
 }
 
-/* .landingPage .content a {
-  text-decoration: none;
-  background-color: #127e5c;
-  color: white;
-  display: inline-block;
-  padding: 5px 15px 5px 15px;
-  border-radius: 100px;
-  font-size: 24pt;
-  width: 150px;
-} */
-
 .landingPageLink .eight-ball-icon,
 .landingPageLink .nine-ball-icon {
   margin-right: 10px;
@@ -1234,6 +1204,16 @@ tr td:last-child {
 }
 
 /* ==== Icons ==== */
+.icon-20,
+.icon-24,
+.icon-32,
+.icon-36,
+.icon-40,
+.icon-60,
+.icon-100,
+.icon-120 {
+  vertical-align: middle;
+}
 
 .icon-20 {
   height: 20px;
