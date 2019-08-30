@@ -34,6 +34,7 @@ class App extends React.Component {
 
   updateData = async () => {
     try {
+      /* gets league table for active season */
       const response = await backend.get(
         "/api/89ball_league/" + this.state.activeSeason,
         {
@@ -45,6 +46,7 @@ class App extends React.Component {
       );
       this.setState({ players: response.data });
 
+      /* gets fixtures for active season */
       const fixtures = await backend.get(
         "/api/89ball_fixture/" + this.state.activeSeason,
         {
@@ -115,6 +117,7 @@ class App extends React.Component {
   }
 
   changeFixtureScore = async state => {
+    /* edit fixture details in database */
     await backend
       .put(
         "/api/89ball_fixture/edit",
@@ -132,6 +135,7 @@ class App extends React.Component {
         }
       )
       .then(async () => {
+        /* give user feedback and display the score they have just submitted */
         this.toastSuccess(
           <p>
             Result Submitted!
@@ -141,6 +145,7 @@ class App extends React.Component {
         );
         this.updateData();
         if (!this.state.playoff) {
+          /* if the fixture isn't in a playoff recalculate the league table */
           await backend.post(
             "/api/hall_of_fame/calculate_v2",
             {
@@ -155,6 +160,7 @@ class App extends React.Component {
               headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
             }
           );
+          /* post a slack message informing people of the result */
           await backend.post(
             "/api/slack/resultSubmitted",
             {
@@ -169,6 +175,7 @@ class App extends React.Component {
             }
           );
         } else {
+          /* post a slack message informing other of the playoff result */
           await backend.post(
             "/api/slack/playoffResultSubmitted",
             {
@@ -235,6 +242,7 @@ class App extends React.Component {
           </p>
         );
         this.updateData();
+        /* post slack message to inform others that the score has been edited */
         await backend.post(
           "/api/slack/resultEdited",
           {
@@ -267,6 +275,8 @@ class App extends React.Component {
     try {
       if (this.state.finished === null) {
         this.toastError("Please try again later");
+        /* if the season isn't finished and there are more than 2 players, delete the player,
+        recalculate the league table, and send a slack message informing others of the removal */
       } else if (!this.state.finished && this.state.players.length > 2) {
         await backend.delete("/api/89ball_league/delete/player", {
           data: {
@@ -300,6 +310,7 @@ class App extends React.Component {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
         );
+        /* otherwise display an error to the user */
       } else if (this.state.finished) {
         this.toastError("Season closed, unable to delete player.");
       } else {
@@ -321,6 +332,7 @@ class App extends React.Component {
 
   closeSeason = async () => {
     try {
+      /* close the season */
       await backend.put(
         "/api/89ball_season/close",
         {
@@ -332,6 +344,7 @@ class App extends React.Component {
           headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
         }
       );
+      /* if the season is not in a playoff, recalculate the league table */
       if (this.state.playoff === false || this.state.playoff === 0) {
         await backend.put(
           "/api/89ball_league/recalculate",
@@ -344,6 +357,7 @@ class App extends React.Component {
           }
         );
       }
+      /* provide user feedback */
       this.toastSuccess(
         <div className="toast">
           <div className="lock-icon-small icon-24" alt="lock" />
@@ -351,6 +365,7 @@ class App extends React.Component {
         </div>
       );
       await this.updateData();
+      /* if the season is not in a playoff */
       if (!this.state.drawPoints.length) {
         backend.post(
           "/api/hall_of_fame/updateclosed",
@@ -362,6 +377,7 @@ class App extends React.Component {
             headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
           }
         );
+        /* post a slack message saying that a season has been closed */
         backend.post(
           "/api/slack/seasonClosed",
           {
@@ -373,6 +389,7 @@ class App extends React.Component {
           }
         );
       } else {
+        /* if the season is going to a playoff, send a slack message saying so */
         backend.post(
           "/api/slack/playoff",
           {
@@ -391,6 +408,7 @@ class App extends React.Component {
     }
   };
 
+  /* displays negative feedback */
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
@@ -408,6 +426,7 @@ class App extends React.Component {
     );
   };
 
+  /* displays negative feedback */
   toastError = message => {
     toast.error(message, {
       position: "top-center",
@@ -419,6 +438,7 @@ class App extends React.Component {
     });
   };
 
+  /* displays positive feedback */
   toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
@@ -430,6 +450,7 @@ class App extends React.Component {
     });
   };
 
+  /* run when user checks the 'show played fixtures' checkbox */
   applyViewFilter = async (staffName, hidePlayed) => {
     await this.setState({
       activePlayer: staffName,
@@ -438,6 +459,7 @@ class App extends React.Component {
     this.updateData();
   };
 
+  /* function that just displays the submit result form */
   showSubmitResult = () => {
     return (
       <div
@@ -474,6 +496,7 @@ class App extends React.Component {
     );
   };
 
+  /* function that just shows the edit result form */
   showEditResult = () => {
     return (
       <EditScoreForm
@@ -540,6 +563,7 @@ class App extends React.Component {
     }
   };
 
+  /* displays a heading saying thay a playoff is required */
   showPlayoffRequired = () => {
     return (
       <div style={{ textAlign: "center" }}>
@@ -559,6 +583,7 @@ class App extends React.Component {
     );
   };
 
+  /* displays the top 3 players from the closed season */
   showFinalRankings = () => {
     return (
       <FinalRankings
@@ -568,12 +593,13 @@ class App extends React.Component {
     );
   };
 
+  /* displays honourable mentions table */
   showFinalStats = () => {
     return <FinalStat players={this.state.players} />;
   };
 
   addNewPlayer = async player => {
-    //Add new player to the league
+    /* add a new player to the database */
     await backend.post(
       "/api/89ball_league/add/player",
       {
@@ -586,7 +612,7 @@ class App extends React.Component {
       }
     );
 
-    //Generate fixture
+    /* generate fixtures containing the new player */
     await backend.post(
       "/api/89ball_fixture/generate/",
       {
@@ -624,6 +650,7 @@ class App extends React.Component {
     this.setState({ isPlayoffButtonDisabled: false });
   };
 
+  /* posts a slack message saying a player has been added to the season */
   sendNewPlayerSlackMessage = async player => {
     await backend.post(
       "/api/slack/newPlayer",
