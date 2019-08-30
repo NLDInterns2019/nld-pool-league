@@ -1234,61 +1234,43 @@ tr td:last-child {
 }
 
 /* ==== Icons ==== */
-.icon-20,
-.icon-24,
-.icon-32,
-.icon-36,
-.icon-40,
-.icon-60,
-.icon-100,
-.icon-120 {
-  vertical-align: middle;
-}
 
 .icon-20 {
-  vertical-align: middle;
   height: 20px;
   width: 20px;
 }
 
 .icon-24 {
-  vertical-align: middle;
   height: 24px;
   width: 24px;
 }
 
 .icon-32 {
-  vertical-align: middle;
   height: 32px;
   width: 32px;
 }
 
 .icon-36 {
-  vertical-align: middle;
   height: 36px;
   width: 36px;
 }
 
 .icon-40 {
-  vertical-align: middle;
   height: 40px;
   width: 40px;
 }
 
 .icon-60 {
-  vertical-align: middle;
   height: 60px;
   width: 60px;
 }
 
 .icon-100 {
-  vertical-align: middle;
   height: 100px;
   width: 100px;
 }
 
 .icon-120 {
-  vertical-align: middle;
   height: 120px;
   width: 120px;
 }
