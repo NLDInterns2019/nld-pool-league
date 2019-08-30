@@ -1,6 +1,6 @@
 module.exports = {
     //calculate fixture values
-    improvementCalc: function (currentLeague, pastLeagues, hofAll) {
+    improvementCalc: function (currentLeague, pastLeagues, hofAll, loc) {
       let currentWinRate, oldWinRate, totalWins, totalPlays, totalPoints = 0;
       let present = false;
 
@@ -30,7 +30,7 @@ module.exports = {
 
     //get avg points per season
     hofAll[j].avgPointsSeason = totalPoints / seasons.length;
-
+    console.log(hofAll + "LLLLLLLLLLLLLLLLLLLLLLLL")
     return hofAll;
     }
 
