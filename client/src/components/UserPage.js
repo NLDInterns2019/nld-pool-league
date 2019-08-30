@@ -283,7 +283,7 @@ class UserPage extends React.Component {
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
-        <div className="no-entry-icon" alt="no entry" />
+        <div className="no-entry-icon icon-24" alt="no entry" />
         <p>Unauthorised! Please log in</p>
       </div>,
       {
@@ -332,7 +332,7 @@ class UserPage extends React.Component {
       return (
         <div className="unpaid-seasons-message">
           <div className="unpaid-season-title">
-            <div className="eight-ball-icon" alt="eight ball" />
+            <div className="eight-ball-icon icon-40" alt="eight ball" />
             <h3>Payments Due:</h3>
           </div>
           <div className="unpaid-seasons-list">
@@ -372,7 +372,7 @@ class UserPage extends React.Component {
       return (
         <div className="unpaid-seasons-message">
           <div className="unpaid-season-title">
-            <div className="nine-ball-icon" alt="nine ball" />
+            <div className="nine-ball-icon icon-40" alt="nine ball" />
             <h3>Payments Due:</h3>
           </div>
           <div className="unpaid-seasons-list">
@@ -429,9 +429,9 @@ class UserPage extends React.Component {
             <div className="content">
               <div className="contentLeft">
                 <div className="summary-title">
-                  <div className="eight-ball-icon" alt="eight ball" />
+                  <div className="eight-ball-icon icon-40" alt="eight ball" />
                   <h3>8-Ball Summary</h3>
-                  <div className="eight-ball-icon" alt="eight ball" />
+                  <div className="eight-ball-icon icon-40" alt="eight ball" />
                 </div>
                 <div className="summary-container">
                   <div className="stats-container">
@@ -479,9 +479,9 @@ class UserPage extends React.Component {
               </div>
               <div className="contentRight">
                 <div className="summary-title">
-                  <div className="nine-ball-icon" alt="nine ball" />
+                  <div className="nine-ball-icon icon-40" alt="nine ball" />
                   <h3>9-Ball Summary</h3>
-                  <div className="nine-ball-icon" alt="nine ball" />
+                  <div className="nine-ball-icon icon-40" alt="nine ball" />
                 </div>
                 <div className="summary-container">
                   <div className="stats-container">

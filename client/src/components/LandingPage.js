@@ -41,7 +41,7 @@ class LandingPage extends React.Component {
                     id="eightBallLink"
                     className="landingPageLink"
                   >
-                    <div className="eight-ball-icon" alt="eight ball" />
+                    <div className="eight-ball-icon icon-40" alt="eight ball" />
                     8-Ball
                   </Link>
                 </li>
@@ -52,7 +52,7 @@ class LandingPage extends React.Component {
                     id="eightBallLink"
                     className="landingPageLink"
                   >
-                    <div className="eight-ball-icon" alt="eight ball" />
+                    <div className="eight-ball-icon icon-40" alt="eight ball" />
                     8-Ball
                   </Link>
                 </li>
@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
                     id="nineBallLink"
                     className="landingPageLink"
                   >
-                    <div className="nine-ball-icon" alt="nine ball" />
+                    <div className="nine-ball-icon icon-40" alt="nine ball" />
                     9-Ball
                   </Link>
                 </li>
@@ -75,7 +75,7 @@ class LandingPage extends React.Component {
                     id="nineBallLink"
                     className="landingPageLink"
                   >
-                    <div className="nine-ball-icon" alt="nine ball" />
+                    <div className="nine-ball-icon icon-40" alt="nine ball" />
                     9-Ball
                   </Link>
                 </li>

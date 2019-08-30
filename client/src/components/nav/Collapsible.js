@@ -20,7 +20,7 @@ class Collapsible extends Component {
     return (
       <div className="itemMenu">
         <div
-          className="menu-icon"
+          className="menu-icon icon-32"
           alt="menu"
           onClick={this.toggleMenu.bind(this)}
         />

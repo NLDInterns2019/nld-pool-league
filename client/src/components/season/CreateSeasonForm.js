@@ -242,7 +242,7 @@ class CreateSeasonForm extends Component {
                   </select>
                   <div
                     id={"button" + (index + 1)}
-                    className="delete-icon"
+                    className="delete-icon icon-32"
                     alt="remove player"
                     onClick={() => this.removePlayer(index)}
                   />

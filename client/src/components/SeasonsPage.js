@@ -117,7 +117,7 @@ class SeasonsPage extends Component {
       if (e.response.status === 400) {
         this.toastError(
           <div className="toast">
-            <div className="no-entry-icon" alt="no entry" />
+            <div className="no-entry-icon icon-24" alt="no entry" />
             <p>Something went wrong. Please try again</p>
           </div>
         );
@@ -149,7 +149,7 @@ class SeasonsPage extends Component {
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
-        <div className="no-entry-icon" alt="no entry" />
+        <div className="no-entry-icon icon-24" alt="no entry" />
         <p>Unauthorised! Please log in</p>
       </div>,
       {

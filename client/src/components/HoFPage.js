@@ -90,17 +90,17 @@ class HoFPage extends React.Component {
         <div className="content">
           <div className="contentLeft">
             <div className="hallOfFameTitleContainer">
-              <span className="eight-ball-icon" alt="eight ball" />
+              <span className="eight-ball-icon icon-40" alt="eight ball" />
               <h3>8-Ball</h3>
-              <span className="eight-ball-icon" alt="eight ball" />
+              <span className="eight-ball-icon icon-40" alt="eight ball" />
             </div>
             <HoFTable players={this.state.HoF8} />
           </div>
           <div className="contentRight">
             <div className="hallOfFameTitleContainer">
-              <span className="nine-ball-icon" alt="nine ball" />
+              <span className="nine-ball-icon icon-40" alt="nine ball" />
               <h3>9-Ball</h3>
-              <span className="nine-ball-icon" alt="nine ball" />
+              <span className="nine-ball-icon icon-40" alt="nine ball" />
             </div>
             <HoFTable players={this.state.HoF9} />
           </div>

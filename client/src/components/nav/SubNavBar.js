@@ -7,9 +7,9 @@ const SubNavBar = props => {
   var currentPath = window.location.pathname;
 
   var icon = matchPath(currentPath, { path: "/8-ball", exact: false }) ? (
-    <div className="eight-ball-icon" alt="eight ball" />
+    <div className="eight-ball-icon icon-40" alt="eight ball" />
   ) : matchPath(currentPath, { path: "/9-ball", exact: false }) ? (
-    <div className="nine-ball-icon" alt="nine ball" />
+    <div className="nine-ball-icon icon-40" alt="nine ball" />
   ) : (
     "TYPE ERROR"
   );

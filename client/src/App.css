@@ -460,16 +460,7 @@ table td {
 
 .overduePaymentsPay {
   background-color: transparent;
-  /* color: #888888;
-  transition: background-color 0.3s ease; */
 }
-
-/*
-.overduePaymentsPay:hover {
-  background-color: #127e5c;
-  color: white;
-  cursor: pointer;
-} */
 
 .overduePaymentsTitle {
   display: flex;
@@ -688,21 +679,6 @@ select:hover {
 
 #seasonsList .delete-icon {
   margin-left: 5.5rem;
-}
-
-.delete-icon {
-  display: inline-block;
-  margin-left: 0.5rem;
-  vertical-align: middle;
-  width: 32px;
-  height: 32px;
-  background-image: url("./assets/delete-button-grey.svg");
-  transition: background-image 0.1s linear;
-}
-
-.delete-icon:hover {
-  cursor: pointer;
-  background-image: url("./assets/delete-button.svg");
 }
 
 /* ==== White Boxes ==== */
@@ -1258,283 +1234,209 @@ tr td:last-child {
 }
 
 /* ==== Icons ==== */
-.eight-ball-icon {
+.icon-20,
+.icon-24,
+.icon-32,
+.icon-36,
+.icon-40,
+.icon-60,
+.icon-100,
+.icon-120 {
   vertical-align: middle;
-  width: 40px;
+}
+
+.icon-20 {
+  vertical-align: middle;
+  height: 20px;
+  width: 20px;
+}
+
+.icon-24 {
+  vertical-align: middle;
+  height: 24px;
+  width: 24px;
+}
+
+.icon-32 {
+  vertical-align: middle;
+  height: 32px;
+  width: 32px;
+}
+
+.icon-36 {
+  vertical-align: middle;
+  height: 36px;
+  width: 36px;
+}
+
+.icon-40 {
+  vertical-align: middle;
   height: 40px;
+  width: 40px;
+}
+
+.icon-60 {
+  vertical-align: middle;
+  height: 60px;
+  width: 60px;
+}
+
+.icon-100 {
+  vertical-align: middle;
+  height: 100px;
+  width: 100px;
+}
+
+.icon-120 {
+  vertical-align: middle;
+  height: 120px;
+  width: 120px;
+}
+
+.eight-ball-icon {
   background-image: url("./assets/eight-ball-vector.svg");
 }
 
 .eight-ball-icon-20 {
   margin: auto;
-  vertical-align: middle;
-  width: 20px;
-  height: 20px;
   background-image: url("./assets/eight-ball-vector-20.svg");
 }
 
 .nine-ball-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
   background-image: url("./assets/nine-ball-vector.svg");
 }
 
 .nine-ball-icon-20 {
   margin: auto;
-  vertical-align: middle;
-  width: 20px;
-  height: 20px;
   background-image: url("./assets/nine-ball-vector-20.svg");
 }
 
+.delete-icon {
+  display: inline-block;
+  margin-left: 0.5rem;
+  background-image: url("./assets/delete-button-grey.svg");
+  transition: background-image 0.1s linear;
+}
+
+.delete-icon:hover {
+  cursor: pointer;
+  background-image: url("./assets/delete-button.svg");
+}
+
 .trophy-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/trophy.svg");
 }
 
-.trophy-icon-large {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
-  background-image: url("./assets/trophy-large.svg");
-}
-
 .clock-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/clock.svg");
 }
 
 .snail-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/snail.svg");
 }
 
 .graph-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/upwards-graph.svg");
 }
 
 .weightlifting-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/weightlifting.svg");
 }
 
 .boxing-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/boxing.svg");
 }
 
 .train-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/train.svg");
 }
 
 .angry-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/angry.svg");
 }
 
 .thumbs-up-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/thumbsup.svg");
 }
 
 .scales-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/scales.svg");
 }
 
-.gold-medal-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  background-image: url("./assets/gold-medal.svg");
-}
-
 .gold-medal-icon-large {
-  vertical-align: middle;
-  width: 120px;
-  height: 120px;
   background-image: url("./assets/gold-medal-large.svg");
 }
 
-.silver-medal-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  background-image: url("./assets/silver-medal.svg");
-}
-
 .silver-medal-icon-large {
-  vertical-align: middle;
-  width: 60px;
-  height: 60px;
   background-image: url("./assets/silver-medal-large.svg");
 }
 
-.bronze-medal-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  background-image: url("./assets/bronze-medal.svg");
-}
-
 .bronze-medal-icon-large {
-  vertical-align: middle;
-  width: 60px;
-  height: 60px;
   background-image: url("./assets/bronze-medal-large.svg");
 }
 
 .shield-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/shield.svg");
 }
 
 .zero-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/zero.svg");
 }
 
-.one-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  background-image: url("./assets/one.svg");
-}
-
 .swords-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
   background-image: url("./assets/swords.svg");
 }
 
-.lock-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
-  background-image: url("./assets/lock.svg");
-}
-
 .lock-icon-small {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/lock-small.svg");
 }
 
-.lock-icon-large {
-  vertical-align: middle;
-  width: 60px;
-  height: 60px;
-  background-image: url("./assets/lock-large.svg");
-}
-
 .thumbs-down-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/thumbs-down.svg");
 }
 
 .menu-icon {
-  vertical-align: middle;
-  width: 32px;
-  height: 32px;
   background-image: url("./assets/menu.svg");
   visibility: hidden;
 }
 
 .downward-graph-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/downward-graph-red.svg");
 }
 
 .falling-man-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/falling-man.svg");
 }
 
 .calendar-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
   background-image: url("./assets/calendar.svg");
 }
 
 .win-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/win.svg");
   transition: background-image 0.3s linear;
 }
 
 .draw-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/draw.svg");
   transition: background-image 0.3s linear;
 }
 
 .loss-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/loss.svg");
   transition: background-image 0.3s linear;
 }
 
 .no-game-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/no-game.svg");
   transition: background-image 0.3s linear;
 }
 
 .no-entry-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/no-entry.svg");
 }
 
 .tick-icon {
-  vertical-align: middle;
-  width: 32px;
-  height: 32px;
   background-image: url("./assets/tick.svg");
   transition: background-image 0.3s linear;
   transition: width 0.3s linear;
@@ -1542,74 +1444,64 @@ tr td:last-child {
 }
 
 .cross-icon {
-  vertical-align: middle;
-  width: 32px;
-  height: 32px;
   background-image: url("./assets/cross.svg");
   transition: background-image 0.3s linear;
   transition: width 0.3s linear;
   transition: height 0.3s linear;
 }
 
-.money-icon {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
-  background-image: url("./assets/money.svg");
-}
-
 .chequered-flag-icon {
-  vertical-align: middle;
-  width: 100px;
-  height: 100px;
   background-image: url("./assets/chequered-flag.svg");
 }
 
 .chequered-flag-icon-36 {
-  vertical-align: middle;
-  width: 36px;
-  height: 36px;
   background-image: url("./assets/chequered-flag-36px.svg");
 }
 
 .playoff-icon {
-  vertical-align: middle;
-  width: 36px;
-  height: 36px;
   background-image: url("./assets/playoff.svg");
 }
 
 .playoff-icon-100-left {
-  vertical-align: middle;
-  width: 100px;
-  height: 100px;
   background-image: url("./assets/playoff-100-left.svg");
 }
 
 .playoff-icon-100-right {
-  vertical-align: middle;
-  width: 100px;
-  height: 100px;
   background-image: url("./assets/playoff-100-right.svg");
 }
 
 .book-icon {
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
   background-image: url("./assets/book.svg");
 }
 
-.tick-circle-icon-grey {
-  vertical-align: middle;
-  width: 32px;
-  height: 32px;
-  background-image: url("./assets/tick-circle.svg");
+.money-cash-icon-grey {
+  background-image: url("./assets/money-cash-grey.svg");
+  transition: background-image 0.3s ease;
 }
 
-.tick-circle-icon-grey:hover {
-  background-image: url("./assets/tick-circle-green.svg");
+.pay-button-container {
+  display: flex;
+  width: 100px;
+}
+
+.pay-button-container p {
+  opacity: 0;
+  margin: 0;
+  margin-left: 0.5rem;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.pay-button-container:hover {
   cursor: pointer;
+}
+
+.pay-button-container:hover .money-cash-icon-grey {
+  background-image: url("./assets/money-cash.svg");
+}
+
+.pay-button-container:hover p {
+  opacity: 1;
 }
 
 /* ==== Toast ==== */

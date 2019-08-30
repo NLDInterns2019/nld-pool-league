@@ -265,7 +265,7 @@ class FixturesPage extends Component {
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
-        <div className="no-entry-icon" alt="no entry" />
+        <div className="no-entry-icon icon-24" alt="no entry" />
         <p>Unauthorised! Please log in</p>
       </div>,
       {
@@ -282,7 +282,7 @@ class FixturesPage extends Component {
   toastInvalid = () => {
     toast.error(
       <div className="toast">
-        <div className="no-entry-icon" alt="no entry" />
+        <div className="no-entry-icon icon-24" alt="no entry" />
         <p>
           Invalid booking! <br /> Choose another timeslot
         </p>

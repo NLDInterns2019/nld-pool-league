@@ -190,7 +190,7 @@ class App extends React.Component {
         } else {
           this.toastError(
             <div className="toast">
-              <div className="no-entry-icon" alt="no entry" />
+              <div className="no-entry-icon icon-24" alt="no entry" />
               <p>Something went wrong.</p>
             </div>
           );
@@ -255,7 +255,7 @@ class App extends React.Component {
         } else {
           this.toastError(
             <div className="toast">
-              <div className="no-entry-icon" alt="no entry" />
+              <div className="no-entry-icon icon-24" alt="no entry" />
               <p>Something went wrong.</p>
             </div>
           );
@@ -311,7 +311,7 @@ class App extends React.Component {
       } else {
         this.toastError(
           <div className="toast">
-            <div className="no-entry-icon" alt="no entry" />
+            <div className="no-entry-icon icon-24" alt="no entry" />
             <p>Something went wrong. Please try again</p>
           </div>
         );
@@ -346,7 +346,7 @@ class App extends React.Component {
       }
       this.toastSuccess(
         <div className="toast">
-          <div className="lock-icon-small" alt="lock" />
+          <div className="lock-icon-small icon-24" alt="lock" />
           <p>Season closed</p>
         </div>
       );
@@ -394,7 +394,7 @@ class App extends React.Component {
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
-        <div className="no-entry-icon" alt="no entry" />
+        <div className="no-entry-icon icon-24" alt="no entry" />
         <p>Unauthorised! Please log in</p>
       </div>,
       {
@@ -544,9 +544,9 @@ class App extends React.Component {
     return (
       <div style={{ textAlign: "center" }}>
         <div className="seasonClosed">
-          <div className="playoff-icon-100-left" alt="playoff" />
+          <div className="playoff-icon-100-left icon-100" alt="playoff" />
           <h1 style={{ fontSize: "40pt" }}>Playoff Required</h1>
-          <div className="playoff-icon-100-right" alt="playoff" />
+          <div className="playoff-icon-100-right icon-100" alt="playoff" />
         </div>
         <button
           onClick={this.arrangePlayoff}

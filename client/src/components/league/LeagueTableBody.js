@@ -52,11 +52,11 @@ const LeagueTableBody = props => {
         <td align="center">{player.points}</td>
         {player.paid ? (
           <td className="leagueTablePaymentCol" id="hasPaid" align="center">
-            <div className="tick-icon" alt="tick" />
+            <div className="tick-icon icon-32" alt="tick" />
           </td>
         ) : (
           <td className="leagueTablePaymentCol" id="hasNotPaid" align="center">
-            <div className="cross-icon" alt="cross" />
+            <div className="cross-icon icon-32" alt="cross" />
           </td>
         )}
         {auth0Client.isAuthenticated() &&
@@ -64,7 +64,7 @@ const LeagueTableBody = props => {
         !props.hasFinished ? (
           <td style={{ backgroundColor: "#DBE9E2" }}>
             <span
-              className="delete-icon"
+              className="delete-icon icon-32"
               id={"delete-" + player.staffName}
               onClick={() => {
                 if (

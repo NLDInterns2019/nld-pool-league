@@ -16,7 +16,7 @@ const itemsToBeDisplayed = props => {
     <tbody>
       <tr>
         <td align="center">
-          <div className="shield-icon" alt="shield" />
+          <div className="shield-icon icon-24" alt="shield" />
         </td>
         <td className="achievementTitle">
           Undefeated
@@ -26,7 +26,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td align="center">
-          <div className="scales-icon" alt="scales" />
+          <div className="scales-icon icon-24" alt="scales" />
         </td>
         <td className="achievementTitle">
           Most drawn
@@ -36,17 +36,19 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td align="center">
-          <div className="thumbs-down-icon" alt="thumbs down" />
+          <div className="thumbs-down-icon icon-24" alt="thumbs down" />
         </td>
         <td className="achievementTitle">
           Liability
-          <span className="tooltiptext">Player with the most points against</span>
+          <span className="tooltiptext">
+            Player with the most points against
+          </span>
         </td>
         <td className="name">{firstTimer ? firstTimer.staffName : "-"}</td>
       </tr>
       <tr>
         <td align="center">
-          <div className="zero-icon" alt="zero" />
+          <div className="zero-icon icon-24" alt="zero" />
         </td>
         <td className="achievementTitle">
           Zero win
@@ -56,7 +58,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td align="center">
-          <div className="clock-icon" alt="clock" />
+          <div className="clock-icon icon-24" alt="clock" />
         </td>
         <td className="achievementTitle">
           Dr. Punctual
@@ -66,7 +68,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td align="center">
-          <div className="snail-icon" alt="snail" />
+          <div className="snail-icon icon-24" alt="snail" />
         </td>
         <td className="achievementTitle">
           Slacker
@@ -82,9 +84,9 @@ const FinalStat = props => {
   return (
     <div>
       <div className="finalStatsTitleContainer">
-        <div className="swords-icon" alt="swords" />
+        <div className="swords-icon icon-40" alt="swords" />
         <h3>Honourable Mentions </h3>
-        <div className="swords-icon" alt="swords" />
+        <div className="swords-icon icon-40" alt="swords" />
       </div>
       <div className="finalStatsTableContainer">
         <table

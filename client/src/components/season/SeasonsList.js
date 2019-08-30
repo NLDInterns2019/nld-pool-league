@@ -17,7 +17,10 @@ const SeasonsList = props => {
             >
               <div className="seasons-list-item">
                 <p>Season {season.seasonId}</p>
-                <div className="chequered-flag-icon-36" alt="chequered flag" />
+                <div
+                  className="chequered-flag-icon-36 icon-36"
+                  alt="chequered flag"
+                />
               </div>
             </Link>
           ) : season.playoff ? (
@@ -30,7 +33,7 @@ const SeasonsList = props => {
             >
               <div className="seasons-list-item">
                 <p>Season {season.seasonId}</p>
-                <div className="playoff-icon" alt="playoff" />
+                <div className="playoff-icon icon-36" alt="playoff" />
               </div>
             </Link>
           ) : (
@@ -48,7 +51,7 @@ const SeasonsList = props => {
           auth0Client.getProfile().nickname === "admin" ? (
             <div
               id={"remove" + season.seasonId}
-              className="delete-icon"
+              className="delete-icon icon-32"
               alt="delete season"
               onClick={() => {
                 if (

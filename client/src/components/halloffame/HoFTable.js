@@ -12,7 +12,9 @@ const itemsToBeDisplayed = props => {
   );
   if (topPlayer.length) {
     topPlayer.staffName = topPlayer.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     topPlayer.winRate = topPlayer[0].winRate;
   } else {
@@ -31,7 +33,9 @@ const itemsToBeDisplayed = props => {
   );
   if (bestGame.length) {
     bestGame.staffName = bestGame.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     bestGame.highestPoints = bestGame[0].highestPoints;
   } else {
@@ -44,12 +48,15 @@ const itemsToBeDisplayed = props => {
   let avgPointsSeason = filter(
     props.players,
     player =>
-      player.avgPointsSeason === maxBy(props.players, "avgPointsSeason").avgPointsSeason &&
+      player.avgPointsSeason ===
+        maxBy(props.players, "avgPointsSeason").avgPointsSeason &&
       player.avgPointsSeason !== 0
   );
   if (avgPointsSeason.length) {
     avgPointsSeason.staffName = avgPointsSeason.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     avgPointsSeason.avgPointsSeason = avgPointsSeason[0].avgPointsSeason;
   } else {
@@ -67,7 +74,9 @@ const itemsToBeDisplayed = props => {
   );
   if (draw.length) {
     draw.staffName = draw.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     draw.drawRate = draw[0].drawRate;
   } else {
@@ -113,7 +122,9 @@ const itemsToBeDisplayed = props => {
 
   if (streak.length) {
     streak.staffName = streak.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     streak.winningStreak = streak[0].winningStreak;
   } else {
@@ -151,7 +162,9 @@ const itemsToBeDisplayed = props => {
   );
   if (casual.length) {
     casual.staffName = casual.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     casual.lossRate = casual[0].lossRate;
   } else {
@@ -170,7 +183,9 @@ const itemsToBeDisplayed = props => {
   );
   if (slacker.length) {
     slacker.staffName = slacker.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     slacker.punctRate = slacker[0].punctRate;
   } else {
@@ -189,7 +204,9 @@ const itemsToBeDisplayed = props => {
   );
   if (losingStreak.length) {
     losingStreak.staffName = losingStreak.map(player => (
-      <div className="hall-of-fame-item" key={player.staffName}>{player.staffName}</div>
+      <div className="hall-of-fame-item" key={player.staffName}>
+        {player.staffName}
+      </div>
     ));
     losingStreak.losingStreak = losingStreak[0].losingStreak;
   } else {
@@ -210,7 +227,7 @@ const itemsToBeDisplayed = props => {
     <tbody>
       <tr>
         <td className="hofCell">
-          <div className="trophy-icon" alt="trophy" />
+          <div className="trophy-icon icon-24" alt="trophy" />
         </td>
         <td className="hofCell">Top Player</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
@@ -224,7 +241,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="thumbs-up-icon" alt="thumbs up" />
+          <div className="thumbs-up-icon icon-24" alt="thumbs up" />
         </td>
         <td className="hofCell">Best Season</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
@@ -238,7 +255,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="book-icon" alt="book" />
+          <div className="book-icon icon-24" alt="book" />
         </td>
         <td className="hofCell">4.0 GPA</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
@@ -252,7 +269,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="scales-icon" alt="scales" />
+          <div className="scales-icon icon-24" alt="scales" />
         </td>
         <td className="hofCell">Average</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
@@ -264,7 +281,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="weightlifting-icon" alt="weightlifting" />
+          <div className="weightlifting-icon icon-24" alt="weightlifting" />
         </td>
         <td className="hofCell">Dedicated</td>
         <td
@@ -283,7 +300,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="clock-icon" alt="clock" />
+          <div className="clock-icon icon-24" alt="clock" />
         </td>
         <td className="hofCell">Dr. Punctual</td>
         <td
@@ -302,7 +319,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="train-icon" alt="train" />
+          <div className="train-icon icon-24" alt="train" />
         </td>
         <td className="hofCell">The Train</td>
         <td className="hofCell" style={{ fontWeight: "bold" }}>
@@ -314,7 +331,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="boxing-icon" alt="boxing" />
+          <div className="boxing-icon icon-24" alt="boxing" />
         </td>
         <td className="hofCell">Scrappy</td>
         <td
@@ -335,7 +352,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCell">
-          <div className="graph-icon" alt="graph" />
+          <div className="graph-icon icon-24" alt="graph" />
         </td>
         <td className="hofCell">Improver</td>
         <td
@@ -356,7 +373,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCellBad">
-          <div className="angry-icon" alt="angry" />
+          <div className="angry-icon icon-24" alt="angry" />
         </td>
         <td className="hofCellBad">Filthy Casual</td>
         <td className="hofCellBad" style={{ fontWeight: "bold" }}>
@@ -368,7 +385,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCellBad">
-          <div className="snail-icon" alt="snail" />
+          <div className="snail-icon icon-24" alt="snail" />
         </td>
         <td className="hofCellBad">Slacker</td>
         <td className="hofCellBad" style={{ fontWeight: "bold" }}>
@@ -381,7 +398,7 @@ const itemsToBeDisplayed = props => {
 
       <tr>
         <td className="hofCellBad">
-          <div className="falling-man-icon" alt="falling man" />
+          <div className="falling-man-icon icon-24" alt="falling man" />
         </td>
         <td className="hofCellBad">In a Slump</td>
         <td className="hofCellBad" style={{ fontWeight: "bold" }}>
@@ -395,7 +412,7 @@ const itemsToBeDisplayed = props => {
       </tr>
       <tr>
         <td className="hofCellBad">
-          <div className="downward-graph-icon" alt="downward-graph" />
+          <div className="downward-graph-icon icon-24" alt="downward-graph" />
         </td>
         <td className="hofCellBad">Time to Retire</td>
         <td
@@ -409,7 +426,9 @@ const itemsToBeDisplayed = props => {
           {retire ? retire.staffName : "-"}
         </td>
         <td className="hofCellBad">
-          {retire ? retire.improvement.toFixed(2) + "% deterioration" : "Biggest decline"}
+          {retire
+            ? retire.improvement.toFixed(2) + "% deterioration"
+            : "Biggest decline"}
         </td>
       </tr>
     </tbody>

@@ -46,9 +46,9 @@ class KittyTable extends Component {
             </td>
             <td>
               {k.type === 8 ? (
-                <div className="eight-ball-icon-20" alt="eight ball" />
+                <div className="eight-ball-icon-20 icon-20" alt="eight ball" />
               ) : k.type === 9 ? (
-                <div className="nine-ball-icon-20" alt="nine ball" />
+                <div className="nine-ball-icon-20 icon-20" alt="nine ball" />
               ) : (
                 "type error"
               )}
@@ -92,9 +92,9 @@ class KittyTable extends Component {
             </td>
             <td>
               {k.type === 8 ? (
-                <div className="eight-ball-icon-20" alt="eight ball" />
+                <div className="eight-ball-icon-20 icon-20" alt="eight ball" />
               ) : k.type === 9 ? (
-                <div className="nine-ball-icon-20" alt="nine ball" />
+                <div className="nine-ball-icon-20 icon-20" alt="nine ball" />
               ) : (
                 "type error"
               )}
