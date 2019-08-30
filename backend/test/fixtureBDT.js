@@ -6,7 +6,6 @@ var chaiThings = require("chai-things");
 var chaiLike = require("chai-like");
 var server = require("../server");
 var knex = require("../db/knex");
-var should = chai.should();
 
 var token = require("./function/token");
 

@@ -7,8 +7,6 @@ var chaiLike = require("chai-like");
 var server = require("../server");
 var knex = require("../db/knex");
 
-var should = chai.should();
-
 chai.use(chaiHttp);
 chai.use(chaiLike);
 chai.use(chaiThings);

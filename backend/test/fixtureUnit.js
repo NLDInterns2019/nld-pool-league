@@ -1,7 +1,6 @@
 const expect = require("chai").expect;
 process.env.NODE_ENV = "test";
 const polygon = require("../functions/polygonshuffle");
-const fixture = require("../functions/fixturegen");
 
 describe("polygonShuffle()", () => {
     beforeEach(() => {

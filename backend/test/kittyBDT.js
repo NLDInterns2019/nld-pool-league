@@ -9,8 +9,6 @@ var knex = require("../db/knex");
 
 var token = require("./function/token");
 
-var should = chai.should();
-
 chai.use(chaiHttp);
 chai.use(chaiLike);
 chai.use(chaiThings);
