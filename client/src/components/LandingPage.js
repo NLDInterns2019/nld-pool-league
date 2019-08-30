@@ -6,6 +6,7 @@ import Header from "./nav/Header";
 class LandingPage extends React.Component {
   state = { eightLatestSeason: null, nineLatestSeason: null };
 
+  /* get the latest seasons from both 8-ball and 9-ball */
   componentDidMount = async () => {
     const eight = await backend.get("/api/89ball_season/latest", {
       params: {
@@ -34,6 +35,7 @@ class LandingPage extends React.Component {
             <h1>Get Started</h1>
             <h2>Select a game type</h2>
             <ul>
+              {/* if there are no 8-ball seasons, the link takes the user to 'All Seasons' when clicked, otherwise, it takes the user to 'Current Season' */}
               {this.state.eightLatestSeason === null ? (
                 <li>
                   <Link
@@ -57,6 +59,7 @@ class LandingPage extends React.Component {
                   </Link>
                 </li>
               )}
+              {/* if there are no 9-ball seasons, the link takes the user to 'All Seasons' when clicked, otherwise, it takes the user to 'Current Season' */}
               {this.state.nineLatestSeason === null ? (
                 <li>
                   <Link
