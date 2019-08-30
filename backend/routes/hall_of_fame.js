@@ -311,8 +311,6 @@ router.post("/calculate_v2", async (req, res) => {
 router.post("/updateclosed", async (req, res) => {
   type = parseInt(req.body.type);
   seasonId = parseInt(req.body.seasonId);
-  let oldWinRate,
-    currentWinRate = 0;
 
   let currentLeague = await eight_nine_ball_leagues.query().where({
     type: type,
