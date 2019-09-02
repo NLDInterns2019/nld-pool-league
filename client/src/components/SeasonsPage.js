@@ -55,16 +55,19 @@ class SeasonsPage extends Component {
     }
   };
 
+  /* opens create a season pop-up */
   openPopUp = () => {
     this.refs.popup.style.display = "block";
     this.refs.container.style.display = "block";
   };
 
+  /* closes create a season pop-up */
   closePopUp = () => {
     this.refs.popup.style.display = "none";
     this.refs.container.style.display = "none";
   };
 
+  /* run when a user clicks to create a season */
   createSeason = async state => {
     try {
       const headers = {
@@ -83,7 +86,7 @@ class SeasonsPage extends Component {
           headers: headers
         }
       );
-
+      /* generates fixtures with players in newly created season */
       await backend
         .post(
           "/api/89ball_fixture/generate/",
@@ -96,9 +99,12 @@ class SeasonsPage extends Component {
           }
         )
         .then(async () => {
+          /* display positive feedback to user */
           this.toastSuccess("Season Created");
+          /* update data */
           this.getSeasonsList();
           this.getLatestSeason();
+          /* post slack message saying a new season has been created */
           await backend.post(
             "/api/slack/newSeason",
             {
@@ -115,6 +121,7 @@ class SeasonsPage extends Component {
         this.toastUnauthorised();
       }
       if (e.response.status === 400) {
+        /* display negative feedback to the user */
         this.toastError(
           <div className="toast">
             <div className="no-entry-icon icon-24" alt="no entry" />
@@ -125,7 +132,9 @@ class SeasonsPage extends Component {
     }
   };
 
+  /* run when deletes a season */
   deleteSeason = async id => {
+    /* remove season from database */
     await backend
       .delete("/api/89ball_season/delete/", {
         data: {
@@ -135,7 +144,9 @@ class SeasonsPage extends Component {
         headers: { Authorization: `Bearer ${auth0Client.getIdToken()}` }
       })
       .then(() => {
+        /* display positive feedback */
         this.toastSuccess("Deleted");
+        /* update data */
         this.getSeasonsList();
         this.getLatestSeason();
       })
@@ -146,6 +157,7 @@ class SeasonsPage extends Component {
       });
   };
 
+  /* toast for when the user isn't signed in */
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
@@ -163,6 +175,7 @@ class SeasonsPage extends Component {
     );
   };
 
+  /* negative user feedbacl */
   toastError = message => {
     toast.error(message, {
       position: "top-center",
@@ -174,6 +187,7 @@ class SeasonsPage extends Component {
     });
   };
 
+  /* positive user feedback */
   toastSuccess = message => {
     toast.success(`✅ ${message}!`, {
       position: "top-center",
