@@ -494,6 +494,7 @@ class UserPage extends React.Component {
                   <SeasonAccordion type="8" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
                     {this.state.bookings8.length ? (
+                      /* if the player has bookings for 8-ball, display them here, otherwise, display a message */
                       <UpcomingMatch
                         bookings={this.state.bookings8}
                         player={this.state.player}
@@ -548,6 +549,7 @@ class UserPage extends React.Component {
                   <SeasonAccordion type="9" staffName={this.state.player} />
                   <div className="arrangedFixturesContainer">
                     {this.state.bookings9.length ? (
+                      /* if the player has bookings for 9-ball, display them here, otherwise, display a message */
                       <UpcomingMatch
                         bookings={this.state.bookings9}
                         player={this.state.player}

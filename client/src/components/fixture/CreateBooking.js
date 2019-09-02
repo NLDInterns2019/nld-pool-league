@@ -25,6 +25,7 @@ class CreateBooking extends React.Component {
 
   signal = Axios.CancelToken.source();
 
+  /* gets all players regardless of season or type */
   getAllPlayers = async () => {
     try {
       const response = await backend.get("/api/89ball_season/playersdb", {
@@ -40,10 +41,11 @@ class CreateBooking extends React.Component {
         )
       });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
+  /* gets the players for the current season in the current type */
   getPlayers = async () => {
     try {
       const response = await backend.get(
@@ -59,10 +61,11 @@ class CreateBooking extends React.Component {
         players: orderBy(response.data, ["staffName"], ["asc"])
       });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
+  /* gets all fixtures that are yet to be played in the current season */
   getUnplayedFixtures = async () => {
     try {
       const unplayedFixtures = await backend.get(
@@ -78,7 +81,7 @@ class CreateBooking extends React.Component {
       );
       this.setState({ unplayedFixtures: unplayedFixtures.data });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
@@ -123,6 +126,7 @@ class CreateBooking extends React.Component {
     this.signal.cancel("");
   }
 
+  /* sets the players for the drop-down list in the booking form */
   playerDropDown = () => {
     return (
       <select
@@ -132,6 +136,7 @@ class CreateBooking extends React.Component {
         <option value=" " disabled>
           Name
         </option>
+        {/* if the fixture is a friendly, use the player's username instead of the name stored in the database */}
         {this.state.friendlyMatch
           ? this.state.players.map(player => {
               return (
@@ -151,6 +156,7 @@ class CreateBooking extends React.Component {
     );
   };
 
+  /* funciton for populating the opponent drop-down list */
   opponentDropDown = () => {
     return (
       <select
@@ -160,6 +166,7 @@ class CreateBooking extends React.Component {
         <option value=" " disabled>
           Name
         </option>
+        {/* if the fixture is a friendly, list all players */}
         {this.state.activePlayer !== " "
           ? this.state.friendlyMatch
             ? filter(
@@ -172,7 +179,8 @@ class CreateBooking extends React.Component {
                   </option>
                 );
               })
-            : this.state.unplayedFixtures.map(fixture => {
+            : /* if the fixture isn't a friendly, get all the players that have unplayed fixtures against the current player */
+              this.state.unplayedFixtures.map(fixture => {
                 if (fixture.player1 === this.state.activePlayer) {
                   return (
                     <option key={fixture.id} value={fixture.player2}>
@@ -192,6 +200,7 @@ class CreateBooking extends React.Component {
     );
   };
 
+  /* calls the makeBooking function in BookingPage.js */
   makeBooking = () => {
     this.props.makeBooking(
       this.state.activePlayer,
@@ -201,6 +210,7 @@ class CreateBooking extends React.Component {
     this.setState(this.initialState);
   };
 
+  /* checks if the booking is valid */
   isValidBooking = () => {
     if (this.state.activePlayer === " " || this.state.activeOpponent === " ") {
       return false;
