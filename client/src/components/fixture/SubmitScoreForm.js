@@ -29,9 +29,10 @@ class SubmitScoreForm extends Component {
 
   signal = axios.CancelToken.source();
 
+  /* gets fixtures for current season */
   getFixtures = async () => {
     if (!this.props.edit) {
-      //GET UNPLAYED FIXTURES
+      /* gets unplayed fixtures */
       try {
         const response = await backend.get(
           "/api/89ball_fixture/" + this.state.activeSeason,
@@ -49,7 +50,7 @@ class SubmitScoreForm extends Component {
         //API CALL BEING CANCELLED
       }
     } else {
-      //ONLY GET THE PLAYED FIXTURES
+      /* played fixtures only */
       try {
         const response = await backend.get(
           "/api/89ball_fixture/" + this.state.activeSeason,
@@ -64,7 +65,7 @@ class SubmitScoreForm extends Component {
         );
         this.setState({ fixtures: response.data });
       } catch (err) {
-        //API CALL BEING CANCELED
+        //API CALL BEING CANCELLED
       }
     }
   };
@@ -144,11 +145,12 @@ class SubmitScoreForm extends Component {
     return true;
   }
 
+  /* run when 'submit' is clicked */
   handleSubmit = () => {
     if (!this.isValid()) {
       alert("Not a valid input");
     } else {
-      /* submit score */
+      /* if the user is editing a result, run the edit score function, otherwise run the submit score function */
       if (this.props.edit) {
         this.props.editFixtureScore(this.prepareSubmitState());
       } else {
@@ -162,6 +164,7 @@ class SubmitScoreForm extends Component {
           players: ""
         },
         () => {
+          /* update fixtures and clear radio buttons */
           this.getFixtures();
           this.clearRadioButtons();
         }
@@ -177,14 +180,17 @@ class SubmitScoreForm extends Component {
     return submitableState;
   }
 
+  /* sets first score */
   setScore1(score) {
     this.setState({ score1: score });
   }
 
+  /* sets second score */
   setScore2(score) {
     this.setState({ score2: score });
   }
 
+  /* run when a different fixture is selected in edit score form */
   handleFixturesChange = event => {
     this.setState({ players: event.target.value }, () => {
       let arr = this.state.players.split(" ");
@@ -202,6 +208,7 @@ class SubmitScoreForm extends Component {
     });
   };
 
+  /* run when a radio button is clicked */
   handleRadioClick() {
     if (this.player1won.current.checked) {
       this.setScore1(2);
@@ -215,6 +222,7 @@ class SubmitScoreForm extends Component {
     }
   }
 
+  /* styling of radio buttons; if a fixture has been selected, show buttons */
   resultStyle() {
     if (this.state.players === "") {
       return {
@@ -227,6 +235,7 @@ class SubmitScoreForm extends Component {
     }
   }
 
+  /* remove checks from all radio buttons */
   clearRadioButtons() {
     this.player1won.current.checked = false;
     this.player2won.current.checked = false;
@@ -238,6 +247,7 @@ class SubmitScoreForm extends Component {
   render() {
     return (
       <div id="submitScoreForm">
+        {/* if the user is editing a score, show a different message at top of form */}
         {this.props.edit ? (
           <div>
             <h3>Edit Result</h3>
@@ -302,6 +312,7 @@ class SubmitScoreForm extends Component {
               />
               {this.state.players.split(" ")[0]}
             </label>
+            {/* if the fixture is in a playoff, don't show the draw radio button */}
             {this.props.isPlayoff ? null : (
               <label className="radioContainer">
                 <input
