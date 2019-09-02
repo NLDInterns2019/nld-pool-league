@@ -16,6 +16,7 @@ class TransactionForm extends React.Component {
 
   signal = Axios.CancelToken.source();
 
+  /* gets all seasons of a specific type */
   getSeasonsList = async () => {
     try {
       const response = await backend.get("/api/89ball_season", {
@@ -26,7 +27,7 @@ class TransactionForm extends React.Component {
       });
       this.setState({ seasons: response.data });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
@@ -44,6 +45,7 @@ class TransactionForm extends React.Component {
     this.signal.cancel("");
   }
 
+  /* function for displaying the credit and debit radio buttons */
   creditDebitRadio = () => {
     return (
       <div>
@@ -69,6 +71,7 @@ class TransactionForm extends React.Component {
     );
   };
 
+  /* function for displaying thr game type radio buttons */
   typeRadio = () => {
     return (
       <div>
@@ -95,6 +98,7 @@ class TransactionForm extends React.Component {
     );
   };
 
+  /* function for displaying the season drop-down list */
   seasonDropDown = () => {
     return (
       <div>
@@ -104,8 +108,9 @@ class TransactionForm extends React.Component {
           onChange={e => this.setState({ seasonId: e.target.value })}
         >
           <option value="" disabled>
-            Select Seasons
+            Select Season
           </option>
+          {/* displays each season in the drop-down */}
           {this.state.seasons.map(season => {
             return (
               <option key={season.seasonId} value={season.seasonId}>
@@ -125,25 +130,33 @@ class TransactionForm extends React.Component {
     }
   };
 
+  /* checks if the value entered is valid */
   isValueValid() {
-    const regex = /^(0)(.[0-9]+[1-9])?$|^(([1-9][0-9]*))(.[0-9]+)?$/;
-    if (regex.test(this.state.value) && this.state.value !== 0) {
+    const regex = /^(0|[1-9][0-9]*)(\.[0-9]{2})?$/;
+    if (
+      regex.test(this.state.value) &&
+      this.state.value !== 0 &&
+      this.state.value !== "0.00"
+    ) {
       return true;
     }
     return false;
   }
 
+  /* checks the user has inputted values into the form */
   isFormValid() {
     if (
       this.state.seasonId === "" ||
       this.state.description === "" ||
-      this.state.value === 0
+      this.state.value === 0 ||
+      this.state.value === "0.00"
     ) {
       return false;
     }
     return true;
   }
 
+  /* runs the submitTransaction function in parent class */
   submitTransaction = () => {
     this.props.submitTransaction(this.state);
     this.setState({ seasonId: "", description: "", value: 0 });
@@ -168,6 +181,7 @@ class TransactionForm extends React.Component {
             />
           </div>
           <div>
+            {/* if the transaction is credit, display normally, if it is debit, display label as red */}
             {this.state.transactionType === "CREDIT" ? (
               <label>Value: £</label>
             ) : (
@@ -184,12 +198,14 @@ class TransactionForm extends React.Component {
               onChange={this.handleValueChange}
             />
             <br />
+            {/* if the user has entered invalid values, display a message in red */}
             {this.isValueValid() ? null : (
               <label style={{ color: "red" }}>Invalid Value</label>
             )}
           </div>
         </form>
         <br />
+        {/* if the form is valid, display the submit button */}
         {this.isFormValid() && this.isValueValid() ? (
           <button type="button" onClick={this.submitTransaction}>
             Submit

@@ -13,12 +13,15 @@ class KittyTable extends Component {
     this.noOfRows = 0;
   }
 
+  /* toggle what is displayed when the show more/show less button is clicked */
   toggleShow = () => {
+    /* if show more is clicked, change button to say show less, and display all rows */
     if (this.state.showText === "Show more...") {
       this.setState({ showText: "Show less..." });
       for (var i = 0; i < Object.keys(this.refs).length; i++) {
         this.refs["lateRow" + (i + 8)].style.display = "table-row";
       }
+      /* if show less is clicked, change button to say show more, and display only top 8 rows */
     } else {
       this.setState({ showText: "Show more..." });
       for (var j = 0; j < Object.keys(this.refs).length; j++) {
@@ -27,9 +30,11 @@ class KittyTable extends Component {
     }
   };
 
+  /* displays the kitty table */
   showKittyTable = () => {
     const toBeDisplayed = this.props.kitty.map((k, index) => {
       this.noOfRows = index;
+      /* these rows are only displayed when show more is clicked */
       if (index > 7) {
         return (
           <tr key={k.id} className="lateRow" ref={"lateRow" + index}>
@@ -77,6 +82,7 @@ class KittyTable extends Component {
           </tr>
         );
       } else {
+        /* these rows are displayed all the time */
         return (
           <tr key={k.id}>
             <td>{k.id}</td>
@@ -91,12 +97,14 @@ class KittyTable extends Component {
               {moment(k.date).format("DD-MM-YY")}
             </td>
             <td>
+              {/* if type is 8-ball, show an 8-ball icon */}
               {k.type === 8 ? (
                 <div className="eight-ball-icon-20 icon-20" alt="eight ball" />
-              ) : k.type === 9 ? (
+              ) : /* if type is 9-ball, show a 9-ball icon */
+              k.type === 9 ? (
                 <div className="nine-ball-icon-20 icon-20" alt="nine ball" />
               ) : (
-                "type error"
+                /* otherwise, show an error */ "type error"
               )}
             </td>
             <td>{k.seasonId}</td>
@@ -111,6 +119,7 @@ class KittyTable extends Component {
             >
               {k.description}
             </td>
+            {/* if value is negative, add a minus sign before the shown value */}
             {k.value < 0 ? (
               <td style={{ color: "Red" }} align="center">
                 -£{Math.abs(k.value).toFixed(2)}
@@ -183,6 +192,7 @@ class KittyTable extends Component {
           </thead>
           <tbody>
             {this.showKittyTable()}
+            {/* if the user is signed in as admin and the number of entries in the kitty statement is more than 7, display the show more button */}
             {auth0Client.isAuthenticated() &&
             auth0Client.getProfile().nickname === "admin" &&
             this.noOfRows > 7 ? (

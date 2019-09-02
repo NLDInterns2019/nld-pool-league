@@ -1,16 +1,20 @@
 import React from "react";
 
+/* gets all the unpaid seasons and displays them in a table */
 const itemsToDisplay = props => {
   const itemsToDisplay = props.unpaid.map(player => {
     return (
       <tr key={player.staffName + player.type + player.seasonId}>
         <td>{player.staffName}</td>
         <td>
+          {/* if type is 8-ball, show an 8-ball icon */}
           {player.type === 8 ? (
             <div className="eight-ball-icon-20 icon-20" alt="eight ball" />
-          ) : player.type === 9 ? (
+          ) : /* if the type is 9-ball, show a 9-ball icon */
+          player.type === 9 ? (
             <div className="nine-ball-icon-20 icon-20" alt="nine ball" />
           ) : (
+            /* otherwise, show an error */
             "type error"
           )}
         </td>
@@ -19,6 +23,7 @@ const itemsToDisplay = props => {
           <div
             className="pay-button-container"
             onClick={() =>
+              /* run payJoiningFee function in parent class */
               props.payJoiningFee(
                 player.staffName,
                 player.type,
