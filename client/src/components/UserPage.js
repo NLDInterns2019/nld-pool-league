@@ -38,6 +38,7 @@ class UserPage extends React.Component {
     intialAuthentication: false
   };
 
+  /* function for setting the values and datapoints in the graphs */
   prepareChart = (positions, seasonIds) => {
     var options = {
       width: 500,
@@ -78,6 +79,7 @@ class UserPage extends React.Component {
 
   getSeasons = async () => {
     try {
+      /* gets 8-ball position history for current player */
       const eight = await backend.get("/api/position_history/", {
         cancelToken: this.signal.token,
         params: {
@@ -85,6 +87,7 @@ class UserPage extends React.Component {
           staffName: this.state.player
         }
       });
+      /* sets 8-ball position history */
       this.setState({
         seasons8: orderBy(
           uniqBy(eight.data, "seasonId"),
@@ -97,7 +100,7 @@ class UserPage extends React.Component {
           ["asc"]
         ).map(player => player.position)
       });
-
+      /* gets 9-ball position history for current player */
       const nine = await backend.get("/api/position_history/", {
         cancelToken: this.signal.token,
         params: {
@@ -105,6 +108,7 @@ class UserPage extends React.Component {
           staffName: this.state.player
         }
       });
+      /* sets 9-ball position history */
       this.setState({
         seasons9: orderBy(
           uniqBy(nine.data, "seasonId"),
@@ -122,6 +126,7 @@ class UserPage extends React.Component {
     }
   };
 
+  /* gets most recent seasons from 8-ball and 9-ball */
   getLatestSeason = async () => {
     try {
       const latest8 = await backend.get("/api/89ball_season/latest", {
@@ -145,6 +150,7 @@ class UserPage extends React.Component {
     } catch (err) {}
   };
 
+  /* gets the upcoming booked matches from database */
   getBookings = async () => {
     try {
       const bookings = await backend.get("/api/booking/upcoming", {
@@ -154,15 +160,17 @@ class UserPage extends React.Component {
         }
       });
 
+      /* separates bookings into 8-ball and 9-ball */
       this.setState({
         bookings8: bookings.data.filter(booking => booking.type === 8),
         bookings9: bookings.data.filter(booking => booking.type === 9)
       });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
+  /* gets all seasons the current player has not paid a joining fee for */
   getUnpaidSeasons = async () => {
     try {
       const unpaid = await backend.get("/api/kitty/unpaid", {
@@ -173,11 +181,13 @@ class UserPage extends React.Component {
       });
       this.setState({ unpaid: unpaid.data });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
+  /* gets players from most recent season from both 8-ball and 9-ball */
   getPlayers = async () => {
+    /* if there is an 8-ball season, get the players from the most recent season */
     if (this.state.latestSeason8 !== null && this.state.latestSeason8 !== "") {
       try {
         const eight = await backend.get(
@@ -191,10 +201,10 @@ class UserPage extends React.Component {
         );
         this.setState({ players8: eight.data });
       } catch (err) {
-        //API CALL BEING CANCELED
+        //API CALL BEING CANCELLED
       }
     }
-
+    /* if there is a 9-ball season, get the players from the most recent season */
     if (this.state.latestSeason9 !== null && this.state.latestSeason9 !== "") {
       try {
         const nine = await backend.get(
@@ -208,13 +218,15 @@ class UserPage extends React.Component {
         );
         this.setState({ players9: nine.data });
       } catch (err) {
-        //API CALL BEING CANCELED
+        //API CALL BEING CANCELLED
       }
     }
   };
 
+  /* get player stats for 8-ball and 9-ball */
   getPlayerStat = async () => {
     try {
+      /* gets hall of fame stats for current player in 8-ball */
       const eight = await backend.get("/api/hall_of_fame", {
         cancelToken: this.signal.token,
         params: {
@@ -224,10 +236,11 @@ class UserPage extends React.Component {
       });
       this.setState({ hofStat8: eight.data[0] });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
 
     try {
+      /* gets hall of fame stats for current player in 9-ball */
       const nine = await backend.get("/api/hall_of_fame", {
         cancelToken: this.signal.token,
         params: {
@@ -237,7 +250,7 @@ class UserPage extends React.Component {
       });
       this.setState({ hofStat9: nine.data[0] });
     } catch (err) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
@@ -280,6 +293,7 @@ class UserPage extends React.Component {
     this.signal.cancel("");
   }
 
+  /* toast for when the user isn't signed in */
   toastUnauthorised = () => {
     toast.error(
       <div className="toast">
@@ -297,6 +311,7 @@ class UserPage extends React.Component {
     );
   };
 
+  /* toast for when an error occurs */
   toastError = message => {
     toast.error(message, {
       position: "top-center",
@@ -308,6 +323,7 @@ class UserPage extends React.Component {
     });
   };
 
+  /* toast for when the action succeeds */
   toastSuccess = message => {
     toast.success(message, {
       position: "top-center",
@@ -319,10 +335,12 @@ class UserPage extends React.Component {
     });
   };
 
+  /* gets the data for displaying in the red banner at the top of the user page saying which seasons the current players owes money for */
   unpaidEightBallMessage = () => {
     const unpaidSeasons = this.state.unpaid;
     const unpaidEightBallSeasons = [];
 
+    /* gets all the 8-ball season ids of the seasons the player hasn't paid for */
     for (var i = unpaidSeasons.length - 1; i >= 0; i--) {
       if (unpaidSeasons[i].type === 8) {
         unpaidEightBallSeasons.push(unpaidSeasons[i]);
@@ -330,6 +348,7 @@ class UserPage extends React.Component {
     }
     if (unpaidEightBallSeasons.length > 0) {
       return (
+        /* display a message to the user in a red box saying which 8-ball seasons they owe money for and the total amount */
         <div className="unpaid-seasons-message">
           <div className="unpaid-season-title">
             <div className="eight-ball-icon icon-40" alt="eight ball" />
@@ -349,6 +368,7 @@ class UserPage extends React.Component {
               })}
             </div>
           </div>
+          {/* this is currently just the number of seasons but if the joining fee changed, this would also need to be changed accordingly */}
           <div className="unpaid-total">
             Total: £{unpaidEightBallSeasons.length}.00
           </div>
@@ -359,10 +379,12 @@ class UserPage extends React.Component {
     }
   };
 
+  /* gets the data for displaying in the red banner at the top of the user page saying which seasons the current players owes money for */
   unpaidNineBallMessage = () => {
     const unpaidSeasons = this.state.unpaid;
     const unpaidNineBallSeasons = [];
 
+    /* gets all the 9-ball season ids of the seasons the player hasn't paid for */
     for (var i = unpaidSeasons.length - 1; i >= 0; i--) {
       if (unpaidSeasons[i].type === 9) {
         unpaidNineBallSeasons.push(unpaidSeasons[i]);
@@ -370,6 +392,7 @@ class UserPage extends React.Component {
     }
     if (unpaidNineBallSeasons.length > 0) {
       return (
+        /* display a message to the user in a red box saying which 9-ball seasons they owe money for and the total amount */
         <div className="unpaid-seasons-message">
           <div className="unpaid-season-title">
             <div className="nine-ball-icon icon-40" alt="nine ball" />
@@ -389,6 +412,7 @@ class UserPage extends React.Component {
               })}
             </div>
           </div>
+          {/* this is currently just the number of seasons but if the joining fee changed, this would also need to be changed accordingly */}
           <div className="unpaid-total">
             Total: £{unpaidNineBallSeasons.length}.00
           </div>
@@ -412,13 +436,14 @@ class UserPage extends React.Component {
           type={this.state.type}
         />
         {!auth0Client.isAuthenticated() ? (
-          //If not logged in
+          /* displays if the user isn't signed in */
           <h3 className="error" style={{ textAlign: "center" }}>
             You are not logged in
           </h3>
         ) : (
-          //Logged In
+          /* displays if the user is signed in */
           <div style={{ textAlign: "center" }}>
+            {/* displays a welcome back message and the seasons they owe money for */}
             <div className="player-info">
               <h3>
                 Welcome back <strong>{this.state.player.toUpperCase()}</strong>
@@ -427,6 +452,8 @@ class UserPage extends React.Component {
               {this.unpaidNineBallMessage()}
             </div>
             <div className="content">
+              {/* 8-ball summary section that includes current league position, current form, some all-time stats,
+              a graph showing previous league positions, fixtures that are due in the next two weeks, and upcoming bookings */}
               <div className="contentLeft">
                 <div className="summary-title">
                   <div className="eight-ball-icon icon-40" alt="eight ball" />
@@ -477,6 +504,8 @@ class UserPage extends React.Component {
                   </div>
                 </div>
               </div>
+              {/* 9-ball summary section that includes current league position, current form, some all-time stats,
+              a graph showing previous league positions, fixtures that are due in the next two weeks, and upcoming bookings */}
               <div className="contentRight">
                 <div className="summary-title">
                   <div className="nine-ball-icon icon-40" alt="nine ball" />
