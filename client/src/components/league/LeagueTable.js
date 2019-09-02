@@ -7,6 +7,7 @@ import auth0Client from "../../Auth";
 const LeagueTable = props => {
   return (
     <div className="leagueTableContainer">
+      {/* if the season is in a playoff, say so */}
       {props.isPlayoff ? (
         <h3>Season {props.activeSeason} League Table (Playoff Underway)</h3>
       ) : (
@@ -21,6 +22,7 @@ const LeagueTable = props => {
           hasFinished={props.hasFinished}
         />
       </table>
+      {/* if the user is signed in as admin and the season is neither finished nor in a playoff, display the add player button */}
       {auth0Client.isAuthenticated() &&
       auth0Client.getProfile().nickname === "admin" &&
       !props.hasFinished &&

@@ -16,6 +16,7 @@ class AddPlayerForm extends Component {
 
     this.state = this.initialState;
 
+    /* refs for add player form */
     this.addPlayerBtn = React.createRef();
     this.hiddenForm = React.createRef();
     this.confirmBtn = React.createRef();
@@ -41,11 +42,12 @@ class AddPlayerForm extends Component {
           });
         });
     } catch (e) {
-      //API CALL BEING CANCELED
+      //API CALL BEING CANCELLED
     }
   };
 
   handleClick = async event => {
+    /* if the form is currently not visible, display it and hide the '+add new player' button */
     if (this.hiddenForm.current.style.display === "none") {
       this.hiddenForm.current.style = {
         display: "flex",
@@ -54,10 +56,12 @@ class AddPlayerForm extends Component {
       };
       this.addPlayerBtn.current.style.display = "none";
     } else {
+      /* otherwise, hide the form and display the '+add new player' button */
       this.hiddenForm.current.style.display = "none";
       this.addPlayerBtn.current.style = {
         display: "flex"
       };
+      /* if the button being clicked is the confirm button, add the player in the drop-down to the season */
       if (event.target === this.confirmBtn.current) {
         var player = this.inputPlayer.current.value;
         await this.props.addPlayer(player);
@@ -96,6 +100,7 @@ class AddPlayerForm extends Component {
           <h3>Add New Player</h3>
           <label>Select a player:</label>
           <select ref={this.inputPlayer}>
+            {/* only show the players that aren't in the current season and that are not admin */}
             {filter(
               this.state.auth0Players,
               p =>

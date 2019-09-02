@@ -1,5 +1,6 @@
 import React from "react";
 
+/* component for filling in the form in the league table */
 const Forms = ({ form }) => {
   let formsToBeDisplayed = [];
   if (!form || form.length === 0) {
@@ -12,22 +13,19 @@ const Forms = ({ form }) => {
           <div className="win-icon icon-24" alt="win" />
         </div>
       );
-    }
-    if (form.charAt(i) === "D") {
+    } else if (form.charAt(i) === "D") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
         <div key={i} className="form-item">
           <div className="draw-icon icon-24" alt="draw" />
         </div>
       );
-    }
-    if (form.charAt(i) === "L") {
+    } else if (form.charAt(i) === "L") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
         <div key={i} className="form-item">
           <div className="loss-icon icon-24" alt="loss" />
         </div>
       );
-    }
-    if (form.charAt(i) === "-") {
+    } else if (form.charAt(i) === "-") {
       formsToBeDisplayed = formsToBeDisplayed.concat(
         <div key={i} className="form-item">
           <div className="no-game-icon icon-24" alt="no game" />

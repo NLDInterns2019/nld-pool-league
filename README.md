@@ -2,8 +2,6 @@
 
 ## **Table of Contents**
 
----
-
 - [About the Project](#about-the-project)
   - [Background](#background)
   - [Current System](#current-system)
@@ -34,8 +32,6 @@
 - [Acknowledgements](#acknowledgements)
 
 ## **About the Project**
-
----
 
 ### **Background**
 
@@ -68,8 +64,6 @@ In addition to fixing the problems of the old system, this product has extra fea
 - MSSQL
 
 ## **Getting Started**
-
----
 
 ### **Prequisities**
 
@@ -149,8 +143,6 @@ In order to run the application on localhost, the following will need to be run 
 A browser should open at [http://localhost:3000](http://localhost:3000) and the app should load
 
 ## **Usage**
-
----
 
 The web application can be used to perform many tasks:
 
@@ -339,8 +331,6 @@ Once all playoff games have been played, the season can be closed as usual.
 
 ## **General Information**
 
----
-
 ### **League Table**
 
 The league table is ordered in the following manner:
@@ -369,8 +359,6 @@ In a playoff, there are only two results possible:
 No draws are possible in a playoff match and tennis rules apply where a player must win by a two game gap (e.g. 4-2, 7-5). However, when submitted, the result will only affect the points for and against in the league table and the result will go down as 2-0.
 
 ## **Acknowledgements**
-
----
 
 - Flat Icon
 - Canvas JS
