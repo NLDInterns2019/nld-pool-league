@@ -3,6 +3,7 @@ import auth0Client from "../../Auth";
 import Forms from "./Forms";
 
 const LeagueTableBody = props => {
+  /* function for displaying the position correctly e.g. two people sharing 3rd when they both have the same stats */
   const position = (players, player, index) => {
     if (index === 0) {
       return index + 1;
