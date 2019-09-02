@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 
+/* header only contains the round and the due date */
 const FixtureTableHeader = props => {
   return (
     <thead>

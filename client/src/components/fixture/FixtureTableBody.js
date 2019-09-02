@@ -4,24 +4,31 @@ import moment from "moment";
 // const today = new Date("27 Jul 2019");
 const today = moment();
 
+/* sets style of the cells depending on whether a fixture is overdue anD unplayed */
 const cellStyle = (fixtureDate, score) => {
   if (isOverdue(fixtureDate) && isNotFinished(score)) {
-    return { color: "white", backgroundColor: "#e23e4b", fontWeight: "bold" };
-  } else {
-    return { color: "black" };
-  }
-};
-
-const score1CellStyle = (fixtureDate, score) => {
-  if (isOverdue(fixtureDate) && isNotFinished(score)) {
     return {
-      borderRightColor: "#e23e4b"
+      color: "white",
+      backgroundColor: "#e23e4b" /* red */,
+      fontWeight: "bold"
     };
   } else {
     return { color: "black" };
   }
 };
 
+/* sets style for the left score cell depending on where the fixture is overdue and unplayed */
+const score1CellStyle = (fixtureDate, score) => {
+  if (isOverdue(fixtureDate) && isNotFinished(score)) {
+    return {
+      borderRightColor: "#e23e4b" /* red */
+    };
+  } else {
+    return { color: "black" };
+  }
+};
+
+/* sets style for the right score cell depending on where the fixture is overdue and unplayed */
 const score2CellStyle = (fixtureDate, score) => {
   if (isOverdue(fixtureDate) && isNotFinished(score)) {
     return {
@@ -32,14 +39,17 @@ const score2CellStyle = (fixtureDate, score) => {
   }
 };
 
+/* checks if the given date is before today, returns true if it is */
 const isOverdue = fixtureDate => {
   return moment(fixtureDate).isBefore(today);
 };
 
+/* checks if a fixture hasn't been played by sending it a score and returning if a score has been submitted or not */
 const isNotFinished = score => {
   return score === null;
 };
 
+/* displays fixtures as follows:      SCORE 1 | PLAYER 1 | VS | PLAYER 2 | SCORE 2 */
 const FixtureTableBody = props => {
   const itemsToBeDisplayed = props.fixtures.map(fixture => {
     return (

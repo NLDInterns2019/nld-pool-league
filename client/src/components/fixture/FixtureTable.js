@@ -2,6 +2,7 @@ import React from "react";
 import FixtureTableBody from "./FixtureTableBody";
 import FixtureTableHeader from "./FixtureTableHeader";
 
+/* component contains just a table header and body */
 const FixtureTable = props => {
   if (props.fixtures.length === 0) {
     return null;

@@ -10,6 +10,7 @@ import "../../accordion.css";
 import "./SubmitScoreForm";
 import SubmitScoreForm from "./SubmitScoreForm";
 
+/* component for the edit score form on the current season page */
 const EditScoreForm = props => {
   return (
     <div style={{ marginBottom: "2rem" }}>

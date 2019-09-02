@@ -1,6 +1,7 @@
 import React from "react";
 import FixtureTable from "./FixtureTable";
 
+/* component for displaying the fixtures on the right of the current season page */
 const FixtureList = props => {
   const count = props.groupCount.count;
   let tableArray = [];

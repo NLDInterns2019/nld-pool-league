@@ -250,6 +250,7 @@ class CreateBooking extends React.Component {
             }}
           />
           <div id="arrangeFixtureBtn">
+            {/* if the details are valid, show the 'arrange' button */}
             {this.isValidBooking() ? (
               <button type="button" onClick={this.makeBooking}>
                 Arrange

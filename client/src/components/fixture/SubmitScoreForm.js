@@ -21,6 +21,7 @@ class SubmitScoreForm extends Component {
 
     this.state = this.initialState;
 
+    /* refs for radio buttons */
     this.player1won = React.createRef();
     this.player2won = React.createRef();
     this.draw = React.createRef();
@@ -45,7 +46,7 @@ class SubmitScoreForm extends Component {
         );
         this.setState({ fixtures: response.data });
       } catch (err) {
-        //API CALL BEING CANCELED
+        //API CALL BEING CANCELLED
       }
     } else {
       //ONLY GET THE PLAYED FIXTURES
