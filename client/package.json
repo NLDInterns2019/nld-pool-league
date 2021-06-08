@@ -6,7 +6,7 @@
   "dependencies": {
     "@slack/web-api": "^5.0.1",
     "auth0-js": "^9.11.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "chai-as-promised": "^7.1.1",
     "chromedriver": "^76.0.0",
     "console.table": "^0.10.0",
